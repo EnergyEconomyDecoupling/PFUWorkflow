@@ -12,6 +12,11 @@
 #' @return a data frame with the desired IEA data only
 #'
 #' @export
+#'
+#' @examples
+#' IEATools::sample_iea_data_path() %>%
+#'   IEATools::load_tidy_iea_df() %>%
+#'   extract_country_data(countries = c("ZAF"), max_year = 1999)
 extract_country_data <- function(AllIEAData, countries, max_year,
                                  country_colname = "Country",
                                  year_colname = "Year") {
@@ -63,6 +68,12 @@ is_balanced <- function(IEAData, countries, grp_vars = c("Country", "Method", "E
 #' @return balanced IEA data
 #'
 #' @export
+#'
+#' @examples
+#' IEATools::sample_iea_data_path() %>%
+#'   IEATools::load_tidy_iea_df() %>%
+#'   make_balanced(countries = c("GHA", "ZAF")) %>%
+#'   is_balanced(countries = c("GHA", "ZAF"))
 make_balanced <- function(IEAData, countries, grp_vars = c("Country", "Method", "Energy.type", "Last.stage", "Year", "Product"),
                           country_colname = "Country") {
   dplyr::filter(IEAData, .data[[country_colname]] %in% countries) %>%
@@ -84,6 +95,12 @@ make_balanced <- function(IEAData, countries, grp_vars = c("Country", "Method", 
 #' @return a data frame of specified IEA data
 #'
 #' @export
+#'
+#' @examples
+#' IEATools::sample_iea_data_path() %>%
+#'   IEATools::load_tidy_iea_df() %>%
+#'   make_balanced(countries = c("GHA", "ZAF")) %>%
+#'   specify(countries = c("GHA", "ZAF"))
 specify <- function(BalancedIEAData, countries,
                     country_colname = "Country") {
   dplyr::filter(BalancedIEAData, .data[[country_colname]] %in% countries) %>%
@@ -103,6 +120,13 @@ specify <- function(BalancedIEAData, countries,
 #' @return a `matsindf`-style data frame
 #'
 #' @export
+#'
+#' @examples
+#' IEATools::sample_iea_data_path() %>%
+#'   IEATools::load_tidy_iea_df() %>%
+#'   make_balanced(countries = c("GHA", "ZAF")) %>%
+#'   specify(countries = c("GHA", "ZAF")) %>%
+#'   make_psut(countries = c("GHA", "ZAF"))
 make_psut <- function(SpecifiedIEAData, countries,
                       country_colname = "Country") {
   dplyr::filter(SpecifiedIEAData, .data[[country_colname]] %in% countries) %>%
