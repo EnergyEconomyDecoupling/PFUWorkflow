@@ -4,7 +4,13 @@
 \alias{extract_country_data}
 \title{Extract specific country data}
 \usage{
-extract_country_data(AllIEAData, countries, max_year)
+extract_country_data(
+  AllIEAData,
+  countries,
+  max_year,
+  country_colname = "Country",
+  year_colname = "Year"
+)
 }
 \arguments{
 \item{AllIEAData}{A data frame containing cleaned IEA extended energy balance data.}
@@ -12,6 +18,10 @@ extract_country_data(AllIEAData, countries, max_year)
 \item{countries}{A list of 3-letter country codes for countries to be analyzed.}
 
 \item{max_year}{The latest year you want to include in the extracted data.}
+
+\item{country_colname}{The name of the country column in \code{AllIEAData}. Default is "Country".}
+
+\item{year_colname}{The name of the year column in \code{AllIEAData}. Default is "Year".}
 }
 \value{
 a data frame with the desired IEA data only

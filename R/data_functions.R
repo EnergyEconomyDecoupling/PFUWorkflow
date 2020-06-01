@@ -6,12 +6,16 @@
 #' @param AllIEAData A data frame containing cleaned IEA extended energy balance data.
 #' @param countries A list of 3-letter country codes for countries to be analyzed.
 #' @param max_year The latest year you want to include in the extracted data.
+#' @param country_colname The name of the country column in `AllIEAData`. Default is "Country".
+#' @param year_colname The name of the year column in `AllIEAData`. Default is "Year".
 #'
 #' @return a data frame with the desired IEA data only
 #'
 #' @export
-extract_country_data <- function(AllIEAData, countries, max_year) {
-  dplyr::filter(AllIEAData, Country %in% countries, Year <= max_year)
+extract_country_data <- function(AllIEAData, countries, max_year,
+                                 country_colname = "Country",
+                                 year_colname = "Year") {
+  dplyr::filter(AllIEAData, .data[[country_colname]] %in% countries, .data[[year_colname]] <= max_year)
 }
 
 
@@ -74,13 +78,15 @@ make_balanced <- function(IEAData, countries, grp_vars = c("Country", "Method", 
 #' See `IEATools::specify_all()` for details.
 #'
 #' @param BalancedIEAData IEA data that have already been balanced
-#' @param countries the countries for which specificaion should occur
+#' @param countries the countries for which specification should occur
+#' @param country_colname The name of the country column in `BalancedIEAData`. Default is "Country".
 #'
 #' @return a data frame of specified IEA data
 #'
 #' @export
-specify <- function(BalancedIEAData, countries) {
-  dplyr::filter(BalancedIEAData, Country %in% countries) %>%
+specify <- function(BalancedIEAData, countries,
+                    country_colname = "Country") {
+  dplyr::filter(BalancedIEAData, .data[[country_colname]] %in% countries) %>%
     IEATools::specify_all()
 }
 
@@ -92,10 +98,13 @@ specify <- function(BalancedIEAData, countries) {
 #'
 #' @param SpecifiedIEAData A data frame that has already been specified via `specify()`.
 #' @param countries The countries you want to convert to PSUT matrices.
+#' @param country_colname The name of the country column in `SpecifiedIEAData`. Default is "Country".
 #'
 #' @return a `matsindf`-style data frame
+#'
 #' @export
-make_psut <- function(SpecifiedIEAData, countries) {
-  dplyr::filter(SpecifiedIEAData, Country %in% countries) %>%
+make_psut <- function(SpecifiedIEAData, countries,
+                      country_colname = "Country") {
+  dplyr::filter(SpecifiedIEAData, .data[[country_colname]] %in% countries) %>%
     IEATools::prep_psut()
 }

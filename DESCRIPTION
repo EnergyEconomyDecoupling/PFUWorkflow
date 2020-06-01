@@ -21,6 +21,7 @@ Imports:
     ggplot2,
     IEATools,
     magrittr,
-    Recca
+    Recca,
+    rlang
 Suggests: 
     testthat
