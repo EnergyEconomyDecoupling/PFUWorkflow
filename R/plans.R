@@ -52,7 +52,7 @@ get_plan <- function(iea_data_path, countries, max_year) {
   Specified <- NULL
   PSUT_final <- NULL
 
-  # Eliminate wornings about
+  # Eliminate warnings about
   p <- drake::drake_plan(
 
     # (1) Grab all the IEA data for ALL countries
