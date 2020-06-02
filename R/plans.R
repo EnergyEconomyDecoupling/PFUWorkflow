@@ -5,7 +5,7 @@
 #' which countries should be analyzed, and
 #' which the maximum year to be analyzed.
 #'
-#' The return value is a `drake` plan object with the following objects:
+#' The return value is a `drake` plan object with the following targets:
 #'
 #' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
 #' * `countries`: The countries to be analyzed, supplied in the `countries` argument.

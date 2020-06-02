@@ -23,7 +23,7 @@ which countries should be analyzed, and
 which the maximum year to be analyzed.
 }
 \details{
-The return value is a \code{drake} plan object with the following objects:
+The return value is a \code{drake} plan object with the following targets:
 \itemize{
 \item \code{iea_data_path}: The path to IEA extended energy balance data, supplied in the \code{iea_data_path} argument.
 \item \code{countries}: The countries to be analyzed, supplied in the \code{countries} argument.

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Balance IEA data — make_balanced • SEAPSUTWorkflow</title>
+<title>Read a subtarget based on country — readd_by_country • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Balance IEA data — make_balanced" />
-<meta property="og:description" content="Balances the IEA data in a way that is amenable to drake subtargets.
-Internally, this function uses IEATools::fix_tidy_iea_df_balances().
-Grouping is doing internal to this function using the value of grp_vars." />
+<meta property="og:title" content="Read a subtarget based on country — readd_by_country" />
+<meta property="og:description" content="Read a subtarget based on country" />
 
 
 
@@ -105,55 +103,48 @@ Grouping is doing internal to this function using the value of grp_vars." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Balance IEA data</h1>
+    <h1>Read a subtarget based on country</h1>
     
-    <div class="hidden name"><code>make_balanced.Rd</code></div>
+    <div class="hidden name"><code>readd_by_country.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Balances the IEA data in a way that is amenable to drake subtargets.
-Internally, this function uses <code><a href='https://rdrr.io/pkg/IEATools/man/fix_tidy_iea_df_balances.html'>IEATools::fix_tidy_iea_df_balances()</a></code>.
-Grouping is doing internal to this function using the value of <code>grp_vars</code>.</p>
+    <p>Read a subtarget based on country</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_balanced</span>(
-  <span class='no'>IEAData</span>,
-  <span class='no'>countries</span>,
-  <span class='kw'>grp_vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Country"</span>, <span class='st'>"Method"</span>, <span class='st'>"Energy.type"</span>, <span class='st'>"Last.stage"</span>, <span class='st'>"Year"</span>, <span class='st'>"Product"</span>),
-  <span class='kw'>country_colname</span> <span class='kw'>=</span> <span class='st'>"Country"</span>
+    <pre class="usage"><span class='fu'>readd_by_country</span>(
+  <span class='no'>target</span>,
+  <span class='no'>country</span>,
+  <span class='kw'>name_of_countries_object</span> <span class='kw'>=</span> <span class='st'>"countries"</span>,
+  <span class='kw'>cache_path</span> <span class='kw'>=</span> <span class='st'>".drake/"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>IEAData</th>
-      <td><p>A tidy IEA data frame</p></td>
+      <th>target</th>
+      <td><p>The name of the drake target as a string.</p></td>
     </tr>
     <tr>
-      <th>countries</th>
-      <td><p>The countries that should be balanced</p></td>
+      <th>country</th>
+      <td><p>The 3-letter ISO abbreviation (a string) of the country for whom <code>target</code> is to be readd from the drake cache.</p></td>
     </tr>
     <tr>
-      <th>grp_vars</th>
-      <td><p>The groups that should be checked for energy balance.
-Default is <code><a href='https://rdrr.io/r/base/c.html'>c("Country", "Method", "Energy.type", "Last.stage", "Product")</a></code>.</p></td>
+      <th>name_of_countries_object</th>
+      <td><p>A string giving the name of the countries object in the drake cache.
+Default is "countries".</p></td>
     </tr>
     <tr>
-      <th>country_colname</th>
-      <td><p>The name of the country column in <code>IEAData</code>. Default is "Country".</p></td>
+      <th>cache_path</th>
+      <td><p>The path to the drake cache. Default is ".drake/".</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>balanced IEA data</p>
+    <p>the country-specific version of <code>target</code></p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/sample_iea_data_path.html'>sample_iea_data_path</a></span>() <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/load_tidy_iea_df.html'>load_tidy_iea_df</a></span>() <span class='kw'>%&gt;%</span>
-  <span class='fu'>make_balanced</span>(<span class='kw'>countries</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='is_balanced.html'>is_balanced</a></span>(<span class='kw'>countries</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span>))</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
