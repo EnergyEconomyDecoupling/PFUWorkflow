@@ -20,3 +20,10 @@ a \code{matsindf}-style data frame
 Converts tidy IEA data to PSUT matrices in a way that is amenable to drake subtargets.
 Internally, \code{IEATools::prep_psut()} does the conversion to matrices.
 }
+\examples{
+IEATools::sample_iea_data_path() \%>\%
+  IEATools::load_tidy_iea_df() \%>\%
+  make_balanced(countries = c("GHA", "ZAF")) \%>\%
+  specify(countries = c("GHA", "ZAF")) \%>\%
+  make_psut(countries = c("GHA", "ZAF"))
+}

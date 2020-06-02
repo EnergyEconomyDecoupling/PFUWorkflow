@@ -30,3 +30,8 @@ a data frame with the desired IEA data only
 Data is extracted according to the \code{countries} object in a way that is amenable to drake subtargets.
 \code{dplyr::filter()} does the subsetting.
 }
+\examples{
+IEATools::sample_iea_data_path() \%>\%
+  IEATools::load_tidy_iea_df() \%>\%
+  extract_country_data(countries = c("ZAF"), max_year = 1999)
+}

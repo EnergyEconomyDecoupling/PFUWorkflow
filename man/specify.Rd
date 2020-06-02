@@ -20,3 +20,9 @@ a data frame of specified IEA data
 Specifies the IEA data in a way that is amenable to drake subtargets.
 See \code{IEATools::specify_all()} for details.
 }
+\examples{
+IEATools::sample_iea_data_path() \%>\%
+  IEATools::load_tidy_iea_df() \%>\%
+  make_balanced(countries = c("GHA", "ZAF")) \%>\%
+  specify(countries = c("GHA", "ZAF"))
+}

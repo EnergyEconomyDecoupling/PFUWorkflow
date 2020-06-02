@@ -29,3 +29,9 @@ Balances the IEA data in a way that is amenable to drake subtargets.
 Internally, this function uses \code{IEATools::fix_tidy_iea_df_balances()}.
 Grouping is doing internal to this function using the value of \code{grp_vars}.
 }
+\examples{
+IEATools::sample_iea_data_path() \%>\%
+  IEATools::load_tidy_iea_df() \%>\%
+  make_balanced(countries = c("GHA", "ZAF")) \%>\%
+  is_balanced(countries = c("GHA", "ZAF"))
+}
