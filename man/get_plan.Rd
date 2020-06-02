@@ -25,15 +25,17 @@ which the maximum year to be analyzed.
 \details{
 The return value is a \code{drake} plan object with the following objects:
 \itemize{
-\item \code{iea_data_path}: the path to IEA extended energy balance data, supplied in the \code{iea_data_path} argument.
-\item \code{countries}: the countries to be analyzed, supplied in the \code{countries} argument.
-\item \code{max_year}: the maximum year to be analyzed, supplied in the \code{max_year} argument.
-\item \code{AllIEAData}: a data frame with all IEA extended energy balance data read from \code{iea_data_path}.
-\item \code{IEAData}: a version of the \code{AllIEAData} data frame containing data for only those countries specified in \code{countries}.
-\item \code{balanced_before}: a boolean that tells where the data were balanced as received, usually a vector of \code{FALSE}, one for each country.
-\item \code{BalancedIEAData}: a data frame containing balanced IEA extended energy balance data.
-\item \code{balanced_after}: a boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of \code{TRUE}, one for each country.
+\item \code{iea_data_path}: The path to IEA extended energy balance data, supplied in the \code{iea_data_path} argument.
+\item \code{countries}: The countries to be analyzed, supplied in the \code{countries} argument.
+\item \code{max_year}: The maximum year to be analyzed, supplied in the \code{max_year} argument.
+\item \code{AllIEAData}: A data frame with all IEA extended energy balance data read from \code{iea_data_path}.
+\item \code{IEAData}: A version of the \code{AllIEAData} data frame containing data for only those countries specified in \code{countries}.
+\item \code{balanced_before}: A boolean that tells where the data were balanced as received, usually a vector of \code{FALSE}, one for each country.
+\item \code{BalancedIEAData}: A data frame containing balanced IEA extended energy balance data.
+\item \code{balanced_after}: A boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of \code{TRUE}, one for each country.
 \item \code{OKToProceed}: \code{NULL} means everything is balanced and proceeding is OK.
+\item \code{Specified}: A data frame with specified industries. See \code{IEATools::specify_all()}.
+\item \code{PSUT_final}: A data frame containing PSUT matrices up to the final stage.
 }
 
 Callers can execute the plan by calling \code{drake::make(plan)}.

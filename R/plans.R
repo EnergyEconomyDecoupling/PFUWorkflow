@@ -7,15 +7,17 @@
 #'
 #' The return value is a `drake` plan object with the following objects:
 #'
-#' * `iea_data_path`: the path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
-#' * `countries`: the countries to be analyzed, supplied in the `countries` argument.
-#' * `max_year`: the maximum year to be analyzed, supplied in the `max_year` argument.
-#' * `AllIEAData`: a data frame with all IEA extended energy balance data read from `iea_data_path`.
-#' * `IEAData`: a version of the `AllIEAData` data frame containing data for only those countries specified in `countries`.
-#' * `balanced_before`: a boolean that tells where the data were balanced as received, usually a vector of `FALSE`, one for each country.
-#' * `BalancedIEAData`: a data frame containing balanced IEA extended energy balance data.
-#' * `balanced_after`: a boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of `TRUE`, one for each country.
+#' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
+#' * `countries`: The countries to be analyzed, supplied in the `countries` argument.
+#' * `max_year`: The maximum year to be analyzed, supplied in the `max_year` argument.
+#' * `AllIEAData`: A data frame with all IEA extended energy balance data read from `iea_data_path`.
+#' * `IEAData`: A version of the `AllIEAData` data frame containing data for only those countries specified in `countries`.
+#' * `balanced_before`: A boolean that tells where the data were balanced as received, usually a vector of `FALSE`, one for each country.
+#' * `BalancedIEAData`: A data frame containing balanced IEA extended energy balance data.
+#' * `balanced_after`: A boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of `TRUE`, one for each country.
 #' * `OKToProceed`: `NULL` means everything is balanced and proceeding is OK.
+#' * `Specified`: A data frame with specified industries. See `IEATools::specify_all()`.
+#' * `PSUT_final`: A data frame containing PSUT matrices up to the final stage.
 #'
 #' Callers can execute the plan by calling `drake::make(plan)`.
 #' Results can be recovered with
