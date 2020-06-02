@@ -41,6 +41,15 @@ The return value is a \code{drake} plan object with the following targets:
 Callers can execute the plan by calling \code{drake::make(plan)}.
 Results can be recovered with
 \code{drake::readd(target = iea_data_path)} or similar.
+
+Note that some targets can be read using \code{readd_by_country()}, including:
+\itemize{
+\item \code{AllIEAData},
+\item \code{IEAData},
+\item \code{BalancedIEAData},
+\item \code{Specified}, and
+\item \code{PSUT_final}.
+}
 }
 \examples{
 get_plan(iea_data_path = "mypath", countries = c("GHA", "ZAF"), max_year = 1999)

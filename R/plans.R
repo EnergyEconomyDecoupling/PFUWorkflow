@@ -23,6 +23,14 @@
 #' Results can be recovered with
 #' `drake::readd(target = iea_data_path)` or similar.
 #'
+#' Note that some targets can be read using `readd_by_country()`, including:
+#'
+#' * `AllIEAData`,
+#' * `IEAData`,
+#' * `BalancedIEAData`,
+#' * `Specified`, and
+#' * `PSUT_final`.
+#'
 #' @param iea_data_path The path to IEA extended energy balance data in .csv format
 #' @param countries A vector of country abbreviations to be analyzed, such as "c('GHA', 'ZAF')".
 #' @param max_year The last year to be studied, typically the last year for which data are available.

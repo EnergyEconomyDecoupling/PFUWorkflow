@@ -159,6 +159,14 @@ which the maximum year to be analyzed.</p>
 <p>Callers can execute the plan by calling <code><a href='https://docs.ropensci.org/drake/reference/make.html'>drake::make(plan)</a></code>.
 Results can be recovered with
 <code><a href='https://docs.ropensci.org/drake/reference/readd.html'>drake::readd(target = iea_data_path)</a></code> or similar.</p>
+<p>Note that some targets can be read using <code><a href='readd_by_country.html'>readd_by_country()</a></code>, including:</p><ul>
+<li><p><code>AllIEAData</code>,</p></li>
+<li><p><code>IEAData</code>,</p></li>
+<li><p><code>BalancedIEAData</code>,</p></li>
+<li><p><code>Specified</code>, and</p></li>
+<li><p><code>PSUT_final</code>.</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>get_plan</span>(<span class='kw'>iea_data_path</span> <span class='kw'>=</span> <span class='st'>"mypath"</span>, <span class='kw'>countries</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span>), <span class='kw'>max_year</span> <span class='kw'>=</span> <span class='fl'>1999</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 11 x 3</span><span>
