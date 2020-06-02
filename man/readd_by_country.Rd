@@ -4,14 +4,22 @@
 \alias{readd_by_country}
 \title{Read a subtarget based on country}
 \usage{
-readd_by_country(target, country, name_of_countries_object = "countries")
+readd_by_country(
+  target,
+  country,
+  name_of_countries_object = "countries",
+  cache_path = ".drake/"
+)
 }
 \arguments{
-\item{target}{the name of the drake target as a string}
+\item{target}{The name of the drake target as a string.}
 
-\item{country}{the 3-letter ISO abbreviation of the country for whom \code{target} is to be readd from the drake cache, as a string}
+\item{country}{The 3-letter ISO abbreviation (a string) of the country for whom \code{target} is to be readd from the drake cache.}
 
-\item{name_of_countries_object}{a string giving the name of the countries object. Default is "countries".}
+\item{name_of_countries_object}{A string giving the name of the countries object in the drake cache.
+Default is "countries".}
+
+\item{cache_path}{The path to the drake cache. Default is ".drake/".}
 }
 \value{
 the country-specific version of \code{target}
