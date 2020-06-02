@@ -7,7 +7,7 @@
 get_plan(iea_data_path, countries, max_year)
 }
 \arguments{
-\item{iea_data_path}{The path to IEA data in .csv format}
+\item{iea_data_path}{The path to IEA extended energy balance data in .csv format}
 
 \item{countries}{A vector of country abbreviations to be analyzed, such as "c('GHA', 'ZAF')".}
 

@@ -22,11 +22,11 @@ generate_fu_allocation_template <- function(country,
                                             n_allocation_rows = 4,
                                             overwrite = FALSE) {
   # Construct the output path from the FU analysis folder and fu_allocation_template_file_name
-  output_folder <- file.path(readd(paths_target, character_only = TRUE)[[fu_analysis_path_name]], country)
+  output_folder <- file.path(drake::readd(paths_target, character_only = TRUE)[[fu_analysis_path_name]], country)
   dir.create(output_folder, showWarnings = FALSE)
   output_path <- file.path(output_folder, paste0(fu_allocation_template_file_name, ext))
   # Get the specified data for this country from the drake cache
-  drake::readd_by_country(data_target, country) %>%
+  readd_by_country(data_target, country) %>%
     # Create the blank allocation template
     IEATools::fu_allocation_template() %>%
     # Write the blank allocation template
@@ -62,17 +62,17 @@ generate_eta_fu_template <- function(country,
                                      overwrite = FALSE) {
   # Construct the path to the input file (which contains the FU Allocation tab)
   # from the fu_analysis_path_name and fu_analysis_file_name
-  input_path <- file.path(readd(paths_target, character_only = TRUE)[[fu_analysis_path_name]],
+  input_path <- file.path(drake::readd(paths_target, character_only = TRUE)[[fu_analysis_path_name]],
                           country,
                           paste0(fu_analysis_file_name, ext))
   # Construct the output path from the FU analysis folder and eta_fu_template_file_name
-  output_folder <- file.path(readd(paths_target, character_only = TRUE)[[fu_analysis_path_name]], country)
+  output_folder <- file.path(drake::readd(paths_target, character_only = TRUE)[[fu_analysis_path_name]], country)
   dir.create(output_folder, showWarnings = FALSE)
   output_path <- file.path(output_folder, paste0(eta_fu_template_file_name, ext))
   # Read the allocations from the file at fu_analysis_file_name
   IEATools::load_fu_allocation_data(input_path) %>%
     # Create the eta_fu template
-    eta_fu_template() %>%
+    IEATools::eta_fu_template() %>%
     # Write the blank final-to-useful efficiencies template
-    write_eta_fu_template(output_path, overwrite_file = overwrite)
+    IEATools::write_eta_fu_template(output_path, overwrite_file = overwrite)
 }

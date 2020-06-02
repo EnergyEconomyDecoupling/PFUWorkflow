@@ -10,7 +10,7 @@
 #'
 #' @export
 readd_by_country <- function(target, country, name_of_countries_object = "countries", cache_path = ".drake/") {
-  country_index <- which(country == readd(name_of_countries_object, path = cache_path, character_only = TRUE), arr.ind = TRUE)
+  country_index <- which(country == drake::readd(name_of_countries_object, path = cache_path, character_only = TRUE), arr.ind = TRUE)
   drake::readd(target, path = cache_path, character_only = TRUE, subtargets = country_index)
 }
 
