@@ -55,6 +55,13 @@ test_that("make works", {
     expect_equal(drake::readd(balanced_after, path = cache_path), c(TRUE, TRUE))
     expect_null(drake::readd(OKToProceed, path = cache_path))
 
+    # Check specification process, reading by country.
+    expect_true(!is.null(readd_by_country(target = "Specified", country = "GHA", cache_path = cache_path)))
+
+    # Check making PSUT matrices, reading by country.
+    expect_true(!is.null(readd_by_country(target = "PSUT_final", country = "ZAF", cache_path = cache_path)))
+
+
   },
   finally = {
     temp_cache$destroy()

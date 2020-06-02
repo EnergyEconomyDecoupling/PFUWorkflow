@@ -20,7 +20,25 @@ a drake plan object
 Creates a drake workflow for societal exergy analysis.
 The caller specifies location of IEA data,
 which countries should be analyzed, and
-which the maximum year to ba analyzed.
+which the maximum year to be analyzed.
+}
+\details{
+The return value is a \code{drake} plan object with the following objects:
+\itemize{
+\item \code{iea_data_path}: the path to IEA extended energy balance data, supplied in the \code{iea_data_path} argument.
+\item \code{countries}: the countries to be analyzed, supplied in the \code{countries} argument.
+\item \code{max_year}: the maximum year to be analyzed, supplied in the \code{max_year} argument.
+\item \code{AllIEAData}: a data frame with all IEA extended energy balance data read from \code{iea_data_path}.
+\item \code{IEAData}: a version of the \code{AllIEAData} data frame containing data for only those countries specified in \code{countries}.
+\item \code{balanced_before}: a boolean that tells where the data were balanced as received, usually a vector of \code{FALSE}, one for each country.
+\item \code{BalancedIEAData}: a data frame containing balanced IEA extended energy balance data.
+\item \code{balanced_after}: a boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of \code{TRUE}, one for each country.
+\item \code{OKToProceed}: \code{NULL} means everything is balanced and proceeding is OK.
+}
+
+Callers can execute the plan by calling \code{drake::make(plan)}.
+Results can be recovered with
+\code{drake::readd(target = iea_data_path)} or similar.
 }
 \examples{
 get_plan(iea_data_path = "mypath", countries = c("GHA", "ZAF"), max_year = 1999)
