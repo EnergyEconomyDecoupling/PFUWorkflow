@@ -41,6 +41,8 @@ get_plan <- function(iea_data_path, countries, max_year) {
   IEAData <- NULL
   BalancedIEAData <- NULL
   balanced_after <- NULL
+  Specified <- NULL
+  PSUT_final <- NULL
 
   # Eliminate wornings about
   p <- drake::drake_plan(
@@ -58,6 +60,7 @@ get_plan <- function(iea_data_path, countries, max_year) {
     IEAData = drake::target(extract_country_data(AllIEAData, countries, max_year), dynamic = map(countries)),
 
     # (2) Balance all the energy data.
+
     # First, check whether energy products are balanced. They're not.
     # FALSE indicates a country with at least one balance problem.
     balanced_before = drake::target(is_balanced(IEAData, countries), dynamic = map(countries)),
@@ -69,10 +72,12 @@ get_plan <- function(iea_data_path, countries, max_year) {
     OKToProceed = stopifnot(all(balanced_after)),
 
     # (3) Specify the BalancedIEAData data frame by being more careful with names, etc.
-    Specified = target(specify(BalancedIEAData, countries), dynamic = map(countries)),
+
+    Specified = drake::target(specify(BalancedIEAData, countries), dynamic = map(countries)),
 
     # (4) Arrange all the data into PSUT matrices with final stage data.
-    PSUT_final = target(make_psut(Specified, countries), dynamic = map(countries))
+
+    PSUT_final = drake::target(make_psut(Specified, countries), dynamic = map(countries))
 
 
   )
