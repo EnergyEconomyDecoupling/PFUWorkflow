@@ -31,9 +31,12 @@
 #' * `Specified`, and
 #' * `PSUT_final`.
 #'
-#' @param iea_data_path The path to IEA extended energy balance data in .csv format
+#' @param iea_data_path The path to IEA extended energy balance data in .csv format.
+#' @param fu_analysis_folder The path to a folder containing final-to-useful analyses.
 #' @param countries A vector of country abbreviations to be analyzed, such as "c('GHA', 'ZAF')".
 #' @param max_year The last year to be studied, typically the last year for which data are available.
+#' @param how_far Tells the last target to include in the plan that is returned.
+#'                Default is "all_targets" to indicate all targets of the plan should be returned.
 #'
 #' @return a drake plan object
 #'
@@ -41,7 +44,7 @@
 #'
 #' @examples
 #' get_plan(iea_data_path = "mypath", countries = c("GHA", "ZAF"), max_year = 1999)
-get_plan <- function(iea_data_path, countries, max_year) {
+get_plan <- function(iea_data_path, fu_analysis_folder, countries, max_year, how_far = "all_targets") {
 
   # Get around some warnings.
   map <- NULL
@@ -59,8 +62,10 @@ get_plan <- function(iea_data_path, countries, max_year) {
     # Use !! for tidy evaluation.
     # See https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function
     iea_data_path = !!iea_data_path,
+    # Store a path for final-to-useful analyses.
+    fu_analysis_folder = !!fu_analysis_folder,
     # Need to enclose !!countries in an identity function, else it doesn't work when countries has length > 1.
-    countries = identity_func(!!countries),
+    countries = SEAPSUTWorkflow:::identity_func(!!countries),
     max_year = !!max_year,
     AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(),
     IEAData = drake::target(extract_country_data(AllIEAData, countries, max_year), dynamic = map(countries)),
@@ -106,6 +111,17 @@ get_plan <- function(iea_data_path, countries, max_year) {
     # (7) Off to the races!  Do other calculations
 
   )
+  if (how_far != "all_targets") {
+    # Find the last row of the plan to keep.
+    last_row_to_keep <- p %>%
+      tibble::rowid_to_column(var = "rownum") %>%
+      dplyr::filter(.data[["target"]] == how_far) %>%
+      dplyr::select("rownum") %>%
+      unlist() %>%
+      unname()
+    p <- p %>%
+      dplyr::slice(1:last_row_to_keep)
+  }
   return(p)
 }
 

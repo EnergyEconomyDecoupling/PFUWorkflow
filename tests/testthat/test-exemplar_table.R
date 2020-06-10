@@ -20,4 +20,12 @@ test_that("load_exemplar_table() works correctly", {
     unlist() %>%
     unname() %>%
     expect_equal("Ghana")
+  cn <- et %>%
+    colnames()
+  expect_true("Country" %in% cn)
+  expect_true("Year" %in% cn)
+  expect_true("Prev_names" %in% cn)
+  expect_true("Exemplar_Country" %in% cn)
+  expect_true("Region_Code" %in% cn)
+  expect_true("Countries_or_Group" %in% cn)
 })

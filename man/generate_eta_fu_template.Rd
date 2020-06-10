@@ -7,12 +7,13 @@
 generate_eta_fu_template(
   country,
   paths_target = "paths",
-  fu_analysis_path_name = "fu_analysis_path",
+  fu_analysis_path_target = "fu_analysis_folder",
   fu_analysis_file_name = paste0(country, " FU Analysis"),
   ext = ".xlsx",
   fu_allocation_tab_name = "FU Allocations",
   eta_fu_template_file_name = paste0(country, " FU etas Template"),
-  overwrite = FALSE
+  overwrite = FALSE,
+  cache_path = ".drake/"
 )
 }
 \arguments{
@@ -20,7 +21,7 @@ generate_eta_fu_template(
 
 \item{paths_target}{the name of the paths object in the drake cache. Default is "paths".}
 
-\item{fu_analysis_path_name}{the name of the final-to-useful path member of the paths object. Default is "fu_analysis_path".}
+\item{fu_analysis_path_target}{The name of the target in the drake cache containing path to the final-to-useful analyses. Default is "fu_analysis_folder".}
 
 \item{fu_analysis_file_name}{the name of the file containing the final-to-useful analysis for \code{country}.
 Default is "\code{country} FU Analysis.\code{ext}".}
@@ -35,6 +36,8 @@ Default is "\code{country} FU etas Template.\code{ext}".}
 
 \item{overwrite}{tells whether to overwrite an existing file named \code{eta_fu_template_file_name}.\code{ext} in location \code{fu_analysis_path_name}.
 Default is \code{FALSE}.}
+
+\item{cache_path}{The path to the drake cache. Default is ".drake/".}
 }
 \value{
 the path to the blank final-to-useful efficiency template

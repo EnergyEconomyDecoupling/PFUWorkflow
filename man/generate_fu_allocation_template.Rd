@@ -7,24 +7,22 @@
 generate_fu_allocation_template(
   country,
   data_target = "Specified",
-  paths_target = "paths",
-  fu_analysis_path_name = "fu_analysis_path",
+  fu_analysis_path_target = "fu_analysis_folder",
   fu_allocation_template_file_name = paste0(country, " FU Allocations Template"),
   ext = ".xlsx",
   n_allocation_rows = 4,
-  overwrite = FALSE
+  overwrite = FALSE,
+  cache_path = ".drake/"
 )
 }
 \arguments{
-\item{country}{a string of the 3-letter ISO country code}
+\item{country}{A string, the 3-letter ISO code of the country to be analyzed.}
 
-\item{data_target}{the target in the drake cache from which the template is created. Default is "Specified".}
+\item{data_target}{The target in the drake cache from which the template is created. Default is "Specified".}
 
-\item{paths_target}{the name of the paths object in the drake cache. Default is "paths".}
+\item{fu_analysis_path_target}{The name of the target in the drake cache containing path to the final-to-useful analyses. Default is "fu_analysis_folder".}
 
-\item{fu_analysis_path_name}{the name of the final-to-useful path member of the paths object. Default is "fu_analysis_path".}
-
-\item{fu_allocation_template_file_name}{the file name for the template. Default is "\code{country} FU Allocations Template.\code{ext}".}
+\item{fu_allocation_template_file_name}{The file name for the template. Default is "\code{country} FU Allocations Template.\code{ext}".}
 
 \item{ext}{the file name extension. Default is ".xlsx" for an Excel file.}
 
@@ -32,6 +30,8 @@ generate_fu_allocation_template(
 
 \item{overwrite}{tells whether to overwrite an existing file named \code{fu_allocation_file_name}.\code{ext} in location \code{fu_analysis_path_name}.
 Default is \code{FALSE}.}
+
+\item{cache_path}{The path to the drake cache. Default is ".drake/".}
 }
 \value{
 the path to the blank final-to-useful allocation template

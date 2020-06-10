@@ -4,14 +4,25 @@
 \alias{get_plan}
 \title{Create a drake plan for societal exergy analysis}
 \usage{
-get_plan(iea_data_path, countries, max_year)
+get_plan(
+  iea_data_path,
+  fu_analysis_folder,
+  countries,
+  max_year,
+  how_far = "all_targets"
+)
 }
 \arguments{
-\item{iea_data_path}{The path to IEA extended energy balance data in .csv format}
+\item{iea_data_path}{The path to IEA extended energy balance data in .csv format.}
+
+\item{fu_analysis_folder}{The path to a folder containing final-to-useful analyses.}
 
 \item{countries}{A vector of country abbreviations to be analyzed, such as "c('GHA', 'ZAF')".}
 
 \item{max_year}{The last year to be studied, typically the last year for which data are available.}
+
+\item{how_far}{Tells the last target to include in the plan that is returned.
+Default is "all_targets" to indicate all targets of the plan should be returned.}
 }
 \value{
 a drake plan object

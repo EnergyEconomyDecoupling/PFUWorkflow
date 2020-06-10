@@ -2,10 +2,36 @@
 context("Template Functions")
 ###########################################################
 
-test_that("generate_fu_allocation_template works", {
+test_that("generate_*_template works as expected", {
+  cache_path <- tempfile("drake_cache_for_testing")
+  fu_template_folder <- tempdir("FU_analysis_folder_for_testing")
+  plan <- get_plan(iea_data_path = IEATools::sample_iea_data_path(),
+                   fu_analysis_folder = fu_template_folder,
+                   countries = c("GHA", "ZAF"),
+                   max_year = 2000,
+                   how_far = "Specified")
   tryCatch({
+    # Create a fake drake plan
+    temp_cache <- drake::new_cache(path = cache_path)
+    # Make the plan in the temp_cache
+    drake::make(plan, cache = temp_cache, verbose = 0)
+
+    # Now that we have a cache, try to make a FU Allocation template file
+    fu_template <- generate_fu_allocation_template(country = "GHA", cache_path = cache_path)
+
+    # Check that the FU allocation template was created.
+    # No reason to check anything more, because tests in the IEATools package take care of the details.
+    # All we care about here is that things were created.
+    expect_true(file.exists(fu_template))
+
+    # Now make sure that we can create an efficiency template
+    eff_template <- generate_eta_fu_template(country = "GHA", cache_path = cache_path)
+    expect_true(file.exists(eff_template))
+
 
   }, finally = {
-
+    # Clean up the cache.
+    temp_cache$destroy()
+    unlink(fu_template_folder, recursive = TRUE, force = TRUE)
   })
 })
