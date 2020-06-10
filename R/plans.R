@@ -52,7 +52,6 @@ get_plan <- function(iea_data_path, countries, max_year) {
   Specified <- NULL
   PSUT_final <- NULL
 
-  # Eliminate warnings about
   p <- drake::drake_plan(
 
     # (1) Grab all the IEA data for ALL countries
@@ -60,11 +59,10 @@ get_plan <- function(iea_data_path, countries, max_year) {
     # Use !! for tidy evaluation.
     # See https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function
     iea_data_path = !!iea_data_path,
-    # Need to enclose !!countries in c(), else it doesn't work when countries has length > 1.
-    countries = c(!!countries),
+    # Need to enclose !!countries in an identity function, else it doesn't work when countries has length > 1.
+    countries = identity_func(!!countries),
     max_year = !!max_year,
-    AllIEAData = iea_data_path %>%
-      IEATools::load_tidy_iea_df(),
+    AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(),
     IEAData = drake::target(extract_country_data(AllIEAData, countries, max_year), dynamic = map(countries)),
 
     # (2) Balance all the energy data.
@@ -85,9 +83,32 @@ get_plan <- function(iea_data_path, countries, max_year) {
 
     # (4) Arrange all the data into PSUT matrices with final stage data.
 
-    PSUT_final = drake::target(make_psut(Specified, countries), dynamic = map(countries))
+    PSUT_final = drake::target(make_psut(Specified, countries), dynamic = map(countries)),
 
+    # (5) Load/Build allocation tables
+
+    # AllocationTables = drake::target(make_allocation_tables(countries), dynamic = map(countries))
+
+
+    # (6) Load efficiency tables
+
+
+    # (7) Extend to useful stage
+
+
+    # (8) Add other methods
+
+
+
+    # (9) Add exergy quantifications of energy
+
+
+    # (7) Off to the races!  Do other calculations
 
   )
   return(p)
 }
+
+
+# Create a dummy function to allow !!! to work.
+identity_func <- function(x) {x}

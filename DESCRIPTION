@@ -21,7 +21,10 @@ Imports:
     ggplot2,
     IEATools,
     magrittr,
+    readxl,
     Recca,
-    rlang
+    rlang, 
+    tidyr, 
+    tidyselect
 Suggests: 
     testthat
