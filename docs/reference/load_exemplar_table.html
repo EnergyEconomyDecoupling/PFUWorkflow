@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a drake plan for societal exergy analysis — get_plan • SEAPSUTWorkflow</title>
+<title>Read an exemplar table from an Excel file — load_exemplar_table • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,10 @@
 
 
 
-<meta property="og:title" content="Create a drake plan for societal exergy analysis — get_plan" />
-<meta property="og:description" content="Creates a drake workflow for societal exergy analysis.
-The caller specifies location of IEA data,
-which countries should be analyzed, and
-which the maximum year to be analyzed." />
+<meta property="og:title" content="Read an exemplar table from an Excel file — load_exemplar_table" />
+<meta property="og:description" content="An exemplar table has a column of country names
+and additional metadata,
+including the exemplar country and any name changes through time." />
 
 
 
@@ -106,92 +105,79 @@ which the maximum year to be analyzed." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a drake plan for societal exergy analysis</h1>
+    <h1>Read an exemplar table from an Excel file</h1>
     
-    <div class="hidden name"><code>get_plan.Rd</code></div>
+    <div class="hidden name"><code>load_exemplar_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Creates a drake workflow for societal exergy analysis.
-The caller specifies location of IEA data,
-which countries should be analyzed, and
-which the maximum year to be analyzed.</p>
+    <p>An exemplar table has a column of country names
+and additional metadata,
+including the exemplar country and any name changes through time.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_plan</span>(
-  <span class='no'>iea_data_path</span>,
-  <span class='no'>fu_analysis_folder</span>,
-  <span class='no'>countries</span>,
-  <span class='no'>max_year</span>,
-  <span class='kw'>how_far</span> <span class='kw'>=</span> <span class='st'>"all_targets"</span>
+    <pre class="usage"><span class='fu'>load_exemplar_table</span>(
+  <span class='kw'>exemplar_table_path</span> <span class='kw'>=</span> <span class='fu'><a href='sample_exemplar_table_path.html'>sample_exemplar_table_path</a></span>(),
+  <span class='kw'>exemplar_table_tab_name</span> <span class='kw'>=</span> <span class='st'>"exemplar_table"</span>,
+  <span class='kw'>year</span> <span class='kw'>=</span> <span class='st'>"Year"</span>,
+  <span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"Country"</span>,
+  <span class='kw'>prev_names</span> <span class='kw'>=</span> <span class='st'>"Prev_names"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>iea_data_path</th>
-      <td><p>The path to IEA extended energy balance data in .csv format.</p></td>
+      <th>exemplar_table_path</th>
+      <td><p>The path to the Excel file containing an exemplar table.
+Default is the value of <code><a href='sample_exemplar_table_path.html'>sample_exemplar_table_path()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>fu_analysis_folder</th>
-      <td><p>The path to a folder containing final-to-useful analyses.</p></td>
+      <th>exemplar_table_tab_name</th>
+      <td><p>The string name of the tab in the Excel file containing the exemplar table.
+Default is "exemplar_table".</p></td>
     </tr>
     <tr>
-      <th>countries</th>
-      <td><p>A vector of country abbreviations to be analyzed, such as "c('GHA', 'ZAF')".</p></td>
+      <th>year</th>
+      <td><p>The name of the year column to be created. Default is "Year".</p></td>
     </tr>
     <tr>
-      <th>max_year</th>
-      <td><p>The last year to be studied, typically the last year for which data are available.</p></td>
+      <th>country</th>
+      <td><p>The name of the country column to be created.
+This column is filled with the current 3-letter ISO abbreviations for each country.
+Default is "Country".</p></td>
     </tr>
     <tr>
-      <th>how_far</th>
-      <td><p>Tells the last target to include in the plan that is returned.
-Default is "all_targets" to indicate all targets of the plan should be returned.</p></td>
+      <th>prev_names</th>
+      <td><p>The name of a column of previous names used for the country.
+Default is "Prev_names".</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a drake plan object</p>
+    <p>an exemplar table</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The return value is a <code>drake</code> plan object with the following targets:</p><ul>
-<li><p><code>iea_data_path</code>: The path to IEA extended energy balance data, supplied in the <code>iea_data_path</code> argument.</p></li>
-<li><p><code>countries</code>: The countries to be analyzed, supplied in the <code>countries</code> argument.</p></li>
-<li><p><code>max_year</code>: The maximum year to be analyzed, supplied in the <code>max_year</code> argument.</p></li>
-<li><p><code>AllIEAData</code>: A data frame with all IEA extended energy balance data read from <code>iea_data_path</code>.</p></li>
-<li><p><code>IEAData</code>: A version of the <code>AllIEAData</code> data frame containing data for only those countries specified in <code>countries</code>.</p></li>
-<li><p><code>balanced_before</code>: A boolean that tells where the data were balanced as received, usually a vector of <code>FALSE</code>, one for each country.</p></li>
-<li><p><code>BalancedIEAData</code>: A data frame containing balanced IEA extended energy balance data.</p></li>
-<li><p><code>balanced_after</code>: A boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of <code>TRUE</code>, one for each country.</p></li>
-<li><p><code>OKToProceed</code>: <code>NULL</code> means everything is balanced and proceeding is OK.</p></li>
-<li><p><code>Specified</code>: A data frame with specified industries. See <code><a href='https://rdrr.io/pkg/IEATools/man/specify_all.html'>IEATools::specify_all()</a></code>.</p></li>
-<li><p><code>PSUT_final</code>: A data frame containing PSUT matrices up to the final stage.</p></li>
-</ul>
-
-<p>Callers can execute the plan by calling <code><a href='https://docs.ropensci.org/drake/reference/make.html'>drake::make(plan)</a></code>.
-Results can be recovered with
-<code><a href='https://docs.ropensci.org/drake/reference/readd.html'>drake::readd(target = iea_data_path)</a></code> or similar.</p>
-<p>Note that some targets can be read using <code><a href='readd_by_country.html'>readd_by_country()</a></code>, including:</p><ul>
-<li><p><code>AllIEAData</code>,</p></li>
-<li><p><code>IEAData</code>,</p></li>
-<li><p><code>BalancedIEAData</code>,</p></li>
-<li><p><code>Specified</code>, and</p></li>
-<li><p><code>PSUT_final</code>.</p></li>
-</ul>
-
+    <p>This function gathers (actually, <code><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>tidyr::pivot_longer()</a></code>) years into a Year column.
+It also</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-  <span class='no'>td</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-  <span class='fu'>get_plan</span>(<span class='kw'>iea_data_path</span> <span class='kw'>=</span> <span class='st'>"mypath"</span>,
-           <span class='kw'>fu_analysis_folder</span> <span class='kw'>=</span> <span class='no'>td</span>,
-           <span class='kw'>countries</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span>),
-           <span class='kw'>max_year</span> <span class='kw'>=</span> <span class='fl'>1999</span>)
-  <span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(<span class='no'>td</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>load_exemplar_table</span>()</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 7,050 x 9</span><span>
+#&gt;    Rank_TFC_2017i `Individual, Re… Region_Code ROW_Code Countries_or_Gr…
+#&gt;             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>              1 Individual       ASA         RoASA    China (P.R. of …
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>              1 Individual       ASA         RoASA    China (P.R. of …
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>              1 Individual       ASA         RoASA    China (P.R. of …
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>              1 Individual       ASA         RoASA    China (P.R. of …
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>              1 Individual       ASA         RoASA    China (P.R. of …
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>              1 Individual       ASA         RoASA    China (P.R. of …
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>              1 Individual       ASA         RoASA    China (P.R. of …
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>              1 Individual       ASA         RoASA    China (P.R. of …
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>              1 Individual       ASA         RoASA    China (P.R. of …
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>              1 Individual       ASA         RoASA    China (P.R. of …
+#&gt; </span><span style='color: #949494;'># … with 7,040 more rows, and 4 more variables: Exemplar_Country </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>,</span><span>
+#&gt; </span><span style='color: #949494;'>#   Country </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, Year </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, Prev_names </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -63,5 +63,12 @@ Note that some targets can be read using \code{readd_by_country()}, including:
 }
 }
 \examples{
-get_plan(iea_data_path = "mypath", countries = c("GHA", "ZAF"), max_year = 1999)
+\dontrun{
+  td <- tempdir()
+  get_plan(iea_data_path = "mypath",
+           fu_analysis_folder = td,
+           countries = c("GHA", "ZAF"),
+           max_year = 1999)
+  unlink(td)
+}
 }

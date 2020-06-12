@@ -34,13 +34,15 @@ readd_by_country <- function(target, country, name_of_countries_object = "countr
 #' @export
 #'
 #' @examples
-#' td <- tempdir()
-#' dir.create.pipe(td, recursive = TRUE)
-#' unlink(td, force = TRUE, recursive = TRUE)
+#' \dontrun{
+#'   td <- tempdir()
+#'   dir.create.pipe(td, recursive = TRUE)
+#'   unlink(td, force = TRUE, recursive = TRUE)
+#' }
 dir.create.pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode = "0777") {
   success <- dir.create(path = path, showWarnings = showWarnings, recursive = recursive, mode = mode)
   if (!success & showWarnings) {
-    warning(paste("Unsuccessful creation of director: ", path))
+    warning(paste("Unsuccessful creation of directory: ", path))
   }
   return(path)
 }

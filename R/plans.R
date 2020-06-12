@@ -43,7 +43,14 @@
 #' @export
 #'
 #' @examples
-#' get_plan(iea_data_path = "mypath", countries = c("GHA", "ZAF"), max_year = 1999)
+#' \dontrun{
+#'   td <- tempdir()
+#'   get_plan(iea_data_path = "mypath",
+#'            fu_analysis_folder = td,
+#'            countries = c("GHA", "ZAF"),
+#'            max_year = 1999)
+#'   unlink(td)
+#' }
 get_plan <- function(iea_data_path, fu_analysis_folder, countries, max_year, how_far = "all_targets") {
 
   # Get around some warnings.
@@ -65,7 +72,7 @@ get_plan <- function(iea_data_path, fu_analysis_folder, countries, max_year, how
     # Store a path for final-to-useful analyses.
     fu_analysis_folder = !!fu_analysis_folder,
     # Need to enclose !!countries in an identity function, else it doesn't work when countries has length > 1.
-    countries = SEAPSUTWorkflow:::identity_func(!!countries),
+    countries = identity_func(!!countries),
     max_year = !!max_year,
     AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(),
     IEAData = drake::target(extract_country_data(AllIEAData, countries, max_year), dynamic = map(countries)),

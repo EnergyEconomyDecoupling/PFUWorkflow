@@ -25,7 +25,9 @@ returning the path created.
 If the directory creation process was unsuccessful, a warning is emitted.
 }
 \examples{
-td <- tempdir()
-dir.create.pipe(td, recursive = TRUE)
-unlink(td, force = TRUE, recursive = TRUE)
+\dontrun{
+  td <- tempdir()
+  dir.create.pipe(td, recursive = TRUE)
+  unlink(td, force = TRUE, recursive = TRUE)
+}
 }

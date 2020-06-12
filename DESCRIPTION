@@ -24,6 +24,7 @@ Imports:
     readxl,
     Recca,
     rlang, 
+    tibble,
     tidyr, 
     tidyselect
 Suggests: 

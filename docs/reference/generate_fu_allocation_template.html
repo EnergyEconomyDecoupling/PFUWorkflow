@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Create a final-to-useful allocation template — generate_fu_allocation_template" />
-<meta property="og:description" content="Create a final-to-useful allocation template" />
+<meta property="og:description" content="This function creates a blank final-to-useful allocation template on a per-country basis." />
 
 
 
@@ -109,16 +109,19 @@
     </div>
 
     <div class="ref-description">
-    <p>Create a final-to-useful allocation template</p>
+    <p>This function creates a blank final-to-useful allocation template on a per-country basis.</p>
     </div>
 
     <pre class="usage"><span class='fu'>generate_fu_allocation_template</span>(
   <span class='no'>country</span>,
+  <span class='kw'>cache_path</span> <span class='kw'>=</span> <span class='st'>".drake/"</span>,
   <span class='kw'>data_target</span> <span class='kw'>=</span> <span class='st'>"Specified"</span>,
-  <span class='kw'>paths_target</span> <span class='kw'>=</span> <span class='st'>"paths"</span>,
-  <span class='kw'>fu_analysis_path_name</span> <span class='kw'>=</span> <span class='st'>"fu_analysis_path"</span>,
+  <span class='kw'>fu_analysis_path_target</span> <span class='kw'>=</span> <span class='st'>"fu_analysis_folder"</span>,
   <span class='kw'>fu_allocation_template_file_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='no'>country</span>, <span class='st'>" FU Allocations Template"</span>),
   <span class='kw'>ext</span> <span class='kw'>=</span> <span class='st'>".xlsx"</span>,
+  <span class='kw'>output_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw pkg'>drake</span><span class='kw ns'>::</span><span class='fu'><a href='https://docs.ropensci.org/drake/reference/readd.html'>readd</a></span>(<span class='no'>fu_analysis_path_target</span>, <span class='kw'>character_only</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>cache_path</span>), <span class='no'>country</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='dir.create.pipe.html'>dir.create.pipe</a></span>(<span class='kw'>showWarnings</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>recursive</span> <span class='kw'>=</span>
+    <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='no'>fu_allocation_template_file_name</span>, <span class='no'>ext</span>)),
   <span class='kw'>n_allocation_rows</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
@@ -128,35 +131,48 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>country</th>
-      <td><p>a string of the 3-letter ISO country code</p></td>
+      <td><p>A string, the 3-letter ISO code of the country for which a template is desired.</p></td>
+    </tr>
+    <tr>
+      <th>cache_path</th>
+      <td><p>The path to the drake cache. Default is ".drake/".</p></td>
     </tr>
     <tr>
       <th>data_target</th>
-      <td><p>the target in the drake cache from which the template is created. Default is "Specified".</p></td>
+      <td><p>The target in the drake cache from which the template is created.
+Default is "Specified".</p></td>
     </tr>
     <tr>
-      <th>paths_target</th>
-      <td><p>the name of the paths object in the drake cache. Default is "paths".</p></td>
-    </tr>
-    <tr>
-      <th>fu_analysis_path_name</th>
-      <td><p>the name of the final-to-useful path member of the paths object. Default is "fu_analysis_path".</p></td>
+      <th>fu_analysis_path_target</th>
+      <td><p>The name of the target in the drake cache containing path
+to the final-to-useful analyses.
+Default is "fu_analysis_folder".</p></td>
     </tr>
     <tr>
       <th>fu_allocation_template_file_name</th>
-      <td><p>the file name for the template. Default is "<code>country</code> FU Allocations Template.<code>ext</code>".</p></td>
+      <td><p>The file name for the template.
+Default is "<code>country</code> FU Allocations Template.<code>ext</code>".</p></td>
     </tr>
     <tr>
       <th>ext</th>
-      <td><p>the file name extension. Default is ".xlsx" for an Excel file.</p></td>
+      <td><p>The output file name extension.
+Default is ".xlsx" for an Excel file.</p></td>
+    </tr>
+    <tr>
+      <th>output_path</th>
+      <td><p>The path of the output file to be created.
+Default uses arguments <code>country</code>, <code>fu_analysis_path_target</code>,
+<code>fu_allocation_template_file_name</code>, and
+<code>ext</code> to construct a path.</p></td>
     </tr>
     <tr>
       <th>n_allocation_rows</th>
-      <td><p>the number of allocation rows per combination of sector and final energy carrier. Default is <code>4</code>.</p></td>
+      <td><p>The number of allocation rows per combination of sector and final energy carrier.
+Default is <code>4</code>.</p></td>
     </tr>
     <tr>
       <th>overwrite</th>
-      <td><p>tells whether to overwrite an existing file named <code>fu_allocation_file_name</code>.<code>ext</code> in location <code>fu_analysis_path_name</code>.
+      <td><p>Tells whether to overwrite an existing file at <code>output+path</code>.
 Default is <code>FALSE</code>.</p></td>
     </tr>
     </table>
@@ -164,6 +180,12 @@ Default is <code>FALSE</code>.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>the path to the blank final-to-useful allocation template</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The only arguments used internally are <code>country</code>, <code>data_target</code>, <code>cache_path</code>,
+<code>overwrite</code>, <code>n_allocation_rows</code>, and <code>output_path</code>,
+allowing the caller to specify only output_path to override all of the
+path information stored in the drake cache.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
