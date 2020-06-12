@@ -6,36 +6,56 @@
 \usage{
 generate_fu_allocation_template(
   country,
+  cache_path = ".drake/",
   data_target = "Specified",
   fu_analysis_path_target = "fu_analysis_folder",
   fu_allocation_template_file_name = paste0(country, " FU Allocations Template"),
   ext = ".xlsx",
+  output_path = file.path(drake::readd(fu_analysis_path_target, character_only = TRUE,
+    path = cache_path), country) \%>\% dir.create.pipe(showWarnings = FALSE, recursive =
+    TRUE) \%>\% file.path(paste0(fu_allocation_template_file_name, ext)),
   n_allocation_rows = 4,
-  overwrite = FALSE,
-  cache_path = ".drake/"
+  overwrite = FALSE
 )
 }
 \arguments{
-\item{country}{A string, the 3-letter ISO code of the country to be analyzed.}
-
-\item{data_target}{The target in the drake cache from which the template is created. Default is "Specified".}
-
-\item{fu_analysis_path_target}{The name of the target in the drake cache containing path to the final-to-useful analyses. Default is "fu_analysis_folder".}
-
-\item{fu_allocation_template_file_name}{The file name for the template. Default is "\code{country} FU Allocations Template.\code{ext}".}
-
-\item{ext}{the file name extension. Default is ".xlsx" for an Excel file.}
-
-\item{n_allocation_rows}{the number of allocation rows per combination of sector and final energy carrier. Default is \code{4}.}
-
-\item{overwrite}{tells whether to overwrite an existing file named \code{fu_allocation_file_name}.\code{ext} in location \code{fu_analysis_path_name}.
-Default is \code{FALSE}.}
+\item{country}{A string, the 3-letter ISO code of the country for which a template is desired.}
 
 \item{cache_path}{The path to the drake cache. Default is ".drake/".}
+
+\item{data_target}{The target in the drake cache from which the template is created.
+Default is "Specified".}
+
+\item{fu_analysis_path_target}{The name of the target in the drake cache containing path
+to the final-to-useful analyses.
+Default is "fu_analysis_folder".}
+
+\item{fu_allocation_template_file_name}{The file name for the template.
+Default is "\code{country} FU Allocations Template.\code{ext}".}
+
+\item{ext}{The output file name extension.
+Default is ".xlsx" for an Excel file.}
+
+\item{output_path}{The path of the output file to be created.
+Default uses arguments \code{country}, \code{fu_analysis_path_target},
+\code{fu_allocation_template_file_name}, and
+\code{ext} to construct a path.}
+
+\item{n_allocation_rows}{The number of allocation rows per combination of sector and final energy carrier.
+Default is \code{4}.}
+
+\item{overwrite}{Tells whether to overwrite an existing file at \code{output+path}.
+Default is \code{FALSE}.}
 }
 \value{
 the path to the blank final-to-useful allocation template
 }
 \description{
-Create a final-to-useful allocation template
+This function creates a blank final-to-useful allocation template on a per-country basis.
+}
+\details{
+The only arguments used internally are \code{country}, \code{data_target}, \code{cache_path},
+\code{overwrite}, \code{n_allocation_rows}, and \code{output_path},
+allowing the caller to specify only output_path to override all of the
+path information stored in the drake cache.
 }

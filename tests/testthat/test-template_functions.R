@@ -23,11 +23,13 @@ test_that("generate_*_template works as expected", {
     # No reason to check anything more, because tests in the IEATools package take care of the details.
     # All we care about here is that things were created.
     expect_true(file.exists(fu_template))
+    file.remove(fu_template)
 
     # Now make sure that we can create an efficiency template
-    eff_template <- generate_eta_fu_template(country = "GHA", cache_path = cache_path)
+    eff_template <- generate_eta_fu_template(country = "GHA", cache_path = cache_path,
+                                             fu_allocation_table_path = IEATools::sample_fu_allocation_table_path())
     expect_true(file.exists(eff_template))
-
+    file.remove(eff_template)
 
   }, finally = {
     # Clean up the cache.

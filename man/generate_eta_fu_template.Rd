@@ -6,42 +6,58 @@
 \usage{
 generate_eta_fu_template(
   country,
-  paths_target = "paths",
+  cache_path = ".drake/",
   fu_analysis_path_target = "fu_analysis_folder",
-  fu_analysis_file_name = paste0(country, " FU Analysis"),
+  fu_allocation_table_file_name = paste0(country, " FU Analysis"),
   ext = ".xlsx",
+  fu_allocation_table_path = file.path(drake::readd(fu_analysis_path_target,
+    character_only = TRUE, path = cache_path), country) \%>\%
+    dir.create.pipe(showWarnings = FALSE, recursive = TRUE) \%>\%
+    file.path(paste0(fu_allocation_table_file_name, ext)),
   fu_allocation_tab_name = "FU Allocations",
   eta_fu_template_file_name = paste0(country, " FU etas Template"),
-  overwrite = FALSE,
-  cache_path = ".drake/"
+  output_path = file.path(drake::readd(fu_analysis_path_target, character_only = TRUE,
+    path = cache_path), country) \%>\% dir.create.pipe(showWarnings = FALSE, recursive =
+    TRUE) \%>\% file.path(paste0(eta_fu_template_file_name, ext)),
+  overwrite = FALSE
 )
 }
 \arguments{
 \item{country}{a string of the 3-letter ISO country code}
 
-\item{paths_target}{the name of the paths object in the drake cache. Default is "paths".}
+\item{cache_path}{The path to the drake cache. Default is ".drake/".}
 
-\item{fu_analysis_path_target}{The name of the target in the drake cache containing path to the final-to-useful analyses. Default is "fu_analysis_folder".}
+\item{fu_analysis_path_target}{The name of the target in the drake cache containing path to the final-to-useful analyses.
+Default is "fu_analysis_folder".}
 
-\item{fu_analysis_file_name}{the name of the file containing the final-to-useful analysis for \code{country}.
+\item{fu_allocation_table_file_name}{The name of the file containing the final-to-useful allocations for \code{country}.
 Default is "\code{country} FU Analysis.\code{ext}".}
 
-\item{ext}{the file name extension. Default is ".xlsx" for an Excel file.}
+\item{ext}{The file name extension for both the allocation table and the efficiency template.
+Default is ".xlsx" for an Excel file.}
 
-\item{fu_allocation_tab_name}{the name of the tab containing final-to-useful allocation information in \code{fu_analysis_file_name}.
+\item{fu_allocation_table_path}{The path the the}
+
+\item{fu_allocation_tab_name}{The name of the tab containing final-to-useful allocation information in \code{fu_analysis_file_name}.
 Default is "FU Allocations".}
 
-\item{eta_fu_template_file_name}{the name of the template file written by this function.
+\item{eta_fu_template_file_name}{The name of the efficiency template file written by this function.
 Default is "\code{country} FU etas Template.\code{ext}".}
 
-\item{overwrite}{tells whether to overwrite an existing file named \code{eta_fu_template_file_name}.\code{ext} in location \code{fu_analysis_path_name}.
-Default is \code{FALSE}.}
+\item{output_path}{The path to the output file.
+Default is constructed from the drake cache (\code{fu_analysis_path_target})
+and \code{country}, and \code{eta_fu_template_file_name} arguments.}
 
-\item{cache_path}{The path to the drake cache. Default is ".drake/".}
+\item{overwrite}{Tells whether to overwrite an existing file named \code{eta_fu_template_file_name}.\code{ext} in location \code{fu_analysis_path_name}.
+Default is \code{FALSE}.}
 }
 \value{
 the path to the blank final-to-useful efficiency template
 }
 \description{
-Create a final-to-useful efficiencies template
+The only arguments used internally are \code{country}, \code{fu_allocation_table_path}, \code{fu_allocation_tab_name}k
+\code{eta_fu_template_file_name}
+\code{overwrite}, and \code{output_path},
+allowing the caller to specify only output_path to override all of the
+path information stored in the drake cache.
 }
