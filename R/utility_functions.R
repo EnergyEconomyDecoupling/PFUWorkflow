@@ -15,8 +15,6 @@ readd_by_country <- function(target, country, name_of_countries_object = "countr
 }
 
 
-
-
 #' Pipe-amenable directory creation
 #'
 #' This function is small wrapper on `dir.create()`,
