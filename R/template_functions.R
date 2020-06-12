@@ -61,7 +61,9 @@ generate_fu_allocation_template <- function(country,
 #' allowing the caller to specify only output_path to override all of the
 #' path information stored in the drake cache.
 #'
-#' @param country a string of the 3-letter ISO country code
+#' @param country A string of the 3-letter ISO country code
+#' @param country_col A string containing the name of the country column in the final-to-useful allocation table.
+#'                    Default is "Country".
 #' @param cache_path The path to the drake cache. Default is ".drake/".
 #' @param fu_analysis_path_target The name of the target in the drake cache containing path to the final-to-useful analyses.
 #'                                Default is "fu_analysis_folder".
@@ -84,8 +86,8 @@ generate_fu_allocation_template <- function(country,
 #'
 #' @export
 generate_eta_fu_template <- function(country,
+                                     country_col = "Country",
                                      cache_path = ".drake/",
-
                                      fu_analysis_path_target = "fu_analysis_folder",
                                      fu_allocation_table_file_name = paste0(country, " FU Analysis"),
                                      ext = ".xlsx",
@@ -106,6 +108,7 @@ generate_eta_fu_template <- function(country,
                                      overwrite = FALSE) {
   # Read the allocations from the file at fu_analysis_file_name
   IEATools::load_fu_allocation_data(fu_allocation_table_path, fu_allocations_tab_name = fu_allocation_tab_name) %>%
+    dplyr::filter(country %in% .data[[country_col]]) %>%
     # Create the eta_fu template
     IEATools::eta_fu_template() %>%
     # Write the blank final-to-useful efficiencies template

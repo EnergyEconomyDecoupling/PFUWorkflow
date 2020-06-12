@@ -6,6 +6,7 @@
 \usage{
 generate_eta_fu_template(
   country,
+  country_col = "Country",
   cache_path = ".drake/",
   fu_analysis_path_target = "fu_analysis_folder",
   fu_allocation_table_file_name = paste0(country, " FU Analysis"),
@@ -23,7 +24,10 @@ generate_eta_fu_template(
 )
 }
 \arguments{
-\item{country}{a string of the 3-letter ISO country code}
+\item{country}{A string of the 3-letter ISO country code}
+
+\item{country_col}{A string containing the name of the country column in the final-to-useful allocation table.
+Default is "Country".}
 
 \item{cache_path}{The path to the drake cache. Default is ".drake/".}
 
