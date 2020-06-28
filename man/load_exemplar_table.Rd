@@ -9,7 +9,7 @@ load_exemplar_table(
   exemplar_table_tab_name = "exemplar_table",
   year = "Year",
   country = "Country",
-  prev_names = "Prev_names"
+  prev_names = "Prev.names"
 )
 }
 \arguments{
@@ -26,7 +26,7 @@ This column is filled with the current 3-letter ISO abbreviations for each count
 Default is "Country".}
 
 \item{prev_names}{The name of a column of previous names used for the country.
-Default is "Prev_names".}
+Default is "Prev.names".}
 }
 \value{
 an exemplar table
