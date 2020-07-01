@@ -7,8 +7,11 @@
 exemplar_lists(
   exemplar_table,
   country = IEATools::iea_cols$country,
+  year = IEATools::iea_cols$year,
+  year_temp = "Year.temp",
   exemplars = "Exemplars",
   prev_names = "Prev.names",
+  prev_names_list = "Prev.names.list",
   exemplar_country = "Exemplar.country",
   row_code = "ROW.code",
   countries_or_group = "Country.name",

@@ -38,13 +38,22 @@ test_that("load_exemplar_table() works correctly", {
 test_that("exemplar_lists() works as expected", {
   el <- exemplar_lists(load_exemplar_table())
 
+  # According to Zeke, the most difficult country is Montenegro (MNE)
+  el %>%
+    dplyr::filter(.data[[IEATools::iea_cols$country]] == "MNE",
+                  .data[[IEATools::iea_cols$year]] == 2005) %>%
+    magrittr::extract2("Exemplars") %>%
+    unlist(use.names = FALSE) %>%
+    expect_equivalent(c("SRB", "YGS", "ESP", "RoEUR", "World"))
+
+
   # Check Ghana. It should have the same list for every year
   el %>%
     dplyr::select(!IEATools::iea_cols$year) %>%
-    dplyr::filter(IEATools::iea_cols$country == "GHA") %>%
+    dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA") %>%
     unique() %>%
     magrittr::extract2("Exemplars") %>%
-    unlist() %>%
-    expect_equal(list("ZAF", "RoAFR", "Restofworld"))
+    unlist(use.names = FALSE) %>%
+    expect_equal(c("ESP", "RoAFR", "World"))
 
 })

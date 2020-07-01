@@ -7,8 +7,8 @@
 load_exemplar_table(
   exemplar_table_path = sample_exemplar_table_path(),
   exemplar_table_tab_name = "exemplar_table",
-  year = "Year",
-  country = "Country",
+  country = IEATools::iea_cols$country,
+  year = IEATools::iea_cols$year,
   prev_names = "Prev.names"
 )
 }
@@ -19,11 +19,11 @@ Default is the value of \code{sample_exemplar_table_path()}.}
 \item{exemplar_table_tab_name}{The string name of the tab in the Excel file containing the exemplar table.
 Default is "exemplar_table".}
 
-\item{year}{The name of the year column to be created. Default is "Year".}
-
 \item{country}{The name of the country column to be created.
 This column is filled with the current 3-letter ISO abbreviations for each country.
 Default is "Country".}
+
+\item{year}{The name of the year column to be created. Default is "Year".}
 
 \item{prev_names}{The name of a column of previous names used for the country.
 Default is "Prev.names".}
