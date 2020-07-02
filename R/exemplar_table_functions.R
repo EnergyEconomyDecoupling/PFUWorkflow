@@ -95,6 +95,19 @@ load_exemplar_table <- function(exemplar_table_path = sample_exemplar_table_path
 #' @export
 #'
 #' @examples
+#' # Use an exemplar table that is part of this package.
+#' el <- exemplar_lists(load_exemplar_table()) %>%
+#' # Montenegro is a particularly interest case, as it had many name changes.
+#'   dplyr::filter(.data[[IEATools::iea_cols$country]] == "MNE",
+#' # Look at the first year, the last year as Yugoslavia, the first year as Serbia,
+#' # and today.
+#'                 .data[[IEATools::iea_cols$year]] %in% c(1971, 1989, 1990, 2017))
+#' el %>%
+#'   dplyr::select(Country, Year, Country.name, Exemplar.country, ROW.code, Exemplars)
+#' el[[1, "Exemplars"]]
+#' el[[2, "Exemplars"]]
+#' el[[3, "Exemplars"]]
+#' el[[4, "Exemplars"]]
 exemplar_lists <- function(exemplar_table,
                            country = IEATools::iea_cols$country,
                            year = IEATools::iea_cols$year,
@@ -118,46 +131,42 @@ exemplar_lists <- function(exemplar_table,
 
   # First step: join the previous names to each country and year
   with_prev_names_list <- dplyr::left_join(year_country, pntable, by = country) %>%
+    # Unnest to get all years.
     tidyr::unnest(cols = prev_names) %>%
+    # Eliminate rows that don't apply, i.e.,
+    # those rows where the year of the alternative name is AFTER the year of interest
     dplyr::filter(.data[[year_temp]] <= .data[[year]]) %>%
+    # Eliminate an unneeded column.
     dplyr::select(!year_temp) %>%
+    # Keep only the unique name regines.
     dplyr::group_by(.data[[year]], .data[[country]]) %>%
     unique() %>%
+    # Eliminate the current name of the country from its list of previous names.
     dplyr::filter(.data[[country]] != .data[[prev_names]]) %>%
+    # Build a list column containing
     dplyr::summarise(
       "{prev_names_list}" := list(.data[[prev_names]] %>% rev())
     )
 
-  # Join these lists back to the original data frame
-  outgoing <- exemplar_table %>%
+  exemplar_table %>%
+    # Join these lists back to the original data frame
     dplyr::left_join(with_prev_names_list, by = c(country, year)) %>%
+    # Do some renaming
     dplyr::select(!prev_names) %>%
     dplyr::rename("{prev_names}" := prev_names_list) %>%
+    # Create the full list of exemplars and store in the exemplars column.
+    # Use the helper function to do this.
     dplyr::mutate(
-      "{prev_names}" := as.character(.data[[prev_names]]),
-      # Weirdly, the preceding line converts NULLs into "NULL".
-      # Check for these and convert to a 0-length character
-      "{prev_names}" := dplyr::case_when(
-        .data[[prev_names]] == "NULL" ~ "",
-        TRUE ~ .data[[prev_names]]
-      )
-    ) %>%
-    # Build our list of exemplar countries,
-    # starting with the previous names, followed by the assigned exemplar country,
-    # this country's code for the rest of the world, and
-    # the world region.
-    dplyr::mutate(
-      "{exemplars}" := Map(f = function(p_names, exemp, restofworldcode) {
-        list(c(p_names, exemp, restofworldcode, world))
-      },
-      p_names = .data[[prev_names_list]],
-      exemp = .data[[exemplar_country]],
-      restofworldcode = .data[[row_code]])
+      "{exemplars}" := Map(f = build_one_exemplar_list,
+                           p_names = .data[[prev_names]],
+                           exemp = .data[[exemplar_country]],
+                           restofworldcode = .data[[row_code]],
+                           world = world)
     )
 
   #
   # The following commented code actually works.
-  # But I'm working on a faster method.
+  # But the approach above is MUCH faster.
   #
 
   # # Figure out all previous names for each country.
@@ -210,10 +219,19 @@ exemplar_lists <- function(exemplar_table,
   #     restofworldcode = .data[[row_code]])
   #   )
 
-
-
-
-
-
 }
 
+
+#' Make a list of exemplar countries
+#'
+#' This is a non-public, internal helper function
+#'
+#' @param p_names A character vector of previous names for this country.
+#' @param exemp An exemplar country.
+#' @param restofworldcode The rest-of-world code for this country.
+#' @param world A string indicating the world.
+#'
+#' @return A list of length 1 containing all possible exemplars, in the order in which they apply.
+build_one_exemplar_list <- function(p_names, exemp, restofworldcode, world) {
+  list(c(unlist(p_names), exemp, restofworldcode, world))
+}

@@ -45,3 +45,18 @@ because countries and regions will be searched
 in the order they appear in the sub-list
 when searching for missing allocations and efficiencies.
 }
+\examples{
+# Use an exemplar table that is part of this package.
+el <- exemplar_lists(load_exemplar_table()) \%>\%
+# Montenegro is a particularly interest case, as it had many name changes.
+  dplyr::filter(.data[[IEATools::iea_cols$country]] == "MNE",
+# Look at the first year, the last year as Yugoslavia, the first year as Serbia,
+# and today.
+                .data[[IEATools::iea_cols$year]] \%in\% c(1971, 1989, 1990, 2017))
+el \%>\%
+  dplyr::select(Country, Year, Country.name, Exemplar.country, ROW.code, Exemplars)
+el[[1, "Exemplars"]]
+el[[2, "Exemplars"]]
+el[[3, "Exemplars"]]
+el[[4, "Exemplars"]]
+}
