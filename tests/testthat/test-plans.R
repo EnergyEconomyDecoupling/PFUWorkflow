@@ -144,6 +144,8 @@ test_that("make works", {
     # Check making PSUT matrices, reading by country.
     expect_true(!is.null(readd_by_country(target = "PSUT_final", country = "ZAF", cache_path = cache_path)))
 
+    # Test the allocation and efficiency tables.
+
     # # Set up FU allocation tables. Need to split file that is stored in IEATools
     # GHAZAF_FU_allocation_tables <- IEATools::sample_fu_allocation_table_path() %>%
     #   openxlsx::read.xlsx()
