@@ -6,6 +6,7 @@ test_that("generate_*_template works as expected", {
   cache_path <- tempfile("drake_cache_for_testing")
   fu_template_folder <- tempdir("FU_analysis_folder_for_testing")
   plan <- get_plan(iea_data_path = IEATools::sample_iea_data_path(),
+                   exemplar_table_path = sample_exemplar_table_path(),
                    fu_analysis_folder = fu_template_folder,
                    countries = c("GHA", "ZAF"),
                    max_year = 2000,

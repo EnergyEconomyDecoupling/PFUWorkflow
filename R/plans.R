@@ -31,12 +31,14 @@
 #' * `Specified`, and
 #' * `PSUT_final`.
 #'
-#' @param iea_data_path The path to IEA extended energy balance data in .csv format.
-#' @param fu_analysis_folder The path to a folder containing final-to-useful analyses.
 #' @param countries A vector of country abbreviations to be analyzed, such as "c('GHA', 'ZAF')".
 #' @param max_year The last year to be studied, typically the last year for which data are available.
-#' @param how_far Tells the last target to include in the plan that is returned.
+#' @param how_far A string indicating the last target to include in the plan that is returned.
 #'                Default is "all_targets" to indicate all targets of the plan should be returned.
+#' @param iea_data_path The path to IEA extended energy balance data in .csv format.
+#' @param exemplar_table_path The path to an exemplar table.
+#' @param fu_analysis_folder The path to a folder containing final-to-useful analyses.
+#'                           Sub-folders named with 3-letter country abbreviations are assumed.
 #'
 #' @return a drake plan object
 #'
@@ -45,13 +47,15 @@
 #' @examples
 #' \dontrun{
 #'   td <- tempdir()
-#'   get_plan(iea_data_path = "mypath",
-#'            fu_analysis_folder = td,
-#'            countries = c("GHA", "ZAF"),
-#'            max_year = 1999)
+#'   get_plan(countries = c("GHA", "ZAF"),
+#'            max_year = 1999,
+#'            iea_data_path = "mypath",
+#'            exemplar_table_path = "exemplarpath",
+#'            fu_analysis_folder = td)
 #'   unlink(td)
 #' }
-get_plan <- function(iea_data_path, fu_analysis_folder, countries, max_year, how_far = "all_targets") {
+get_plan <- function(countries, max_year, how_far = "all_targets",
+                     iea_data_path, exemplar_table_path, fu_analysis_folder) {
 
   # Get around some warnings.
   map <- NULL
@@ -64,16 +68,19 @@ get_plan <- function(iea_data_path, fu_analysis_folder, countries, max_year, how
 
   p <- drake::drake_plan(
 
-    # (1) Grab all the IEA data for ALL countries
+    # (0) Set many arguments to be objects in the drake cache for later use
 
     # Use !! for tidy evaluation.
     # See https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function
-    iea_data_path = !!iea_data_path,
-    # Store a path for final-to-useful analyses.
-    fu_analysis_folder = !!fu_analysis_folder,
     # Need to enclose !!countries in an identity function, else it doesn't work when countries has length > 1.
-    countries = identity_func(!!countries),
+    countries = SEAPSUTWorkflow:::identity_func(!!countries),
     max_year = !!max_year,
+    iea_data_path = !!iea_data_path,
+    exemplar_table_path = !!exemplar_table_path,
+    fu_analysis_folder = !!fu_analysis_folder,
+
+    # (1) Grab all the IEA data for ALL countries
+
     AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(),
     IEAData = drake::target(extract_country_data(AllIEAData, countries, max_year), dynamic = map(countries)),
 
@@ -87,7 +94,8 @@ get_plan <- function(iea_data_path, fu_analysis_folder, countries, max_year, how
     # Check that everything is balanced after balancing.
     balanced_after = drake::target(is_balanced(BalancedIEAData, countries), dynamic = map(countries)),
     # Don't continue if there is a problem.
-    OKToProceed = stopifnot(all(balanced_after)),
+    # stopifnot returns NULL if everything is OK.
+    OKToProceed = ifelse(is.null(stopifnot(all(balanced_after))), yes = TRUE, no = FALSE),
 
     # (3) Specify the BalancedIEAData data frame by being more careful with names, etc.
 
@@ -97,25 +105,36 @@ get_plan <- function(iea_data_path, fu_analysis_folder, countries, max_year, how
 
     PSUT_final = drake::target(make_psut(Specified, countries), dynamic = map(countries)),
 
-    # (5) Load/Build allocation tables
+    # (5) Load incomplete FU allocation tables
 
-    # AllocationTables = drake::target(make_allocation_tables(countries), dynamic = map(countries))
-
-
-    # (6) Load efficiency tables
+    IncompleteAllocationTables = drake::target(load_fu_allocation_tables(fu_analysis_folder, countries), dynamic = map(countries))
 
 
-    # (7) Extend to useful stage
+    # (6) Load incomplete FU efficiency tables
 
 
-    # (8) Add other methods
+    # (7) Load exemplar table
+
+    # ExemplarLists = drake::target(exemplar_lists(load_exemplar_table(exemplar_table_path = exemplar_table_path)))
+
+
+    # (8) Form lists of exemplar tables, one for each country to be analyzed
+
+
+    # (9) Complete allocation and efficiency tables
+
+
+    # (10) Extend to useful stage
+
+
+    # (11) Add other methods
 
 
 
-    # (9) Add exergy quantifications of energy
+    # (12) Add exergy quantifications of energy
 
 
-    # (7) Off to the races!  Do other calculations
+    # (13) Off to the races!  Do other calculations
 
   )
   if (how_far != "all_targets") {
@@ -133,5 +152,5 @@ get_plan <- function(iea_data_path, fu_analysis_folder, countries, max_year, how
 }
 
 
-# Create a dummy function to allow !!! to work.
+# A dummy function to allow !! to work for countries.
 identity_func <- function(x) {x}

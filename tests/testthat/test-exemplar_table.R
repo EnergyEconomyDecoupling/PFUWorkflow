@@ -78,6 +78,7 @@ test_that("exemplar_lists() works as expected", {
     unlist(use.names = FALSE) %>%
     expect_equivalent(c("SRB", "YGS", "ESP", "RoEUR", "World"))
 
+
   # Check Ghana. It should have the same list for every year
   el %>%
     dplyr::select(!IEATools::iea_cols$year) %>%
