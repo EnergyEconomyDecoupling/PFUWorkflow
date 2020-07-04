@@ -73,7 +73,7 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
     # Use !! for tidy evaluation.
     # See https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function
     # Need to enclose !!countries in an identity function, else it doesn't work when countries has length > 1.
-    countries = SEAPSUTWorkflow:::identity_func(!!countries),
+    countries = identity_func(!!countries),
     max_year = !!max_year,
     iea_data_path = !!iea_data_path,
     exemplar_table_path = !!exemplar_table_path,
