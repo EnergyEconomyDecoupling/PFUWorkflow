@@ -44,10 +44,12 @@
 #'
 #' @export
 #'
-#' @seealso [How to create a plan in a function](https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function),
-#'          [Best practices for unit tests on custom functions for a drake workflow](https://stackoverflow.com/questions/61220159/best-practices-for-unit-tests-on-custom-functions-for-a-drake-workflow),
-#'          [drakepkg](https://github.com/tiernanmartin/drakepkg),
-#'          [Workflows as R packages](https://books.ropensci.org/drake/projects.html#workflows-as-r-packages)
+#' @seealso
+#'
+#' * [How to create a plan in a function](https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function)
+#' * [Best practices for unit tests on custom functions for a drake workflow](https://stackoverflow.com/questions/61220159/best-practices-for-unit-tests-on-custom-functions-for-a-drake-workflow)
+#' * [drakepkg](https://github.com/tiernanmartin/drakepkg)
+#' * [Workflows as R packages](https://books.ropensci.org/drake/projects.html#workflows-as-r-packages)
 #'
 #' @examples
 #' \dontrun{
@@ -103,7 +105,6 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
                                       make_balanced(countries),
                                     dynamic = map(countries)),
     # Check that everything is balanced after balancing.
-    # balanced_after = drake::target(is_balanced(BalancedIEAData, countries), dynamic = map(countries)),
     balanced_after = drake::target(BalancedIEAData %>%
                                      is_balanced(countries),
                                    dynamic = map(countries)),

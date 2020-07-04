@@ -78,8 +78,10 @@ Note that some targets can be read using \code{readd_by_country()}, including:
 }
 }
 \seealso{
-\href{https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function}{How to create a plan in a function},
-\href{https://stackoverflow.com/questions/61220159/best-practices-for-unit-tests-on-custom-functions-for-a-drake-workflow}{Best practices for unit tests on custom functions for a drake workflow},
-\href{https://github.com/tiernanmartin/drakepkg}{drakepkg},
-\href{https://books.ropensci.org/drake/projects.html#workflows-as-r-packages}{Workflows as R packages}
+\itemize{
+\item \href{https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function}{How to create a plan in a function}
+\item \href{https://stackoverflow.com/questions/61220159/best-practices-for-unit-tests-on-custom-functions-for-a-drake-workflow}{Best practices for unit tests on custom functions for a drake workflow}
+\item \href{https://github.com/tiernanmartin/drakepkg}{drakepkg}
+\item \href{https://books.ropensci.org/drake/projects.html#workflows-as-r-packages}{Workflows as R packages}
+}
 }
