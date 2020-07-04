@@ -70,7 +70,7 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
 
     # (0) Set many arguments to be objects in the drake cache for later use
 
-    # Use !! for tidy evaluation.
+    # Use !!, for tidy evaluation, to put the arguments' values in the plan..
     # See https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function
     # Need to enclose !!countries in an identity function, else it doesn't work when countries has length > 1.
     countries = identity_func(!!countries),
@@ -84,7 +84,7 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
     AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(),
     IEAData = drake::target(extract_country_data(AllIEAData, countries, max_year), dynamic = map(countries)),
 
-    # (2) Balance all the energy data.
+    # (2) Balance all the final energy data.
 
     # First, check whether energy products are balanced. They're not.
     # FALSE indicates a country with at least one balance problem.
@@ -115,9 +115,11 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
 
     # (7) Load exemplar table
 
-    ExemplarLists = drake::target(exemplar_lists(load_exemplar_table(exemplar_table_path = exemplar_table_path), countries), dynamic = map(countries)),
+    ExemplarLists = drake::target(exemplar_lists(load_exemplar_table(exemplar_table_path = exemplar_table_path),
+                                                 countries = countries),
+                                  dynamic = map(countries)),
 
-    # (8) Form lists of exemplar tables, one for each country to be analyzed
+    # (8) Form lists of exemplar tables, one for each country and year to be analyzed.
 
 
     # (9) Complete allocation and efficiency tables
