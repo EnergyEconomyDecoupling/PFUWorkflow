@@ -21,12 +21,14 @@ Imports:
     ggplot2,
     IEATools,
     magrittr,
+    openxlsx,
     readxl,
     Recca,
     rlang, 
     tibble,
     tidyr, 
     tidyselect,
-    writexl
 Suggests: 
     testthat
+Depends: 
+    R (>= 2.10)

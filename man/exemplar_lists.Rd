@@ -6,17 +6,27 @@
 \usage{
 exemplar_lists(
   exemplar_table,
+  prev_names = SEAPSUTWorkflow::exemplar_names$prev_names,
+  exemplar_country = SEAPSUTWorkflow::exemplar_names$exemplar_country,
+  exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
+  row_code = SEAPSUTWorkflow::exemplar_names$row_code,
+  world = SEAPSUTWorkflow::exemplar_names$world,
   country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year,
-  year_temp = "Year.temp",
-  exemplars = "Exemplars",
-  prev_names = "Prev.names",
-  prev_names_list = "Prev.names.list",
-  exemplar_country = "Exemplar.country",
-  row_code = "ROW.code",
-  countries_or_group = "Country.name",
-  world = "World"
+  year_temp = ".year_temp",
+  prev_names_list = ".prev_names_list"
 )
+}
+\arguments{
+\item{exemplar_table}{An exemplar table, probably read by \code{load_exemplar_table()}.}
+
+\item{exemplars, prev_names, exemplar_country, row_code, world}{See \code{SEAPSUTWorkflow::exemplar_names}.}
+
+\item{country, year}{See \code{IEATools::iea_cols}.}
+
+\item{year_temp}{The name of a temporary year column. Default is ".year_temp".}
+
+\item{prev_names_list}{The name of a temporary column in \code{exemplar_table}. Default is ".prev_names_list".}
 }
 \value{
 A tibble containing countries and regions to be searched for missing
@@ -48,10 +58,10 @@ when searching for missing allocations and efficiencies.
 \examples{
 # Use an exemplar table that is part of this package.
 el <- exemplar_lists(load_exemplar_table()) \%>\%
-# Montenegro is a particularly interest case, as it had many name changes.
-  dplyr::filter(.data[[IEATools::iea_cols$country]] == "MNE",
+# Montenegro is a particularly interesting case, as it had many name changes.
 # Look at the first year, the last year as Yugoslavia, the first year as Serbia,
 # and today.
+  dplyr::filter(.data[[IEATools::iea_cols$country]] == "MNE",
                 .data[[IEATools::iea_cols$year]] \%in\% c(1971, 1989, 1990, 2017))
 el \%>\%
   dplyr::select(Country, Year, Country.name, Exemplar.country, ROW.code, Exemplars)

@@ -6,27 +6,19 @@
 \usage{
 load_exemplar_table(
   exemplar_table_path = sample_exemplar_table_path(),
-  exemplar_table_tab_name = "exemplar_table",
+  exemplar_table_tab_name = SEAPSUTWorkflow::exemplar_names$exemplar_tab_name,
+  prev_names = SEAPSUTWorkflow::exemplar_names$prev_names,
   country = IEATools::iea_cols$country,
-  year = IEATools::iea_cols$year,
-  prev_names = "Prev.names"
+  year = IEATools::iea_cols$year
 )
 }
 \arguments{
 \item{exemplar_table_path}{The path to the Excel file containing an exemplar table.
 Default is the value of \code{sample_exemplar_table_path()}.}
 
-\item{exemplar_table_tab_name}{The string name of the tab in the Excel file containing the exemplar table.
-Default is "exemplar_table".}
+\item{exemplar_table_tab_name, prev_names}{See \code{SEAPSUTWorkflow::exemplar_names}.}
 
-\item{country}{The name of the country column to be created.
-This column is filled with the current 3-letter ISO abbreviations for each country.
-Default is "Country".}
-
-\item{year}{The name of the year column to be created. Default is "Year".}
-
-\item{prev_names}{The name of a column of previous names used for the country.
-Default is "Prev.names".}
+\item{year, country}{See \code{IEATools::iea_cols}.}
 }
 \value{
 an exemplar table

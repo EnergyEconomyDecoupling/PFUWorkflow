@@ -27,14 +27,8 @@ sample_exemplar_table_path <- function() {
 #'
 #' @param exemplar_table_path The path to the Excel file containing an exemplar table.
 #'                            Default is the value of `sample_exemplar_table_path()`.
-#' @param exemplar_table_tab_name The string name of the tab in the Excel file containing the exemplar table.
-#'                                Default is "exemplar_table".
-#' @param year The name of the year column to be created. Default is "Year".
-#' @param country The name of the country column to be created.
-#'                This column is filled with the current 3-letter ISO abbreviations for each country.
-#'                Default is "Country".
-#' @param prev_names The name of a column of previous names used for the country.
-#'                   Default is "Prev.names".
+#' @param exemplar_table_tab_name,prev_names See `SEAPSUTWorkflow::exemplar_names`.
+#' @param year,country See `IEATools::iea_cols`.
 #'
 #' @return an exemplar table
 #'
@@ -43,10 +37,10 @@ sample_exemplar_table_path <- function() {
 #' @examples
 #' load_exemplar_table()
 load_exemplar_table <- function(exemplar_table_path = sample_exemplar_table_path(),
-                                exemplar_table_tab_name = "exemplar_table",
+                                exemplar_table_tab_name = SEAPSUTWorkflow::exemplar_names$exemplar_tab_name,
+                                prev_names = SEAPSUTWorkflow::exemplar_names$prev_names,
                                 country = IEATools::iea_cols$country,
-                                year = IEATools::iea_cols$year,
-                                prev_names = "Prev.names") {
+                                year = IEATools::iea_cols$year) {
 
   raw <- readxl::read_excel(path = exemplar_table_path, sheet = exemplar_table_tab_name)
   # Figure out year columns.
@@ -89,6 +83,12 @@ load_exemplar_table <- function(exemplar_table_path = sample_exemplar_table_path
 #' in the order they appear in the sub-list
 #' when searching for missing allocations and efficiencies.
 #'
+#' @param exemplar_table An exemplar table, probably read by `load_exemplar_table()`.
+#' @param exemplars,prev_names,exemplar_country,row_code,world See `SEAPSUTWorkflow::exemplar_names`.
+#' @param country,year See `IEATools::iea_cols`.
+#' @param year_temp The name of a temporary year column. Default is ".year_temp".
+#' @param prev_names_list The name of a temporary column in `exemplar_table`. Default is ".prev_names_list".
+#'
 #' @return A tibble containing countries and regions to be searched for missing
 #'         final-to-useful allocation data or final-to-useful efficiency data.
 #'
@@ -97,10 +97,10 @@ load_exemplar_table <- function(exemplar_table_path = sample_exemplar_table_path
 #' @examples
 #' # Use an exemplar table that is part of this package.
 #' el <- exemplar_lists(load_exemplar_table()) %>%
-#' # Montenegro is a particularly interest case, as it had many name changes.
-#'   dplyr::filter(.data[[IEATools::iea_cols$country]] == "MNE",
+#' # Montenegro is a particularly interesting case, as it had many name changes.
 #' # Look at the first year, the last year as Yugoslavia, the first year as Serbia,
 #' # and today.
+#'   dplyr::filter(.data[[IEATools::iea_cols$country]] == "MNE",
 #'                 .data[[IEATools::iea_cols$year]] %in% c(1971, 1989, 1990, 2017))
 #' el %>%
 #'   dplyr::select(Country, Year, Country.name, Exemplar.country, ROW.code, Exemplars)
@@ -109,16 +109,15 @@ load_exemplar_table <- function(exemplar_table_path = sample_exemplar_table_path
 #' el[[3, "Exemplars"]]
 #' el[[4, "Exemplars"]]
 exemplar_lists <- function(exemplar_table,
+                           prev_names = SEAPSUTWorkflow::exemplar_names$prev_names,
+                           exemplar_country = SEAPSUTWorkflow::exemplar_names$exemplar_country,
+                           exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
+                           row_code = SEAPSUTWorkflow::exemplar_names$row_code,
+                           world = SEAPSUTWorkflow::exemplar_names$world,
                            country = IEATools::iea_cols$country,
                            year = IEATools::iea_cols$year,
-                           year_temp = "Year.temp",
-                           exemplars = "Exemplars",
-                           prev_names = "Prev.names",
-                           prev_names_list = "Prev.names.list",
-                           exemplar_country = "Exemplar.country",
-                           row_code = "ROW.code",
-                           countries_or_group = "Country.name",
-                           world = "World") {
+                           year_temp = ".year_temp",
+                           prev_names_list = ".prev_names_list") {
 
   # A data frame that consists of all year and country combinations in exemplar_table
   year_country <- exemplar_table %>%
@@ -233,6 +232,8 @@ exemplar_lists <- function(exemplar_table,
 #' @param world A string indicating the world.
 #'
 #' @return A list of length 1 containing all possible exemplars, in the order in which they apply.
+#'
+#' @noRd
 build_one_exemplar_list <- function(p_names, exemp, restofworldcode, world) {
   list(c(unlist(p_names), exemp, restofworldcode, world))
 }

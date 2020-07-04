@@ -145,40 +145,19 @@ test_that("make works", {
     expect_true(!is.null(readd_by_country(target = "PSUT_final", country = "ZAF", cache_path = cache_path)))
 
     # Test the allocation and efficiency tables.
+    expect_true(!is.null(readd_by_country(target = "IncompleteAllocationTables", country = "GHA", cache_path = cache_path)))
+    expect_true(!is.null(readd_by_country(target = "IncompleteAllocationTables", country = "ZAF", cache_path = cache_path)))
+    # Check that each country is in the right target
+    readd_by_country(target = "IncompleteAllocationTables", country = "GHA", cache_path = cache_path) %>%
+      dplyr::select(IEATools::iea_cols$country) %>%
+      unique() %>% unlist() %>% unname() %>%
+      expect_equal("GHA")
+    readd_by_country(target = "IncompleteAllocationTables", country = "ZAF", cache_path = cache_path) %>%
+      dplyr::select(IEATools::iea_cols$country) %>%
+      unique() %>% unlist() %>% unname() %>%
+      expect_equal("ZAF")
 
-    # # Set up FU allocation tables. Need to split file that is stored in IEATools
-    # GHAZAF_FU_allocation_tables <- IEATools::sample_fu_allocation_table_path() %>%
-    #   openxlsx::read.xlsx()
-    # GHA_FU_allocation_table <- GHAZAF_FU_allocation_tables %>%
-    #   dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA")
-    # ZAF_FU_allocation_table <- GHAZAF_FU_allocation_tables %>%
-    #   dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF")
-    # # Set up eta FU tables. Need to split file that is stored in IEATools.
-    # GHAZAF_eta_FU_tables <- IEATools::sample_eta_fu_table_path() %>%
-    #   openxlsx::read.xlsx()
-    # GHA_FU_etas_table <- GHAZAF_eta_FU_tables %>%
-    #   dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA")
-    # ZAF_FU_etas_table <- GHAZAF_eta_FU_tables %>%
-    #   dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF")
-    #
-    # # Build FU analysis workbooks for each country.
-    # GHA_fu_wb <- openxlsx::createWorkbook()
-    # openxlsx::addWorksheet(GHA_fu_wb, "FU Allocations")
-    # openxlsx::writeData(GHA_fu_wb, "FU Allocations", GHA_FU_allocation_table)
-    # openxlsx::addWorksheet(GHA_fu_wb, "FU etas")
-    # openxlsx::writeData(GHA_fu_wb, "FU etas", GHA_FU_etas_table)
-    #
-    # ZAF_fu_wb <- openxlsx::createWorkbook()
-    # openxlsx::addWorksheet(ZAF_fu_wb, "FU Allocations")
-    # openxlsx::writeData(ZAF_fu_wb, "FU Allocations", ZAF_FU_etas_table)
-    # openxlsx::addWorksheet(ZAF_fu_wb, "FU etas")
-    # openxlsx::writeData(ZAF_fu_wb, "FU etas", ZAF_FU_etas_table)
-    #
-    # # Write the workbooks back to the temp directory.
-    # dir.create(file.path(fu_folder, "GHA"), showWarnings = FALSE)
-    # dir.create(file.path(fu_folder, "ZAF"), showWarnings = FALSE)
-    # openxlsx::saveWorkbook(GHA_fu_wb, file = file.path(fu_folder, "GHA", "GHA FU Analysis.xlsx"), overwrite = TRUE)
-    # openxlsx::saveWorkbook(ZAF_fu_wb, file = file.path(fu_folder, "ZAF", "ZAF FU Analysis.xlsx"), overwrite = TRUE)
+
 
   },
   finally = {

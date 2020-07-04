@@ -6,8 +6,7 @@
 #' @param AllIEAData A data frame containing cleaned IEA extended energy balance data.
 #' @param countries A list of 3-letter country codes for countries to be analyzed.
 #' @param max_year The latest year you want to include in the extracted data.
-#' @param country_colname The name of the country column in `AllIEAData`. Default is "Country".
-#' @param year_colname The name of the year column in `AllIEAData`. Default is "Year".
+#' @param country_colname,year_colname See `IEATools::iea_cols`.
 #'
 #' @return a data frame with the desired IEA data only
 #'
@@ -18,8 +17,8 @@
 #'   IEATools::load_tidy_iea_df() %>%
 #'   extract_country_data(countries = c("ZAF"), max_year = 1999)
 extract_country_data <- function(AllIEAData, countries, max_year,
-                                 country_colname = "Country",
-                                 year_colname = "Year") {
+                                 country_colname = IEATools::iea_cols$country,
+                                 year_colname = IEATools::iea_cols$year) {
   dplyr::filter(AllIEAData, .data[[country_colname]] %in% countries, .data[[year_colname]] <= max_year)
 }
 
