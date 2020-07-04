@@ -115,8 +115,7 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
 
     # (7) Load exemplar table
 
-    ExemplarLists = drake::target(exemplar_lists(load_exemplar_table(exemplar_table_path = exemplar_table_path))),
-
+    ExemplarLists = drake::target(exemplar_lists(load_exemplar_table(exemplar_table_path = exemplar_table_path), countries), dynamic = map(countries)),
 
     # (8) Form lists of exemplar tables, one for each country to be analyzed
 

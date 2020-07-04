@@ -171,7 +171,18 @@ test_that("make works", {
       expect_equal("ZAF")
 
     # Ensure that ExemplarLists were read correctly.
-    drake::readd(target = "ExemplarLists", path = cache_path)
+    expect_true(!is.null(readd_by_country(target = "ExemplarLists", country = "GHA", cache_path = cache_path)))
+    expect_true(!is.null(readd_by_country(target = "ExemplarLists", country = "ZAF", cache_path = cache_path)))
+    # Check that each country is in the right target
+    readd_by_country(target = "ExemplarLists", country = "GHA", cache_path = cache_path) %>%
+      dplyr::select(IEATools::iea_cols$country) %>%
+      unique() %>% unlist() %>% unname() %>%
+      expect_equal("GHA")
+    readd_by_country(target = "ExemplarLists", country = "ZAF", cache_path = cache_path) %>%
+      dplyr::select(IEATools::iea_cols$country) %>%
+      unique() %>% unlist() %>% unname() %>%
+      expect_equal("ZAF")
+
 
   },
   finally = {
