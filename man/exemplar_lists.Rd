@@ -6,6 +6,7 @@
 \usage{
 exemplar_lists(
   exemplar_table,
+  countries = NULL,
   prev_names = SEAPSUTWorkflow::exemplar_names$prev_names,
   exemplar_country = SEAPSUTWorkflow::exemplar_names$exemplar_country,
   exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
@@ -19,6 +20,8 @@ exemplar_lists(
 }
 \arguments{
 \item{exemplar_table}{An exemplar table, probably read by \code{load_exemplar_table()}.}
+
+\item{countries}{The countries for which exemplar lists are desired. Default is \code{NULL}, which returns all known countries.}
 
 \item{exemplars, prev_names, exemplar_country, row_code, world}{See \code{SEAPSUTWorkflow::exemplar_names}.}
 

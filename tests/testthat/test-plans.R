@@ -170,6 +170,9 @@ test_that("make works", {
       unique() %>% unlist() %>% unname() %>%
       expect_equal("ZAF")
 
+    # Ensure that ExemplarLists were read correctly.
+    drake::readd(target = "ExemplarLists", path = cache_path)
+
   },
   finally = {
     # Clean up the cache.

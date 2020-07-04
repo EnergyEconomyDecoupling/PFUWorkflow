@@ -27,6 +27,8 @@ sample_exemplar_table_path <- function() {
 #'
 #' @param exemplar_table_path The path to the Excel file containing an exemplar table.
 #'                            Default is the value of `sample_exemplar_table_path()`.
+#' @param countries The countries for which exemplars are desired. If `NULL`, the default,
+#'                  all countries are known returned.
 #' @param exemplar_table_tab_name,prev_names See `SEAPSUTWorkflow::exemplar_names`.
 #' @param year,country See `IEATools::iea_cols`.
 #'
@@ -37,6 +39,7 @@ sample_exemplar_table_path <- function() {
 #' @examples
 #' load_exemplar_table()
 load_exemplar_table <- function(exemplar_table_path = sample_exemplar_table_path(),
+                                countries = NULL,
                                 exemplar_table_tab_name = SEAPSUTWorkflow::exemplar_names$exemplar_tab_name,
                                 prev_names = SEAPSUTWorkflow::exemplar_names$prev_names,
                                 country = IEATools::iea_cols$country,
@@ -51,12 +54,17 @@ load_exemplar_table <- function(exemplar_table_path = sample_exemplar_table_path
     as.character()
 
   # Set the Country column from the most recent year available.
-  raw %>%
+  out <- raw %>%
     dplyr::mutate(
       "{country}" := .data[[max_year]]
     ) %>%
     # Gather columns of alternative names
     tidyr::pivot_longer(cols = tidyselect::all_of(year_columns), names_to = year, values_to = prev_names)
+  if (!is.null(countries)) {
+    out <- out %>%
+      dplyr::filter(.data[[country]] %in% countries)
+  }
+  return(out)
 }
 
 
@@ -84,6 +92,7 @@ load_exemplar_table <- function(exemplar_table_path = sample_exemplar_table_path
 #' when searching for missing allocations and efficiencies.
 #'
 #' @param exemplar_table An exemplar table, probably read by `load_exemplar_table()`.
+#' @param countries The countries for which exemplar lists are desired. Default is `NULL`, which returns all known countries.
 #' @param exemplars,prev_names,exemplar_country,row_code,world See `SEAPSUTWorkflow::exemplar_names`.
 #' @param country,year See `IEATools::iea_cols`.
 #' @param year_temp The name of a temporary year column. Default is ".year_temp".
@@ -109,6 +118,7 @@ load_exemplar_table <- function(exemplar_table_path = sample_exemplar_table_path
 #' el[[3, "Exemplars"]]
 #' el[[4, "Exemplars"]]
 exemplar_lists <- function(exemplar_table,
+                           countries = NULL,
                            prev_names = SEAPSUTWorkflow::exemplar_names$prev_names,
                            exemplar_country = SEAPSUTWorkflow::exemplar_names$exemplar_country,
                            exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
@@ -147,7 +157,7 @@ exemplar_lists <- function(exemplar_table,
       "{prev_names_list}" := list(.data[[prev_names]] %>% rev())
     )
 
-  exemplar_table %>%
+  out <- exemplar_table %>%
     # Join these lists back to the original data frame
     dplyr::left_join(with_prev_names_list, by = c(country, year)) %>%
     # Do some renaming
@@ -162,6 +172,13 @@ exemplar_lists <- function(exemplar_table,
                            restofworldcode = .data[[row_code]],
                            world = world)
     )
+
+  # filter by country, if that was requested.
+  if (!is.null(countries)) {
+    out <- out %>%
+      dplyr::filter(.data[[country]] %in% countries)
+  }
+  return(out)
 
   #
   # The following commented code actually works.

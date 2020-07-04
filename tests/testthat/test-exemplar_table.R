@@ -32,6 +32,10 @@ test_that("load_exemplar_table() works correctly", {
   expect_true("Exemplar.country" %in% cn)
   expect_true("Region.code" %in% cn)
   expect_true("Country.name" %in% cn)
+
+  # Try to load only one country.
+  et <- load_exemplar_table(countries = "ZAF")
+  expect_true(et[[IEATools::iea_cols$country]] %>% unique() == "ZAF")
 })
 
 
@@ -150,4 +154,10 @@ test_that("exemplar_lists() works as expected", {
   # Check Armenia, because it has changed over time.
   test_single_exemplar(el, "ARM", c("FSU", "ESP", "RoASA", "World"))
 
+})
+
+
+test_that("exemplar_lists() works for a single country", {
+  el <- exemplar_lists(load_exemplar_table(), countries = c("ZAF", "USA"))
+  expect_equal(el[[IEATools::iea_cols$country]] %>% unique(), c("USA", "ZAF"))
 })

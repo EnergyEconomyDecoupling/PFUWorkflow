@@ -6,6 +6,7 @@
 \usage{
 load_exemplar_table(
   exemplar_table_path = sample_exemplar_table_path(),
+  countries = NULL,
   exemplar_table_tab_name = SEAPSUTWorkflow::exemplar_names$exemplar_tab_name,
   prev_names = SEAPSUTWorkflow::exemplar_names$prev_names,
   country = IEATools::iea_cols$country,
@@ -15,6 +16,9 @@ load_exemplar_table(
 \arguments{
 \item{exemplar_table_path}{The path to the Excel file containing an exemplar table.
 Default is the value of \code{sample_exemplar_table_path()}.}
+
+\item{countries}{The countries for which exemplars are desired. If \code{NULL}, the default,
+all countries are known returned.}
 
 \item{exemplar_table_tab_name, prev_names}{See \code{SEAPSUTWorkflow::exemplar_names}.}
 
