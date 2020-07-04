@@ -4,14 +4,14 @@
 \alias{make_psut}
 \title{Convert to PSUT matrices}
 \usage{
-make_psut(SpecifiedIEAData, countries, country_colname = "Country")
+make_psut(SpecifiedIEAData, countries, country = IEATools::iea_cols$country)
 }
 \arguments{
 \item{SpecifiedIEAData}{A data frame that has already been specified via \code{specify()}.}
 
 \item{countries}{The countries you want to convert to PSUT matrices.}
 
-\item{country_colname}{The name of the country column in \code{SpecifiedIEAData}. Default is "Country".}
+\item{country}{See \code{IEATools::iea_cols}.}
 }
 \value{
 a \code{matsindf}-style data frame

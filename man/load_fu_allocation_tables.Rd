@@ -16,17 +16,17 @@ load_fu_allocation_tables(
 
 \item{countries}{The countries for which allocation tables should be loaded.}
 
-\item{use_subfolders}{Tells whether to look for files in subfolders named by \code{countries}.}
+\item{file_suffix}{The suffix for the FU analysis files. Default is " FU Analysis.xlsx".}
 
-\item{FU_analysis_file_suffix}{The suffix for the FU analysis files. Default is " FU Analysis.xlsx".}
+\item{use_subfolders}{Tells whether to look for files in subfolders named by \code{countries}.}
 }
 \value{
-A list of FU Allocation tables ready by \code{IEATools::load_fu_allocation_data()}.
+A data frame of FU Allocation tables read by \code{IEATools::load_fu_allocation_data()}.
 }
 \description{
 This function reads all files in the \code{fu_analysis_folder} that start with the country prefixes
 given in \code{countries}.
 By default, it is assumed that each country's final-to-useful analysis file will be in a subfolder
 of \code{fu_analysis_path}.
-Set \code{use_subfolders} to \code{FALSE} to change behavior.
+Set \code{use_subfolders} to \code{FALSE} to change the default behavior.
 }

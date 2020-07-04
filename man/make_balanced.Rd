@@ -7,8 +7,9 @@
 make_balanced(
   IEAData,
   countries,
-  grp_vars = c("Country", "Method", "Energy.type", "Last.stage", "Year", "Product"),
-  country_colname = "Country"
+  country = IEATools::iea_cols$country,
+  grp_vars = c(country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type,
+    IEATools::iea_cols$last_stage, IEATools::iea_cols$year, IEATools::iea_cols$product)
 )
 }
 \arguments{
@@ -16,10 +17,10 @@ make_balanced(
 
 \item{countries}{The countries that should be balanced}
 
-\item{grp_vars}{The groups that should be checked for energy balance.
-Default is \code{c("Country", "Method", "Energy.type", "Last.stage", "Product")}.}
+\item{country}{See \code{IEATools::iea_cols}}
 
-\item{country_colname}{The name of the country column in \code{IEAData}. Default is "Country".}
+\item{grp_vars}{the groups that should be checked. Default is
+\code{c(country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type, IEATools::iea_cols$last_stage, IEATools::iea_cols$product)}.}
 }
 \value{
 balanced IEA data
@@ -27,7 +28,7 @@ balanced IEA data
 \description{
 Balances the IEA data in a way that is amenable to drake subtargets.
 Internally, this function uses \code{IEATools::fix_tidy_iea_df_balances()}.
-Grouping is doing internal to this function using the value of \code{grp_vars}.
+Grouping is done internal to this function using the value of \code{grp_vars}.
 }
 \examples{
 IEATools::sample_iea_data_path() \%>\%

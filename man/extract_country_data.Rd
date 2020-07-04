@@ -8,8 +8,8 @@ extract_country_data(
   AllIEAData,
   countries,
   max_year,
-  country_colname = IEATools::iea_cols$country,
-  year_colname = IEATools::iea_cols$year
+  country = IEATools::iea_cols$country,
+  year = IEATools::iea_cols$year
 )
 }
 \arguments{
@@ -19,7 +19,7 @@ extract_country_data(
 
 \item{max_year}{The latest year you want to include in the extracted data.}
 
-\item{country_colname, year_colname}{See \code{IEATools::iea_cols}.}
+\item{country, year}{See \code{IEATools::iea_cols}.}
 }
 \value{
 a data frame with the desired IEA data only

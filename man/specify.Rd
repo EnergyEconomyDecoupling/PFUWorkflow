@@ -4,14 +4,14 @@
 \alias{specify}
 \title{Specify the IEA data}
 \usage{
-specify(BalancedIEAData, countries, country_colname = "Country")
+specify(BalancedIEAData, countries, country = "Country")
 }
 \arguments{
 \item{BalancedIEAData}{IEA data that have already been balanced}
 
 \item{countries}{the countries for which specification should occur}
 
-\item{country_colname}{The name of the country column in \code{BalancedIEAData}. Default is "Country".}
+\item{country}{See \code{IEATools::iea_cols}.}
 }
 \value{
 a data frame of specified IEA data
