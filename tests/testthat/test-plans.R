@@ -144,7 +144,7 @@ test_that("make works", {
     # Check making PSUT matrices, reading by country.
     expect_true(!is.null(readd_by_country(target = "PSUT_final", country = "ZAF", cache_path = cache_path)))
 
-    # Test the allocation and efficiency tables.
+    # Test allocation tables.
     expect_true(!is.null(readd_by_country(target = "IncompleteAllocationTables", country = "GHA", cache_path = cache_path)))
     expect_true(!is.null(readd_by_country(target = "IncompleteAllocationTables", country = "ZAF", cache_path = cache_path)))
     # Check that each country is in the right target
@@ -157,7 +157,18 @@ test_that("make works", {
       unique() %>% unlist() %>% unname() %>%
       expect_equal("ZAF")
 
-
+    # Test efficiency tables.
+    expect_true(!is.null(readd_by_country(target = "IncompleteEfficiencyTables", country = "GHA", cache_path = cache_path)))
+    expect_true(!is.null(readd_by_country(target = "IncompleteEfficiencyTables", country = "ZAF", cache_path = cache_path)))
+    # Check that each country is in the right target
+    readd_by_country(target = "IncompleteEfficiencyTables", country = "GHA", cache_path = cache_path) %>%
+      dplyr::select(IEATools::iea_cols$country) %>%
+      unique() %>% unlist() %>% unname() %>%
+      expect_equal("GHA")
+    readd_by_country(target = "IncompleteEfficiencyTables", country = "ZAF", cache_path = cache_path) %>%
+      dplyr::select(IEATools::iea_cols$country) %>%
+      unique() %>% unlist() %>% unname() %>%
+      expect_equal("ZAF")
 
   },
   finally = {

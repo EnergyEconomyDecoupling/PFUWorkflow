@@ -107,15 +107,15 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
 
     # (5) Load incomplete FU allocation tables
 
-    IncompleteAllocationTables = drake::target(load_fu_allocation_tables(fu_analysis_folder, countries), dynamic = map(countries))
-
+    IncompleteAllocationTables = drake::target(load_fu_allocation_tables(fu_analysis_folder, countries), dynamic = map(countries)),
 
     # (6) Load incomplete FU efficiency tables
 
+    IncompleteEfficiencyTables = drake::target(load_fu_efficiency_tables(fu_analysis_folder, countries), dynamic = map(countries))
 
     # (7) Load exemplar table
 
-    # ExemplarLists = drake::target(exemplar_lists(load_exemplar_table(exemplar_table_path = exemplar_table_path)))
+    # ExemplarLists = drake::target(exemplar_lists(load_exemplar_table(exemplar_table_path = exemplar_table_path))),
 
 
     # (8) Form lists of exemplar tables, one for each country to be analyzed
@@ -152,5 +152,13 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
 }
 
 
-# A dummy function to allow !! to work for countries.
-identity_func <- function(x) {x}
+#' A dummy function to allow `!!` to work for countries.
+#'
+#' @param x The argument.
+#'
+#' @return `x`, unaltered.
+#' @export
+#' @noRd
+identity_func <- function(x) {
+  return(x)
+}
