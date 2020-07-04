@@ -122,7 +122,7 @@ path information stored in the drake cache.</p>
 
     <pre class="usage"><span class='fu'>generate_eta_fu_template</span>(
   <span class='no'>country</span>,
-  <span class='kw'>country_col</span> <span class='kw'>=</span> <span class='st'>"Country"</span>,
+  <span class='kw'>country_col</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>country</span>,
   <span class='kw'>cache_path</span> <span class='kw'>=</span> <span class='st'>".drake/"</span>,
   <span class='kw'>fu_analysis_path_target</span> <span class='kw'>=</span> <span class='st'>"fu_analysis_folder"</span>,
   <span class='kw'>fu_allocation_table_file_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='no'>country</span>, <span class='st'>" FU Analysis"</span>),
@@ -149,7 +149,7 @@ path information stored in the drake cache.</p>
     <tr>
       <th>country_col</th>
       <td><p>A string containing the name of the country column in the final-to-useful allocation table.
-Default is "Country".</p></td>
+Default is <code>IEATools::iea_cols$country</code>.</p></td>
     </tr>
     <tr>
       <th>cache_path</th>

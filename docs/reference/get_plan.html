@@ -119,24 +119,17 @@ which the maximum year to be analyzed.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_plan</span>(
-  <span class='no'>iea_data_path</span>,
-  <span class='no'>fu_analysis_folder</span>,
   <span class='no'>countries</span>,
   <span class='no'>max_year</span>,
-  <span class='kw'>how_far</span> <span class='kw'>=</span> <span class='st'>"all_targets"</span>
+  <span class='kw'>how_far</span> <span class='kw'>=</span> <span class='st'>"all_targets"</span>,
+  <span class='no'>iea_data_path</span>,
+  <span class='no'>exemplar_table_path</span>,
+  <span class='no'>fu_analysis_folder</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>iea_data_path</th>
-      <td><p>The path to IEA extended energy balance data in .csv format.</p></td>
-    </tr>
-    <tr>
-      <th>fu_analysis_folder</th>
-      <td><p>The path to a folder containing final-to-useful analyses.</p></td>
-    </tr>
     <tr>
       <th>countries</th>
       <td><p>A vector of country abbreviations to be analyzed, such as "c('GHA', 'ZAF')".</p></td>
@@ -147,8 +140,21 @@ which the maximum year to be analyzed.</p>
     </tr>
     <tr>
       <th>how_far</th>
-      <td><p>Tells the last target to include in the plan that is returned.
+      <td><p>A string indicating the last target to include in the plan that is returned.
 Default is "all_targets" to indicate all targets of the plan should be returned.</p></td>
+    </tr>
+    <tr>
+      <th>iea_data_path</th>
+      <td><p>The path to IEA extended energy balance data in .csv format.</p></td>
+    </tr>
+    <tr>
+      <th>exemplar_table_path</th>
+      <td><p>The path to an exemplar table.</p></td>
+    </tr>
+    <tr>
+      <th>fu_analysis_folder</th>
+      <td><p>The path to a folder containing final-to-useful analyses.
+Sub-folders named with 3-letter country abbreviations are assumed.</p></td>
     </tr>
     </table>
 
@@ -186,10 +192,11 @@ Results can be recovered with
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
   <span class='no'>td</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-  <span class='fu'>get_plan</span>(<span class='kw'>iea_data_path</span> <span class='kw'>=</span> <span class='st'>"mypath"</span>,
-           <span class='kw'>fu_analysis_folder</span> <span class='kw'>=</span> <span class='no'>td</span>,
-           <span class='kw'>countries</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span>),
-           <span class='kw'>max_year</span> <span class='kw'>=</span> <span class='fl'>1999</span>)
+  <span class='fu'>get_plan</span>(<span class='kw'>countries</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span>),
+           <span class='kw'>max_year</span> <span class='kw'>=</span> <span class='fl'>1999</span>,
+           <span class='kw'>iea_data_path</span> <span class='kw'>=</span> <span class='st'>"mypath"</span>,
+           <span class='kw'>exemplar_table_path</span> <span class='kw'>=</span> <span class='st'>"exemplarpath"</span>,
+           <span class='kw'>fu_analysis_folder</span> <span class='kw'>=</span> <span class='no'>td</span>)
   <span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(<span class='no'>td</span>)
 }</div></pre>
   </div>

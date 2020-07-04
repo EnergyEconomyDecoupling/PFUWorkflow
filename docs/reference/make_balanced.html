@@ -42,7 +42,7 @@
 <meta property="og:title" content="Balance IEA data — make_balanced" />
 <meta property="og:description" content="Balances the IEA data in a way that is amenable to drake subtargets.
 Internally, this function uses IEATools::fix_tidy_iea_df_balances().
-Grouping is doing internal to this function using the value of grp_vars." />
+Grouping is done internal to this function using the value of grp_vars." />
 
 
 
@@ -113,14 +113,15 @@ Grouping is doing internal to this function using the value of grp_vars." />
     <div class="ref-description">
     <p>Balances the IEA data in a way that is amenable to drake subtargets.
 Internally, this function uses <code><a href='https://rdrr.io/pkg/IEATools/man/fix_tidy_iea_df_balances.html'>IEATools::fix_tidy_iea_df_balances()</a></code>.
-Grouping is doing internal to this function using the value of <code>grp_vars</code>.</p>
+Grouping is done internal to this function using the value of <code>grp_vars</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>make_balanced</span>(
   <span class='no'>IEAData</span>,
   <span class='no'>countries</span>,
-  <span class='kw'>grp_vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Country"</span>, <span class='st'>"Method"</span>, <span class='st'>"Energy.type"</span>, <span class='st'>"Last.stage"</span>, <span class='st'>"Year"</span>, <span class='st'>"Product"</span>),
-  <span class='kw'>country_colname</span> <span class='kw'>=</span> <span class='st'>"Country"</span>
+  <span class='kw'>country</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>country</span>,
+  <span class='kw'>grp_vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>country</span>, <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>method</span>, <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>energy_type</span>,
+    <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>last_stage</span>, <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>year</span>, <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>product</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -135,13 +136,13 @@ Grouping is doing internal to this function using the value of <code>grp_vars</c
       <td><p>The countries that should be balanced</p></td>
     </tr>
     <tr>
-      <th>grp_vars</th>
-      <td><p>The groups that should be checked for energy balance.
-Default is <code><a href='https://rdrr.io/r/base/c.html'>c("Country", "Method", "Energy.type", "Last.stage", "Product")</a></code>.</p></td>
+      <th>country</th>
+      <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>IEATools::iea_cols</a></code></p></td>
     </tr>
     <tr>
-      <th>country_colname</th>
-      <td><p>The name of the country column in <code>IEAData</code>. Default is "Country".</p></td>
+      <th>grp_vars</th>
+      <td><p>the groups that should be checked. Default is
+<code><a href='https://rdrr.io/r/base/c.html'>c(country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type, IEATools::iea_cols$last_stage, IEATools::iea_cols$product)</a></code>.</p></td>
     </tr>
     </table>
 

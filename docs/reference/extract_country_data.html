@@ -118,8 +118,8 @@ dplyr::filter() does the subsetting." />
   <span class='no'>AllIEAData</span>,
   <span class='no'>countries</span>,
   <span class='no'>max_year</span>,
-  <span class='kw'>country_colname</span> <span class='kw'>=</span> <span class='st'>"Country"</span>,
-  <span class='kw'>year_colname</span> <span class='kw'>=</span> <span class='st'>"Year"</span>
+  <span class='kw'>country</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>country</span>,
+  <span class='kw'>year</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>year</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -138,12 +138,8 @@ dplyr::filter() does the subsetting." />
       <td><p>The latest year you want to include in the extracted data.</p></td>
     </tr>
     <tr>
-      <th>country_colname</th>
-      <td><p>The name of the country column in <code>AllIEAData</code>. Default is "Country".</p></td>
-    </tr>
-    <tr>
-      <th>year_colname</th>
-      <td><p>The name of the year column in <code>AllIEAData</code>. Default is "Year".</p></td>
+      <th>country, year</th>
+      <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>IEATools::iea_cols</a></code>.</p></td>
     </tr>
     </table>
 

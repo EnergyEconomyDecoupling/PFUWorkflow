@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • SEAPSUTWorkflow</title>
+<title>Load FU efficiency tables — load_fu_efficiency_tables • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Load FU efficiency tables — load_fu_efficiency_tables" />
+<meta property="og:description" content="This function reads all final-to-useful efficiency data
+in files in the fu_analysis_folder that start with the country prefixes
+given in countries." />
 
 
 
@@ -58,7 +61,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -100,132 +103,57 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Load FU efficiency tables</h1>
+    
+    <div class="hidden name"><code>load_fu_efficiency_tables.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>This function reads all final-to-useful efficiency data
+in files in the <code>fu_analysis_folder</code> that start with the country prefixes
+given in <code>countries</code>.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>load_fu_efficiency_tables</span>(
+  <span class='no'>fu_analysis_folder</span>,
+  <span class='no'>countries</span>,
+  <span class='kw'>file_suffix</span> <span class='kw'>=</span> <span class='st'>" FU Analysis.xlsx"</span>,
+  <span class='kw'>use_subfolders</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="dir.create.pipe.html">dir.create.pipe()</a></code> </p>
-        </td>
-        <td><p>Pipe-amenable directory creation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="exemplar_lists.html">exemplar_lists()</a></code> </p>
-        </td>
-        <td><p>Create exemplar lists from an exemplar table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="exemplar_names.html">exemplar_names</a></code> </p>
-        </td>
-        <td><p>Exemplar table names</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_country_data.html">extract_country_data()</a></code> </p>
-        </td>
-        <td><p>Extract specific country data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="generate_eta_fu_template.html">generate_eta_fu_template()</a></code> </p>
-        </td>
-        <td><p>Create a final-to-useful efficiencies template</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="generate_fu_allocation_template.html">generate_fu_allocation_template()</a></code> </p>
-        </td>
-        <td><p>Create a final-to-useful allocation template</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_plan.html">get_plan()</a></code> </p>
-        </td>
-        <td><p>Create a drake plan for societal exergy analysis</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="is_balanced.html">is_balanced()</a></code> </p>
-        </td>
-        <td><p>Tells whether IEA data are balanced</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="load_exemplar_table.html">load_exemplar_table()</a></code> </p>
-        </td>
-        <td><p>Read an exemplar table from an Excel file</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="load_fu_allocation_tables.html">load_fu_allocation_tables()</a></code> </p>
-        </td>
-        <td><p>Load FU allocation tables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="load_fu_efficiency_tables.html">load_fu_efficiency_tables()</a></code> </p>
-        </td>
-        <td><p>Load FU efficiency tables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="make_balanced.html">make_balanced()</a></code> </p>
-        </td>
-        <td><p>Balance IEA data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="make_psut.html">make_psut()</a></code> </p>
-        </td>
-        <td><p>Convert to PSUT matrices</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="readd_by_country.html">readd_by_country()</a></code> </p>
-        </td>
-        <td><p>Read a subtarget based on country</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sample_exemplar_table_path.html">sample_exemplar_table_path()</a></code> </p>
-        </td>
-        <td><p>Gives a file path to a sample exemplar table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="specify.html">specify()</a></code> </p>
-        </td>
-        <td><p>Specify the IEA data</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>fu_analysis_folder</th>
+      <td><p>The folder from which final-to-useful analyses will be loaded.</p></td>
+    </tr>
+    <tr>
+      <th>countries</th>
+      <td><p>The countries for which allocation tables should be loaded.</p></td>
+    </tr>
+    <tr>
+      <th>file_suffix</th>
+      <td><p>The suffix for the FU analysis files. Default is " FU Analysis.xlsx".</p></td>
+    </tr>
+    <tr>
+      <th>use_subfolders</th>
+      <td><p>Tells whether to look for files in subfolders named by <code>countries</code>.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A data frame of FU efficiency tables read by <code><a href='https://rdrr.io/pkg/IEATools/man/load_eta_fu_data.html'>IEATools::load_eta_fu_data()</a></code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>By default, it is assumed that each country's final-to-useful analysis file will be in a subfolder
+of <code>fu_analysis_path</code>.
+Set <code>use_subfolders</code> to <code>FALSE</code> to change the default behavior.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

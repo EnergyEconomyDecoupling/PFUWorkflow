@@ -72,8 +72,8 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
 
     # Use !!, for tidy evaluation, to put the arguments' values in the plan..
     # See https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function
-    # Need to enclose !!countries in an identity function, else it doesn't work when countries has length > 1.
-    countries = identity_func(!!countries),
+    # Need to enclose !!countries in c() (or an identity function), else it doesn't work when countries has length > 1.
+    countries = c(!!countries),
     max_year = !!max_year,
     iea_data_path = !!iea_data_path,
     exemplar_table_path = !!exemplar_table_path,
@@ -153,13 +153,3 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
 }
 
 
-#' A dummy function to allow `!!` to work for countries.
-#'
-#' @param x The argument.
-#'
-#' @return `x`, unaltered.
-#' @export
-#' @noRd
-identity_func <- function(x) {
-  return(x)
-}
