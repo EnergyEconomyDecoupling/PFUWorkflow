@@ -44,6 +44,11 @@
 #'
 #' @export
 #'
+#' @seealso [How to create a plan in a function](https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function),
+#'          [Best practices for unit tests on custom functions for a drake workflow](https://stackoverflow.com/questions/61220159/best-practices-for-unit-tests-on-custom-functions-for-a-drake-workflow),
+#'          [drakepkg](https://github.com/tiernanmartin/drakepkg),
+#'          [Workflows as R packages](https://books.ropensci.org/drake/projects.html#workflows-as-r-packages)
+#'
 #' @examples
 #' \dontrun{
 #'   td <- tempdir()
@@ -82,41 +87,59 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
     # (1) Grab all the IEA data for ALL countries
 
     AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(),
-    IEAData = drake::target(extract_country_data(AllIEAData, countries, max_year), dynamic = map(countries)),
+    IEAData = drake::target(AllIEAData %>%
+                              extract_country_data(countries, max_year),
+                            dynamic = map(countries)),
 
     # (2) Balance all the final energy data.
 
     # First, check whether energy products are balanced. They're not.
     # FALSE indicates a country with at least one balance problem.
-    balanced_before = drake::target(is_balanced(IEAData, countries), dynamic = map(countries)),
+    balanced_before = drake::target(IEAData %>%
+                                      is_balanced(countries),
+                                    dynamic = map(countries)),
     # Balance all of the data by product and year.
-    BalancedIEAData = drake::target(make_balanced(IEAData, countries), dynamic = map(countries)),
+    BalancedIEAData = drake::target(IEAData %>%
+                                      make_balanced(countries),
+                                    dynamic = map(countries)),
     # Check that everything is balanced after balancing.
-    balanced_after = drake::target(is_balanced(BalancedIEAData, countries), dynamic = map(countries)),
+    # balanced_after = drake::target(is_balanced(BalancedIEAData, countries), dynamic = map(countries)),
+    balanced_after = drake::target(BalancedIEAData %>%
+                                     is_balanced(countries),
+                                   dynamic = map(countries)),
     # Don't continue if there is a problem.
     # stopifnot returns NULL if everything is OK.
     OKToProceed = ifelse(is.null(stopifnot(all(balanced_after))), yes = TRUE, no = FALSE),
 
     # (3) Specify the BalancedIEAData data frame by being more careful with names, etc.
 
-    Specified = drake::target(specify(BalancedIEAData, countries), dynamic = map(countries)),
+    Specified = drake::target(BalancedIEAData %>%
+                                specify(countries),
+                              dynamic = map(countries)),
 
     # (4) Arrange all the data into PSUT matrices with final stage data.
 
-    PSUT_final = drake::target(make_psut(Specified, countries), dynamic = map(countries)),
+    PSUT_final = drake::target(Specified %>%
+                                 make_psut(countries),
+                               dynamic = map(countries)),
 
     # (5) Load incomplete FU allocation tables
 
-    IncompleteAllocationTables = drake::target(load_fu_allocation_tables(fu_analysis_folder, countries), dynamic = map(countries)),
+    IncompleteAllocationTables = drake::target(fu_analysis_folder %>%
+                                                 load_fu_allocation_tables(countries),
+                                               dynamic = map(countries)),
 
     # (6) Load incomplete FU efficiency tables
 
-    IncompleteEfficiencyTables = drake::target(load_fu_efficiency_tables(fu_analysis_folder, countries), dynamic = map(countries)),
+    IncompleteEfficiencyTables = drake::target(fu_analysis_folder %>%
+                                                 load_fu_efficiency_tables(countries),
+                                               dynamic = map(countries)),
 
-    # (7) Load exemplar table
+    # (7) Load exemplar table and make lists for each country and year
 
-    ExemplarLists = drake::target(exemplar_lists(load_exemplar_table(exemplar_table_path = exemplar_table_path),
-                                                 countries = countries),
+    ExemplarLists = drake::target(exemplar_table_path %>%
+                                    load_exemplar_table(countries) %>%
+                                    exemplar_lists(countries),
                                   dynamic = map(countries)),
 
     # (8) Form lists of exemplar tables, one for each country and year to be analyzed.
