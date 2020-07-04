@@ -167,6 +167,7 @@ exemplar_lists <- function(exemplar_table,
   # The following commented code actually works.
   # But the approach above is MUCH faster.
   # The commented code below can be deleted after, say, August 2020.
+  # ---MKH
   #
 
   # # Figure out all previous names for each country.

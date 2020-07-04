@@ -116,7 +116,7 @@ make_balanced <- function(IEAData,
 #'   specify(countries = c("GHA", "ZAF"))
 specify <- function(BalancedIEAData,
                     countries,
-                    country = "Country") {
+                    country = IEATools::iea_cols$country) {
   dplyr::filter(BalancedIEAData, .data[[country]] %in% countries) %>%
     IEATools::specify_all()
 }

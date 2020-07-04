@@ -63,7 +63,7 @@ generate_fu_allocation_template <- function(country,
 #'
 #' @param country A string of the 3-letter ISO country code
 #' @param country_col A string containing the name of the country column in the final-to-useful allocation table.
-#'                    Default is "Country".
+#'                    Default is `IEATools::iea_cols$country`.
 #' @param cache_path The path to the drake cache. Default is ".drake/".
 #' @param fu_analysis_path_target The name of the target in the drake cache containing path to the final-to-useful analyses.
 #'                                Default is "fu_analysis_folder".
@@ -86,7 +86,7 @@ generate_fu_allocation_template <- function(country,
 #'
 #' @export
 generate_eta_fu_template <- function(country,
-                                     country_col = "Country",
+                                     country_col = IEATools::iea_cols$country,
                                      cache_path = ".drake/",
                                      fu_analysis_path_target = "fu_analysis_folder",
                                      fu_allocation_table_file_name = paste0(country, " FU Analysis"),

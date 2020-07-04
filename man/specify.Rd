@@ -4,7 +4,7 @@
 \alias{specify}
 \title{Specify the IEA data}
 \usage{
-specify(BalancedIEAData, countries, country = "Country")
+specify(BalancedIEAData, countries, country = IEATools::iea_cols$country)
 }
 \arguments{
 \item{BalancedIEAData}{IEA data that have already been balanced}
