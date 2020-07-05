@@ -66,3 +66,23 @@ load_fu_efficiency_tables <- function(fu_analysis_folder,
 }
 
 
+assemble_fu_allocation_tables <- function(fu_analysis_folder,
+                                          countries,
+                                          exemplar_lists,
+                                          file_suffix = " FU Analysis.xlsx",
+                                          use_subfolders = TRUE,
+                                          cache_path = ".drake/",
+                                          name_of_iea_data_object = "Specified") {
+  # Try to load FU allocation tables for each of the countries from disk
+
+  # Note: Need to write a function that determines if a FU allocation table is complete or not.
+  # If the FU allocation table doesn't exist OR if the FU allocation table isn't complete,
+    # Load all possible FU allocation exemplar tables from the cache
+      # If no FU allocation exemplar tables are present in the cache, fail.
+      # If any of the FU allocation exemplar tables are missing from the cache, emit a warning.
+    # Complete the country's FU allocation table.
+    # Write the FU allocation table to a different file on disk and stop. This step will require manual intervention to move the completed table into the "* FU Analysis.xlsx" file.
+
+  # If the FU allocation table is present and complete, put the FU allocation table into the cache.
+
+}
