@@ -85,7 +85,7 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                iea_data_path = IEATools::sample_iea_data_path(),
                                sample_fu_allocation_table_path = IEATools::sample_fu_allocation_table_path(),
                                exemplar_table_path = sample_exemplar_table_path(),
-                               fu_analysis_folder = tempdir("FU_analysis_folder_for_testing"),
+                               fu_analysis_folder = tempdir(),
                                cache_path = tempfile("drake_cache_for_testing")) {
   set_up_temp_fu_analyses(fu_analysis_folder)
   plan <- get_plan(countries = countries,

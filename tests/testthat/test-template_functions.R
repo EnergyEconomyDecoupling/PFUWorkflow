@@ -25,7 +25,6 @@ test_that("generate_*_template works as expected", {
     file.remove(eff_template)
 
   }, finally = {
-    SEAPSUTWorkflow:::clean_up_after_testing(temp_cache = testing_setup$temp_cache,
-                                             cache_path = testing_setup$cache_path)
+    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
   })
 })
