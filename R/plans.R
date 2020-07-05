@@ -7,9 +7,11 @@
 #'
 #' The return value is a `drake` plan object with the following targets:
 #'
-#' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
 #' * `countries`: The countries to be analyzed, supplied in the `countries` argument.
 #' * `max_year`: The maximum year to be analyzed, supplied in the `max_year` argument.
+#' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
+#' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.
+#' * `fu_analysis_folder`: The path to the final-to-useful analysis folder, supplied in the `fu_analysis_folder` argument.
 #' * `AllIEAData`: A data frame with all IEA extended energy balance data read from `iea_data_path`.
 #' * `IEAData`: A version of the `AllIEAData` data frame containing data for only those countries specified in `countries`.
 #' * `balanced_before`: A boolean that tells where the data were balanced as received, usually a vector of `FALSE`, one for each country.
@@ -18,6 +20,9 @@
 #' * `OKToProceed`: `NULL` means everything is balanced and proceeding is OK.
 #' * `Specified`: A data frame with specified industries. See `IEATools::specify_all()`.
 #' * `PSUT_final`: A data frame containing PSUT matrices up to the final stage.
+#' * `IncompleteAllocationTables`: A data frame containing final-to-useful allocation tables.
+#' * `IncompleteEfficiencyTables`: A data frame containing final-to-useful effiiency tables.
+#' * `ExemplarLists`: A data frame containing lists of exemplar countries on a per-country, per-year basis.
 #'
 #' Callers can execute the plan by calling `drake::make(plan)`.
 #' Results can be recovered with
@@ -28,8 +33,11 @@
 #' * `AllIEAData`,
 #' * `IEAData`,
 #' * `BalancedIEAData`,
-#' * `Specified`, and
-#' * `PSUT_final`.
+#' * `Specified`,
+#' * `PSUT_final`,
+#' * `IncompleteAllocationTables`,
+#' * `IncompleteEfficiencyTables`, and
+#' * `ExemplarLists`.
 #'
 #' @param countries A vector of country abbreviations to be analyzed, such as "c('GHA', 'ZAF')".
 #' @param max_year The last year to be studied, typically the last year for which data are available.
@@ -52,15 +60,11 @@
 #' * [Workflows as R packages](https://books.ropensci.org/drake/projects.html#workflows-as-r-packages)
 #'
 #' @examples
-#' \dontrun{
-#'   td <- tempdir()
-#'   get_plan(countries = c("GHA", "ZAF"),
-#'            max_year = 1999,
-#'            iea_data_path = "mypath",
-#'            exemplar_table_path = "exemplarpath",
-#'            fu_analysis_folder = td)
-#'   unlink(td)
-#' }
+#' get_plan(countries = c("GHA", "ZAF"),
+#'          max_year = 1999,
+#'          iea_data_path = "iea_path",
+#'          exemplar_table_path = "exemplar_path",
+#'          fu_analysis_folder = "fu_folder")
 get_plan <- function(countries, max_year, how_far = "all_targets",
                      iea_data_path, exemplar_table_path, fu_analysis_folder) {
 

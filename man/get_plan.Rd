@@ -40,9 +40,11 @@ which the maximum year to be analyzed.
 \details{
 The return value is a \code{drake} plan object with the following targets:
 \itemize{
-\item \code{iea_data_path}: The path to IEA extended energy balance data, supplied in the \code{iea_data_path} argument.
 \item \code{countries}: The countries to be analyzed, supplied in the \code{countries} argument.
 \item \code{max_year}: The maximum year to be analyzed, supplied in the \code{max_year} argument.
+\item \code{iea_data_path}: The path to IEA extended energy balance data, supplied in the \code{iea_data_path} argument.
+\item \code{exemplar_table_path}: The path to an exemplar table, supplied in the \code{exemplar_table_path} argument.
+\item \code{fu_analysis_folder}: The path to the final-to-useful analysis folder, supplied in the \code{fu_analysis_folder} argument.
 \item \code{AllIEAData}: A data frame with all IEA extended energy balance data read from \code{iea_data_path}.
 \item \code{IEAData}: A version of the \code{AllIEAData} data frame containing data for only those countries specified in \code{countries}.
 \item \code{balanced_before}: A boolean that tells where the data were balanced as received, usually a vector of \code{FALSE}, one for each country.
@@ -51,6 +53,9 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{OKToProceed}: \code{NULL} means everything is balanced and proceeding is OK.
 \item \code{Specified}: A data frame with specified industries. See \code{IEATools::specify_all()}.
 \item \code{PSUT_final}: A data frame containing PSUT matrices up to the final stage.
+\item \code{IncompleteAllocationTables}: A data frame containing final-to-useful allocation tables.
+\item \code{IncompleteEfficiencyTables}: A data frame containing final-to-useful effiiency tables.
+\item \code{ExemplarLists}: A data frame containing lists of exemplar countries on a per-country, per-year basis.
 }
 
 Callers can execute the plan by calling \code{drake::make(plan)}.
@@ -62,20 +67,19 @@ Note that some targets can be read using \code{readd_by_country()}, including:
 \item \code{AllIEAData},
 \item \code{IEAData},
 \item \code{BalancedIEAData},
-\item \code{Specified}, and
-\item \code{PSUT_final}.
+\item \code{Specified},
+\item \code{PSUT_final},
+\item \code{IncompleteAllocationTables},
+\item \code{IncompleteEfficiencyTables}, and
+\item \code{ExemplarLists}.
 }
 }
 \examples{
-\dontrun{
-  td <- tempdir()
-  get_plan(countries = c("GHA", "ZAF"),
-           max_year = 1999,
-           iea_data_path = "mypath",
-           exemplar_table_path = "exemplarpath",
-           fu_analysis_folder = td)
-  unlink(td)
-}
+get_plan(countries = c("GHA", "ZAF"),
+         max_year = 1999,
+         iea_data_path = "iea_path",
+         exemplar_table_path = "exemplar_path",
+         fu_analysis_folder = "fu_folder")
 }
 \seealso{
 \itemize{
