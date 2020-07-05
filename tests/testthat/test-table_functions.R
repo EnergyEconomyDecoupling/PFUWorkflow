@@ -1,7 +1,7 @@
 test_that("load_fu_allocation_tables() works for a non-existent country", {
 
   # Create a directory structure in a tempdir for the allocation tables
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "Specified")
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "fu_analysis_folder")
 
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
