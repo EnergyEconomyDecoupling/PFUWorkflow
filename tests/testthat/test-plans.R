@@ -52,30 +52,15 @@ test_that("keeping only some rows of a plan works", {
 
 
 test_that("make works", {
+
   testing_setup <- SEAPSUTWorkflow:::set_up_for_testing()
 
-  # cache_path <- tempfile("drake_cache_for_testing")
-  # fu_folder <- tempdir("FU_folder_for_testing")
-  # plan <- get_plan(countries = c("GHA", "ZAF"),
-  #                  max_year = 2000,
-  #                  iea_data_path = IEATools::sample_iea_data_path(),
-  #                  exemplar_table_path = sample_exemplar_table_path(),
-  #                  fu_analysis_folder = fu_folder)
-
-  # Set up FU allocation and efficiency tables in the temporary directory
-  # set_up_temp_fu_analyses(fu_folder)
-
-
   tryCatch({
-    # Create a fake drake plan
-    # temp_cache <- drake::new_cache(path = cache_path)
 
-    # Make the plan in the temp_cache
-    # drake::make(plan, cache = temp_cache, verbose = 0)
     # Make the plan in the temp_cache
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
 
-    # Now readd data from the cache.
+    # Now readd data from the cache and perform tests.
     expect_equal(drake::readd(target = "countries", path = testing_setup$cache_path), c("GHA", "ZAF"))
     expect_equal(drake::readd(target = "max_year", path = testing_setup$cache_path), 2000)
     expect_equal(drake::readd(target = "iea_data_path", path = testing_setup$cache_path), IEATools::sample_iea_data_path())
