@@ -16,19 +16,27 @@
 #' @export
 #'
 #' @return A data frame of FU Allocation tables read by `IEATools::load_fu_allocation_data()`.
+#'         `NULL` if no data are found.
 load_fu_allocation_tables <- function(fu_analysis_folder,
                                       countries,
                                       file_suffix = " FU Analysis.xlsx",
                                       use_subfolders = TRUE) {
-  lapply(countries, FUN = function(coun) {
+  out <- lapply(countries, FUN = function(coun) {
     fpath <- file.path(fu_analysis_folder)
     if (use_subfolders) {
       fpath <- file.path(fpath, coun)
     }
     fpath <- file.path(fpath, paste0(coun, file_suffix))
+    if (!file.exists(fpath)) {
+      return(NULL)
+    }
     IEATools::load_fu_allocation_data(fpath)
   }) %>%
     dplyr::bind_rows()
+  if (nrow(out) == 0) {
+    return(NULL)
+  }
+  return(out)
 }
 
 
@@ -50,19 +58,27 @@ load_fu_allocation_tables <- function(fu_analysis_folder,
 #' @export
 #'
 #' @return A data frame of FU efficiency tables read by `IEATools::load_eta_fu_data()`.
+#'         `NULL` if no data are found.
 load_fu_efficiency_tables <- function(fu_analysis_folder,
                                       countries,
                                       file_suffix = " FU Analysis.xlsx",
                                       use_subfolders = TRUE) {
-  lapply(countries, FUN = function(coun) {
+  out <- lapply(countries, FUN = function(coun) {
     fpath <- file.path(fu_analysis_folder)
     if (use_subfolders) {
       fpath <- file.path(fpath, coun)
     }
     fpath <- file.path(fpath, paste0(coun, file_suffix))
+    if (!file.exists(fpath)) {
+      return(NULL)
+    }
     IEATools::load_eta_fu_data(fpath)
   }) %>%
     dplyr::bind_rows()
+  if (nrow(out) == 0) {
+    return(NULL)
+  }
+  return(out)
 }
 
 
@@ -74,6 +90,9 @@ assemble_fu_allocation_tables <- function(fu_analysis_folder,
                                           cache_path = ".drake/",
                                           name_of_iea_data_object = "Specified") {
   # Try to load FU allocation tables for each of the countries from disk
+  # allocation_tables <- lapply(countries, FUN = function(coun) {
+  #
+  # })
 
   # Note: Need to write a function that determines if a FU allocation table is complete or not.
   # If the FU allocation table doesn't exist OR if the FU allocation table isn't complete,

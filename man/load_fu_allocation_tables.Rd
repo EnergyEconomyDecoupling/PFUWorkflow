@@ -22,6 +22,7 @@ load_fu_allocation_tables(
 }
 \value{
 A data frame of FU Allocation tables read by \code{IEATools::load_fu_allocation_data()}.
+\code{NULL} if no data are found.
 }
 \description{
 This function reads all final-to-useful allocation data

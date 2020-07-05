@@ -22,6 +22,7 @@ load_fu_efficiency_tables(
 }
 \value{
 A data frame of FU efficiency tables read by \code{IEATools::load_eta_fu_data()}.
+\code{NULL} if no data are found.
 }
 \description{
 This function reads all final-to-useful efficiency data
