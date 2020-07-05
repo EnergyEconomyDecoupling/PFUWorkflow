@@ -2,5 +2,5 @@
 
 
 * `drake` workflow created in a function. 
-  See 
+  See `get_plan()`.
 * Initial release.
