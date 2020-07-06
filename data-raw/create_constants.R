@@ -18,3 +18,4 @@ exemplar_names <- list(exemplar_tab_name = "exemplar_table",
                        country_name = "Country.name",
                        world = "World")
 usethis::use_data(exemplar_names, overwrite = TRUE)
+

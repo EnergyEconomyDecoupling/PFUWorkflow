@@ -9,13 +9,14 @@ generate_eta_fu_template(
   country_col = IEATools::iea_cols$country,
   cache_path = ".drake/",
   fu_analysis_path_target = "fu_analysis_folder",
-  fu_allocation_table_file_name = paste0(country, " FU Analysis"),
+  fu_allocation_table_file_name = paste0(country,
+    IEATools::fu_analysis_file_info$fu_analysis_file_suffix),
   ext = ".xlsx",
   fu_allocation_table_path = file.path(drake::readd(fu_analysis_path_target,
     character_only = TRUE, path = cache_path), country) \%>\%
     dir.create.pipe(showWarnings = FALSE, recursive = TRUE) \%>\%
     file.path(paste0(fu_allocation_table_file_name, ext)),
-  fu_allocation_tab_name = "FU Allocations",
+  fu_allocation_tab_name = IEATools::fu_analysis_file_info$fu_allocation_tab_name,
   eta_fu_template_file_name = paste0(country, " FU etas Template"),
   output_path = file.path(drake::readd(fu_analysis_path_target, character_only = TRUE,
     path = cache_path), country) \%>\% dir.create.pipe(showWarnings = FALSE, recursive =
@@ -42,8 +43,7 @@ Default is ".xlsx" for an Excel file.}
 
 \item{fu_allocation_table_path}{The path the the}
 
-\item{fu_allocation_tab_name}{The name of the tab containing final-to-useful allocation information in \code{fu_analysis_file_name}.
-Default is "FU Allocations".}
+\item{fu_allocation_tab_name}{The name of the tab containing final-to-useful allocation information in \code{fu_analysis_file_name}. Default is "FU Allocations".}
 
 \item{eta_fu_template_file_name}{The name of the efficiency template file written by this function.
 Default is "\code{country} FU etas Template.\code{ext}".}

@@ -166,16 +166,16 @@ set_up_temp_fu_analyses <- function(fu_folder) {
 
   # Build FU analysis workbooks for each country.
   GHA_fu_wb <- openxlsx::createWorkbook()
-  openxlsx::addWorksheet(GHA_fu_wb, "FU Allocations")
-  openxlsx::writeData(GHA_fu_wb, "FU Allocations", GHA_FU_allocation_table)
-  openxlsx::addWorksheet(GHA_fu_wb, "FU etas")
-  openxlsx::writeData(GHA_fu_wb, "FU etas", GHA_FU_etas_table)
+  openxlsx::addWorksheet(GHA_fu_wb, IEATools::fu_analysis_file_info$fu_allocation_tab_name)
+  openxlsx::writeData(GHA_fu_wb, IEATools::fu_analysis_file_info$fu_allocation_tab_name, GHA_FU_allocation_table)
+  openxlsx::addWorksheet(GHA_fu_wb, IEATools::fu_analysis_file_info$eta_fu_tab_name)
+  openxlsx::writeData(GHA_fu_wb, IEATools::fu_analysis_file_info$eta_fu_tab_name, GHA_FU_etas_table)
 
   ZAF_fu_wb <- openxlsx::createWorkbook()
-  openxlsx::addWorksheet(ZAF_fu_wb, "FU Allocations")
-  openxlsx::writeData(ZAF_fu_wb, "FU Allocations", ZAF_FU_etas_table)
-  openxlsx::addWorksheet(ZAF_fu_wb, "FU etas")
-  openxlsx::writeData(ZAF_fu_wb, "FU etas", ZAF_FU_etas_table)
+  openxlsx::addWorksheet(ZAF_fu_wb, IEATools::fu_analysis_file_info$fu_allocation_tab_name)
+  openxlsx::writeData(ZAF_fu_wb, IEATools::fu_analysis_file_info$fu_allocation_tab_name, ZAF_FU_etas_table)
+  openxlsx::addWorksheet(ZAF_fu_wb, IEATools::fu_analysis_file_info$eta_fu_tab_name)
+  openxlsx::writeData(ZAF_fu_wb, IEATools::fu_analysis_file_info$eta_fu_tab_name, ZAF_FU_etas_table)
 
   # Write the workbooks back to the temp directory.
   dir.create(file.path(fu_folder, "GHA"), showWarnings = FALSE)

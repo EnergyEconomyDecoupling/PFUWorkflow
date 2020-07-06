@@ -7,8 +7,9 @@
 load_fu_allocation_tables(
   fu_analysis_folder,
   countries,
-  file_suffix = " FU Analysis.xlsx",
-  use_subfolders = TRUE
+  file_suffix = IEATools::fu_analysis_file_info$fu_analysis_file_suffix,
+  use_subfolders = TRUE,
+  fu_allocations_tab_name = IEATools::fu_analysis_file_info$fu_allocation_tab_name
 )
 }
 \arguments{

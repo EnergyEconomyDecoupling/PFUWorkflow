@@ -7,7 +7,7 @@
 load_fu_efficiency_tables(
   fu_analysis_folder,
   countries,
-  file_suffix = " FU Analysis.xlsx",
+  file_suffix = IEATools::fu_analysis_file_info$fu_analysis_file_suffix,
   use_subfolders = TRUE
 )
 }

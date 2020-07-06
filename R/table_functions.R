@@ -10,7 +10,7 @@
 #'
 #' @param fu_analysis_folder The folder from which final-to-useful analyses will be loaded.
 #' @param countries The countries for which allocation tables should be loaded.
-#' @param file_suffix The suffix for the FU analysis files. Default is " FU Analysis.xlsx".
+#' @param file_suffix The suffix for the FU analysis files. Default is "`r IEATools::fu_analysis_file_info$fu_analysis_file_suffix`".
 #' @param use_subfolders Tells whether to look for files in subfolders named by `countries`.
 #'
 #' @export
@@ -19,8 +19,9 @@
 #'         `NULL` if no data are found.
 load_fu_allocation_tables <- function(fu_analysis_folder,
                                       countries,
-                                      file_suffix = " FU Analysis.xlsx",
-                                      use_subfolders = TRUE) {
+                                      file_suffix = IEATools::fu_analysis_file_info$fu_analysis_file_suffix,
+                                      use_subfolders = TRUE,
+                                      fu_allocations_tab_name = IEATools::fu_analysis_file_info$fu_allocation_tab_name) {
   out <- lapply(countries, FUN = function(coun) {
     fpath <- file.path(fu_analysis_folder)
     if (use_subfolders) {
@@ -30,7 +31,7 @@ load_fu_allocation_tables <- function(fu_analysis_folder,
     if (!file.exists(fpath)) {
       return(NULL)
     }
-    IEATools::load_fu_allocation_data(fpath)
+    IEATools::load_fu_allocation_data(fpath, fu_allocations_tab_name = fu_allocations_tab_name)
   }) %>%
     dplyr::bind_rows()
   if (nrow(out) == 0) {
@@ -52,7 +53,7 @@ load_fu_allocation_tables <- function(fu_analysis_folder,
 #'
 #' @param fu_analysis_folder The folder from which final-to-useful analyses will be loaded.
 #' @param countries The countries for which allocation tables should be loaded.
-#' @param file_suffix The suffix for the FU analysis files. Default is " FU Analysis.xlsx".
+#' @param file_suffix The suffix for the FU analysis files. Default is "`r IEATools::fu_analysis_file_info$fu_analysis_file_suffix`".
 #' @param use_subfolders Tells whether to look for files in subfolders named by `countries`.
 #'
 #' @export
@@ -61,7 +62,7 @@ load_fu_allocation_tables <- function(fu_analysis_folder,
 #'         `NULL` if no data are found.
 load_fu_efficiency_tables <- function(fu_analysis_folder,
                                       countries,
-                                      file_suffix = " FU Analysis.xlsx",
+                                      file_suffix = IEATools::fu_analysis_file_info$fu_analysis_file_suffix,
                                       use_subfolders = TRUE) {
   out <- lapply(countries, FUN = function(coun) {
     fpath <- file.path(fu_analysis_folder)
@@ -85,14 +86,15 @@ load_fu_efficiency_tables <- function(fu_analysis_folder,
 assemble_fu_allocation_tables <- function(fu_analysis_folder,
                                           countries,
                                           exemplar_lists,
-                                          file_suffix = " FU Analysis.xlsx",
+                                          file_suffix = IEATools::fu_analysis_file_info$fu_analysis_file_suffix,
                                           use_subfolders = TRUE,
                                           cache_path = ".drake/",
                                           name_of_iea_data_object = "Specified") {
   # Try to load FU allocation tables for each of the countries from disk
-  # allocation_tables <- lapply(countries, FUN = function(coun) {
-  #
-  # })
+  allocation_tables <- load_fu_allocation_tables(fu_analysis_folder = fu_analysis_folder,
+                                                 countries = coun,
+                                                 file_suffix = file_suffix,
+                                                 use_subfolders = use_subfolders)
 
   # Note: Need to write a function that determines if a FU allocation table is complete or not.
   # If the FU allocation table doesn't exist OR if the FU allocation table isn't complete,

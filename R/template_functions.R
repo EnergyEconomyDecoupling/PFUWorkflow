@@ -72,8 +72,7 @@ generate_fu_allocation_template <- function(country,
 #' @param ext The file name extension for both the allocation table and the efficiency template.
 #'            Default is ".xlsx" for an Excel file.
 #' @param fu_allocation_table_path The path the the
-#' @param fu_allocation_tab_name The name of the tab containing final-to-useful allocation information in `fu_analysis_file_name`.
-#'                               Default is "FU Allocations".
+#' @param fu_allocation_tab_name The name of the tab containing final-to-useful allocation information in `fu_analysis_file_name`. Default is "`r IEATools::fu_analysis_file_info$fu_allocation_tab_name`".
 #' @param eta_fu_template_file_name The name of the efficiency template file written by this function.
 #'                                  Default is "`country` FU etas Template.`ext`".
 #' @param output_path The path to the output file.
@@ -89,7 +88,7 @@ generate_eta_fu_template <- function(country,
                                      country_col = IEATools::iea_cols$country,
                                      cache_path = ".drake/",
                                      fu_analysis_path_target = "fu_analysis_folder",
-                                     fu_allocation_table_file_name = paste0(country, " FU Analysis"),
+                                     fu_allocation_table_file_name = paste0(country, IEATools::fu_analysis_file_info$fu_analysis_file_suffix),
                                      ext = ".xlsx",
                                      fu_allocation_table_path = file.path(drake::readd(fu_analysis_path_target,
                                                                                        character_only = TRUE,
@@ -97,7 +96,7 @@ generate_eta_fu_template <- function(country,
                                                                           country) %>%
                                        dir.create.pipe(showWarnings = FALSE, recursive = TRUE) %>%
                                        file.path(paste0(fu_allocation_table_file_name, ext)),
-                                     fu_allocation_tab_name = "FU Allocations",
+                                     fu_allocation_tab_name = IEATools::fu_analysis_file_info$fu_allocation_tab_name,
                                      eta_fu_template_file_name = paste0(country, " FU etas Template"),
                                      output_path = file.path(drake::readd(fu_analysis_path_target,
                                                                           character_only = TRUE,
