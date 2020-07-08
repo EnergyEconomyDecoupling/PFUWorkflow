@@ -92,7 +92,7 @@ assemble_fu_allocation_tables <- function(fu_analysis_folder,
                                           name_of_iea_data_object = "Specified") {
   # Try to load FU allocation tables for each of the countries from disk
   allocation_tables <- load_fu_allocation_tables(fu_analysis_folder = fu_analysis_folder,
-                                                 countries = coun,
+                                                 countries = countries,
                                                  file_suffix = file_suffix,
                                                  use_subfolders = use_subfolders)
 
