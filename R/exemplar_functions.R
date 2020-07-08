@@ -143,12 +143,12 @@ exemplar_lists <- function(exemplar_table,
     dplyr::filter(.data[[year_temp]] <= .data[[year]]) %>%
     # Eliminate an unneeded column.
     dplyr::select(!year_temp) %>%
-    # Keep only the unique name regines.
+    # Keep only the unique name regions.
     dplyr::group_by(.data[[year]], .data[[country]]) %>%
     unique() %>%
     # Eliminate the current name of the country from its list of previous names.
     dplyr::filter(.data[[country]] != .data[[prev_names]]) %>%
-    # Build a list column containing
+    # Build a list column containing all previous names for the given country.
     dplyr::summarise(
       "{prev_names_list}" := list(.data[[prev_names]] %>% rev())
     )
