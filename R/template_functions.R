@@ -40,7 +40,7 @@ generate_fu_allocation_template <- function(country,
                                                                                  character_only = TRUE,
                                                                                  path = cache_path),
                                                                     country) %>%
-                                              dir.create.pipe(showWarnings = FALSE, recursive = TRUE) %>%
+                                              dir_create_pipe(showWarnings = FALSE, recursive = TRUE) %>%
                                               file.path(paste0(fu_allocation_template_file_name, ext)),
                                             n_allocation_rows = 4,
                                             overwrite = FALSE) {
@@ -94,7 +94,7 @@ generate_eta_fu_template <- function(country,
                                                                                        character_only = TRUE,
                                                                                        path = cache_path),
                                                                           country) %>%
-                                       dir.create.pipe(showWarnings = FALSE, recursive = TRUE) %>%
+                                       dir_create_pipe(showWarnings = FALSE, recursive = TRUE) %>%
                                        file.path(paste0(fu_allocation_table_file_name, ext)),
                                      fu_allocation_tab_name = IEATools::fu_analysis_file_info$fu_allocation_tab_name,
                                      eta_fu_template_file_name = paste0(country, " FU etas Template"),
@@ -102,7 +102,7 @@ generate_eta_fu_template <- function(country,
                                                                           character_only = TRUE,
                                                                           path = cache_path),
                                                              country) %>%
-                                       dir.create.pipe(showWarnings = FALSE, recursive = TRUE) %>%
+                                       dir_create_pipe(showWarnings = FALSE, recursive = TRUE) %>%
                                        file.path(paste0(eta_fu_template_file_name, ext)),
                                      overwrite = FALSE) {
   # Read the allocations from the file at fu_analysis_file_name

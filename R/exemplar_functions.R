@@ -24,7 +24,7 @@ sample_exemplar_table_path <- function() {
 #' @param exemplar_table_path The path to the Excel file containing an exemplar table.
 #'                            Default is the value of `sample_exemplar_table_path()`.
 #' @param countries The countries for which exemplars are desired. If `NULL`, the default,
-#'                  all countries are known returned.
+#'                  all countries in the file at `exemplar_table_path` are returned.
 #' @param exemplar_table_tab_name,prev_names See `SEAPSUTWorkflow::exemplar_names`.
 #' @param year,country See `IEATools::iea_cols`.
 #'

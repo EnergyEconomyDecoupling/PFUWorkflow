@@ -34,10 +34,10 @@ readd_by_country <- function(target, country, name_of_countries_object = "countr
 #' @examples
 #' \dontrun{
 #'   td <- tempdir()
-#'   dir.create.pipe(td, recursive = TRUE)
+#'   dir_create_pipe(td, recursive = TRUE)
 #'   unlink(td, force = TRUE, recursive = TRUE)
 #' }
-dir.create.pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode = "0777") {
+dir_create_pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode = "0777") {
   success <- dir.create(path = path, showWarnings = showWarnings, recursive = recursive, mode = mode)
   if (!success & showWarnings) {
     warning(paste("Unsuccessful creation of directory: ", path))
@@ -65,7 +65,7 @@ dir.create.pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode =
 #' })
 #' ```
 #'
-#' @param countries The countries of interest. Default is `c("GHA", "ZAF")`
+#' @param countries The countries of interest. Default is `c("GHA", "ZAF")`.
 #' @param max_year The last year to be analyzed. Default is `2000.`
 #' @param how_far The last target to include in the drake plan. Default is "all_targets"
 #' @param iea_data_path The path to IEA data. Default is `IEATools::sample_iea_data_path()`.
@@ -76,7 +76,7 @@ dir.create.pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode =
 #'
 #' @return A list containing a drake plan (`$plan`),
 #'         the path to the temporary drake cache (`$cache_path`), and
-#'         the temporary drake cache itself (`temp_cache`).
+#'         the temporary drake cache itself (`$temp_cache`).
 #'
 #' @noRd
 set_up_for_testing <- function(countries = c("GHA", "ZAF"),

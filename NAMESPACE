@@ -3,7 +3,7 @@
 export("%>%")
 export(":=")
 export(.data)
-export(dir.create.pipe)
+export(dir_create_pipe)
 export(exemplar_lists)
 export(extract_country_data)
 export(generate_eta_fu_template)

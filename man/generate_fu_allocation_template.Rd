@@ -12,7 +12,7 @@ generate_fu_allocation_template(
   fu_allocation_template_file_name = paste0(country, " FU Allocations Template"),
   ext = ".xlsx",
   output_path = file.path(drake::readd(fu_analysis_path_target, character_only = TRUE,
-    path = cache_path), country) \%>\% dir.create.pipe(showWarnings = FALSE, recursive =
+    path = cache_path), country) \%>\% dir_create_pipe(showWarnings = FALSE, recursive =
     TRUE) \%>\% file.path(paste0(fu_allocation_template_file_name, ext)),
   n_allocation_rows = 4,
   overwrite = FALSE
