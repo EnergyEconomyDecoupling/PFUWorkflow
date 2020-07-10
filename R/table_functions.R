@@ -113,7 +113,8 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
 
     coun_exemplar_strings <- exemplar_lists %>%
       dplyr::filter(.data[[IEATools::iea_cols$country]] == coun)
-    # Need to extract a list of exemplars from the data frame.
+    # May need to trim or massage this data frame to get it in the format required to
+    # extract coun_exemplar_tables
 
     # coun_exemplar_tables is not in the right format.
     # Need data frames with years spread to the right.
