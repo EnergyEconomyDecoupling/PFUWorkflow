@@ -1,17 +1,30 @@
 #' Read a subtarget based on country
 #'
-#' @param target The name of the drake target as a string.
-#' @param country The 3-letter ISO abbreviation (a string) of the country for whom `target` is to be readd from the drake cache.
-#' @param name_of_countries_object A string giving the name of the countries object in the drake cache.
-#'                                 Default is "countries".
-#' @param cache_path The path to the drake cache. Default is ".drake/".
+#' It is sometimes convenient to read a target out of the drake cache by country (or countries).
+#' Technically, this process involves reading a sub-target,
+#' because the plans created by `get_plan()` are all mapped by country.
+#' But subtargets are extracted based on country index in the cache rather than country name, and
+#' it is cumbersome to keep track of cache indices for countries.
+#' This function de-references the indices based on the value of `country` and extracts
+#' the correct subtarget.
+#'
+#' @param target The name of the drake target as a string. See `get_plan()` for names of targets.
+#' @param country The 3-letter ISO abbreviation (a string) of the country
+#'                (or vector of 3-letter countries)
+#'                for whom `target` is to be readd from the drake cache.
+#' @param countries_target See `SEAPSUTWorkflow::target_names`.
+#' @param cache_path See `SEAPSUTWorkflow::cache_info`.
 #'
 #' @return the country-specific version of `target`
 #'
 #' @export
-readd_by_country <- function(target, country, name_of_countries_object = "countries", cache_path = ".drake/") {
-  country_index <- which(country == drake::readd(name_of_countries_object, path = cache_path, character_only = TRUE), arr.ind = TRUE)
-  drake::readd(target, path = cache_path, character_only = TRUE, subtargets = country_index)
+readd_by_country <- function(target,
+                             country,
+                             countries_target = SEAPSUTWorkflow::target_names$countries,
+                             cache_path = SEAPSUTWorkflow::cache_info$cache_path) {
+  known_countries <- drake::readd(countries_target, path = cache_path, character_only = TRUE)
+  country_indices <- which(known_countries %in% country, arr.ind = TRUE)
+  drake::readd(target, path = cache_path, character_only = TRUE, subtargets = country_indices)
 }
 
 
@@ -25,7 +38,7 @@ readd_by_country <- function(target, country, name_of_countries_object = "countr
 #' @param showWarnings logical; should the warnings on failure be shown?
 #' @param recursive logical. Should elements of the path other than the last be created?
 #'                  If true, like the Unix command `mkdir -p`.
-#' @param mode the mode to be used on Unix-alikes
+#' @param mode the mode to be used on Unix-alikes. Default is "0777".
 #'
 #' @return The `path` argument.
 #'
@@ -69,9 +82,8 @@ dir_create_pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode =
 #' @param max_year The last year to be analyzed. Default is `2000.`
 #' @param how_far The last target to include in the drake plan. Default is "all_targets"
 #' @param iea_data_path The path to IEA data. Default is `IEATools::sample_iea_data_path()`.
-#' @param sample_fu_allocation_table_path The path to the sample final-to-useful allocation table. Default is `IEATools::sample_fu_allocation_table_path()`.
-#' @param exemplar_table_path The path to an example exemplar table. Default is `sample_exemplar_table_path()`.
-#' @param fu_analysis_folder The path to the final-to-useful analysis folder. Default is `tempdir("FU_analysis_folder_for_testing")`.
+#' @param fu_analysis_folder The path to the final-to-useful analysis folder. Default is `tempdir()`.
+#' @param exemplar_folder The path to a temporary folder to contain an exemplar table. Default is `tempdir()`.
 #' @param cache_path The path to the temporary drake cache used for testing. Default is `tempfile("drake_cache_for_testing")`.
 #'
 #' @return A list containing a drake plan (`$plan`),
@@ -83,16 +95,15 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                max_year = 2000,
                                how_far = "all_targets",
                                iea_data_path = IEATools::sample_iea_data_path(),
-                               sample_fu_allocation_table_path = IEATools::sample_fu_allocation_table_path(),
-                               exemplar_table_path = sample_exemplar_table_path(),
                                fu_analysis_folder = tempdir(),
+                               exemplar_folder = tempdir(),
                                cache_path = tempfile("drake_cache_for_testing")) {
-  set_up_temp_fu_analyses(fu_analysis_folder)
+  set_up_temp_analysis(fu_analysis_folder, exemplar_folder)
   plan <- get_plan(countries = countries,
                    max_year = max_year,
                    how_far = how_far,
                    iea_data_path = iea_data_path,
-                   exemplar_table_path = exemplar_table_path,
+                   exemplar_table_path = file.path(exemplar_folder, "Exemplar_Table.xlsx"),
                    fu_analysis_folder = fu_analysis_folder)
   temp_cache <- drake::new_cache(path = cache_path)
   list(plan = plan, cache_path = cache_path, temp_cache = temp_cache)
@@ -144,11 +155,12 @@ clean_up_after_testing <- function(testing_setup, cache_path = testing_setup$cac
 #' This function is helpful during testing, but not at any other times.
 #'
 #' @param fu_folder The folder in which the final-to-useful analysis structure will be created.
+#' @param exemplar_folder The folder in which a small exemplar table will be created.
 #'
 #' @return `NULL`. This function should be called for its side effect of creating a temporary final-to-useful directory structure.
 #'
 #' @noRd
-set_up_temp_fu_analyses <- function(fu_folder) {
+set_up_temp_analysis <- function(fu_folder, exemplar_folder) {
   # Set up FU allocation tables. Need to split file that is stored in IEATools
   GHAZAF_FU_allocation_tables <- IEATools::sample_fu_allocation_table_path() %>%
     openxlsx::read.xlsx()
@@ -182,6 +194,24 @@ set_up_temp_fu_analyses <- function(fu_folder) {
   dir.create(file.path(fu_folder, "ZAF"), showWarnings = FALSE)
   openxlsx::saveWorkbook(GHA_fu_wb, file = file.path(fu_folder, "GHA", "GHA FU Analysis.xlsx"), overwrite = TRUE)
   openxlsx::saveWorkbook(ZAF_fu_wb, file = file.path(fu_folder, "ZAF", "ZAF FU Analysis.xlsx"), overwrite = TRUE)
+
+  # Create an exemplar table
+  sample_exemplar_file <- sample_exemplar_table_path() %>%
+    openxlsx::read.xlsx()
+  # Fill with information for our example
+  year_colnames <- sample_exemplar_file %>%
+    IEATools::year_cols(return_names = TRUE)
+  years_to_remove <- setdiff(year_colnames, c("1971", "2000"))
+  small_exemplar_table <- sample_exemplar_file %>%
+    # Keep only the years we want
+    dplyr::select(!any_of(years_to_remove)) %>%
+    # Keep only teh countries we want
+    dplyr::filter(`2000` %in% c("GHA", "ZAF"))
+  # Write out to disk in our sample directory structure.
+  exemplar_wb <- openxlsx::createWorkbook()
+  openxlsx::addWorksheet(exemplar_wb, SEAPSUTWorkflow::exemplar_names$exemplar_tab_name)
+  openxlsx::writeData(exemplar_wb, SEAPSUTWorkflow::exemplar_names$exemplar_tab_name, small_exemplar_table)
+  openxlsx::saveWorkbook(exemplar_wb, file = file.path(exemplar_folder, "Exemplar_Table.xlsx"), overwrite = TRUE)
 
   return(NULL)
 }

@@ -134,13 +134,15 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
                                                  load_fu_allocation_tables(countries),
                                                dynamic = map(countries)),
 
-    # (6) Load incomplete FU efficiency tables
+    # (6) Load incomplete FU efficiency tables for each country and year from disk.
+    # These may be incomplete.
 
     IncompleteEfficiencyTables = drake::target(fu_analysis_folder %>%
                                                  load_fu_efficiency_tables(countries),
                                                dynamic = map(countries)),
 
-    # (7) Load exemplar table and make lists for each country and year
+    # (7) Load exemplar table and make lists for each country and year from disk.
+    # These may be incomplete.
 
     ExemplarLists = drake::target(exemplar_table_path %>%
                                     load_exemplar_table(countries) %>%
@@ -149,6 +151,13 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
 
     # (8) Form lists of exemplar tables, one for each country and year to be analyzed.
 
+    CompletedAllocationTables = drake::target(assemble_fu_allocation_tables(IncompleteAllocationTables,
+                                                                            ExemplarLists,
+                                                                            Specified,
+                                                                            countries),
+                                              dynamic = map(countries)),
+
+    # EfficiencyTableExemplarLists = drake::target(dynamic = map(countries))
 
     # (9) Complete allocation and efficiency tables
 

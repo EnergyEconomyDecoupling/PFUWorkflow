@@ -7,23 +7,30 @@
 readd_by_country(
   target,
   country,
-  name_of_countries_object = "countries",
-  cache_path = ".drake/"
+  countries_target = SEAPSUTWorkflow::target_names$countries,
+  cache_path = SEAPSUTWorkflow::cache_info$cache_path
 )
 }
 \arguments{
-\item{target}{The name of the drake target as a string.}
+\item{target}{The name of the drake target as a string. See \code{get_plan()} for names of targets.}
 
-\item{country}{The 3-letter ISO abbreviation (a string) of the country for whom \code{target} is to be readd from the drake cache.}
+\item{country}{The 3-letter ISO abbreviation (a string) of the country
+(or vector of 3-letter countries)
+for whom \code{target} is to be readd from the drake cache.}
 
-\item{name_of_countries_object}{A string giving the name of the countries object in the drake cache.
-Default is "countries".}
+\item{countries_target}{See \code{SEAPSUTWorkflow::target_names}.}
 
-\item{cache_path}{The path to the drake cache. Default is ".drake/".}
+\item{cache_path}{See \code{SEAPSUTWorkflow::cache_info}.}
 }
 \value{
 the country-specific version of \code{target}
 }
 \description{
-Read a subtarget based on country
+It is sometimes convenient to read a target out of the drake cache by country (or countries).
+Technically, this process involves reading a sub-target,
+because the plans created by \code{get_plan()} are all mapped by country.
+But subtargets are extracted based on country index in the cache rather than country name, and
+it is cumbersome to keep track of cache indices for countries.
+This function de-references the indices based on the value of \code{country} and extracts
+the correct subtarget.
 }

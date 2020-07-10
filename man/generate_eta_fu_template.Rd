@@ -7,8 +7,8 @@
 generate_eta_fu_template(
   country,
   country_col = IEATools::iea_cols$country,
-  cache_path = ".drake/",
-  fu_analysis_path_target = "fu_analysis_folder",
+  cache_path = SEAPSUTWorkflow::cache_info$cache_path,
+  fu_analysis_path_target = SEAPSUTWorkflow::target_names$fu_analysis_folder,
   fu_allocation_table_file_name = paste0(country,
     IEATools::fu_analysis_file_info$fu_analysis_file_suffix),
   ext = ".xlsx",
@@ -30,10 +30,9 @@ generate_eta_fu_template(
 \item{country_col}{A string containing the name of the country column in the final-to-useful allocation table.
 Default is \code{IEATools::iea_cols$country}.}
 
-\item{cache_path}{The path to the drake cache. Default is ".drake/".}
+\item{cache_path}{See \code{SEAPSUTWorkflow::cache_info}.}
 
-\item{fu_analysis_path_target}{The name of the target in the drake cache containing path to the final-to-useful analyses.
-Default is "fu_analysis_folder".}
+\item{fu_analysis_path_target}{See \code{SEAPSUTWorkflow::target_names}.}
 
 \item{fu_allocation_table_file_name}{The name of the file containing the final-to-useful allocations for \code{country}.
 Default is "\code{country} FU Analysis.\code{ext}".}

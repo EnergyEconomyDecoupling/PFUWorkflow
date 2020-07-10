@@ -18,7 +18,7 @@ load_exemplar_table(
 Default is the value of \code{sample_exemplar_table_path()}.}
 
 \item{countries}{The countries for which exemplars are desired. If \code{NULL}, the default,
-all countries are known returned.}
+all countries in the file at \code{exemplar_table_path} are returned.}
 
 \item{exemplar_table_tab_name, prev_names}{See \code{SEAPSUTWorkflow::exemplar_names}.}
 

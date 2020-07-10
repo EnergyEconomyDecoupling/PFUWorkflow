@@ -83,18 +83,61 @@ load_fu_efficiency_tables <- function(fu_analysis_folder,
 }
 
 
-assemble_fu_allocation_tables <- function(fu_analysis_folder,
-                                          countries,
+#' Assemble completed final-to-useful allocation tables
+#'
+#' This function is used in a drake workflow to assemble completed final-to-useful allcoation tables.
+#'
+#' @param countries
+#' @param cache_path
+#' @param specified_target
+#' @param incomplete_allocation_tables_target
+#' @param exemplar_lists_target
+#'
+#' @return
+#' @export
+#'
+#' @examples
+assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
                                           exemplar_lists,
-                                          file_suffix = IEATools::fu_analysis_file_info$fu_analysis_file_suffix,
-                                          use_subfolders = TRUE,
-                                          cache_path = ".drake/",
-                                          name_of_iea_data_object = "Specified") {
-  # Try to load FU allocation tables for each of the countries from disk
-  allocation_tables <- load_fu_allocation_tables(fu_analysis_folder = fu_analysis_folder,
-                                                 countries = countries,
-                                                 file_suffix = file_suffix,
-                                                 use_subfolders = use_subfolders)
+                                          specified_iea_data,
+                                          countries) {
+
+
+
+
+
+  exemplar_tables <- lapply(countries, FUN = function(coun) {
+    coun_table <- incomplete_allocation_tables %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == coun)
+
+
+    coun_exemplar_strings <- exemplar_lists %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == coun)
+    # Need to extract a list of exemplars from the data frame.
+
+    # coun_exemplar_tables is not in the right format.
+    # Need data frames with years spread to the right.
+    coun_exemplar_tables <- lapply(coun_exemplar_strings, FUN = function(exemplar_coun_string) {
+      incomplete_allocation_tables %>%
+        dplyr::filter(.data[[IEATools::iea_cols$country]] == exemplar_coun_string)
+    })
+
+
+
+    coun_iea_data <- specified_iea_data %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == coun)
+
+
+
+    complete_fu_allocation_table(fu_allocation_table = coun_table,
+                                 exemplar_fu_allocation_tables = coun_exemplar_tables,
+                                 tidy_specified_iea_data = coun_iea_data)
+  }) %>%
+    dplyr::bind_rows()
+
+
+
+
 
   # Note: Need to write a function that determines if a FU allocation table is complete or not.
   # If the FU allocation table doesn't exist OR if the FU allocation table isn't complete,

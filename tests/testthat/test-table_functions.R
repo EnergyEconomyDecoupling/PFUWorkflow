@@ -34,3 +34,17 @@ test_that("load_fu_allocation_tables() works for a non-existent country", {
 })
 
 
+test_that("assemble_fu_allocation_tables() works as expected.", {
+  # Create a directory structure in a tempdir for the allocation tables
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$CompletedAllocationTables)
+
+  tryCatch({
+    drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
+
+    # Build some completed FU Allocation tables.
+
+    },
+  finally = {
+    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+  })
+})

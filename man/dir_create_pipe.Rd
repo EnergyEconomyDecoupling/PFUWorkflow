@@ -14,7 +14,7 @@ dir_create_pipe(path, showWarnings = TRUE, recursive = FALSE, mode = "0777")
 \item{recursive}{logical. Should elements of the path other than the last be created?
 If true, like the Unix command \code{mkdir -p}.}
 
-\item{mode}{the mode to be used on Unix-alikes}
+\item{mode}{the mode to be used on Unix-alikes. Default is "0777".}
 }
 \value{
 The \code{path} argument.
