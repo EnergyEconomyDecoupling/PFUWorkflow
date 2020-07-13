@@ -167,13 +167,21 @@ exemplar_lists <- function(exemplar_table,
                            exemp = .data[[exemplar_country]],
                            restofworldcode = .data[[row_code]],
                            world = world)
-    )
+    ) %>%
+    # {exemplars} is a column with entries like list(c(coun1, coun2, ...)).
+    # Unnest to get only c(coun1, coun2, ...).
+    tidyr::unnest(.data[[exemplars]])
 
   # filter by country, if that was requested.
   if (!is.null(countries)) {
     out <- out %>%
       dplyr::filter(.data[[country]] %in% countries)
   }
+
+  # Eliminate unneeded columns
+  out <- out %>%
+    dplyr::select(country, year, exemplars)
+
   return(out)
 
   #

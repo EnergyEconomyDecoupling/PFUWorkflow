@@ -64,7 +64,8 @@ test_that("make works", {
     expect_equal(drake::readd(target = "countries", path = testing_setup$cache_path), c("GHA", "ZAF"))
     expect_equal(drake::readd(target = "max_year", path = testing_setup$cache_path), 2000)
     expect_equal(drake::readd(target = "iea_data_path", path = testing_setup$cache_path), IEATools::sample_iea_data_path())
-    expect_equal(drake::readd(target = "exemplar_table_path", path = testing_setup$cache_path), sample_exemplar_table_path())
+    expect_equal(drake::readd(target = "exemplar_table_path", path = testing_setup$cache_path),
+                 testing_setup$plan %>% dplyr::filter(target == "exemplar_table_path") %>% magrittr::extract2("command") %>% unlist())
     expect_true(!is.null(drake::readd(target = "fu_analysis_folder", path = testing_setup$cache_path)))
 
     # Be sure that readd_by_country also works
@@ -106,6 +107,12 @@ test_that("make works", {
       dplyr::select(IEATools::iea_cols$country) %>%
       unique() %>% unlist() %>% unname() %>%
       expect_equal("ZAF")
+    # Check that the ZAF table looks OK.
+    ZAF_allocation_table <- readd_by_country(target = SEAPSUTWorkflow::target_names$IncompleteAllocationTables, country = "ZAF", cache_path = testing_setup$cache_path)
+    expect_true(all(!is.na(ZAF_allocation_table[[IEATools::template_cols$machine]])))
+    expect_true(all(!is.na(ZAF_allocation_table[[IEATools::iea_cols$method]])))
+    expect_true(all(!is.na(ZAF_allocation_table[[IEATools::iea_cols$energy_type]])))
+    expect_true(! IEATools::iea_cols$flow_aggregation_point %in% colnames(ZAF_allocation_table))
 
     # Test efficiency tables.
     expect_true(!is.null(readd_by_country(target = "IncompleteEfficiencyTables", country = "GHA", cache_path = testing_setup$cache_path)))

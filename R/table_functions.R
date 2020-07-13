@@ -100,54 +100,59 @@ load_fu_efficiency_tables <- function(fu_analysis_folder,
 assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
                                           exemplar_lists,
                                           specified_iea_data,
-                                          countries) {
-
-
-
-
+                                          countries,
+                                          country = IEATools::iea_cols$country,
+                                          year = IEATools::iea_cols$year,
+                                          exemplars = SEAPSUTWorkflow::exemplar_names$exemplars) {
 
   exemplar_tables <- lapply(countries, FUN = function(coun) {
-    coun_table <- incomplete_allocation_tables %>%
-      dplyr::filter(.data[[IEATools::iea_cols$country]] == coun)
-
-
+    coun_allocation_table <- incomplete_allocation_tables %>%
+      dplyr::filter(.data[[country]] == coun)
     coun_exemplar_strings <- exemplar_lists %>%
-      dplyr::filter(.data[[IEATools::iea_cols$country]] == coun)
-    # May need to trim or massage this data frame to get it in the format required to
-    # extract coun_exemplar_tables
-
-    # coun_exemplar_tables is not in the right format.
-    # Need data frames with years spread to the right.
-    coun_exemplar_tables <- lapply(coun_exemplar_strings, FUN = function(exemplar_coun_string) {
-      incomplete_allocation_tables %>%
-        dplyr::filter(.data[[IEATools::iea_cols$country]] == exemplar_coun_string)
-    })
+      dplyr::filter(.data[[country]] == coun)
 
 
-
-    coun_iea_data <- specified_iea_data %>%
-      dplyr::filter(.data[[IEATools::iea_cols$country]] == coun)
+    # For each combination of Country and Year (the rows of coun_exemplar_strings),
+    # assemble a list of country allocation tables.
+    # coun_exemplar_strings_and_tables <- coun_exemplar_strings %>%
+    #   dplyr::mutate(
+    #     exemplar_table_col = Map(get_one_exemplar_table_list,
+    #                              incomplete_allocation_tables = incomplete_allocation_tables,
+    #                              country = .data[[country]],
+    #                              year = .data[[year]],
+    #                              exemplar_strings = .data[[exemplars]])
+    #   )
 
 
 
-    complete_fu_allocation_table(fu_allocation_table = coun_table,
-                                 exemplar_fu_allocation_tables = coun_exemplar_tables,
-                                 tidy_specified_iea_data = coun_iea_data)
+
+    #   tidyr::unnest(.data[[SEAPSUTWorkflow::exemplar_names$exemplars]])
+    #
+    #
+    #
+    #
+    #   dplyr::mutate(
+    #     exemplar_table_col = lapply(.data[[SEAPSUTWorkflow::exemplar_names$exemplars]], function(exemplar_string) {
+    #       # exemplar_string is one exemplar for coun for one year.
+    #
+    #     })
+    #   )
+    #
+    # coun_iea_data <- specified_iea_data %>%
+    #   dplyr::filter(.data[[IEATools::iea_cols$country]] == coun)
+    # complete_fu_allocation_table(fu_allocation_table = coun_table,
+    #                              exemplar_fu_allocation_tables = coun_exemplar_tables,
+    #                              tidy_specified_iea_data = coun_iea_data)
   }) %>%
     dplyr::bind_rows()
 
+}
 
 
 
 
-  # Note: Need to write a function that determines if a FU allocation table is complete or not.
-  # If the FU allocation table doesn't exist OR if the FU allocation table isn't complete,
-    # Load all possible FU allocation exemplar tables from the cache
-      # If no FU allocation exemplar tables are present in the cache, fail.
-      # If any of the FU allocation exemplar tables are missing from the cache, emit a warning.
-    # Complete the country's FU allocation table.
-    # Write the FU allocation table to a different file on disk and stop. This step will require manual intervention to move the completed table into the "* FU Analysis.xlsx" file.
 
-  # If the FU allocation table is present and complete, put the FU allocation table into the cache.
 
+get_one_exemplar_table_list <- function(incomplete_allocation_tables, country, year, exemplar_strings) {
+  # print()
 }

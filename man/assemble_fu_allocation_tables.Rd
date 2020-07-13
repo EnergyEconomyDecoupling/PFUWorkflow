@@ -8,7 +8,10 @@ assemble_fu_allocation_tables(
   incomplete_allocation_tables,
   exemplar_lists,
   specified_iea_data,
-  countries
+  countries,
+  country = IEATools::iea_cols$country,
+  year = IEATools::iea_cols$year,
+  exemplars = SEAPSUTWorkflow::exemplar_names$exemplars
 )
 }
 \arguments{

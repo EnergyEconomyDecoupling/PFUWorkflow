@@ -52,6 +52,11 @@ test_single_exemplar <- function(el, coun, expected_exemplar) {
 test_that("exemplar_lists() works as expected", {
   el <- exemplar_lists(load_exemplar_table())
 
+  # Verify the columns of the returned data frame
+  expect_equal(colnames(el), c(IEATools::iea_cols$country,
+                               IEATools::iea_cols$year,
+                               SEAPSUTWorkflow::exemplar_names$exemplars))
+
   # According to Zeke, the most difficult country is Montenegro (MNE)
   el %>%
     dplyr::filter(.data[[IEATools::iea_cols$country]] == "MNE",

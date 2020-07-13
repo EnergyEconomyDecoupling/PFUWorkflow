@@ -41,7 +41,16 @@ test_that("assemble_fu_allocation_tables() works as expected.", {
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
 
-    # Build some completed FU Allocation tables.
+    # Verify that the incomplete fu allocation tables look as we expect.
+    incomplete_alloc_tables <- readd(target = SEAPSUTWorkflow::target_names$IncompleteAllocationTables,
+                                     path = testing_setup$cache_path,
+                                     character_only = TRUE)
+    expect_true(all(!is.na(incomplete_alloc_tables[[IEATools::iea_cols$method]])))
+    expect_true(all(!is.na(incomplete_alloc_tables[[IEATools::iea_cols$energy_type]])))
+    # We shouldn't have this column. Why does it appear here?
+    expect_true(! IEATools::iea_cols$flow_aggregation_point %in% colnames(incomplete_alloc_tables))
+
+    # Check the completed FU Allocation tables.
 
     },
   finally = {
