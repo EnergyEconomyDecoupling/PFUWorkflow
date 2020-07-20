@@ -66,6 +66,28 @@ test_that("setup_exemplars() works as expected", {
       unlist() %>%
       dir.exists() %>%
       expect_true()
+    # Make sure we have allocation tables.
+    alloc_tables <- drake::readd(SEAPSUTWorkflow::target_names$IncompleteAllocationTables,
+                                 path = testing_setup$cache_path,
+                                 character_only = TRUE)
+    world_alloc_tables <- alloc_tables %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "World")
+    zaf_alloc_tables <- alloc_tables %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF")
+    # World and ZAF should be the same, because World is just rebranded ZAF.
+    expect_equal(world_alloc_tables %>%
+                   dplyr::mutate("{IEATools::iea_cols$country}" := "ZAF"),
+                 zaf_alloc_tables)
+    # Extract the World FU allocation table. Make sure it matches the ZAF FU allocation table.
+    ZAF_fu_allocation_table <- readd_by_country(SEAPSUTWorkflow::target_names$IncompleteAllocationTables,
+                                                country = "ZAF",
+                                                cache_path = testing_setup$cache_path)
+    World_fu_allocation_table <- readd_by_country(SEAPSUTWorkflow::target_names$IncompleteAllocationTables,
+                                                  country = "World",
+                                                  cache_path = testing_setup$cache_path)
+    expect_equal(World_fu_allocation_table %>%
+                   dplyr::mutate("{IEATools::iea_cols$country}" := "ZAF"),
+                 ZAF_fu_allocation_table)
 
   },
   finally = {

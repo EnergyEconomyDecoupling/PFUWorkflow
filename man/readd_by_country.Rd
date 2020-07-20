@@ -7,7 +7,8 @@
 readd_by_country(
   target,
   country,
-  countries_target = SEAPSUTWorkflow::target_names$countries,
+ 
+    allocation_and_efficiency_countries_target = SEAPSUTWorkflow::target_names$allocation_and_efficiency_countries,
   cache_path = SEAPSUTWorkflow::cache_info$cache_path
 )
 }
@@ -18,7 +19,7 @@ readd_by_country(
 (or vector of 3-letter countries)
 for whom \code{target} is to be readd from the drake cache.}
 
-\item{countries_target}{See \code{SEAPSUTWorkflow::target_names}.}
+\item{allocation_and_efficiency_countries_target}{See \code{SEAPSUTWorkflow::target_names}.}
 
 \item{cache_path}{See \code{SEAPSUTWorkflow::cache_info}.}
 }

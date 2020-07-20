@@ -11,6 +11,7 @@ library(IEATools)
 #
 
 target_names <- list(countries = "countries",
+                     allocation_and_efficiency_countries = "allocation_and_efficiency_countries",
                      max_year = "max_year",
                      iea_data_path = "iea_data_path",
                      exemplar_table_path = "exemplar_table_path",

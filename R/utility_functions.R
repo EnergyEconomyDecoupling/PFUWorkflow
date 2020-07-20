@@ -12,7 +12,7 @@
 #' @param country The 3-letter ISO abbreviation (a string) of the country
 #'                (or vector of 3-letter countries)
 #'                for whom `target` is to be readd from the drake cache.
-#' @param countries_target See `SEAPSUTWorkflow::target_names`.
+#' @param allocation_and_efficiency_countries_target See `SEAPSUTWorkflow::target_names`.
 #' @param cache_path See `SEAPSUTWorkflow::cache_info`.
 #'
 #' @return the country-specific version of `target`
@@ -20,9 +20,9 @@
 #' @export
 readd_by_country <- function(target,
                              country,
-                             countries_target = SEAPSUTWorkflow::target_names$countries,
+                             allocation_and_efficiency_countries_target = SEAPSUTWorkflow::target_names$allocation_and_efficiency_countries,
                              cache_path = SEAPSUTWorkflow::cache_info$cache_path) {
-  known_countries <- drake::readd(countries_target, path = cache_path, character_only = TRUE)
+  known_countries <- drake::readd(allocation_and_efficiency_countries_target, path = cache_path, character_only = TRUE)
   country_indices <- which(known_countries %in% country, arr.ind = TRUE)
   drake::readd(target, path = cache_path, character_only = TRUE, subtargets = country_indices)
 }

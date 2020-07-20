@@ -5,9 +5,10 @@
 \alias{target_names}
 \title{Drake cache target names}
 \format{
-A string list with 17 entries.
+A string list with 18 entries.
 \describe{
 \item{countries}{The string name of the countries target in the drake cache, giving the countries to be analyzed.}
+\item{allocation_and_efficiency_countries}{The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.}
 \item{max_year}{The integer representing the maximum year to be analyzed.}
 \item{iea_data_path}{A string representing the path to the file containing IEA extended energy balance data.}
 \item{exemplar_table_path}{A string representing the path to the exemplar table.}
