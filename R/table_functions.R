@@ -108,46 +108,76 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
                                           quantity = IEATools::template_cols$quantity,
                                           maximum_values = IEATools::template_cols$maximum_values,
                                           .values = IEATools::template_cols$.values,
-                                          exemplars = SEAPSUTWorkflow::exemplar_names$exemplars) {
+                                          exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
+                                          exemplar_tables = SEAPSUTWorkflow::exemplar_names$exemplar_tables,
+                                          iea_data = SEAPSUTWorkflow::exemplar_names$iea_data,
+                                          incomplete_alloc_tables = SEAPSUTWorkflow::exemplar_names$incomplete_alloc_table,
+                                          complete_alloc_tables = SEAPSUTWorkflow::exemplar_names$complete_alloc_table) {
+
+  year_columns <- incomplete_allocation_tables %>%
+    IEATools::year_cols(year = year, return_names = TRUE)
+  meta_columns <- incomplete_allocation_tables %>%
+    IEATools::meta_cols(return_names = TRUE)
+  if (length(year_columns > 0)) {
+    # Convert to a tidy data frame
+    tidy_incomplete_allocation_tables <- incomplete_allocation_tables %>%
+      dplyr::filter(! .data[[quantity]] %in% c(e_dot, e_dot_perc)) %>%
+      dplyr::select(!maximum_values) %>%
+      tidyr::pivot_longer(cols = year_columns, names_to = year, values_to = .values) %>%
+      dplyr::filter(! is.na(.data[[.values]]))
+  } else {
+    tidy_incomplete_allocation_tables <- incomplete_allocation_tables
+  }
 
   exemplar_tables <- lapply(countries, FUN = function(coun) {
-
-    year_columns <- incomplete_allocation_tables %>%
-      IEATools::year_cols(year = year, return_names = TRUE)
-    meta_columns <- incomplete_allocation_tables %>%
-      IEATools::meta_cols(return_names = TRUE)
-    if (length(year_columns > 0)) {
-      # Convert to a tidy data frame
-      tidy_incomplete_allocation_tables <- incomplete_allocation_tables %>%
-        dplyr::filter(! .data[[quantity]] %in% c(e_dot, e_dot_perc)) %>%
-        dplyr::select(!maximum_values) %>%
-        tidyr::pivot_longer(cols = year_columns, names_to = year, values_to = .values) %>%
-        dplyr::filter(! is.na(.data[[.values]]))
-    } else {
-      tidy_incomplete_allocation_tables <- incomplete_allocation_tables
-    }
-
-    coun_allocation_table <- tidy_incomplete_allocation_tables %>%
-      dplyr::filter(.data[[country]] == coun)
-
     coun_exemplar_strings <- exemplar_lists %>%
       dplyr::filter(.data[[country]] == coun)
-
 
     # For each combination of Country and Year (the rows of coun_exemplar_strings),
     # assemble a list of country allocation tables.
     coun_exemplar_strings_and_tables <- coun_exemplar_strings %>%
       dplyr::mutate(
-        exemplar_table_col = Map(get_one_exemplar_table_list,
-                                 # Need to wrap this in a list so the WHOLE table is sent via Map to get_one_exemplar_table_list
-                                 tidy_incomplete_allocation_tables = list(tidy_incomplete_allocation_tables),
-                                 exemplar_strings = .data[[exemplars]],
-                                 yr = .data[[year]],
-                                 country_colname = country,
-                                 year_colname = year)
+        # Create a column in which a list of exemplar allocation tables is stored
+        "{exemplar_tables}" := Map(get_one_exemplar_table_list,
+                                   # Need to wrap this in a list so the WHOLE table is sent via Map to get_one_exemplar_table_list
+                                   tidy_incomplete_allocation_tables = list(tidy_incomplete_allocation_tables),
+                                   exemplar_strings = .data[[exemplars]],
+                                   yr = .data[[year]],
+                                   country_colname = country,
+                                   year_colname = year),
+        "{iea_data}" := Map(get_one_iea_df,
+                            coun = .data[[country]],
+                            yr = .data[[year]],
+                            iea_df = list(specified_iea_data),
+                            country_colname = country,
+                            year_colname = year),
+        "{incomplete_alloc_tables}" := Map(get_one_incomplete_allocation_table,
+                                           coun = .data[[country]],
+                                           yr = .data[[year]],
+                                           tidy_incomplete_allocation_tables = list(tidy_incomplete_allocation_tables),
+                                           country_colname = country,
+                                           year_colname = year),
+        "{complete_alloc_tables}" := Map(IEATools::complete_fu_allocation_table,
+                                         fu_allocation_table = .data[[incomplete_alloc_tables]],
+                                         exemplar_fu_allocation_tables = .data[[exemplar_tables]],
+                                         tidy_specified_iea_data = .data[[iea_data]])
       )
   }) %>%
     dplyr::bind_rows()
+
+  exemplar_tables
+
+  # Nest the tidy_incomplete_allocation_tables so we can then run
+  # IEATools::complete_fu_allocation_table on the column of incomplete allocation tables.
+  # mega_table <- exemplar_tables %>%
+  #   dplyr::mutate(
+  #     # Eliminate the Exemplars column
+  #     "{exemplars}" := NULL,
+  #     incomplete_allocation_table = incomplete_allocation_tables %>%
+  #       dplyr::filter(.data[[IEATools::iea_cols$country]] == )
+  #   ) %>%
+  #   dplyr::nest_join(tidy_incomplete_allocation_tables)
+
 
 }
 
@@ -162,4 +192,18 @@ get_one_exemplar_table_list <- function(tidy_incomplete_allocation_tables,
     tidy_incomplete_allocation_tables %>%
       dplyr::filter(.data[[country_colname]] == exemplar_coun, .data[[year_colname]] == yr)
   })
+}
+
+
+get_one_iea_df <- function(coun, yr, iea_df, country_colname, year_colname) {
+  iea_df %>%
+    dplyr::filter(.data[[country_colname]] %in% coun,
+                  .data[[year_colname]] %in% yr)
+}
+
+
+get_one_incomplete_allocation_table <- function(coun, yr, tidy_incomplete_allocation_tables, country_colname, year_colname) {
+  tidy_incomplete_allocation_tables %>%
+    dplyr::filter(.data[[country_colname]] %in% coun,
+                  .data[[year_colname]] %in% yr)
 }

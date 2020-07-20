@@ -200,10 +200,10 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, setup_exemplars = F
     GHA_FU_allocation_table <- GHA_FU_allocation_table %>%
       dplyr::filter(!(.data[[IEATools::template_cols$ef_product]] == IEATools::biofuels_and_waste_products$primary_solid_biofuels &
                         .data[[IEATools::template_cols$destination]] == IEATools::other_flows$residential))
-    # Trim the GHA efficiency table to eliminate Wood stoves that produce MTH.100.C.
+    # Trim the GHA efficiency table to eliminate Wood cookstoves that produce MTH.100.C.
     # The efficiency of Wood stoves will be picked up from an exemplar country.
     GHA_FU_etas_table <- GHA_FU_etas_table %>%
-      dplyr::filter(!(.data[[IEATools::template_cols$machine]] == "Wood stoves" &
+      dplyr::filter(!(.data[[IEATools::template_cols$machine]] == "Wood cookstoves" &
                         .data[[IEATools::template_cols$eu_product]] == "MTH.100.C"))
   }
 

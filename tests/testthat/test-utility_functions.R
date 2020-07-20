@@ -88,7 +88,6 @@ test_that("setup_exemplars() works as expected", {
     expect_equal(World_fu_allocation_table %>%
                    dplyr::mutate("{IEATools::iea_cols$country}" := "ZAF"),
                  ZAF_fu_allocation_table)
-
   },
   finally = {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)

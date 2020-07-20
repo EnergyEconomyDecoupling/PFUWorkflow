@@ -16,7 +16,11 @@ assemble_fu_allocation_tables(
   quantity = IEATools::template_cols$quantity,
   maximum_values = IEATools::template_cols$maximum_values,
   .values = IEATools::template_cols$.values,
-  exemplars = SEAPSUTWorkflow::exemplar_names$exemplars
+  exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
+  exemplar_tables = SEAPSUTWorkflow::exemplar_names$exemplar_tables,
+  iea_data = SEAPSUTWorkflow::exemplar_names$iea_data,
+  incomplete_alloc_tables = SEAPSUTWorkflow::exemplar_names$incomplete_alloc_table,
+  complete_alloc_tables = SEAPSUTWorkflow::exemplar_names$complete_alloc_table
 )
 }
 \arguments{
