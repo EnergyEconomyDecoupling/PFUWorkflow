@@ -85,6 +85,9 @@ dir_create_pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode =
 #' @param fu_analysis_folder The path to the final-to-useful analysis folder. Default is `tempdir()`.
 #' @param exemplar_folder The path to a temporary folder to contain an exemplar table. Default is `tempdir()`.
 #' @param cache_path The path to the temporary drake cache used for testing. Default is `tempfile("drake_cache_for_testing")`.
+#' @param setup_exemplars Tells whether GHA allocation data should be adjusted to allow exemplars and
+#'                        if ZAF allocations will be duplicated and called "World".
+#'                        Default is `FALSE`.
 #'
 #' @return A list containing a drake plan (`$plan`),
 #'         the path to the temporary drake cache (`$cache_path`), and
@@ -92,14 +95,17 @@ dir_create_pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode =
 #'
 #' @noRd
 set_up_for_testing <- function(countries = c("GHA", "ZAF"),
+                               additional_exemplar_countries = "World",
                                max_year = 2000,
                                how_far = "all_targets",
                                iea_data_path = IEATools::sample_iea_data_path(),
                                fu_analysis_folder = tempdir(),
                                exemplar_folder = tempdir(),
-                               cache_path = tempfile("drake_cache_for_testing")) {
-  set_up_temp_analysis(fu_analysis_folder, exemplar_folder)
+                               cache_path = tempfile("drake_cache_for_testing"),
+                               setup_exemplars = FALSE) {
+  set_up_temp_analysis(fu_analysis_folder, exemplar_folder, setup_exemplars = setup_exemplars)
   plan <- get_plan(countries = countries,
+                   additional_exemplar_countries = additional_exemplar_countries,
                    max_year = max_year,
                    how_far = how_far,
                    iea_data_path = iea_data_path,
@@ -156,11 +162,14 @@ clean_up_after_testing <- function(testing_setup, cache_path = testing_setup$cac
 #'
 #' @param fu_folder The folder in which the final-to-useful analysis structure will be created.
 #' @param exemplar_folder The folder in which a small exemplar table will be created.
+#' @param setup_exemplars Tells whether GHA allocation data should be adjusted to allow exemplars and
+#'                        if ZAF allocations will be duplicated and called "World".
+#'                        Default is `FALSE`.
 #'
 #' @return `NULL`. This function should be called for its side effect of creating a temporary final-to-useful directory structure.
 #'
 #' @noRd
-set_up_temp_analysis <- function(fu_folder, exemplar_folder) {
+set_up_temp_analysis <- function(fu_folder, exemplar_folder, setup_exemplars = FALSE) {
   # Set up FU allocation tables. Need to split file that is stored in IEATools
   GHAZAF_FU_allocation_tables <- IEATools::sample_fu_allocation_table_path() %>%
     openxlsx::read.xlsx()
@@ -176,6 +185,28 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder) {
   ZAF_FU_etas_table <- GHAZAF_eta_FU_tables %>%
     dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF")
 
+  if (setup_exemplars) {
+    # Set up for using World as an exemplar for GHA.
+    World_FU_allocation_table <- ZAF_FU_allocation_table %>%
+      dplyr::mutate(
+        "{IEATools::iea_cols$country}" := "World"
+      )
+    World_FU_etas_table <- ZAF_FU_etas_table %>%
+      dplyr::mutate(
+        "{IEATools::iea_cols$country}" := "World"
+      )
+    # Trim the GHA allocation table to make a missing row that will be filled by an exemplar.
+    # Get rid of PSB consumption residential so that it can be picked up from an exemplar country.
+    GHA_FU_allocation_table <- GHA_FU_allocation_table %>%
+      dplyr::filter(!(.data[[IEATools::template_cols$ef_product]] == IEATools::biofuels_and_waste_products$primary_solid_biofuels &
+                        .data[[IEATools::template_cols$destination]] == IEATools::other_flows$residential))
+    # Trim the GHA efficiency table to eliminate Wood stoves that produce MTH.100.C.
+    # The efficiency of Wood stoves will be picked up from an exemplar country.
+    GHA_FU_etas_table <- GHA_FU_etas_table %>%
+      dplyr::filter(!(.data[[IEATools::template_cols$machine]] == "Wood stoves" &
+                        .data[[IEATools::template_cols$eu_product]] == "MTH.100.C"))
+  }
+
   # Build FU analysis workbooks for each country.
   GHA_fu_wb <- openxlsx::createWorkbook()
   openxlsx::addWorksheet(GHA_fu_wb, IEATools::fu_analysis_file_info$fu_allocation_tab_name)
@@ -185,15 +216,28 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder) {
 
   ZAF_fu_wb <- openxlsx::createWorkbook()
   openxlsx::addWorksheet(ZAF_fu_wb, IEATools::fu_analysis_file_info$fu_allocation_tab_name)
-  openxlsx::writeData(ZAF_fu_wb, IEATools::fu_analysis_file_info$fu_allocation_tab_name, ZAF_FU_etas_table)
+  openxlsx::writeData(ZAF_fu_wb, IEATools::fu_analysis_file_info$fu_allocation_tab_name, ZAF_FU_allocation_table)
   openxlsx::addWorksheet(ZAF_fu_wb, IEATools::fu_analysis_file_info$eta_fu_tab_name)
   openxlsx::writeData(ZAF_fu_wb, IEATools::fu_analysis_file_info$eta_fu_tab_name, ZAF_FU_etas_table)
+
+  if (setup_exemplars) {
+    World_fu_wb <- openxlsx::createWorkbook()
+    openxlsx::addWorksheet(World_fu_wb, IEATools::fu_analysis_file_info$fu_allocation_tab_name)
+    openxlsx::writeData(World_fu_wb, IEATools::fu_analysis_file_info$fu_allocation_tab_name, World_FU_allocation_table)
+    openxlsx::addWorksheet(World_fu_wb, IEATools::fu_analysis_file_info$eta_fu_tab_name)
+    openxlsx::writeData(World_fu_wb, IEATools::fu_analysis_file_info$eta_fu_tab_name, World_FU_etas_table)
+
+  }
 
   # Write the workbooks back to the temp directory.
   dir.create(file.path(fu_folder, "GHA"), showWarnings = FALSE)
   dir.create(file.path(fu_folder, "ZAF"), showWarnings = FALSE)
   openxlsx::saveWorkbook(GHA_fu_wb, file = file.path(fu_folder, "GHA", "GHA FU Analysis.xlsx"), overwrite = TRUE)
   openxlsx::saveWorkbook(ZAF_fu_wb, file = file.path(fu_folder, "ZAF", "ZAF FU Analysis.xlsx"), overwrite = TRUE)
+  if (setup_exemplars) {
+    dir.create(file.path(fu_folder, "World"), showWarnings = FALSE)
+    openxlsx::saveWorkbook(World_fu_wb, file = file.path(fu_folder, "World", "World FU Analysis.xlsx"), overwrite = TRUE)
+  }
 
   # Create an exemplar table
   sample_exemplar_file <- sample_exemplar_table_path() %>%

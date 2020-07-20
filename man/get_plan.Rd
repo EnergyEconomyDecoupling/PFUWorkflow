@@ -6,6 +6,7 @@
 \usage{
 get_plan(
   countries,
+  additional_exemplar_countries = NULL,
   max_year,
   how_far = "all_targets",
   iea_data_path,
@@ -15,6 +16,13 @@ get_plan(
 }
 \arguments{
 \item{countries}{A vector of country abbreviations to be analyzed, such as "c('GHA', 'ZAF')".}
+
+\item{additional_exemplar_countries}{A vector of country abbreviations for which final-to-useful allocations
+and efficiencies will be read.
+An energy conversion chain will \emph{not} be constructed for these countries.
+However, their final-to-useful allocations and efficiencies
+may be used as exemplar information for the countries in \code{countries}.
+Default is \code{NULL}, indicating no additional exemplars.}
 
 \item{max_year}{The last year to be studied, typically the last year for which data are available.}
 
@@ -41,6 +49,7 @@ which the maximum year to be analyzed.
 The return value is a \code{drake} plan object with the following targets:
 \itemize{
 \item \code{countries}: The countries to be analyzed, supplied in the \code{countries} argument.
+\item \code{allocation_and_efficiency_countries}: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of \code{countries} and \code{additional_exemplar_countries} with duplicates removed.
 \item \code{max_year}: The maximum year to be analyzed, supplied in the \code{max_year} argument.
 \item \code{iea_data_path}: The path to IEA extended energy balance data, supplied in the \code{iea_data_path} argument.
 \item \code{exemplar_table_path}: The path to an exemplar table, supplied in the \code{exemplar_table_path} argument.

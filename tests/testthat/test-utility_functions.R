@@ -20,7 +20,7 @@ test_that("dir_create_pipe() works as expected", {
 
 
 test_that("readd_by_country() works as expected", {
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "IEAData")
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$IEAData)
 
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
@@ -49,4 +49,27 @@ test_that("readd_by_country() works as expected", {
   finally = {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
   })
+})
+
+
+test_that("setup_exemplars() works as expected", {
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$CompletedAllocationTables,
+                                                        setup_exemplars = TRUE)
+
+  tryCatch({
+    drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
+
+    # Check that there is a World exemplar table
+    testing_setup$plan %>%
+      dplyr::filter(target == SEAPSUTWorkflow::target_names$fu_analysis_folder) %>%
+      magrittr::extract2("command") %>%
+      unlist() %>%
+      dir.exists() %>%
+      expect_true()
+
+  },
+  finally = {
+    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+  })
+
 })

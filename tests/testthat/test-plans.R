@@ -11,20 +11,21 @@ test_that("get_plan works", {
 
   # Make sure the pieces get created correctly with tidyeval.
   expect_equal(my_plan[[1, "target"]], "countries")
-  expect_equal(my_plan[[2, "target"]], "max_year")
-  expect_equal(my_plan[[2, "command"]], list(1999))
-  expect_equal(my_plan[[3, "command"]], list("datapath"))
-  expect_equal(my_plan[[4, "command"]], list("exemplarpath"))
-  expect_equal(my_plan[[5, "target"]], "fu_analysis_folder")
-  expect_equal(my_plan[[5, "command"]], list("FUpath"))
-  expect_equal(my_plan[[6, "target"]], "AllIEAData")
-  expect_equal(my_plan[[7, "target"]], "IEAData")
-  expect_equal(my_plan[[8, "target"]], "balanced_before")
-  expect_equal(my_plan[[9, "target"]], "BalancedIEAData")
-  expect_equal(my_plan[[10, "target"]], "balanced_after")
-  expect_equal(my_plan[[11, "target"]], "OKToProceed")
-  expect_equal(my_plan[[12, "target"]], "Specified")
-  expect_equal(my_plan[[13, "target"]], "PSUT_final")
+  expect_equal(my_plan[[2, "target"]], "allocation_and_efficiency_countries")
+  expect_equal(my_plan[[3, "target"]], "max_year")
+  expect_equal(my_plan[[3, "command"]], list(1999))
+  expect_equal(my_plan[[4, "command"]], list("datapath"))
+  expect_equal(my_plan[[5, "command"]], list("exemplarpath"))
+  expect_equal(my_plan[[6, "target"]], "fu_analysis_folder")
+  expect_equal(my_plan[[6, "command"]], list("FUpath"))
+  expect_equal(my_plan[[7, "target"]], "AllIEAData")
+  expect_equal(my_plan[[8, "target"]], "IEAData")
+  expect_equal(my_plan[[9, "target"]], "balanced_before")
+  expect_equal(my_plan[[10, "target"]], "BalancedIEAData")
+  expect_equal(my_plan[[11, "target"]], "balanced_after")
+  expect_equal(my_plan[[12, "target"]], "OKToProceed")
+  expect_equal(my_plan[[13, "target"]], "Specified")
+  expect_equal(my_plan[[14, "target"]], "PSUT_final")
 })
 
 
@@ -109,10 +110,8 @@ test_that("make works", {
       expect_equal("ZAF")
     # Check that the ZAF table looks OK.
     ZAF_allocation_table <- readd_by_country(target = SEAPSUTWorkflow::target_names$IncompleteAllocationTables, country = "ZAF", cache_path = testing_setup$cache_path)
-    expect_true(all(!is.na(ZAF_allocation_table[[IEATools::template_cols$machine]])))
     expect_true(all(!is.na(ZAF_allocation_table[[IEATools::iea_cols$method]])))
     expect_true(all(!is.na(ZAF_allocation_table[[IEATools::iea_cols$energy_type]])))
-    expect_true(! IEATools::iea_cols$flow_aggregation_point %in% colnames(ZAF_allocation_table))
 
     # Test efficiency tables.
     expect_true(!is.null(readd_by_country(target = "IncompleteEfficiencyTables", country = "GHA", cache_path = testing_setup$cache_path)))
@@ -139,7 +138,6 @@ test_that("make works", {
       dplyr::select(IEATools::iea_cols$country) %>%
       unique() %>% unlist() %>% unname() %>%
       expect_equal("ZAF")
-
 
   },
   finally = {

@@ -11,6 +11,11 @@ assemble_fu_allocation_tables(
   countries,
   country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year,
+  e_dot = IEATools::iea_cols$e_dot,
+  e_dot_perc = IEATools::template_cols$e_dot_perc,
+  quantity = IEATools::template_cols$quantity,
+  maximum_values = IEATools::template_cols$maximum_values,
+  .values = IEATools::template_cols$.values,
   exemplars = SEAPSUTWorkflow::exemplar_names$exemplars
 )
 }

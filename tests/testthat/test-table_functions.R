@@ -47,8 +47,7 @@ test_that("assemble_fu_allocation_tables() works as expected.", {
                                      character_only = TRUE)
     expect_true(all(!is.na(incomplete_alloc_tables[[IEATools::iea_cols$method]])))
     expect_true(all(!is.na(incomplete_alloc_tables[[IEATools::iea_cols$energy_type]])))
-    # We shouldn't have this column. Why does it appear here?
-    expect_true(! IEATools::iea_cols$flow_aggregation_point %in% colnames(incomplete_alloc_tables))
+    expect_true(all(!is.na(incomplete_alloc_tables[[IEATools::iea_cols$flow_aggregation_point]])))
 
     # Check the completed FU Allocation tables.
 

@@ -8,6 +8,7 @@
 #' The return value is a `drake` plan object with the following targets:
 #'
 #' * `countries`: The countries to be analyzed, supplied in the `countries` argument.
+#' * `allocation_and_efficiency_countries`: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of `countries` and `additional_exemplar_countries` with duplicates removed.
 #' * `max_year`: The maximum year to be analyzed, supplied in the `max_year` argument.
 #' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
 #' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.
@@ -40,6 +41,12 @@
 #' * `ExemplarLists`.
 #'
 #' @param countries A vector of country abbreviations to be analyzed, such as "c('GHA', 'ZAF')".
+#' @param additional_exemplar_countries A vector of country abbreviations for which final-to-useful allocations
+#'                                      and efficiencies will be read.
+#'                                      An energy conversion chain will _not_ be constructed for these countries.
+#'                                      However, their final-to-useful allocations and efficiencies
+#'                                      may be used as exemplar information for the countries in `countries`.
+#'                                      Default is `NULL`, indicating no additional exemplars.
 #' @param max_year The last year to be studied, typically the last year for which data are available.
 #' @param how_far A string indicating the last target to include in the plan that is returned.
 #'                Default is "all_targets" to indicate all targets of the plan should be returned.
@@ -65,7 +72,8 @@
 #'          iea_data_path = "iea_path",
 #'          exemplar_table_path = "exemplar_path",
 #'          fu_analysis_folder = "fu_folder")
-get_plan <- function(countries, max_year, how_far = "all_targets",
+get_plan <- function(countries, additional_exemplar_countries = NULL,
+                     max_year, how_far = "all_targets",
                      iea_data_path, exemplar_table_path, fu_analysis_folder) {
 
   # Get around some warnings.
@@ -85,6 +93,7 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
     # See https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function
     # Need to enclose !!countries in c() (or an identity function), else it doesn't work when countries has length > 1.
     countries = c(!!countries),
+    allocation_and_efficiency_countries = unique(c(countries, !!additional_exemplar_countries)),
     max_year = !!max_year,
     iea_data_path = !!iea_data_path,
     exemplar_table_path = !!exemplar_table_path,
@@ -131,15 +140,15 @@ get_plan <- function(countries, max_year, how_far = "all_targets",
     # (5) Load incomplete FU allocation tables
 
     IncompleteAllocationTables = drake::target(fu_analysis_folder %>%
-                                                 load_fu_allocation_tables(countries),
-                                               dynamic = map(countries)),
+                                                 load_fu_allocation_tables(allocation_and_efficiency_countries),
+                                               dynamic = map(allocation_and_efficiency_countries)),
 
     # (6) Load incomplete FU efficiency tables for each country and year from disk.
     # These may be incomplete.
 
     IncompleteEfficiencyTables = drake::target(fu_analysis_folder %>%
-                                                 load_fu_efficiency_tables(countries),
-                                               dynamic = map(countries)),
+                                                 load_fu_efficiency_tables(allocation_and_efficiency_countries),
+                                               dynamic = map(allocation_and_efficiency_countries)),
 
     # (7) Load exemplar table and make lists for each country and year from disk.
     # These may be incomplete.
