@@ -147,7 +147,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # These may be incomplete.
 
     IncompleteEfficiencyTables = drake::target(fu_analysis_folder %>%
-                                                 load_fu_efficiency_tables(allocation_and_efficiency_countries),
+                                                 load_eta_fu_tables(allocation_and_efficiency_countries),
                                                dynamic = map(allocation_and_efficiency_countries)),
 
     # (7) Load exemplar table and make lists for each country and year from disk.
