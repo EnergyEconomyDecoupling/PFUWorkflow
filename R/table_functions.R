@@ -114,20 +114,6 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
                                           incomplete_alloc_tables = SEAPSUTWorkflow::exemplar_names$incomplete_alloc_table,
                                           complete_alloc_tables = SEAPSUTWorkflow::exemplar_names$complete_alloc_table) {
 
-  # year_columns <- incomplete_allocation_tables %>%
-  #   IEATools::year_cols(year = year, return_names = TRUE)
-  # meta_columns <- incomplete_allocation_tables %>%
-  #   IEATools::meta_cols(return_names = TRUE)
-  # if (length(year_columns > 0)) {
-  #   # Convert to a tidy data frame
-  #   tidy_incomplete_allocation_tables <- incomplete_allocation_tables %>%
-  #     dplyr::filter(! .data[[quantity]] %in% c(e_dot, e_dot_perc)) %>%
-  #     dplyr::select(!maximum_values) %>%
-  #     tidyr::pivot_longer(cols = year_columns, names_to = year, values_to = .values) %>%
-  #     dplyr::filter(! is.na(.data[[.values]]))
-  # } else {
-  #   tidy_incomplete_allocation_tables <- incomplete_allocation_tables
-  # }
   tidy_incomplete_allocation_tables <- IEATools::tidy_fu_allocation_table(incomplete_allocation_tables)
 
   exemplar_tables <- lapply(countries, FUN = function(coun) {
