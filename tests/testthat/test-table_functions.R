@@ -159,10 +159,12 @@ test_that("simple example for assemble_eta_fu__tables() works", {
   # Make sure we picked up rows of efficiencies for Wood cookstoves
   completed %>%
     dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA",
-                  .data[[IEATools::template_cols$machine]] == "Wood cookstoves") %>%
+                  .data[[IEATools::template_cols$machine]] == "Wood cookstoves",
+                  .data[[IEATools::template_cols$quantity]] == IEATools::template_cols$eta_fu) %>%
     nrow() %>%
     expect_equal(2)
 })
+
 
 
 

@@ -115,7 +115,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(),
     IEAData = drake::target(AllIEAData %>%
-                              extract_country_data(countries, max_year),
+                              extract_country_data(countries = countries, max_year = max_year),
                             dynamic = map(countries)),
 
     # (2) Balance all the final energy data.
@@ -123,15 +123,15 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # First, check whether energy products are balanced. They're not.
     # FALSE indicates a country with at least one balance problem.
     balanced_before = drake::target(IEAData %>%
-                                      is_balanced(countries),
+                                      is_balanced(countries = countries),
                                     dynamic = map(countries)),
     # Balance all of the data by product and year.
     BalancedIEAData = drake::target(IEAData %>%
-                                      make_balanced(countries),
+                                      make_balanced(countries = countries),
                                     dynamic = map(countries)),
     # Check that everything is balanced after balancing.
     balanced_after = drake::target(BalancedIEAData %>%
-                                     is_balanced(countries),
+                                     is_balanced(countries = countries),
                                    dynamic = map(countries)),
     # Don't continue if there is a problem.
     # stopifnot returns NULL if everything is OK.
@@ -140,60 +140,61 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # (3) Specify the BalancedIEAData data frame by being more careful with names, etc.
 
     Specified = drake::target(BalancedIEAData %>%
-                                specify(countries),
+                                specify(countries = countries),
                               dynamic = map(countries)),
 
     # (4) Arrange all the data into PSUT matrices with final stage data.
 
     PSUT_final = drake::target(Specified %>%
-                                 make_psut(countries),
+                                 make_psut(countries = countries),
                                dynamic = map(countries)),
 
     # (5) Load incomplete FU allocation tables
 
     IncompleteAllocationTables = drake::target(fu_analysis_folder %>%
-                                                 load_fu_allocation_tables(alloc_and_eff_couns),
+                                                 load_fu_allocation_tables(countries = alloc_and_eff_couns),
                                                dynamic = map(alloc_and_eff_couns)),
 
     # (6) Load incomplete FU efficiency tables for each country and year from disk.
     # These may be incomplete.
 
     IncompleteEfficiencyTables = drake::target(fu_analysis_folder %>%
-                                                 load_eta_fu_tables(alloc_and_eff_couns),
+                                                 load_eta_fu_tables(countries = alloc_and_eff_couns),
                                                dynamic = map(alloc_and_eff_couns)),
 
     # (7) Load exemplar table and make lists for each country and year from disk.
     # These may be incomplete.
 
     ExemplarLists = drake::target(exemplar_table_path %>%
-                                    load_exemplar_table(countries) %>%
+                                    load_exemplar_table(countries = countries) %>%
                                     exemplar_lists(countries),
                                   dynamic = map(countries)),
 
-    # (8) Form lists of exemplar tables, one for each country and year to be analyzed.
+    # (8) Complete allocation and efficiency tables
 
-    CompletedAllocationTables = drake::target(assemble_fu_allocation_tables(IncompleteAllocationTables,
-                                                                            ExemplarLists,
-                                                                            Specified,
-                                                                            countries),
+    CompletedAllocationTables = drake::target(assemble_fu_allocation_tables(incomplete_allocation_tables = IncompleteAllocationTables,
+                                                                            exemplar_lists = ExemplarLists,
+                                                                            specified_iea_data = Specified,
+                                                                            countries = countries),
                                               dynamic = map(countries)),
 
-    # EfficiencyTableExemplarLists = drake::target(dynamic = map(countries))
+    CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = IncompleteEfficiencyTables,
+                                                                     exemplar_lists = ExemplarLists,
+                                                                     completed_fu_allocation_tables = CompletedAllocationTables,
+                                                                     countries = countries),
+                                              dynamic = map(countries))
 
-    # (9) Complete allocation and efficiency tables
-
-
-    # (10) Extend to useful stage
-
-
-    # (11) Add other methods
+    # (9) Extend to useful stage
 
 
+    # (10) Add other methods
 
-    # (12) Add exergy quantifications of energy
 
 
-    # (13) Off to the races!  Do other calculations
+    # (11) Add exergy quantifications of energy
+
+
+    # (12) Off to the races!  Do other calculations
 
   )
   if (how_far != "all_targets") {

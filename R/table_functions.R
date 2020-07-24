@@ -89,8 +89,10 @@ load_eta_fu_tables <- function(fu_analysis_folder,
 #' This function is used in a drake workflow to assemble completed final-to-useful allocation tables
 #' given a set of incomplete allocation tables.
 #'
-#' Note that this function can accept tody or wide by year data frames.
+#' Note that this function can accept tidy or wide by year data frames.
 #' The return value is a tidy data frame.
+#' Information from exemplar countries is used to complete incomplete final-to-useful efficiency tables.
+#' See examples for how to construct `exemplar_lists`.
 #'
 #' @param incomplete_allocation_tables A data frame containing (potentially) incomplete final-to-useful allocation tables.
 #'                                     This data frame may be tidy or wide by years.
@@ -207,16 +209,55 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
 
 #' Assemble completed final-to-useful efficiency tables
 #'
-#' @param incomplete_eta_fu_tables
-#' @param exemplar_lists
-#' @param completed_fu_allocation_tables
-#' @param countries
+#' This function is used in a drake workflow to assemble completed final-to-useful efficiency tables
+#' given a set of incomplete efficiency tables.
+#' Information from exemplar countries is used to complete incomplete final-to-useful efficiency tables.
+#' See examples for how to construct `exemplar_lists`.
 #'
-#' @return
+#' Note that this function can accept tidy or wide by year data frames.
+#' The return value is a tidy data frame.
+#'
+#' @param incomplete_eta_fu_tables An incomplete data frame of final-to-useful efficiencies for all Machines in `completed_fu_allocation_tables`.
+#' @param exemplar_lists A data frame containing `country` and `year` columns along with a column of ordered vectors of strings
+#'                       telling which countries should be considered exemplars for the country and year of this row.
+#' @param completed_fu_allocation_tables A data frame containing completed final-to-useful allocation data,
+#'                                       typically the result of calling `assemble_fu_allocation_tables`.
+#' @param countries A vector of countries for which completed final-to-useful allocation tables are to be assembled.
+#' @param which_quantity A vector of quantities to be completed in the eta_FU table.
+#'                       Default is `c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u)`.
+#'                       Must be one or both of the default values.
+#' @param country,year See `IEATools::iea_cols`.
+#' @param exemplars,exemplar_tables,alloc_data,incomplete_eta_tables,complete_eta_tables
+#'                    See `SEAPSUTWorkflows::exemplar_names`.
+#'
+#' @return A tidy data frame containing completed final-to-useful efficiency tables.
 #'
 #' @export
 #'
 #' @examples
+#' # Make some incomplete efficiency tables for GHA by removing Wood cookstoves.
+#' # Information from the exemplar, ZAF, will supply efficiency for Wood cookstoves.
+#' incomplete_eta_fu_tables <- IEATools::load_eta_fu_data() %>%
+#'   dplyr::filter(! (Country == "GHA" & Machine == "Wood cookstoves"))
+#' # The rows for Wood cookstoves are missing.
+#' incomplete_eta_fu_tables %>%
+#'   dplyr::filter(Country == "GHA", Machine == "Wood cookstoves")
+#' # Set up exemplar list
+#' el <- tibble::tribble(
+#'   ~Country, ~Year, ~Exemplars,
+#'   "GHA", 1971, c("ZAF"),
+#'   "GHA", 2000, c("ZAF"))
+#' # Load FU allocation data.
+#' # An efficiency is needed for each machine in FU allocation data.
+#' fu_allocation_data <- IEATools::load_fu_allocation_data()
+#' # Assemble complete allocation tables
+#' completed <- assemble_eta_fu_tables(incomplete_eta_fu_tables = incomplete_eta_fu_tables,
+#'                                     exemplar_lists = el,
+#'                                     completed_fu_allocation_tables = fu_allocation_data,
+#'                                     countries = "GHA")
+#' # Show that the missing rows have been picked up from the exemplar country, ZAF.
+#' completed %>%
+#'   dplyr::filter(Country == "GHA", Machine == "Wood cookstoves")
 assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                    exemplar_lists,
                                    completed_fu_allocation_tables,
@@ -267,21 +308,19 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                          yr = .data[[year]],
                                          country_colname = country,
                                          year_colname = year),
-        # Add a column containing completed fu allocation tables for each row (i.e., for each combination of country and year).
-        # Note that the data frames in this column contain the SOURCE of information for each allocation.
+        # Add a column containing completed fu efficiency tables for each row (i.e., for each combination of country and year).
+        # Note that the data frames in this column contain the SOURCE of information for each efficiency
         "{complete_eta_tables}" := Map(IEATools::complete_eta_fu_table,
                                        eta_fu_table = .data[[incomplete_eta_tables]],
                                        exemplar_eta_fu_tables = .data[[exemplar_tables]],
-                                       tidy_fu_allocation_table = .data[[alloc_data]],
-                                       which_quantity = which_quantity)
-
-
+                                       fu_allocation_table = .data[[alloc_data]],
+                                       which_quantity = list(which_quantity))
       )
   }) %>%
     dplyr::bind_rows()
 
-  # The only information we need to return is the completed allocation tables.
-  # Expand (unnest) only the completed allocation table column to give one data frame of all the FU allocations
+  # The only information we need to return is the completed efficiency tables.
+  # Expand (unnest) only the completed efficiency table column to give one data frame of all the FU efficiencies
   # for all years and all countries.
   completed_tables_by_year %>%
     dplyr::select(complete_eta_tables) %>%

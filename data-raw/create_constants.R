@@ -27,7 +27,8 @@ target_names <- list(countries = "countries",
                      IncompleteAllocationTables = "IncompleteAllocationTables",
                      IncompleteEfficiencyTables = "IncompleteEfficiencyTables",
                      ExemplarLists = "ExemplarLists",
-                     CompletedAllocationTables = "CompletedAllocationTables")
+                     CompletedAllocationTables = "CompletedAllocationTables",
+                     CompletedEfficiencyTables = "CompletedEfficiencyTables")
 usethis::use_data(target_names, overwrite = TRUE)
 
 

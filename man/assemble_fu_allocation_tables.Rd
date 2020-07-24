@@ -41,8 +41,10 @@ This function is used in a drake workflow to assemble completed final-to-useful 
 given a set of incomplete allocation tables.
 }
 \details{
-Note that this function can accept tody or wide by year data frames.
+Note that this function can accept tidy or wide by year data frames.
 The return value is a tidy data frame.
+Information from exemplar countries is used to complete incomplete final-to-useful efficiency tables.
+See examples for how to construct \code{exemplar_lists}.
 }
 \examples{
 # Load final-to-useful allocation tables, but eliminate one category of consumption,

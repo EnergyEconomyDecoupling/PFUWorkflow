@@ -1,6 +1,9 @@
 * New tests for new features and old bugs.
-    * Now up to 128 tests, all passing.
+    * Now up to 129 tests, all passing.
     * Test coverage remains at 100%.
+* New function `assemble_eta_fu_tables()`, 
+  a counterpart to `assemble_fu_allocation_tables()`, 
+  which allows the use of exemplar countries to complete efficiency tables.
 
 
 # SEAPSUTWorkflow 0.1.1 (2020-07-24)

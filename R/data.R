@@ -24,6 +24,7 @@
 #' \item{IncompleteEfficiencyTables}{A data frame of final-to-useful efficiency tables, one for each country. These efficiency tables may be incomplete.}
 #' \item{ExemplarLists}{A data frame of lists of exemplar countries for each country in `countries`, and maybe more.}
 #' \item{CompletedAllocationTables}{A data frame of completed final-to-useful allocation tables.}
+#' \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}
 #' }
 #'
 #' @examples

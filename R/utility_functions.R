@@ -170,7 +170,7 @@ clean_up_after_testing <- function(testing_setup, cache_path = testing_setup$cac
 #'
 #' @noRd
 set_up_temp_analysis <- function(fu_folder, exemplar_folder, setup_exemplars = FALSE) {
-  # Set up FU allocation tables. Need to split file that is stored in IEATools
+  # Set up FU allocation tables. Need to split file that is stored in IEATools.
   GHAZAF_FU_allocation_tables <- IEATools::sample_fu_allocation_table_path() %>%
     openxlsx::read.xlsx()
   GHA_FU_allocation_table <- GHAZAF_FU_allocation_tables %>%
@@ -196,7 +196,8 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, setup_exemplars = F
         "{IEATools::iea_cols$country}" := "World"
       )
     # Trim the GHA allocation table to make a missing row that will be filled by an exemplar.
-    # Get rid of PSB consumption residential so that it can be picked up from an exemplar country.
+    # Get rid of Residential Primary Solid biofuels consumption
+    # so that it can be picked up from an exemplar country.
     GHA_FU_allocation_table <- GHA_FU_allocation_table %>%
       dplyr::filter(!(.data[[IEATools::template_cols$ef_product]] == IEATools::biofuels_and_waste_products$primary_solid_biofuels &
                         .data[[IEATools::template_cols$destination]] == IEATools::other_flows$residential))
@@ -250,7 +251,7 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, setup_exemplars = F
     # Keep only the years we want
     dplyr::select(!tidyselect::any_of(years_to_remove)) %>%
     # Keep only the countries we want
-    dplyr::filter(`2000` %in% c("GHA", "ZAF"))
+    dplyr::filter(.data[["2000"]] %in% c("GHA", "ZAF"))
   # Write out to disk in our sample directory structure.
   exemplar_wb <- openxlsx::createWorkbook()
   openxlsx::addWorksheet(exemplar_wb, SEAPSUTWorkflow::exemplar_names$exemplar_tab_name)
