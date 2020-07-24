@@ -68,9 +68,9 @@ test_that("simple example for assemble_fu_allocation_tables() works", {
 })
 
 
-test_that("assemble_fu_allocation_tables() works as expected.", {
+test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as expected.", {
   # Create a directory structure in a tempdir for the allocation tables
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$CompletedAllocationTables,
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$CompletedEfficiencyTables,
                                                         setup_exemplars = TRUE)
 
   tryCatch({
@@ -134,6 +134,18 @@ test_that("assemble_fu_allocation_tables() works as expected.", {
     expect_equal(residential_psb %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 1971) %>% nrow(), 2)
     expect_equal(residential_psb %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 2000) %>% nrow(), 2)
     expect_equal(residential_psb %>% magrittr::extract2(IEATools::template_cols$c_source) %>% unique(), "World")
+
+    # Check the completed FU Efficiency tables.
+    GHA_efficiencies_completed <- readd_by_country(SEAPSUTWorkflow::target_names$CompletedEfficiencyTables,
+                                                   country = "GHA",
+                                                   cache_path = testing_setup$cache_path)
+    wood_cookstove_efficiency <- GHA_efficiencies_completed %>%
+      dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves")
+    expect_equal(nrow(wood_cookstove_efficiency), 4)
+    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 1971) %>% nrow(), 2)
+    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 2000) %>% nrow(), 2)
+    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$eta_fu) %>% nrow(), 2)
+    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$phi_u) %>% nrow(), 2)
   },
   finally = {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
@@ -164,7 +176,4 @@ test_that("simple example for assemble_eta_fu__tables() works", {
     nrow() %>%
     expect_equal(2)
 })
-
-
-
 

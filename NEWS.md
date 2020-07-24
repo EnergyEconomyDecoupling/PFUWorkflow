@@ -1,6 +1,7 @@
 * New tests for new features and old bugs.
-    * Now up to 129 tests, all passing.
+    * Now up to 134 tests, all passing.
     * Test coverage remains at 100%.
+* `drake` workflow now extends to completed eta_fu tables.
 * New function `assemble_eta_fu_tables()`, 
   a counterpart to `assemble_fu_allocation_tables()`, 
   which allows the use of exemplar countries to complete efficiency tables.
