@@ -221,6 +221,7 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                    exemplar_lists,
                                    completed_fu_allocation_tables,
                                    countries,
+                                   which_quantity = c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u),
                                    country = IEATools::iea_cols$country,
                                    year = IEATools::iea_cols$year,
                                    exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
@@ -228,6 +229,9 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                    alloc_data = SEAPSUTWorkflow::exemplar_names$alloc_data,
                                    incomplete_eta_tables = SEAPSUTWorkflow::exemplar_names$incomplete_eta_table,
                                    complete_eta_tables = SEAPSUTWorkflow::exemplar_names$complete_eta_table) {
+
+  which_quantity <- match.arg(which_quantity, several.ok = TRUE)
+
   # The FU allocation tables and the incomplete efficiency tables are easier to deal with when they are tidy.
   tidy_incomplete_eta_fu_tables <- IEATools::tidy_eta_fu_table(incomplete_eta_fu_tables)
   tidy_allocation_tables <- IEATools::tidy_fu_allocation_table(completed_fu_allocation_tables)
@@ -263,6 +267,13 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                          yr = .data[[year]],
                                          country_colname = country,
                                          year_colname = year),
+        # Add a column containing completed fu allocation tables for each row (i.e., for each combination of country and year).
+        # Note that the data frames in this column contain the SOURCE of information for each allocation.
+        "{complete_eta_tables}" := Map(IEATools::complete_eta_fu_table,
+                                       eta_fu_table = .data[[incomplete_eta_tables]],
+                                       exemplar_eta_fu_tables = .data[[exemplar_tables]],
+                                       tidy_fu_allocation_table = .data[[alloc_data]],
+                                       which_quantity = which_quantity)
 
 
       )

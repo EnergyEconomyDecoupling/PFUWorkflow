@@ -9,6 +9,7 @@ assemble_eta_fu_tables(
   exemplar_lists,
   completed_fu_allocation_tables,
   countries,
+  which_quantity = c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u),
   country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year,
   exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
