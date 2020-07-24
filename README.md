@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit README.Rmd. -->
 
+<!-- badges: start -->
+
 [![CRAN
 status](https://www.r-pkg.org/badges/version/SEAPSUTWorkflow)](https://cran.r-project.org/package=SEAPSUTWorkflow)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
@@ -13,12 +15,9 @@ status](https://github.com/MatthewHeun/SEAPSUTWorkflow/workflows/check-master-de
 Status](https://travis-ci.org/MatthewHeun/SEAPSUTWorkflow.svg?branch=master)](https://travis-ci.org/MatthewHeun/SEAPSUTWorkflow)
 [![Coverage
 status](https://codecov.io/gh/MatthewHeun/SEAPSUTWorkflow/branch/master/graph/badge.svg)](https://codecov.io/github/MatthewHeun/SEAPSUTWorkflow?branch=master)
+<!-- badges: end -->
 
 # SEAPSUTWorkflow
-
-<!-- badges: start -->
-
-<!-- badges: end -->
 
 The `R` package SEAPSUTWorkflow provides functions and
 [drake](https://github.com/ropensci/drake) workflows for Societal Exergy
