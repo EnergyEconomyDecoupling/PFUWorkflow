@@ -1,3 +1,8 @@
+* New tests for new features and old bugs.
+    * Now up to 128 tests, all passing.
+    * Test coverage remains at 100%.
+
+
 # SEAPSUTWorkflow 0.1.1 (2020-07-24)
 
 * Workflows can now be created with additional template countries that 

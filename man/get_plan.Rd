@@ -15,7 +15,10 @@ get_plan(
 )
 }
 \arguments{
-\item{countries}{A vector of country abbreviations to be analyzed, such as "c('GHA', 'ZAF')".}
+\item{countries}{A vector of abbreviations for countries whose energy conversion chain is to be analyzed,
+such as "c('GHA', 'ZAF')".
+Countries named in \code{countries} can also serve as exemplars for
+final-to-useful allocations and efficiencies.}
 
 \item{additional_exemplar_countries}{A vector of country abbreviations for which final-to-useful allocations
 and efficiencies will be read.
@@ -37,7 +40,7 @@ Default is "all_targets" to indicate all targets of the plan should be returned.
 Sub-folders named with 3-letter country abbreviations are assumed.}
 }
 \value{
-a drake plan object
+A drake plan object.
 }
 \description{
 Creates a drake workflow for societal exergy analysis.
@@ -82,6 +85,11 @@ Note that some targets can be read using \code{readd_by_country()}, including:
 \item \code{IncompleteEfficiencyTables}, and
 \item \code{ExemplarLists}.
 }
+
+If a country is to have its energy conversion chain analyzed \emph{and}
+serve as an exemplar, it should be listed in \code{countries}.
+If a country is to serve as an exemplar only (not have its energy conversion chain analyzed),
+it should be listed in \code{additional_exemplar_countries}.
 }
 \examples{
 get_plan(countries = c("GHA", "ZAF"),

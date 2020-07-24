@@ -40,7 +40,15 @@
 #' * `IncompleteEfficiencyTables`, and
 #' * `ExemplarLists`.
 #'
-#' @param countries A vector of country abbreviations to be analyzed, such as "c('GHA', 'ZAF')".
+#' If a country is to have its energy conversion chain analyzed _and_
+#' serve as an exemplar, it should be listed in `countries`.
+#' If a country is to serve as an exemplar only (not have its energy conversion chain analyzed),
+#' it should be listed in `additional_exemplar_countries`.
+#'
+#' @param countries A vector of abbreviations for countries whose energy conversion chain is to be analyzed,
+#'                  such as "c('GHA', 'ZAF')".
+#'                  Countries named in `countries` can also serve as exemplars for
+#'                  final-to-useful allocations and efficiencies.
 #' @param additional_exemplar_countries A vector of country abbreviations for which final-to-useful allocations
 #'                                      and efficiencies will be read.
 #'                                      An energy conversion chain will _not_ be constructed for these countries.
@@ -55,7 +63,7 @@
 #' @param fu_analysis_folder The path to a folder containing final-to-useful analyses.
 #'                           Sub-folders named with 3-letter country abbreviations are assumed.
 #'
-#' @return a drake plan object
+#' @return A drake plan object.
 #'
 #' @export
 #'
