@@ -126,18 +126,19 @@ path information stored in the drake cache.</p>
     <pre class="usage"><span class='fu'>generate_eta_fu_template</span>(
   <span class='no'>country</span>,
   <span class='kw'>country_col</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>country</span>,
-  <span class='kw'>cache_path</span> <span class='kw'>=</span> <span class='st'>".drake/"</span>,
-  <span class='kw'>fu_analysis_path_target</span> <span class='kw'>=</span> <span class='st'>"fu_analysis_folder"</span>,
-  <span class='kw'>fu_allocation_table_file_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='no'>country</span>, <span class='st'>" FU Analysis"</span>),
+  <span class='kw'>cache_path</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='cache_info.html'>cache_info</a></span>$<span class='no'>cache_path</span>,
+  <span class='kw'>fu_analysis_path_target</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='target_names.html'>target_names</a></span>$<span class='no'>fu_analysis_folder</span>,
+  <span class='kw'>fu_allocation_table_file_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='no'>country</span>,
+    <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/fu_analysis_file_info.html'>fu_analysis_file_info</a></span>$<span class='no'>fu_analysis_file_suffix</span>),
   <span class='kw'>ext</span> <span class='kw'>=</span> <span class='st'>".xlsx"</span>,
   <span class='kw'>fu_allocation_table_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw pkg'>drake</span><span class='kw ns'>::</span><span class='fu'><a href='https://docs.ropensci.org/drake/reference/readd.html'>readd</a></span>(<span class='no'>fu_analysis_path_target</span>,
     <span class='kw'>character_only</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>cache_path</span>), <span class='no'>country</span>) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='dir.create.pipe.html'>dir.create.pipe</a></span>(<span class='kw'>showWarnings</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='dir_create_pipe.html'>dir_create_pipe</a></span>(<span class='kw'>showWarnings</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
     <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='no'>fu_allocation_table_file_name</span>, <span class='no'>ext</span>)),
-  <span class='kw'>fu_allocation_tab_name</span> <span class='kw'>=</span> <span class='st'>"FU Allocations"</span>,
+  <span class='kw'>fu_allocation_tab_name</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/fu_analysis_file_info.html'>fu_analysis_file_info</a></span>$<span class='no'>fu_allocation_tab_name</span>,
   <span class='kw'>eta_fu_template_file_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='no'>country</span>, <span class='st'>" FU etas Template"</span>),
   <span class='kw'>output_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw pkg'>drake</span><span class='kw ns'>::</span><span class='fu'><a href='https://docs.ropensci.org/drake/reference/readd.html'>readd</a></span>(<span class='no'>fu_analysis_path_target</span>, <span class='kw'>character_only</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-    <span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>cache_path</span>), <span class='no'>country</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='dir.create.pipe.html'>dir.create.pipe</a></span>(<span class='kw'>showWarnings</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>recursive</span> <span class='kw'>=</span>
+    <span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>cache_path</span>), <span class='no'>country</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='dir_create_pipe.html'>dir_create_pipe</a></span>(<span class='kw'>showWarnings</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>recursive</span> <span class='kw'>=</span>
     <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='no'>eta_fu_template_file_name</span>, <span class='no'>ext</span>)),
   <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
@@ -156,12 +157,11 @@ Default is <code>IEATools::iea_cols$country</code>.</p></td>
     </tr>
     <tr>
       <th>cache_path</th>
-      <td><p>The path to the drake cache. Default is ".drake/".</p></td>
+      <td><p>See <code><a href='cache_info.html'>SEAPSUTWorkflow::cache_info</a></code>.</p></td>
     </tr>
     <tr>
       <th>fu_analysis_path_target</th>
-      <td><p>The name of the target in the drake cache containing path to the final-to-useful analyses.
-Default is "fu_analysis_folder".</p></td>
+      <td><p>See <code><a href='target_names.html'>SEAPSUTWorkflow::target_names</a></code>.</p></td>
     </tr>
     <tr>
       <th>fu_allocation_table_file_name</th>
@@ -179,8 +179,7 @@ Default is ".xlsx" for an Excel file.</p></td>
     </tr>
     <tr>
       <th>fu_allocation_tab_name</th>
-      <td><p>The name of the tab containing final-to-useful allocation information in <code>fu_analysis_file_name</code>.
-Default is "FU Allocations".</p></td>
+      <td><p>The name of the tab containing final-to-useful allocation information in <code>fu_analysis_file_name</code>. Default is "FU Allocations".</p></td>
     </tr>
     <tr>
       <th>eta_fu_template_file_name</th>

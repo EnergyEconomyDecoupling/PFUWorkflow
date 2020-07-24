@@ -33,6 +33,39 @@ test_that("load_fu_allocation_tables() works for a non-existent country", {
 
 })
 
+test_that("simple example for assemble_fu_allocation_tables() works", {
+  incomplete_fu_allocation_tables <- IEATools::load_fu_allocation_data() %>%
+    dplyr::filter(! (Country == "GHA" & Ef.product == "Primary solid biofuels" & Destination == "Residential"))
+  # Set up exemplar list
+  el <- tibble::tribble(
+    ~Country, ~Year, ~Exemplars,
+    "GHA", 1971, c("ZAF"),
+    "GHA", 2000, c("ZAF"))
+  # Load IEA data
+  specified_iea_data <- IEATools::load_tidy_iea_df() %>%
+    IEATools::specify_all()
+  # Assemble complete allocation tables
+  completed <- assemble_fu_allocation_tables(incomplete_allocation_tables =
+                                               incomplete_fu_allocation_tables,
+                                             exemplar_lists = el,
+                                             specified_iea_data = specified_iea_data,
+                                             countries = "GHA")
+  # Make sure we picked up 2 rows of Residential PSB consumption
+  completed %>%
+    dplyr::filter(.data[[IEATools::template_cols$destination]] == "Residential",
+                  .data[[IEATools::template_cols$ef_product]] == IEATools::biofuels_and_waste_products$primary_solid_biofuels,
+                  .data[[IEATools::iea_cols$year]] == 1971) %>%
+    nrow() %>%
+    expect_equal(2)
+  # Make sure the products are MTH.100.C and LTH.20.C, as expected
+  completed %>%
+    dplyr::filter(.data[[IEATools::template_cols$destination]] == "Residential",
+                  .data[[IEATools::template_cols$ef_product]] == IEATools::biofuels_and_waste_products$primary_solid_biofuels,
+                  .data[[IEATools::iea_cols$year]] == 1971) %>%
+    magrittr::extract2(IEATools::template_cols$eu_product) %>%
+    expect_equal(c("MTH.100.C", "LTH.20.C"))
+})
+
 
 test_that("assemble_fu_allocation_tables() works as expected.", {
   # Create a directory structure in a tempdir for the allocation tables
@@ -92,10 +125,15 @@ test_that("assemble_fu_allocation_tables() works as expected.", {
     GHA_allocations_completed <- readd_by_country(SEAPSUTWorkflow::target_names$CompletedAllocationTables,
                                                   country = "GHA",
                                                   cache_path = testing_setup$cache_path)
-    # GHA_allocations_completed %>%
-    #   dplyr::filter
-
-    },
+    # Make sure that GHA's Residential PSBs are now supplied by World.
+    residential_psb <- GHA_allocations_completed %>%
+      dplyr::filter(.data[[IEATools::template_cols$ef_product]] == IEATools::biofuels_and_waste_products$primary_solid_biofuels,
+                    .data[[IEATools::template_cols$destination]] == IEATools::other_flows$residential)
+    expect_equal(nrow(residential_psb), 4)
+    expect_equal(residential_psb %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 1971) %>% nrow(), 2)
+    expect_equal(residential_psb %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 2000) %>% nrow(), 2)
+    expect_equal(residential_psb %>% magrittr::extract2(IEATools::template_cols$c_source) %>% unique(), "World")
+  },
   finally = {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
   })

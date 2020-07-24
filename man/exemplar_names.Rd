@@ -5,12 +5,13 @@
 \alias{exemplar_names}
 \title{Exemplar table names}
 \format{
-A string list with 11 entries.
+A string list with 12 entries.
 \describe{
 \item{exemplar_tab_name}{The string name of the tab in the Excel file containing the exemplar table.}
 \item{prev_names}{The name of a column of previous names used for the country.}
 \item{exemplars}{The name of a column of exemplar countries.}
-\item{exemplar_country}{The name of the exemplar country column.}
+\item{exemplar_country}{The name of an exemplar country column.}
+\item{exemplar_countries}{The name of an exemplar countries column.}
 \item{exemplar_tables}{The name of a column containing exemplar tables.}
 \item{iea_data}{The name of a column containing IEA extended energy balance data.}
 \item{incomplete_alloc_table}{The name of a column containing incomplete final-to-useful allocation tables.}

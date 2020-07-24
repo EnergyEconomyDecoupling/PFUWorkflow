@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Exemplar table names — exemplar_names • SEAPSUTWorkflow</title>
+<title>Drake cache target names — target_names • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Exemplar table names — exemplar_names" />
-<meta property="og:description" content="A string list containing named names of columns and tabs for exemplar tables.
-Items in the list provide default values for column name function arguments
+<meta property="og:title" content="Drake cache target names — target_names" />
+<meta property="og:description" content="A string list containing names of drake targets.
+Items in the list provide default values for function arguments
 throughout the SEAPSUTWorkflow package." />
 
 
@@ -108,75 +108,98 @@ throughout the SEAPSUTWorkflow package." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Exemplar table names</h1>
+    <h1>Drake cache target names</h1>
     
-    <div class="hidden name"><code>exemplar_names.Rd</code></div>
+    <div class="hidden name"><code>target_names.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A string list containing named names of columns and tabs for exemplar tables.
-Items in the list provide default values for column name function arguments
+    <p>A string list containing names of drake targets.
+Items in the list provide default values for function arguments
 throughout the <code>SEAPSUTWorkflow</code> package.</p>
     </div>
 
-    <pre class="usage"><span class='no'>exemplar_names</span></pre>
+    <pre class="usage"><span class='no'>target_names</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A string list with 12 entries.</p><dl'>
-<dt>exemplar_tab_name</dt><dd><p>The string name of the tab in the Excel file containing the exemplar table.</p></dd>
-<dt>prev_names</dt><dd><p>The name of a column of previous names used for the country.</p></dd>
-<dt>exemplars</dt><dd><p>The name of a column of exemplar countries.</p></dd>
-<dt>exemplar_country</dt><dd><p>The name of an exemplar country column.</p></dd>
-<dt>exemplar_countries</dt><dd><p>The name of an exemplar countries column.</p></dd>
-<dt>exemplar_tables</dt><dd><p>The name of a column containing exemplar tables.</p></dd>
-<dt>iea_data</dt><dd><p>The name of a column containing IEA extended energy balance data.</p></dd>
-<dt>incomplete_alloc_table</dt><dd><p>The name of a column containing incomplete final-to-useful allocation tables.</p></dd>
-<dt>complete_alloc_table</dt><dd><p>The name of a column containing completed final-to-useful allocation tables.</p></dd>
-<dt>row_code</dt><dd><p>The name of the rest-of-world region code column.</p></dd>
-<dt>country_name</dt><dd><p>The name of the column containing the long name of a country.</p></dd>
-<dt>world</dt><dd><p>The name of the world region.</p></dd>
+    <p>A string list with 18 entries.</p><dl'>
+<dt>countries</dt><dd><p>The string name of the countries target in the drake cache, giving the countries to be analyzed.</p></dd>
+<dt>alloc_and_eff_countries</dt><dd><p>The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.</p></dd>
+<dt>max_year</dt><dd><p>The integer representing the maximum year to be analyzed.</p></dd>
+<dt>iea_data_path</dt><dd><p>A string representing the path to the file containing IEA extended energy balance data.</p></dd>
+<dt>exemplar_table_path</dt><dd><p>A string representing the path to the exemplar table.</p></dd>
+<dt>fu_analysis_folder</dt><dd><p>A string representing the folder containing final-to-useful analyses for various countries.</p></dd>
+<dt>AllIEAData</dt><dd><p>The name of a data frame containing all IEA data read from <code>iea_data_path</code>.</p></dd>
+<dt>IEAData</dt><dd><p>A filtered version of <code>AllIEAData</code> containing information for only <code>countries</code>.</p></dd>
+<dt>balanced_before</dt><dd><p>A boolean indicating whether the <code>IEAData</code> are balanced before any further analysis. They ususally are not, so this value is typically <code>FALSE</code>.</p></dd>
+<dt>BalancedIEAData</dt><dd><p>A balanced version of <code>IEAData</code>.</p></dd>
+<dt>balanced_after</dt><dd><p>Same as <code>balanced_before</code>, only for after balancing. This should be <code>TRUE</code>.</p></dd>
+<dt>Specified</dt><dd><p>A data frame containing specified IEA data.</p></dd>
+<dt>PSUT_final</dt><dd><p>A data frame containing <code>Specified</code> in a PSUT format.</p></dd>
+<dt>IncompleteAllocationTables</dt><dd><p>A data frame of final-to-useful allocation tables, one for each country. These allocation tables may be incomplete.</p></dd>
+<dt>IncompleteEfficiencyTables</dt><dd><p>A data frame of final-to-useful efficiency tables, one for each country. These efficiency tables may be incomplete.</p></dd>
+<dt>ExemplarLists</dt><dd><p>A data frame of lists of exemplar countries for each country in <code>countries</code>, and maybe more.</p></dd>
+<dt>CompletedAllocationTables</dt><dd><p>A data frame of completed final-to-useful allocation tables.</p></dd>
 
 </dl>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>exemplar_names</span></div><div class='output co'>#&gt; $exemplar_tab_name
-#&gt; [1] "exemplar_table"
+    <pre class="examples"><div class='input'><span class='no'>target_names</span></div><div class='output co'>#&gt; $countries
+#&gt; [1] "countries"
 #&gt; 
-#&gt; $prev_names
-#&gt; [1] "Prev.names"
+#&gt; $alloc_and_eff_countries
+#&gt; [1] "allocation_and_efficiency_countries"
 #&gt; 
-#&gt; $exemplars
-#&gt; [1] "Exemplars"
+#&gt; $max_year
+#&gt; [1] "max_year"
 #&gt; 
-#&gt; $exemplar_country
-#&gt; [1] "Exemplar.country"
+#&gt; $iea_data_path
+#&gt; [1] "iea_data_path"
 #&gt; 
-#&gt; $exemplar_countries
-#&gt; [1] "Exemplar.countries"
+#&gt; $exemplar_table_path
+#&gt; [1] "exemplar_table_path"
 #&gt; 
-#&gt; $exemplar_tables
-#&gt; [1] "Exemplar.tables"
+#&gt; $fu_analysis_folder
+#&gt; [1] "fu_analysis_folder"
 #&gt; 
-#&gt; $iea_data
-#&gt; [1] "IEA.data"
+#&gt; $AllIEAData
+#&gt; [1] "AllIEAData"
 #&gt; 
-#&gt; $incomplete_alloc_table
-#&gt; [1] "Incomplete.alloc.table"
+#&gt; $IEAData
+#&gt; [1] "IEAData"
 #&gt; 
-#&gt; $complete_alloc_table
-#&gt; [1] "Complete.alloc.table"
+#&gt; $balanced_before
+#&gt; [1] "balanced_before"
 #&gt; 
-#&gt; $row_code
-#&gt; [1] "ROW.code"
+#&gt; $BalancedIEAData
+#&gt; [1] "BalancedIEAData"
 #&gt; 
-#&gt; $country_name
-#&gt; [1] "Country.name"
+#&gt; $balanced_after
+#&gt; [1] "balanced_after"
 #&gt; 
-#&gt; $world
-#&gt; [1] "World"
+#&gt; $OKToProceed
+#&gt; [1] "OKToProceed"
+#&gt; 
+#&gt; $Specified
+#&gt; [1] "Specified"
+#&gt; 
+#&gt; $PSUT_final
+#&gt; [1] "PSUT_final"
+#&gt; 
+#&gt; $IncompleteAllocationTables
+#&gt; [1] "IncompleteAllocationTables"
+#&gt; 
+#&gt; $IncompleteEfficiencyTables
+#&gt; [1] "IncompleteEfficiencyTables"
+#&gt; 
+#&gt; $ExemplarLists
+#&gt; [1] "ExemplarLists"
+#&gt; 
+#&gt; $CompletedAllocationTables
+#&gt; [1] "CompletedAllocationTables"
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

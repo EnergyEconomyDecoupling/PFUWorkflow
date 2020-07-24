@@ -12,7 +12,7 @@
 #' @param country The 3-letter ISO abbreviation (a string) of the country
 #'                (or vector of 3-letter countries)
 #'                for whom `target` is to be readd from the drake cache.
-#' @param allocation_and_efficiency_countries_target See `SEAPSUTWorkflow::target_names`.
+#' @param alloc_and_eff_couns_trgt See `SEAPSUTWorkflow::target_names`.
 #' @param cache_path See `SEAPSUTWorkflow::cache_info`.
 #'
 #' @return the country-specific version of `target`
@@ -20,9 +20,9 @@
 #' @export
 readd_by_country <- function(target,
                              country,
-                             allocation_and_efficiency_countries_target = SEAPSUTWorkflow::target_names$allocation_and_efficiency_countries,
+                             alloc_and_eff_couns_trgt = SEAPSUTWorkflow::target_names$alloc_and_eff_couns,
                              cache_path = SEAPSUTWorkflow::cache_info$cache_path) {
-  known_countries <- drake::readd(allocation_and_efficiency_countries_target, path = cache_path, character_only = TRUE)
+  known_countries <- drake::readd(alloc_and_eff_couns_trgt, path = cache_path, character_only = TRUE)
   country_indices <- which(known_countries %in% country, arr.ind = TRUE)
   drake::readd(target, path = cache_path, character_only = TRUE, subtargets = country_indices)
 }
@@ -248,8 +248,8 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, setup_exemplars = F
   years_to_remove <- setdiff(year_colnames, c("1971", "2000"))
   small_exemplar_table <- sample_exemplar_file %>%
     # Keep only the years we want
-    dplyr::select(!any_of(years_to_remove)) %>%
-    # Keep only teh countries we want
+    dplyr::select(!tidyselect::any_of(years_to_remove)) %>%
+    # Keep only the countries we want
     dplyr::filter(`2000` %in% c("GHA", "ZAF"))
   # Write out to disk in our sample directory structure.
   exemplar_wb <- openxlsx::createWorkbook()

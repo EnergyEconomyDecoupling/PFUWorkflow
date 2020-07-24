@@ -8,7 +8,7 @@
 #' @format A string list with `r length(target_names)` entries.
 #' \describe{
 #' \item{countries}{The string name of the countries target in the drake cache, giving the countries to be analyzed.}
-#' \item{allocation_and_efficiency_countries}{The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.}
+#' \item{alloc_and_eff_couns}{The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.}
 #' \item{max_year}{The integer representing the maximum year to be analyzed.}
 #' \item{iea_data_path}{A string representing the path to the file containing IEA extended energy balance data.}
 #' \item{exemplar_table_path}{A string representing the path to the exemplar table.}
@@ -42,7 +42,8 @@
 #' \item{exemplar_tab_name}{The string name of the tab in the Excel file containing the exemplar table.}
 #' \item{prev_names}{The name of a column of previous names used for the country.}
 #' \item{exemplars}{The name of a column of exemplar countries.}
-#' \item{exemplar_country}{The name of the exemplar country column.}
+#' \item{exemplar_country}{The name of an exemplar country column.}
+#' \item{exemplar_countries}{The name of an exemplar countries column.}
 #' \item{exemplar_tables}{The name of a column containing exemplar tables.}
 #' \item{iea_data}{The name of a column containing IEA extended energy balance data.}
 #' \item{incomplete_alloc_table}{The name of a column containing incomplete final-to-useful allocation tables.}

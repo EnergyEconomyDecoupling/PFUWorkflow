@@ -66,8 +66,7 @@ el <- exemplar_lists(load_exemplar_table()) \%>\%
 # and today.
   dplyr::filter(.data[[IEATools::iea_cols$country]] == "MNE",
                 .data[[IEATools::iea_cols$year]] \%in\% c(1971, 1989, 1990, 2017))
-el \%>\%
-  dplyr::select(Country, Year, Country.name, Exemplar.country, ROW.code, Exemplars)
+el
 el[[1, "Exemplars"]]
 el[[2, "Exemplars"]]
 el[[3, "Exemplars"]]

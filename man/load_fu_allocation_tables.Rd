@@ -20,6 +20,8 @@ load_fu_allocation_tables(
 \item{file_suffix}{The suffix for the FU analysis files. Default is " FU Analysis.xlsx".}
 
 \item{use_subfolders}{Tells whether to look for files in subfolders named by \code{countries}.}
+
+\item{fu_allocations_tab_name}{The name of the tab for final-to-useful allocations in the Excel file containing final-to-useful allocation data. Default is "FU Allocations".}
 }
 \value{
 A data frame of FU Allocation tables read by \code{IEATools::load_fu_allocation_data()}.

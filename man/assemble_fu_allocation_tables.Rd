@@ -11,11 +11,6 @@ assemble_fu_allocation_tables(
   countries,
   country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year,
-  e_dot = IEATools::iea_cols$e_dot,
-  e_dot_perc = IEATools::template_cols$e_dot_perc,
-  quantity = IEATools::template_cols$quantity,
-  maximum_values = IEATools::template_cols$maximum_values,
-  .values = IEATools::template_cols$.values,
   exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
   exemplar_tables = SEAPSUTWorkflow::exemplar_names$exemplar_tables,
   iea_data = SEAPSUTWorkflow::exemplar_names$iea_data,
@@ -24,11 +19,63 @@ assemble_fu_allocation_tables(
 )
 }
 \arguments{
-\item{exemplar_lists_target}{}
+\item{incomplete_allocation_tables}{A data frame containing (potentially) incomplete final-to-useful allocation tables.
+This data frame may be tidy or wide by years.}
+
+\item{exemplar_lists}{A data frame containing \code{country} and \code{year} columns along with a column of ordered vectors of strings
+telling which countries should be considered exemplars for the country and year of this row.}
+
+\item{specified_iea_data}{A data frame containing specified IEA data.}
+
+\item{countries}{A vector of countries for which completed final-to-useful allocation tables are to be assembled.}
+
+\item{country, year}{See \code{IEATools::iea_cols}.}
+
+\item{exemplars, exemplar_tables, iea_data, incomplete_alloc_tables, complete_alloc_tables}{See \code{SEAPSUTWorkflows::exemplar_names}.}
 }
 \value{
-
+A tidy data frame containing completed final-to-useful allocation tables.
 }
 \description{
-This function is used in a drake workflow to assemble completed final-to-useful allcoation tables.
+This function is used in a drake workflow to assemble completed final-to-useful allocation tables
+given a set of incomplete allocation tables.
+}
+\details{
+Note that this function can accept tody or wide by year data frames.
+The return value is a tidy data frame.
+}
+\examples{
+# Load final-to-useful allocation tables, but eliminate one category of consumption,
+# Residential consumption of Primary solid biofuels,
+# which will be filled by the exemplar for GHA, ZAF.
+incomplete_fu_allocation_tables <- IEATools::load_fu_allocation_data() \%>\%
+  dplyr::filter(! (Country == "GHA" & Ef.product == "Primary solid biofuels" &
+    Destination == "Residential"))
+# Show that those rows are gone.
+incomplete_fu_allocation_tables \%>\%
+  dplyr::filter(Country == "GHA" & Ef.product == "Primary solid biofuels" &
+    Destination == "Residential")
+# But the missing rows of GHA are present in allocation data for ZAF.
+incomplete_fu_allocation_tables \%>\%
+  dplyr::filter(Country == "ZAF" & Ef.product == "Primary solid biofuels" &
+    Destination == "Residential")
+# Set up exemplar list
+el <- tibble::tribble(
+  ~Country, ~Year, ~Exemplars,
+  "GHA", 1971, c("ZAF"),
+  "GHA", 2000, c("ZAF"))
+el
+# Load IEA data
+iea_data <- IEATools::load_tidy_iea_df() \%>\%
+  IEATools::specify_all()
+# Assemble complete allocation tables
+completed <- assemble_fu_allocation_tables(incomplete_allocation_tables =
+                                             incomplete_fu_allocation_tables,
+                                           exemplar_lists = el,
+                                           specified_iea_data = iea_data,
+                                           countries = "GHA")
+# Missing data for GHA has been picked up from ZAF.
+completed \%>\%
+  dplyr::filter(Country == "GHA" & Ef.product == "Primary solid biofuels" &
+    Destination == "Residential")
 }

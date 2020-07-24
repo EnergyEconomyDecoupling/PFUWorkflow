@@ -11,7 +11,7 @@ test_that("get_plan works", {
 
   # Make sure the pieces get created correctly with tidyeval.
   expect_equal(my_plan[[1, "target"]], "countries")
-  expect_equal(my_plan[[2, "target"]], "allocation_and_efficiency_countries")
+  expect_equal(my_plan[[2, "target"]], "alloc_and_eff_couns")
   expect_equal(my_plan[[3, "target"]], "max_year")
   expect_equal(my_plan[[3, "command"]], list(1999))
   expect_equal(my_plan[[4, "command"]], list("datapath"))
@@ -144,3 +144,4 @@ test_that("make works", {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
   })
 })
+
