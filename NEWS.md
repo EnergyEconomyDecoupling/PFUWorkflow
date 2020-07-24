@@ -1,4 +1,4 @@
-
+# SEAPSUTWorkflow 0.1.1 (2020-07-24)
 
 * Workflows can now be created with additional template countries that 
   are separate from the countries to be analyzed.
