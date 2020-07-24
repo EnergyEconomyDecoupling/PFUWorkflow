@@ -73,7 +73,7 @@ given a set of incomplete allocation tables." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -167,8 +167,10 @@ telling which countries should be considered exemplars for the country and year 
     <p>A tidy data frame containing completed final-to-useful allocation tables.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note that this function can accept tody or wide by year data frames.
-The return value is a tidy data frame.</p>
+    <p>Note that this function can accept tidy or wide by year data frames.
+The return value is a tidy data frame.
+Information from exemplar countries is used to complete incomplete final-to-useful efficiency tables.
+See examples for how to construct <code>exemplar_lists</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load final-to-useful allocation tables, but eliminate one category of consumption,</span>

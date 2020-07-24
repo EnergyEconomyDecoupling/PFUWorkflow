@@ -75,7 +75,7 @@ which the maximum year to be analyzed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -136,7 +136,10 @@ which the maximum year to be analyzed.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>countries</th>
-      <td><p>A vector of country abbreviations to be analyzed, such as "c('GHA', 'ZAF')".</p></td>
+      <td><p>A vector of abbreviations for countries whose energy conversion chain is to be analyzed,
+such as "c('GHA', 'ZAF')".
+Countries named in <code>countries</code> can also serve as exemplars for
+final-to-useful allocations and efficiencies.</p></td>
     </tr>
     <tr>
       <th>additional_exemplar_countries</th>
@@ -173,12 +176,12 @@ Sub-folders named with 3-letter country abbreviations are assumed.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a drake plan object</p>
+    <p>A drake plan object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The return value is a <code>drake</code> plan object with the following targets:</p><ul>
 <li><p><code>countries</code>: The countries to be analyzed, supplied in the <code>countries</code> argument.</p></li>
-<li><p><code>alloc_and_eff_couns</code>: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of <code>countries</code> and <code>additional_exemplar_countries</code> with duplicates removed.</p></li>
+<li><p><code>alloc_and_eff_couns</code>: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of <code>countries</code> and <code>additional_exemplar_countries</code>, with duplicates removed.</p></li>
 <li><p><code>max_year</code>: The maximum year to be analyzed, supplied in the <code>max_year</code> argument.</p></li>
 <li><p><code>iea_data_path</code>: The path to IEA extended energy balance data, supplied in the <code>iea_data_path</code> argument.</p></li>
 <li><p><code>exemplar_table_path</code>: The path to an exemplar table, supplied in the <code>exemplar_table_path</code> argument.</p></li>
@@ -210,6 +213,10 @@ Results can be recovered with
 <li><p><code>ExemplarLists</code>.</p></li>
 </ul>
 
+<p>If a country is to have its energy conversion chain analyzed <em>and</em>
+serve as an exemplar, it should be listed in <code>countries</code>.
+If a country is to serve as an exemplar only (not have its energy conversion chain analyzed),
+it should be listed in <code>additional_exemplar_countries</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'>
@@ -226,7 +233,7 @@ Results can be recovered with
          <span class='kw'>max_year</span> <span class='kw'>=</span> <span class='fl'>1999</span>,
          <span class='kw'>iea_data_path</span> <span class='kw'>=</span> <span class='st'>"iea_path"</span>,
          <span class='kw'>exemplar_table_path</span> <span class='kw'>=</span> <span class='st'>"exemplar_path"</span>,
-         <span class='kw'>fu_analysis_folder</span> <span class='kw'>=</span> <span class='st'>"fu_folder"</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 18 x 3</span><span>
+         <span class='kw'>fu_analysis_folder</span> <span class='kw'>=</span> <span class='st'>"fu_folder"</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 19 x 3</span><span>
 #&gt;    target            command                                     dynamic        
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;expr_lst&gt;</span><span>                                  </span><span style='color: #949494;font-style: italic;'>&lt;expr_lst&gt;</span><span>     
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> countries         c(c("GHA", "ZAF"))                        … NA            …
@@ -237,16 +244,17 @@ Results can be recovered with
 #&gt; </span><span style='color: #BCBCBC;'> 6</span><span> fu_analysis_fold… "fu_folder"                               … NA            …
 #&gt; </span><span style='color: #BCBCBC;'> 7</span><span> AllIEAData        iea_data_path %&gt;% IEATools::load_tidy_iea_… NA            …
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> IEAData           AllIEAData %&gt;% extract_country_data(countr… map(countries)…
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> balanced_before   IEAData %&gt;% is_balanced(countries)        … map(countries)…
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> BalancedIEAData   IEAData %&gt;% make_balanced(countries)      … map(countries)…
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span> balanced_after    BalancedIEAData %&gt;% is_balanced(countries)… map(countries)…
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> balanced_before   IEAData %&gt;% is_balanced(countries = countr… map(countries)…
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> BalancedIEAData   IEAData %&gt;% make_balanced(countries = coun… map(countries)…
+#&gt; </span><span style='color: #BCBCBC;'>11</span><span> balanced_after    BalancedIEAData %&gt;% is_balanced(countries … map(countries)…
 #&gt; </span><span style='color: #BCBCBC;'>12</span><span> OKToProceed       ifelse(is.null(stopifnot(all(balanced_afte… NA            …
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span> Specified         BalancedIEAData %&gt;% specify(countries)    … map(countries)…
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span> PSUT_final        Specified %&gt;% make_psut(countries)        … map(countries)…
+#&gt; </span><span style='color: #BCBCBC;'>13</span><span> Specified         BalancedIEAData %&gt;% specify(countries = co… map(countries)…
+#&gt; </span><span style='color: #BCBCBC;'>14</span><span> PSUT_final        Specified %&gt;% make_psut(countries = countr… map(countries)…
 #&gt; </span><span style='color: #BCBCBC;'>15</span><span> IncompleteAlloca… fu_analysis_folder %&gt;% load_fu_allocation_… map(alloc_and_…
 #&gt; </span><span style='color: #BCBCBC;'>16</span><span> IncompleteEffici… fu_analysis_folder %&gt;% load_eta_fu_tables(… map(alloc_and_…
 #&gt; </span><span style='color: #BCBCBC;'>17</span><span> ExemplarLists     exemplar_table_path %&gt;% load_exemplar_tabl… map(countries)…
-#&gt; </span><span style='color: #BCBCBC;'>18</span><span> CompletedAllocat… assemble_fu_allocation_tables(IncompleteAl… map(countries)…</div></span></pre>
+#&gt; </span><span style='color: #BCBCBC;'>18</span><span> CompletedAllocat… assemble_fu_allocation_tables(incomplete_a… map(countries)…
+#&gt; </span><span style='color: #BCBCBC;'>19</span><span> CompletedEfficie… assemble_eta_fu_tables(incomplete_eta_fu_t… map(countries)…</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

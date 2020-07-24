@@ -74,7 +74,7 @@ throughout the SEAPSUTWorkflow package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A string list with 18 entries.</p><dl'>
+    <p>A string list with 19 entries.</p><dl'>
 <dt>countries</dt><dd><p>The string name of the countries target in the drake cache, giving the countries to be analyzed.</p></dd>
 <dt>alloc_and_eff_couns</dt><dd><p>The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.</p></dd>
 <dt>max_year</dt><dd><p>The integer representing the maximum year to be analyzed.</p></dd>
@@ -142,6 +142,7 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 <dt>IncompleteEfficiencyTables</dt><dd><p>A data frame of final-to-useful efficiency tables, one for each country. These efficiency tables may be incomplete.</p></dd>
 <dt>ExemplarLists</dt><dd><p>A data frame of lists of exemplar countries for each country in <code>countries</code>, and maybe more.</p></dd>
 <dt>CompletedAllocationTables</dt><dd><p>A data frame of completed final-to-useful allocation tables.</p></dd>
+<dt>CompletedEfficiencyTables</dt><dd><p>A data frame of completed final-to-useful efficiency tables.</p></dd>
 
 </dl>
 
@@ -200,6 +201,9 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 #&gt; 
 #&gt; $CompletedAllocationTables
 #&gt; [1] "CompletedAllocationTables"
+#&gt; 
+#&gt; $CompletedEfficiencyTables
+#&gt; [1] "CompletedEfficiencyTables"
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
