@@ -8,7 +8,7 @@
 #' The return value is a `drake` plan object with the following targets:
 #'
 #' * `countries`: The countries to be analyzed, supplied in the `countries` argument.
-#' * `alloc_and_eff_couns`: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of `countries` and `additional_exemplar_countries` with duplicates removed.
+#' * `alloc_and_eff_couns`: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of `countries` and `additional_exemplar_countries`, with duplicates removed.
 #' * `max_year`: The maximum year to be analyzed, supplied in the `max_year` argument.
 #' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
 #' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.

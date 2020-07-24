@@ -33,6 +33,7 @@ test_that("load_fu_allocation_tables() works for a non-existent country", {
 
 })
 
+
 test_that("simple example for assemble_fu_allocation_tables() works", {
   incomplete_fu_allocation_tables <- IEATools::load_fu_allocation_data() %>%
     dplyr::filter(! (Country == "GHA" & Ef.product == "Primary solid biofuels" & Destination == "Residential"))
@@ -138,3 +139,30 @@ test_that("assemble_fu_allocation_tables() works as expected.", {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
   })
 })
+
+
+test_that("simple example for assemble_eta_fu__tables() works", {
+  incomplete_eta_fu_tables <- IEATools::load_eta_fu_data() %>%
+    dplyr::filter(! (Country == "GHA" & Machine == "Wood cookstoves"))
+  # Set up exemplar list
+  el <- tibble::tribble(
+    ~Country, ~Year, ~Exemplars,
+    "GHA", 1971, c("ZAF"),
+    "GHA", 2000, c("ZAF"))
+  # Load FU allocation data
+  fu_allocation_data <- IEATools::load_fu_allocation_data()
+  # Assemble complete allocation tables
+  completed <- assemble_eta_fu_tables(incomplete_eta_fu_tables = incomplete_eta_fu_tables,
+                                      exemplar_lists = el,
+                                      completed_fu_allocation_tables = fu_allocation_data,
+                                      countries = "GHA")
+  # Make sure we picked up rows of efficiencies for Wood cookstoves
+  completed %>%
+    dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves",
+                  .data[[IEATools::iea_cols$country]] == "GHA") %>%
+    nrow() %>%
+    expect_equal(2)
+})
+
+
+
