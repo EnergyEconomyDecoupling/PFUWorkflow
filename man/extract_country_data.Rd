@@ -4,7 +4,13 @@
 \alias{extract_country_data}
 \title{Extract specific country data}
 \usage{
-extract_country_data(AllIEAData, countries, max_year)
+extract_country_data(
+  AllIEAData,
+  countries,
+  max_year,
+  country = IEATools::iea_cols$country,
+  year = IEATools::iea_cols$year
+)
 }
 \arguments{
 \item{AllIEAData}{A data frame containing cleaned IEA extended energy balance data.}
@@ -12,6 +18,8 @@ extract_country_data(AllIEAData, countries, max_year)
 \item{countries}{A list of 3-letter country codes for countries to be analyzed.}
 
 \item{max_year}{The latest year you want to include in the extracted data.}
+
+\item{country, year}{See \code{IEATools::iea_cols}.}
 }
 \value{
 a data frame with the desired IEA data only
@@ -19,4 +27,9 @@ a data frame with the desired IEA data only
 \description{
 Data is extracted according to the \code{countries} object in a way that is amenable to drake subtargets.
 \code{dplyr::filter()} does the subsetting.
+}
+\examples{
+IEATools::sample_iea_data_path() \%>\%
+  IEATools::load_tidy_iea_df() \%>\%
+  extract_country_data(countries = c("ZAF"), max_year = 1999)
 }
