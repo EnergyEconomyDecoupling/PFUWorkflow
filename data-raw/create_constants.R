@@ -27,7 +27,8 @@ target_names <- list(countries = "countries",
                      IncompleteAllocationTables = "IncompleteAllocationTables",
                      IncompleteEfficiencyTables = "IncompleteEfficiencyTables",
                      ExemplarLists = "ExemplarLists",
-                     CompletedAllocationTables = "CompletedAllocationTables")
+                     CompletedAllocationTables = "CompletedAllocationTables",
+                     CompletedEfficiencyTables = "CompletedEfficiencyTables")
 usethis::use_data(target_names, overwrite = TRUE)
 
 
@@ -42,8 +43,11 @@ exemplar_names <- list(exemplar_tab_name = "exemplar_table",
                        exemplar_countries = "Exemplar.countries",
                        exemplar_tables = "Exemplar.tables",
                        iea_data = "IEA.data",
+                       alloc_data = "Alloc.data",
                        incomplete_alloc_table = "Incomplete.alloc.table",
                        complete_alloc_table = "Complete.alloc.table",
+                       incomplete_eta_table = "Incomplete.eta.table",
+                       complete_eta_table = "Complete.eta.table",
                        row_code = "ROW.code",
                        country_name = "Country.name",
                        world = "World")

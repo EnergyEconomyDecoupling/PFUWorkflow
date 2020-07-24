@@ -52,7 +52,7 @@ which the maximum year to be analyzed.
 The return value is a \code{drake} plan object with the following targets:
 \itemize{
 \item \code{countries}: The countries to be analyzed, supplied in the \code{countries} argument.
-\item \code{alloc_and_eff_couns}: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of \code{countries} and \code{additional_exemplar_countries} with duplicates removed.
+\item \code{alloc_and_eff_couns}: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of \code{countries} and \code{additional_exemplar_countries}, with duplicates removed.
 \item \code{max_year}: The maximum year to be analyzed, supplied in the \code{max_year} argument.
 \item \code{iea_data_path}: The path to IEA extended energy balance data, supplied in the \code{iea_data_path} argument.
 \item \code{exemplar_table_path}: The path to an exemplar table, supplied in the \code{exemplar_table_path} argument.
