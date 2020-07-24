@@ -89,8 +89,10 @@ load_eta_fu_tables <- function(fu_analysis_folder,
 #' This function is used in a drake workflow to assemble completed final-to-useful allocation tables
 #' given a set of incomplete allocation tables.
 #'
-#' Note that this function can accept tody or wide by year data frames.
+#' Note that this function can accept tidy or wide by year data frames.
 #' The return value is a tidy data frame.
+#' Information from exemplar countries is used to complete incomplete final-to-useful efficiency tables.
+#' See examples for how to construct `exemplar_lists`.
 #'
 #' @param incomplete_allocation_tables A data frame containing (potentially) incomplete final-to-useful allocation tables.
 #'                                     This data frame may be tidy or wide by years.
@@ -155,7 +157,7 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
   # The incomplete tables are easier to deal with when they are tidy.
   tidy_incomplete_allocation_tables <- IEATools::tidy_fu_allocation_table(incomplete_allocation_tables)
 
-  exemplar_tables_by_year <- lapply(countries, FUN = function(coun) {
+  completed_tables_by_year <- lapply(countries, FUN = function(coun) {
     coun_exemplar_strings <- exemplar_lists %>%
       dplyr::filter(.data[[country]] == coun)
 
@@ -167,23 +169,23 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
         # corresponding to the countries in the Exemplars column.
         "{exemplar_tables}" := Map(get_one_exemplar_table_list,
                                    # Need to wrap this in a list so the WHOLE table is sent via Map to get_one_exemplar_table_list
-                                   tidy_incomplete_allocation_tables = list(tidy_incomplete_allocation_tables),
+                                   tidy_incomplete_tables = list(tidy_incomplete_allocation_tables),
                                    exemplar_strings = .data[[exemplars]],
                                    yr = .data[[year]],
                                    country_colname = country,
                                    year_colname = year),
         # Add a column containing an IEA data frame for the country and year of each row
-        "{iea_data}" := Map(get_one_iea_df,
+        "{iea_data}" := Map(get_one_df_by_coun_and_yr,
+                            .df = list(specified_iea_data),
                             coun = .data[[country]],
                             yr = .data[[year]],
-                            iea_df = list(specified_iea_data),
                             country_colname = country,
                             year_colname = year),
         # Add a column containing incomplete fu allocation tables for each row (i.e., for each combination of country and year).
-        "{incomplete_alloc_tables}" := Map(get_one_incomplete_allocation_table,
+        "{incomplete_alloc_tables}" := Map(get_one_df_by_coun_and_yr,
+                                           .df = list(tidy_incomplete_allocation_tables),
                                            coun = .data[[country]],
                                            yr = .data[[year]],
-                                           tidy_incomplete_allocation_tables = list(tidy_incomplete_allocation_tables),
                                            country_colname = country,
                                            year_colname = year),
         # Add a column containing completed fu allocation tables for each row (i.e., for each combination of country and year).
@@ -199,31 +201,145 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
   # The only information we need to return is the completed allocation tables.
   # Expand (unnest) only the completed allocation table column to give one data frame of all the FU allocations
   # for all years and all countries.
-  exemplar_tables_by_year %>%
+  completed_tables_by_year %>%
     dplyr::select(complete_alloc_tables) %>%
     tidyr::unnest(cols = .data[[complete_alloc_tables]])
 }
 
 
+#' Assemble completed final-to-useful efficiency tables
+#'
+#' This function is used in a drake workflow to assemble completed final-to-useful efficiency tables
+#' given a set of incomplete efficiency tables.
+#' Information from exemplar countries is used to complete incomplete final-to-useful efficiency tables.
+#' See examples for how to construct `exemplar_lists`.
+#'
+#' Note that this function can accept tidy or wide by year data frames.
+#' The return value is a tidy data frame.
+#'
+#' @param incomplete_eta_fu_tables An incomplete data frame of final-to-useful efficiencies for all Machines in `completed_fu_allocation_tables`.
+#' @param exemplar_lists A data frame containing `country` and `year` columns along with a column of ordered vectors of strings
+#'                       telling which countries should be considered exemplars for the country and year of this row.
+#' @param completed_fu_allocation_tables A data frame containing completed final-to-useful allocation data,
+#'                                       typically the result of calling `assemble_fu_allocation_tables`.
+#' @param countries A vector of countries for which completed final-to-useful allocation tables are to be assembled.
+#' @param which_quantity A vector of quantities to be completed in the eta_FU table.
+#'                       Default is `c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u)`.
+#'                       Must be one or both of the default values.
+#' @param country,year See `IEATools::iea_cols`.
+#' @param exemplars,exemplar_tables,alloc_data,incomplete_eta_tables,complete_eta_tables
+#'                    See `SEAPSUTWorkflows::exemplar_names`.
+#'
+#' @return A tidy data frame containing completed final-to-useful efficiency tables.
+#'
+#' @export
+#'
+#' @examples
+#' # Make some incomplete efficiency tables for GHA by removing Wood cookstoves.
+#' # Information from the exemplar, ZAF, will supply efficiency for Wood cookstoves.
+#' incomplete_eta_fu_tables <- IEATools::load_eta_fu_data() %>%
+#'   dplyr::filter(! (Country == "GHA" & Machine == "Wood cookstoves"))
+#' # The rows for Wood cookstoves are missing.
+#' incomplete_eta_fu_tables %>%
+#'   dplyr::filter(Country == "GHA", Machine == "Wood cookstoves")
+#' # Set up exemplar list
+#' el <- tibble::tribble(
+#'   ~Country, ~Year, ~Exemplars,
+#'   "GHA", 1971, c("ZAF"),
+#'   "GHA", 2000, c("ZAF"))
+#' # Load FU allocation data.
+#' # An efficiency is needed for each machine in FU allocation data.
+#' fu_allocation_data <- IEATools::load_fu_allocation_data()
+#' # Assemble complete allocation tables
+#' completed <- assemble_eta_fu_tables(incomplete_eta_fu_tables = incomplete_eta_fu_tables,
+#'                                     exemplar_lists = el,
+#'                                     completed_fu_allocation_tables = fu_allocation_data,
+#'                                     countries = "GHA")
+#' # Show that the missing rows have been picked up from the exemplar country, ZAF.
+#' completed %>%
+#'   dplyr::filter(Country == "GHA", Machine == "Wood cookstoves")
+assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
+                                   exemplar_lists,
+                                   completed_fu_allocation_tables,
+                                   countries,
+                                   which_quantity = c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u),
+                                   country = IEATools::iea_cols$country,
+                                   year = IEATools::iea_cols$year,
+                                   exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
+                                   exemplar_tables = SEAPSUTWorkflow::exemplar_names$exemplar_tables,
+                                   alloc_data = SEAPSUTWorkflow::exemplar_names$alloc_data,
+                                   incomplete_eta_tables = SEAPSUTWorkflow::exemplar_names$incomplete_eta_table,
+                                   complete_eta_tables = SEAPSUTWorkflow::exemplar_names$complete_eta_table) {
 
-get_one_exemplar_table_list <- function(tidy_incomplete_allocation_tables,
+  which_quantity <- match.arg(which_quantity, several.ok = TRUE)
+
+  # The FU allocation tables and the incomplete efficiency tables are easier to deal with when they are tidy.
+  tidy_incomplete_eta_fu_tables <- IEATools::tidy_eta_fu_table(incomplete_eta_fu_tables)
+  tidy_allocation_tables <- IEATools::tidy_fu_allocation_table(completed_fu_allocation_tables)
+
+  completed_tables_by_year <- lapply(countries, FUN = function(coun) {
+    coun_exemplar_strings <- exemplar_lists %>%
+      dplyr::filter(.data[[country]] == coun)
+
+    # For each combination of Country and Year (the rows of coun_exemplar_strings),
+    # assemble a list of country allocation tables.
+    coun_exemplar_strings_and_tables <- coun_exemplar_strings %>%
+      dplyr::mutate(
+        # Create a list column containing lists of exemplar tables
+        # corresponding to the countries in the Exemplars column.
+        "{exemplar_tables}" := Map(get_one_exemplar_table_list,
+                                   # Need to wrap this in a list so the WHOLE table is sent via Map to get_one_exemplar_table_list
+                                   tidy_incomplete_tables = list(tidy_incomplete_eta_fu_tables),
+                                   exemplar_strings = .data[[exemplars]],
+                                   yr = .data[[year]],
+                                   country_colname = country,
+                                   year_colname = year),
+        # Add a column containing an FU allocation data frame for the country and year of each row
+        "{alloc_data}" := Map(get_one_df_by_coun_and_yr,
+                              .df = list(tidy_allocation_tables),
+                              coun = .data[[country]],
+                              yr = .data[[year]],
+                              country_colname = country,
+                              year_colname = year),
+        # Add a column containing incomplete fu eta tables for each row (i.e., for each combination of country and year).
+        "{incomplete_eta_tables}" := Map(get_one_df_by_coun_and_yr,
+                                         .df = list(tidy_incomplete_eta_fu_tables),
+                                         coun = .data[[country]],
+                                         yr = .data[[year]],
+                                         country_colname = country,
+                                         year_colname = year),
+        # Add a column containing completed fu efficiency tables for each row (i.e., for each combination of country and year).
+        # Note that the data frames in this column contain the SOURCE of information for each efficiency
+        "{complete_eta_tables}" := Map(IEATools::complete_eta_fu_table,
+                                       eta_fu_table = .data[[incomplete_eta_tables]],
+                                       exemplar_eta_fu_tables = .data[[exemplar_tables]],
+                                       fu_allocation_table = .data[[alloc_data]],
+                                       which_quantity = list(which_quantity))
+      )
+  }) %>%
+    dplyr::bind_rows()
+
+  # The only information we need to return is the completed efficiency tables.
+  # Expand (unnest) only the completed efficiency table column to give one data frame of all the FU efficiencies
+  # for all years and all countries.
+  completed_tables_by_year %>%
+    dplyr::select(complete_eta_tables) %>%
+    tidyr::unnest(cols = .data[[complete_eta_tables]])
+}
+
+
+get_one_exemplar_table_list <- function(tidy_incomplete_tables,
                                         exemplar_strings, yr, country_colname, year_colname) {
   lapply(exemplar_strings, function(exemplar_coun) {
-    tidy_incomplete_allocation_tables %>%
+    tidy_incomplete_tables %>%
       dplyr::filter(.data[[country_colname]] == exemplar_coun, .data[[year_colname]] == yr)
   })
 }
 
 
-get_one_iea_df <- function(coun, yr, iea_df, country_colname, year_colname) {
-  iea_df %>%
-    dplyr::filter(.data[[country_colname]] %in% coun,
-                  .data[[year_colname]] %in% yr)
+get_one_df_by_coun_and_yr <- function(.df, coun, yr, country_colname, year_colname) {
+  .df %>%
+    dplyr::filter(.data[[country_colname]] %in% coun, .data[[year_colname]] %in% yr)
 }
 
 
-get_one_incomplete_allocation_table <- function(coun, yr, tidy_incomplete_allocation_tables, country_colname, year_colname) {
-  tidy_incomplete_allocation_tables %>%
-    dplyr::filter(.data[[country_colname]] %in% coun,
-                  .data[[year_colname]] %in% yr)
-}

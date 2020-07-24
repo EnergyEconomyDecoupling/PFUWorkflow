@@ -3,6 +3,7 @@
 export("%>%")
 export(":=")
 export(.data)
+export(assemble_eta_fu_tables)
 export(assemble_fu_allocation_tables)
 export(dir_create_pipe)
 export(exemplar_lists)
