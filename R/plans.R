@@ -94,8 +94,10 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   Specified <- NULL
   PSUT_final <- NULL
   IncompleteAllocationTables <- NULL
+  IncompleteEfficiencyTables <- NULL
   ExemplarLists <- NULL
   CompletedAllocationTables <- NULL
+  CompletedEfficiencyTables <- NULL
 
   p <- drake::drake_plan(
 
