@@ -4,12 +4,14 @@
 \alias{specify}
 \title{Specify the IEA data}
 \usage{
-specify(BalancedIEAData, countries)
+specify(BalancedIEAData, countries, country = IEATools::iea_cols$country)
 }
 \arguments{
 \item{BalancedIEAData}{IEA data that have already been balanced}
 
-\item{countries}{the countries for which specificaion should occur}
+\item{countries}{the countries for which specification should occur}
+
+\item{country}{See \code{IEATools::iea_cols}.}
 }
 \value{
 a data frame of specified IEA data
@@ -17,4 +19,10 @@ a data frame of specified IEA data
 \description{
 Specifies the IEA data in a way that is amenable to drake subtargets.
 See \code{IEATools::specify_all()} for details.
+}
+\examples{
+IEATools::sample_iea_data_path() \%>\%
+  IEATools::load_tidy_iea_df() \%>\%
+  make_balanced(countries = c("GHA", "ZAF")) \%>\%
+  specify(countries = c("GHA", "ZAF"))
 }

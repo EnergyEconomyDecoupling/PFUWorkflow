@@ -1,6 +1,6 @@
 Package: SEAPSUTWorkflow
 Title: Functions and Workflows For Societal Exergy Analysis Within the PSUT Framework
-Version: 0.0.1
+Version: 0.1.1
 Authors@R: 
     person(given = "Matthew",
            family = "Heun",
@@ -8,19 +8,26 @@ Authors@R:
            email = "matthew.heun@me.com",
            comment = c(ORCID = "0000-0002-7438-214X"))
 Description: SEAPSUTWorkflow provides functions and workflows for societal exergy analysis within the PSUT framework.
-             The package is compatible with `drake`, but the user must supply 
-             a function or an object that specifies paths to a variety of files.
+             The package is compatible with `drake`.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Imports:
     drake,
     dplyr,
     ggplot2,
     IEATools,
     magrittr,
-    Recca
+    openxlsx,
+    readxl,
+    Recca,
+    rlang, 
+    tibble,
+    tidyr, 
+    tidyselect,
 Suggests: 
     testthat
+Depends: 
+    R (>= 2.10)

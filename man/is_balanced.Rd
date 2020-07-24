@@ -7,8 +7,9 @@
 is_balanced(
   IEAData,
   countries,
-  grp_vars = c("Country", "Method", "Energy.type", "Last.stage", "Year", "Product"),
-  country_colname = "Country"
+  country = IEATools::iea_cols$country,
+  grp_vars = c(country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type,
+    IEATools::iea_cols$last_stage, IEATools::iea_cols$year, IEATools::iea_cols$product)
 )
 }
 \arguments{
@@ -16,9 +17,10 @@ is_balanced(
 
 \item{countries}{the countries for which balancing should be checked as strings}
 
-\item{grp_vars}{the groups that should be checked.  Default is \code{c("Country", "Method", "Energy.type", "Last.stage", "Product")}.}
+\item{country}{The name of the country column in \code{IEAData}. Default is Country.}
 
-\item{country_colname}{The name of the country column in \code{IEAData}. Default is "Country".}
+\item{grp_vars}{the groups that should be checked. Default is
+\code{c(country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type, IEATools::iea_cols$last_stage, IEATools::iea_cols$product)}.}
 }
 \value{
 a logical stating whether all products are balanced for the country of interest
