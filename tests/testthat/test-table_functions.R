@@ -34,6 +34,34 @@ test_that("load_fu_allocation_tables() works for a non-existent country", {
 })
 
 
+test_that("simple example works when allocation table is already complete", {
+  complete_fu_allocation_tables <- IEATools::load_fu_allocation_data()
+  # Set up exemplar list
+  el <- tibble::tribble(
+    ~Country, ~Year, ~Exemplars,
+    "GHA", 1971, NULL,
+    "GHA", 2000, NULL)
+  # Load IEA data
+  specified_iea_data <- IEATools::load_tidy_iea_df() %>%
+    IEATools::specify_all()
+  # Assemble complete allocation tables
+  completed <- assemble_fu_allocation_tables(incomplete_allocation_tables =
+                                               complete_fu_allocation_tables,
+                                             exemplar_lists = el,
+                                             specified_iea_data = specified_iea_data,
+                                             countries = "GHA")
+  # Make sure we got back everything we started with
+  expected <- complete_fu_allocation_tables %>%
+    dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA") %>%
+    IEATools::tidy_fu_allocation_table()
+  # Because this wasn't a situation in which any exemplars will be used,
+  # the source for all rows should be "GHA".
+  expect_equal(completed %>% dplyr::select(IEATools::template_cols$c_source) %>% unique() %>% unlist() %>% unname(), "GHA")
+  # Make sure the number of rows is same for expected and completed.
+  expect_equal(nrow(completed), nrow(expected))
+})
+
+
 test_that("simple example for assemble_fu_allocation_tables() works", {
   incomplete_fu_allocation_tables <- IEATools::load_fu_allocation_data() %>%
     dplyr::filter(! (Country == "GHA" & Ef.product == "Primary solid biofuels" & Destination == "Residential"))
@@ -153,7 +181,7 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
 })
 
 
-test_that("simple example for assemble_eta_fu__tables() works", {
+test_that("simple example for assemble_eta_fu_tables() works", {
   incomplete_eta_fu_tables <- IEATools::load_eta_fu_data() %>%
     dplyr::filter(! (Country == "GHA" & Machine == "Wood cookstoves"))
   # Set up exemplar list
