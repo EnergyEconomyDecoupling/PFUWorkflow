@@ -57,6 +57,9 @@ test_that("exemplar_lists() works as expected", {
                                IEATools::iea_cols$year,
                                SEAPSUTWorkflow::exemplar_names$exemplars))
 
+  # Make sure the year column is numeric
+  expect_true(is.numeric(el[[IEATools::iea_cols$year]]))
+
   # According to Zeke, the most difficult country is Montenegro (MNE)
   el %>%
     dplyr::filter(.data[[IEATools::iea_cols$country]] == "MNE",
@@ -74,14 +77,14 @@ test_that("exemplar_lists() works as expected", {
 
   # Also check Kosovo, another country with two changes through time.
   el %>%
-    dplyr::filter(.data[[IEATools::iea_cols$country]] == "XK",
+    dplyr::filter(.data[[IEATools::iea_cols$country]] == "XKX",
                   .data[[IEATools::iea_cols$year]] == 2000) %>%
     magrittr::extract2("Exemplars") %>%
     unlist(use.names = FALSE) %>%
     expect_equivalent(c("SRB", "YGS", "ESP", "RoEUR", "World"))
   # Check in 1999, which should still have 5 exemplars
   el %>%
-    dplyr::filter(.data[[IEATools::iea_cols$country]] == "XK",
+    dplyr::filter(.data[[IEATools::iea_cols$country]] == "XKX",
                   .data[[IEATools::iea_cols$year]] == 1999) %>%
     magrittr::extract2("Exemplars") %>%
     unlist(use.names = FALSE) %>%
@@ -164,5 +167,5 @@ test_that("exemplar_lists() works as expected", {
 
 test_that("exemplar_lists() works for a single country", {
   el <- exemplar_lists(load_exemplar_table(), countries = c("ZAF", "USA"))
-  expect_equal(el[[IEATools::iea_cols$country]] %>% unique(), c("USA", "ZAF"))
+  expect_equal(el[[IEATools::iea_cols$country]] %>% unique(), c("ZAF", "USA"))
 })
