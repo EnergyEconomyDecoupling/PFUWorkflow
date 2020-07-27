@@ -179,7 +179,10 @@ exemplar_lists <- function(exemplar_table,
 
   # Eliminate unneeded columns
   out <- out %>%
-    dplyr::select(country, year, exemplars)
+    dplyr::select(country, year, exemplars) %>%
+    dplyr::mutate(
+      "{year}" := as.numeric(.data[[year]])
+    )
 
   return(out)
 
