@@ -103,7 +103,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (0) Set many arguments to be objects in the drake cache for later use
 
-    # Use !!, for tidy evaluation, to put the arguments' values in the plan..
+    # Use !!, for tidy evaluation, to put the arguments' values in the plan.
     # See https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function
     # Need to enclose !!countries in c() (or an identity function), else it doesn't work when countries has length > 1.
     countries = c(!!countries),
