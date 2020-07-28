@@ -168,7 +168,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # These may be incomplete.
 
     ExemplarLists = drake::target(exemplar_table_path %>%
-                                    load_exemplar_table(countries = countries) %>%
+                                    load_exemplar_table(countries = countries, max_year = max_year) %>%
                                     exemplar_lists(countries),
                                   dynamic = map(countries)),
 
