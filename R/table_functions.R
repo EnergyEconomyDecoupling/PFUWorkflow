@@ -100,6 +100,7 @@ load_eta_fu_tables <- function(fu_analysis_folder,
 #'                       telling which countries should be considered exemplars for the country and year of this row.
 #' @param specified_iea_data A data frame containing specified IEA data.
 #' @param countries A vector of countries for which completed final-to-useful allocation tables are to be assembled.
+#' @param max_year The latest year for which analysis is desired. Default is `NULL`, meaning analyze all years.
 #' @param country,year See `IEATools::iea_cols`.
 #' @param exemplars,exemplar_tables,iea_data,incomplete_alloc_tables,complete_alloc_tables
 #'                    See `SEAPSUTWorkflows::exemplar_names`.
@@ -146,6 +147,7 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
                                           exemplar_lists,
                                           specified_iea_data,
                                           countries,
+                                          max_year = NULL,
                                           country = IEATools::iea_cols$country,
                                           year = IEATools::iea_cols$year,
                                           exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
@@ -156,6 +158,10 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
 
   # The incomplete tables are easier to deal with when they are tidy.
   tidy_incomplete_allocation_tables <- IEATools::tidy_fu_allocation_table(incomplete_allocation_tables)
+  if (!is.null(max_year)) {
+    tidy_incomplete_allocation_tables <- tidy_incomplete_allocation_tables %>%
+      dplyr::filter(.data[[year]] <= max_year)
+  }
 
   completed_tables_by_year <- lapply(countries, FUN = function(coun) {
     coun_exemplar_strings <- exemplar_lists %>%
@@ -223,6 +229,7 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
 #' @param completed_fu_allocation_tables A data frame containing completed final-to-useful allocation data,
 #'                                       typically the result of calling `assemble_fu_allocation_tables`.
 #' @param countries A vector of countries for which completed final-to-useful allocation tables are to be assembled.
+#' @param max_year The latest year for which analysis is desired. Default is `NULL`, meaning analyze all years.
 #' @param which_quantity A vector of quantities to be completed in the eta_FU table.
 #'                       Default is `c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u)`.
 #'                       Must be one or both of the default values.
@@ -262,6 +269,7 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                    exemplar_lists,
                                    completed_fu_allocation_tables,
                                    countries,
+                                   max_year = NULL,
                                    which_quantity = c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u),
                                    country = IEATools::iea_cols$country,
                                    year = IEATools::iea_cols$year,
@@ -276,6 +284,12 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
   # The FU allocation tables and the incomplete efficiency tables are easier to deal with when they are tidy.
   tidy_incomplete_eta_fu_tables <- IEATools::tidy_eta_fu_table(incomplete_eta_fu_tables)
   tidy_allocation_tables <- IEATools::tidy_fu_allocation_table(completed_fu_allocation_tables)
+  if (!is.null(max_year)) {
+    tidy_incomplete_eta_fu_tables <- tidy_incomplete_eta_fu_tables %>%
+      dplyr::filter(.data[[year]] <= max_year)
+    tidy_allocation_tables <- tidy_allocation_tables %>%
+      dplyr::filter(.data[[year]] <= max_year)
+  }
 
   completed_tables_by_year <- lapply(countries, FUN = function(coun) {
     coun_exemplar_strings <- exemplar_lists %>%
@@ -320,7 +334,7 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
     dplyr::bind_rows()
 
   # The only information we need to return is the completed efficiency tables.
-  # Expand (unnest) only the completed efficiency table column to give one data frame of all the FU efficiencies
+  # Expand (un-nest) only the completed efficiency table column to give one data frame of all the FU efficiencies
   # for all years and all countries.
   completed_tables_by_year %>%
     dplyr::select(complete_eta_tables) %>%
