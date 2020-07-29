@@ -28,3 +28,5 @@ vignettes/*.pdf
 .Renviron
 .Rproj.user
 .DS_Store
+# Drake testing
+.drake/

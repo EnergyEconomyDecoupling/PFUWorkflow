@@ -9,6 +9,7 @@ assemble_fu_allocation_tables(
   exemplar_lists,
   specified_iea_data,
   countries,
+  max_year = NULL,
   country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year,
   exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
@@ -28,6 +29,8 @@ telling which countries should be considered exemplars for the country and year 
 \item{specified_iea_data}{A data frame containing specified IEA data.}
 
 \item{countries}{A vector of countries for which completed final-to-useful allocation tables are to be assembled.}
+
+\item{max_year}{The latest year for which analysis is desired. Default is \code{NULL}, meaning analyze all years.}
 
 \item{country, year}{See \code{IEATools::iea_cols}.}
 

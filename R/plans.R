@@ -103,7 +103,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (0) Set many arguments to be objects in the drake cache for later use
 
-    # Use !!, for tidy evaluation, to put the arguments' values in the plan..
+    # Use !!, for tidy evaluation, to put the arguments' values in the plan.
     # See https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function
     # Need to enclose !!countries in c() (or an identity function), else it doesn't work when countries has length > 1.
     countries = c(!!countries),
@@ -113,14 +113,14 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     exemplar_table_path = !!exemplar_table_path,
     fu_analysis_folder = !!fu_analysis_folder,
 
-    # (1) Grab all the IEA data for ALL countries
+    # (1) Grab all IEA data for ALL countries
 
     AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(),
     IEAData = drake::target(AllIEAData %>%
                               extract_country_data(countries = countries, max_year = max_year),
                             dynamic = map(countries)),
 
-    # (2) Balance all the final energy data.
+    # (2) Balance all final energy data.
 
     # First, check whether energy products are balanced. They're not.
     # FALSE indicates a country with at least one balance problem.
@@ -131,7 +131,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     BalancedIEAData = drake::target(IEAData %>%
                                       make_balanced(countries = countries),
                                     dynamic = map(countries)),
-    # Check that everything is balanced after balancing.
+    # Check that balancing was successful.
     balanced_after = drake::target(BalancedIEAData %>%
                                      is_balanced(countries = countries),
                                    dynamic = map(countries)),
@@ -168,7 +168,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # These may be incomplete.
 
     ExemplarLists = drake::target(exemplar_table_path %>%
-                                    load_exemplar_table(countries = countries) %>%
+                                    load_exemplar_table(countries = countries,
+                                                        max_year = max_year) %>%
                                     exemplar_lists(countries),
                                   dynamic = map(countries)),
 
@@ -177,13 +178,15 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     CompletedAllocationTables = drake::target(assemble_fu_allocation_tables(incomplete_allocation_tables = IncompleteAllocationTables,
                                                                             exemplar_lists = ExemplarLists,
                                                                             specified_iea_data = Specified,
-                                                                            countries = countries),
+                                                                            countries = countries,
+                                                                            max_year = max_year),
                                               dynamic = map(countries)),
 
     CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = IncompleteEfficiencyTables,
                                                                      exemplar_lists = ExemplarLists,
                                                                      completed_fu_allocation_tables = CompletedAllocationTables,
-                                                                     countries = countries),
+                                                                     countries = countries,
+                                                                     max_year = max_year),
                                               dynamic = map(countries))
 
     # (9) Extend to useful stage

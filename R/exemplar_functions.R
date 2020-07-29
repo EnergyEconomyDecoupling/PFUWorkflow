@@ -25,6 +25,8 @@ sample_exemplar_table_path <- function() {
 #'                            Default is the value of `sample_exemplar_table_path()`.
 #' @param countries The countries for which exemplars are desired. If `NULL`, the default,
 #'                  all countries in the file at `exemplar_table_path` are returned.
+#' @param max_year The maximum year for which you want the exemplar table, an integer.
+#'                 Default is `NULL`, meaning that all years from the file at `exemplar_table_path` are included.
 #' @param exemplar_table_tab_name,prev_names See `SEAPSUTWorkflow::exemplar_names`.
 #' @param year,country See `IEATools::iea_cols`.
 #'
@@ -36,6 +38,7 @@ sample_exemplar_table_path <- function() {
 #' load_exemplar_table()
 load_exemplar_table <- function(exemplar_table_path = sample_exemplar_table_path(),
                                 countries = NULL,
+                                max_year = NULL,
                                 exemplar_table_tab_name = SEAPSUTWorkflow::exemplar_names$exemplar_tab_name,
                                 prev_names = SEAPSUTWorkflow::exemplar_names$prev_names,
                                 country = IEATools::iea_cols$country,
@@ -44,21 +47,24 @@ load_exemplar_table <- function(exemplar_table_path = sample_exemplar_table_path
   raw <- readxl::read_excel(path = exemplar_table_path, sheet = exemplar_table_tab_name)
   # Figure out year columns.
   year_columns <- IEATools::year_cols(raw, return_names = TRUE)
-  max_year <- year_columns %>%
+  max_yr_in_exemplar_table <- year_columns %>%
     as.numeric() %>%
-    max() %>%
-    as.character()
+    max()
+  # Set last_year if its value is NULL.
+  if (is.null(max_year)) {
+    max_year <- max_yr_in_exemplar_table
+  }
 
   # Set the Country column from the most recent year available.
   out <- raw %>%
     dplyr::mutate(
-      "{country}" := .data[[max_year]]
+      "{country}" := .data[[as.character(max_yr_in_exemplar_table)]]
     ) %>%
     # Gather columns of alternative names
     tidyr::pivot_longer(cols = tidyselect::all_of(year_columns), names_to = year, values_to = prev_names)
   if (!is.null(countries)) {
     out <- out %>%
-      dplyr::filter(.data[[country]] %in% countries)
+      dplyr::filter(.data[[country]] %in% countries, .data[[year]] <= max_year)
   }
   return(out)
 }
@@ -179,7 +185,10 @@ exemplar_lists <- function(exemplar_table,
 
   # Eliminate unneeded columns
   out <- out %>%
-    dplyr::select(country, year, exemplars)
+    dplyr::select(country, year, exemplars) %>%
+    dplyr::mutate(
+      "{year}" := as.numeric(.data[[year]])
+    )
 
   return(out)
 

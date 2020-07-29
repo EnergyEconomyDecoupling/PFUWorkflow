@@ -7,6 +7,7 @@
 load_exemplar_table(
   exemplar_table_path = sample_exemplar_table_path(),
   countries = NULL,
+  max_year = NULL,
   exemplar_table_tab_name = SEAPSUTWorkflow::exemplar_names$exemplar_tab_name,
   prev_names = SEAPSUTWorkflow::exemplar_names$prev_names,
   country = IEATools::iea_cols$country,
@@ -19,6 +20,9 @@ Default is the value of \code{sample_exemplar_table_path()}.}
 
 \item{countries}{The countries for which exemplars are desired. If \code{NULL}, the default,
 all countries in the file at \code{exemplar_table_path} are returned.}
+
+\item{max_year}{The maximum year for which you want the exemplar table, an integer.
+Default is \code{NULL}, meaning that all years from the file at \code{exemplar_table_path} are included.}
 
 \item{exemplar_table_tab_name, prev_names}{See \code{SEAPSUTWorkflow::exemplar_names}.}
 

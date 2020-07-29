@@ -9,6 +9,7 @@ assemble_eta_fu_tables(
   exemplar_lists,
   completed_fu_allocation_tables,
   countries,
+  max_year = NULL,
   which_quantity = c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u),
   country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year,
@@ -29,6 +30,8 @@ telling which countries should be considered exemplars for the country and year 
 typically the result of calling \code{assemble_fu_allocation_tables}.}
 
 \item{countries}{A vector of countries for which completed final-to-useful allocation tables are to be assembled.}
+
+\item{max_year}{The latest year for which analysis is desired. Default is \code{NULL}, meaning analyze all years.}
 
 \item{which_quantity}{A vector of quantities to be completed in the eta_FU table.
 Default is \code{c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u)}.
