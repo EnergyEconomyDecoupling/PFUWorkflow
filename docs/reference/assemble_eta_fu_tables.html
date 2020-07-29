@@ -75,7 +75,7 @@ See examples for how to construct exemplar_lists." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -126,6 +126,7 @@ See examples for how to construct <code>exemplar_lists</code>.</p>
   <span class='no'>exemplar_lists</span>,
   <span class='no'>completed_fu_allocation_tables</span>,
   <span class='no'>countries</span>,
+  <span class='kw'>max_year</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>which_quantity</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span>$<span class='no'>eta_fu</span>, <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span>$<span class='no'>phi_u</span>),
   <span class='kw'>country</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>country</span>,
   <span class='kw'>year</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>year</span>,
@@ -156,6 +157,10 @@ typically the result of calling <code>assemble_fu_allocation_tables</code>.</p><
     <tr>
       <th>countries</th>
       <td><p>A vector of countries for which completed final-to-useful allocation tables are to be assembled.</p></td>
+    </tr>
+    <tr>
+      <th>max_year</th>
+      <td><p>The latest year for which analysis is desired. Default is <code>NULL</code>, meaning analyze all years.</p></td>
     </tr>
     <tr>
       <th>which_quantity</th>

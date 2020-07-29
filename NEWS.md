@@ -1,3 +1,5 @@
+# SEAPSUTWorkflow 0.1.3 (2020-07-29)
+
 * New tests for new features and old bugs.
     * Now up to 137 tests, all passing.
     * Test coverage remains at 100%.

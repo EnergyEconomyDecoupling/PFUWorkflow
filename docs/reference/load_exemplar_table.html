@@ -74,7 +74,7 @@ including the exemplar country and any name changes through time." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -122,6 +122,7 @@ including the exemplar country and any name changes through time.</p>
     <pre class="usage"><span class='fu'>load_exemplar_table</span>(
   <span class='kw'>exemplar_table_path</span> <span class='kw'>=</span> <span class='fu'><a href='sample_exemplar_table_path.html'>sample_exemplar_table_path</a></span>(),
   <span class='kw'>countries</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>max_year</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>exemplar_table_tab_name</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='exemplar_names.html'>exemplar_names</a></span>$<span class='no'>exemplar_tab_name</span>,
   <span class='kw'>prev_names</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='exemplar_names.html'>exemplar_names</a></span>$<span class='no'>prev_names</span>,
   <span class='kw'>country</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>country</span>,
@@ -142,6 +143,11 @@ Default is the value of <code><a href='sample_exemplar_table_path.html'>sample_e
 all countries in the file at <code>exemplar_table_path</code> are returned.</p></td>
     </tr>
     <tr>
+      <th>max_year</th>
+      <td><p>The maximum year for which you want the exemplar table, an integer.
+Default is <code>NULL</code>, meaning that all years from the file at <code>exemplar_table_path</code> are included.</p></td>
+    </tr>
+    <tr>
       <th>exemplar_table_tab_name, prev_names</th>
       <td><p>See <code><a href='exemplar_names.html'>SEAPSUTWorkflow::exemplar_names</a></code>.</p></td>
     </tr>
@@ -160,21 +166,21 @@ all countries in the file at <code>exemplar_table_path</code> are returned.</p><
 It also</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>load_exemplar_table</span>()</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 7,097 x 9</span><span>
-#&gt;    Rank.TFC.2017i Aggregation Region.code ROW.code Country.name Exemplar.country
-#&gt;             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>              1 Individual  ASA         RoASA    People's Re… ESP             
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>              1 Individual  ASA         RoASA    People's Re… ESP             
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>              1 Individual  ASA         RoASA    People's Re… ESP             
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>              1 Individual  ASA         RoASA    People's Re… ESP             
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>              1 Individual  ASA         RoASA    People's Re… ESP             
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>              1 Individual  ASA         RoASA    People's Re… ESP             
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>              1 Individual  ASA         RoASA    People's Re… ESP             
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>              1 Individual  ASA         RoASA    People's Re… ESP             
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>              1 Individual  ASA         RoASA    People's Re… ESP             
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>              1 Individual  ASA         RoASA    People's Re… ESP             
-#&gt; </span><span style='color: #949494;'># … with 7,087 more rows, and 3 more variables: Country </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, Year </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Prev.names </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
+    <pre class="examples"><div class='input'><span class='fu'>load_exemplar_table</span>()</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8,758 x 10</span><span>
+#&gt;    Rank.2017.TPES Rank.2017.TFC Aggregation Region.code ROW.code Country.name
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            Restofworld EUR         RoEUR    Albania     
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            Restofworld EUR         RoEUR    Albania     
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            Restofworld EUR         RoEUR    Albania     
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            Restofworld EUR         RoEUR    Albania     
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            Restofworld EUR         RoEUR    Albania     
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            Restofworld EUR         RoEUR    Albania     
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            Restofworld EUR         RoEUR    Albania     
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            Restofworld EUR         RoEUR    Albania     
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            Restofworld EUR         RoEUR    Albania     
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            Restofworld EUR         RoEUR    Albania     
+#&gt; </span><span style='color: #949494;'># … with 8,748 more rows, and 4 more variables: Exemplar.country </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>,</span><span>
+#&gt; </span><span style='color: #949494;'>#   Country </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, Year </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, Prev.names </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
