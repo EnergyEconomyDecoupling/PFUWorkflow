@@ -163,7 +163,9 @@ exemplar_lists <- function(exemplar_table,
     dplyr::left_join(with_prev_names_list, by = c(country, year)) %>%
     # Do some renaming
     dplyr::select(!prev_names) %>%
-    dplyr::rename("{prev_names}" := prev_names_list) %>%
+    dplyr::rename(
+      "{prev_names}" := prev_names_list
+    ) %>%
     # Create the full list of exemplars and store in the exemplars column.
     # Use the helper function to do this.
     dplyr::mutate(
