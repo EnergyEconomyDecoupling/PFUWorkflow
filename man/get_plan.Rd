@@ -82,8 +82,10 @@ Note that some targets can be read using \code{readd_by_country()}, including:
 \item \code{Specified},
 \item \code{PSUT_final},
 \item \code{IncompleteAllocationTables},
-\item \code{IncompleteEfficiencyTables}, and
-\item \code{ExemplarLists}.
+\item \code{IncompleteEfficiencyTables},
+\item \code{ExemplarLists},
+\item \code{CompletedAllocationTables}, and
+\item \code{CompletedEfficiencyTables}.
 }
 
 If a country is to have its energy conversion chain analyzed \emph{and}
