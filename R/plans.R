@@ -37,8 +37,10 @@
 #' * `Specified`,
 #' * `PSUT_final`,
 #' * `IncompleteAllocationTables`,
-#' * `IncompleteEfficiencyTables`, and
-#' * `ExemplarLists`.
+#' * `IncompleteEfficiencyTables`,
+#' * `ExemplarLists`,
+#' * `CompletedAllocationTables`, and
+#' * `CompletedEfficiencyTables`.
 #'
 #' If a country is to have its energy conversion chain analyzed _and_
 #' serve as an exemplar, it should be listed in `countries`.
@@ -117,7 +119,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(),
     IEAData = drake::target(AllIEAData %>%
-                              extract_country_data(countries = countries, max_year = max_year),
+                              extract_country_data(countries = alloc_and_eff_couns, max_year = max_year),
                             dynamic = map(countries)),
 
     # (2) Balance all final energy data.
@@ -125,15 +127,15 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # First, check whether energy products are balanced. They're not.
     # FALSE indicates a country with at least one balance problem.
     balanced_before = drake::target(IEAData %>%
-                                      is_balanced(countries = countries),
+                                      is_balanced(countries = alloc_and_eff_couns),
                                     dynamic = map(countries)),
     # Balance all of the data by product and year.
     BalancedIEAData = drake::target(IEAData %>%
-                                      make_balanced(countries = countries),
+                                      make_balanced(countries = alloc_and_eff_couns),
                                     dynamic = map(countries)),
     # Check that balancing was successful.
     balanced_after = drake::target(BalancedIEAData %>%
-                                     is_balanced(countries = countries),
+                                     is_balanced(countries = alloc_and_eff_couns),
                                    dynamic = map(countries)),
     # Don't continue if there is a problem.
     # stopifnot returns NULL if everything is OK.
@@ -142,7 +144,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # (3) Specify the BalancedIEAData data frame by being more careful with names, etc.
 
     Specified = drake::target(BalancedIEAData %>%
-                                specify(countries = countries),
+                                specify(countries = alloc_and_eff_couns),
                               dynamic = map(countries)),
 
     # (4) Arrange all the data into PSUT matrices with final stage data.
@@ -168,7 +170,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # These may be incomplete.
 
     ExemplarLists = drake::target(exemplar_table_path %>%
-                                    load_exemplar_table(countries = countries,
+                                    load_exemplar_table(countries = alloc_and_eff_couns,
                                                         max_year = max_year) %>%
                                     exemplar_lists(countries),
                                   dynamic = map(countries)),
