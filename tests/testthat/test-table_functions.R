@@ -1,3 +1,7 @@
+###########################################################
+context("Table Functions")
+###########################################################
+
 test_that("load_fu_allocation_tables() works for a non-existent country", {
 
   # Create a directory structure in a tempdir for the allocation tables
