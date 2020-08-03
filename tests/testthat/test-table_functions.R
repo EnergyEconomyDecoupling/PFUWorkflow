@@ -5,23 +5,47 @@ context("Table Functions")
 test_that("load_fu_allocation_tables() works for a non-existent country", {
 
   # Create a directory structure in a tempdir for the allocation tables
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "fu_analysis_folder")
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "Specified")
 
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
     # Try to read a country for which no allocations or efficiencies exist.
     # (Note that the test setup has only "GHA" and "ZAF" countries, so "GRC" should return NULL.)
-    expect_null(load_fu_allocation_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
-                                          countries = "GRC"))
+    expect_null(load_fu_allocation_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, character_only = TRUE, path = testing_setup$cache_path),
+                                          countries = "GRC", generate_missing_fu_allocation_template = FALSE))
+    # Now try when we want to generate a template
+    iea_data <- readd(SEAPSUTWorkflow::target_names$Specified, character_only = TRUE, path = testing_setup$cache_path) %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF") %>%
+      dplyr::mutate(
+        # Pretend that ZAF is GRC.
+        "{IEATools::iea_cols$country}" := "GRC"
+      )
+    grc <- load_fu_allocation_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, character_only = TRUE, path = testing_setup$cache_path),
+                                              specified_iea_data = iea_data,
+                                              countries = "GRC",
+                                              generate_missing_fu_allocation_template = TRUE)
+    # Make sure it gets GRC as a country.
+    expect_equal(grc[[IEATools::iea_cols$country]] %>% unique(), "GRC")
+    # It should have empty (NA) Machine and Eu.product columns
+    expect_true(grc[[IEATools::template_cols$machine]] %>% is.na() %>% all())
+    expect_true(grc[[IEATools::template_cols$eu_product]] %>% is.na() %>% all())
+
+    # Now check the eta_fu_tables.
+    # First, try without generating an empty template.
     expect_null(load_eta_fu_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
-                                          countries = "GRC"))
+                                   countries = "GRC", generate_missing_fu_etas_template = FALSE))
+
+    # Now try to generate an empty template
+    expect_error(load_eta_fu_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
+                       countries = "GRC", generate_missing_fu_etas_template = TRUE),
+                 ".fu_allocations has no allocation rows.")
 
     # Try when we ask for one country that DOES exist and one that doesn't exist.
     # We should NOT get NULL here.
     expect_true(!is.null(load_fu_allocation_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
-                                                   countries = c("GRC", "GHA"))))
+                                                   countries = c("GRC", "GHA"), generate_missing_fu_allocation_template = FALSE)))
     expect_true(!is.null(load_eta_fu_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
-                                                   countries = c("GRC", "GHA"))))
+                                                   countries = c("GRC", "GHA"), generate_missing_fu_etas_template = FALSE)))
 
     # Try when we ask for two countries that exist. Should get one big data frame.
     result_alloc <- load_fu_allocation_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),

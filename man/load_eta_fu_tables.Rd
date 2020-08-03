@@ -8,7 +8,9 @@ load_eta_fu_tables(
   fu_analysis_folder,
   countries,
   file_suffix = IEATools::fu_analysis_file_info$fu_analysis_file_suffix,
-  use_subfolders = TRUE
+  use_subfolders = TRUE,
+  generate_missing_fu_etas_template = TRUE,
+  eta_fu_tab_name = IEATools::fu_analysis_file_info$eta_fu_tab_name
 )
 }
 \arguments{
@@ -18,11 +20,18 @@ load_eta_fu_tables(
 
 \item{file_suffix}{The suffix for the FU analysis files. Default is " FU Analysis.xlsx".}
 
-\item{use_subfolders}{Tells whether to look for files in subfolders named by \code{countries}.}
+\item{use_subfolders}{Tells whether to look for files in subfolders named by \code{countries}. Default is \code{TRUE}.}
+
+\item{generate_missing_fu_etas_template}{Tells whether to create a template for final-to-useful efficiencies. Default is \code{TRUE}.}
+
+\item{eta_fu_tab_name}{See \code{IEATools::fu_analysis_file_info}.}
 }
 \value{
 A data frame of FU efficiency tables read by \code{IEATools::load_eta_fu_data()}.
-\code{NULL} if no data are found.
+If no FU Efficiency data are found and \code{generate_missing_fu_etas_template} is \code{TRUE},
+an empty template written to disk and the empty template is returned.
+If no FU Efficiency data are found and \code{generate_missing_fu_etas_template} is \code{FALSE},
+\code{NULL} is returned.
 }
 \description{
 This function reads all final-to-useful efficiency data
@@ -33,4 +42,7 @@ given in \code{countries}.
 By default, it is assumed that each country's final-to-useful analysis file will be in a subfolder
 of \code{fu_analysis_path}.
 Set \code{use_subfolders} to \code{FALSE} to change the default behavior.
+
+If the file from which final-to-useful efficiencies are to be read
+does not exist, an error is thrown.
 }

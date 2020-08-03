@@ -165,7 +165,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # (6) Load incomplete FU allocation tables
 
     IncompleteAllocationTables = drake::target(fu_analysis_folder %>%
-                                                 load_fu_allocation_tables(countries = alloc_and_eff_couns),
+                                                 load_fu_allocation_tables(specified_iea_data = Specified,
+                                                                           countries = alloc_and_eff_couns),
                                                dynamic = map(alloc_and_eff_couns)),
 
     # (7) Complete FU allocation tables
