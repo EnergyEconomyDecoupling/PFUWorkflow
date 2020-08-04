@@ -76,6 +76,10 @@ load_fu_allocation_tables <- function(fu_analysis_folder,
 #' does not exist, an error is thrown.
 #'
 #' @param fu_analysis_folder The folder from which final-to-useful analyses will be loaded.
+#' @param completed_fu_allocation_tables A data frame of completed final-to-useful allocation tables
+#'                                       for `countries` used to generate an FU efficiency template
+#'                                       on the fly, if needed and if
+#'                                       `generate_missing_fu_etas_template` is `TRUE`.
 #' @param countries The countries for which allocation tables should be loaded.
 #' @param file_suffix The suffix for the FU analysis files. Default is "`r IEATools::fu_analysis_file_info$fu_analysis_file_suffix`".
 #' @param use_subfolders Tells whether to look for files in subfolders named by `countries`. Default is `TRUE`.
@@ -90,6 +94,7 @@ load_fu_allocation_tables <- function(fu_analysis_folder,
 #'         If no FU Efficiency data are found and `generate_missing_fu_etas_template` is `FALSE`,
 #'         `NULL` is returned.
 load_eta_fu_tables <- function(fu_analysis_folder,
+                               completed_fu_allocation_tables,
                                countries,
                                file_suffix = IEATools::fu_analysis_file_info$fu_analysis_file_suffix,
                                use_subfolders = TRUE,
@@ -109,13 +114,10 @@ load_eta_fu_tables <- function(fu_analysis_folder,
     }
 
     if (!tab_exists & generate_missing_fu_etas_template) {
+      relevant_fu_allocation_table <- completed_fu_allocation_tables %>%
+        dplyr::filter(.data[[IEATools::iea_cols$country]] == coun)
       # Try to make the eta_fu template and stuff it in the file.
-      fu_tables <- load_fu_allocation_tables(fu_analysis_folder = fu_analysis_folder,
-                                             countries = coun,
-                                             file_suffix = file_suffix,
-                                             use_subfolders = use_subfolders,
-                                             generate_missing_fu_allocation_template = FALSE)
-      IEATools::eta_fu_template(fu_tables) %>%
+      IEATools::eta_fu_template(relevant_fu_allocation_table) %>%
         IEATools::write_eta_fu_template(eta_fu_tab_name = eta_fu_tab_name, path = fpath, overwrite_file = TRUE, overwrite_fu_eta_tab = TRUE)
     }
 

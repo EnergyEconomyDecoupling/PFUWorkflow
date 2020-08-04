@@ -182,7 +182,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # These may be incomplete.
 
     IncompleteEfficiencyTables = drake::target(fu_analysis_folder %>%
-                                                 load_eta_fu_tables(countries = alloc_and_eff_couns),
+                                                 load_eta_fu_tables(completed_fu_allocation_tables = CompletedAllocationTables,
+                                                                    countries = alloc_and_eff_couns),
                                                dynamic = map(alloc_and_eff_couns)),
 
     # (9) Complete efficiency tables

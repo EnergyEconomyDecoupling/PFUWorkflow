@@ -6,6 +6,7 @@
 \usage{
 load_eta_fu_tables(
   fu_analysis_folder,
+  completed_fu_allocation_tables,
   countries,
   file_suffix = IEATools::fu_analysis_file_info$fu_analysis_file_suffix,
   use_subfolders = TRUE,
@@ -15,6 +16,11 @@ load_eta_fu_tables(
 }
 \arguments{
 \item{fu_analysis_folder}{The folder from which final-to-useful analyses will be loaded.}
+
+\item{completed_fu_allocation_tables}{A data frame of completed final-to-useful allocation tables
+for \code{countries} used to generate an FU efficiency template
+on the fly, if needed and if
+\code{generate_missing_fu_etas_template} is \code{TRUE}.}
 
 \item{countries}{The countries for which allocation tables should be loaded.}
 

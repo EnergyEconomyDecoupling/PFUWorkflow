@@ -5,7 +5,7 @@ context("Table Functions")
 test_that("load_fu_allocation_tables() works for a non-existent country", {
 
   # Create a directory structure in a tempdir for the allocation tables
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "Specified")
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "CompletedAllocationTables")
 
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
@@ -32,13 +32,23 @@ test_that("load_fu_allocation_tables() works for a non-existent country", {
 
     # Now check the eta_fu_tables.
     # First, try without generating an empty template.
-    expect_null(load_eta_fu_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
+    expect_null(load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE),
                                    countries = "GRC", generate_missing_fu_etas_template = FALSE))
 
     # Now try to generate an empty template
-    expect_error(load_eta_fu_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
+    expect_error(load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE),
+                                    completed_fu_allocation_tables = readd(SEAPSUTWorkflow::target_names$CompletedAllocationTables, path = testing_setup$cache_path, character_only = TRUE),
                        countries = "GRC", generate_missing_fu_etas_template = TRUE),
                  ".fu_allocations has no allocation rows.")
+
+    #############################
+    # Create a test that actually reads some data from an allocation table
+    # (maybe use ZAF and GRC)
+    # and makes an efficiency template.
+    #############################
+
+
+
 
     # Try when we ask for one country that DOES exist and one that doesn't exist.
     # We should NOT get NULL here.
