@@ -58,4 +58,8 @@ Set \code{use_subfolders} to \code{FALSE} to change the default behavior.
 
 If the file from which final-to-useful efficiencies are to be read
 does not exist, an error is thrown.
+
+If the file from which final-to-useful efficiencies are to be read exists
+but no tab named \code{eta_fu_tab_name} exists,
+a blank template will be generated and saved into the file.
 }

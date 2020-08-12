@@ -75,6 +75,10 @@ load_fu_allocation_tables <- function(fu_analysis_folder,
 #' If the file from which final-to-useful efficiencies are to be read
 #' does not exist, an error is thrown.
 #'
+#' If the file from which final-to-useful efficiencies are to be read exists
+#' but no tab named `eta_fu_tab_name` exists,
+#' a blank template will be generated and saved into the file.
+#'
 #' @param fu_analysis_folder The folder from which final-to-useful analyses will be loaded.
 #' @param completed_fu_allocation_tables A data frame of completed final-to-useful allocation tables
 #'                                       for `countries` used to generate an FU efficiency template
