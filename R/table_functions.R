@@ -80,6 +80,11 @@ load_fu_allocation_tables <- function(fu_analysis_folder,
 #'                                       for `countries` used to generate an FU efficiency template
 #'                                       on the fly, if needed and if
 #'                                       `generate_missing_fu_etas_template` is `TRUE`.
+#' @param tidy_specified_iea_data A data frame of tidy and specified IEA data
+#'                                that are used to make a blank eta_fu template,
+#'                                if needed.
+#'                                Note that this argument needs to be specified only
+#'                                when the eta_fu template is unavailable.
 #' @param countries The countries for which allocation tables should be loaded.
 #' @param file_suffix The suffix for the FU analysis files. Default is "`r IEATools::fu_analysis_file_info$fu_analysis_file_suffix`".
 #' @param use_subfolders Tells whether to look for files in subfolders named by `countries`. Default is `TRUE`.
@@ -95,6 +100,7 @@ load_fu_allocation_tables <- function(fu_analysis_folder,
 #'         `NULL` is returned.
 load_eta_fu_tables <- function(fu_analysis_folder,
                                completed_fu_allocation_tables,
+                               tidy_specified_iea_data,
                                countries,
                                file_suffix = IEATools::fu_analysis_file_info$fu_analysis_file_suffix,
                                use_subfolders = TRUE,
@@ -114,13 +120,19 @@ load_eta_fu_tables <- function(fu_analysis_folder,
     }
 
     if (!tab_exists & generate_missing_fu_etas_template) {
+      relevant_iea_data <- tidy_specified_iea_data %>%
+        dplyr::filter(.data[[IEATools::iea_cols$country]] == coun)
       relevant_fu_allocation_table <- completed_fu_allocation_tables %>%
         dplyr::filter(.data[[IEATools::iea_cols$country]] == coun)
       # Try to make the eta_fu template and stuff it in the file.
-      IEATools::eta_fu_template(relevant_fu_allocation_table) %>%
+      IEATools::eta_fu_template(relevant_fu_allocation_table,
+                                tidy_specified_iea_data = relevant_iea_data) %>%
         IEATools::write_eta_fu_template(eta_fu_tab_name = eta_fu_tab_name, path = fpath, overwrite_file = TRUE, overwrite_fu_eta_tab = TRUE)
     }
 
+    # Whether an eta_fu tab was present at the beginning
+    # or we wrote an empty template just now,
+    # read it back in.
     IEATools::load_eta_fu_data(fpath, eta_fu_tab_name = eta_fu_tab_name)
   }) %>%
     dplyr::bind_rows()

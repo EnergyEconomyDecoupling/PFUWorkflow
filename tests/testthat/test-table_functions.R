@@ -13,22 +13,37 @@ test_that("load_fu_allocation_tables() works for a non-existent country", {
     # (Note that the test setup has only "GHA" and "ZAF" countries, so "GRC" should return NULL.)
     expect_null(load_fu_allocation_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, character_only = TRUE, path = testing_setup$cache_path),
                                           countries = "GRC", generate_missing_fu_allocation_template = FALSE))
-    # Now try when we want to generate a template
+    # Now try when we want to generate a template.
+    # First, we need to make some data for GRC, by pretending that ZAF is GRC.
     iea_data <- readd(SEAPSUTWorkflow::target_names$Specified, character_only = TRUE, path = testing_setup$cache_path) %>%
       dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF") %>%
       dplyr::mutate(
         # Pretend that ZAF is GRC.
         "{IEATools::iea_cols$country}" := "GRC"
       )
+    # Now ask for an fu allocation table for GRC.
+    # GRC does not exist, so it will generate a blank template and write to disk.
     grc <- load_fu_allocation_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, character_only = TRUE, path = testing_setup$cache_path),
                                               specified_iea_data = iea_data,
                                               countries = "GRC",
                                               generate_missing_fu_allocation_template = TRUE)
+    # Check that the file exists on disk
+    expect_true(file.exists(testing_setup$plan %>%
+                              dplyr::filter(target == SEAPSUTWorkflow::target_names$fu_analysis_folder) %>%
+                              dplyr::select("command") %>%
+                              unlist() %>%
+                              # All of the above
+                              file.path("GRC", "GRC FU Analysis.xlsx")))
     # Make sure it gets GRC as a country.
     expect_equal(grc[[IEATools::iea_cols$country]] %>% unique(), "GRC")
     # It should have empty (NA) Machine and Eu.product columns
     expect_true(grc[[IEATools::template_cols$machine]] %>% is.na() %>% all())
     expect_true(grc[[IEATools::template_cols$eu_product]] %>% is.na() %>% all())
+    # If we make the template tidy, we should get no rows.
+    # That's because the tidy version strips the fu allocation table to only allocation rows.
+    # A blank template has no allocation rows, so the tidy version of the grc object should have no rows.
+    tidy_grc <- IEATools::tidy_fu_allocation_table(grc)
+    expect_equal(nrow(tidy_grc), 0)
 
     # Now check the eta_fu_tables.
     # First, try without generating an empty template.
@@ -47,6 +62,26 @@ test_that("load_fu_allocation_tables() works for a non-existent country", {
     # and makes an efficiency template.
     #############################
 
+    # Pretend we have some GRC IEA data
+    grc_iea_data <- readd(SEAPSUTWorkflow::target_names$Specified, path = testing_setup$cache_path, character_only = TRUE) %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA") %>%
+      dplyr::mutate(
+        "{IEATools::iea_cols$country}" := "GRC"
+      )
+    # Pretend we have some GRC allocations
+    grc_fu_allocations <- readd(SEAPSUTWorkflow::target_names$CompletedAllocationTables, path = testing_setup$cache_path, character_only = TRUE) %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA") %>%
+      dplyr::mutate(
+        "{IEATools::iea_cols$country}" := "GRC"
+      )
+    grc_eta_fu_table <- load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE),
+                                           completed_fu_allocation_tables = grc_fu_allocations,
+                                           tidy_specified_iea_data = grc_iea_data,
+                                           countries = "GRC", generate_missing_fu_etas_template = TRUE)
+    # Turn the eta_fu part into a tidy data frame. It should have no rows, because it is a template.
+    tidy_grc_eta_fu_table <- IEATools::tidy_eta_fu_table(grc_eta_fu_table) %>%
+      dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$eta_fu)
+    expect_equal(nrow(tidy_grc_eta_fu_table), 0)
 
 
 

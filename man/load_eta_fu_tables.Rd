@@ -7,6 +7,7 @@
 load_eta_fu_tables(
   fu_analysis_folder,
   completed_fu_allocation_tables,
+  tidy_specified_iea_data,
   countries,
   file_suffix = IEATools::fu_analysis_file_info$fu_analysis_file_suffix,
   use_subfolders = TRUE,
@@ -21,6 +22,12 @@ load_eta_fu_tables(
 for \code{countries} used to generate an FU efficiency template
 on the fly, if needed and if
 \code{generate_missing_fu_etas_template} is \code{TRUE}.}
+
+\item{tidy_specified_iea_data}{A data frame of tidy and specified IEA data
+that are used to make a blank eta_fu template,
+if needed.
+Note that this argument needs to be specified only
+when the eta_fu template is unavailable.}
 
 \item{countries}{The countries for which allocation tables should be loaded.}
 
