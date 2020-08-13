@@ -19,7 +19,8 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
     # Now try when we want to generate a template.
     # First, we need to make some data for GRC, by pretending that GHA is GRC.
     iea_data_GRC <- readd(SEAPSUTWorkflow::target_names$Specified, character_only = TRUE, path = testing_setup$cache_path) %>%
-      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA", .data[[IEATools::iea_cols$year]] == 1971) %>%
+      # dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA", .data[[IEATools::iea_cols$year]] == 1971) %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA") %>%
       dplyr::mutate(
         # Pretend that GHA is GRC.
         "{IEATools::iea_cols$country}" := "GRC"
@@ -33,7 +34,8 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
     # The GRC data should be same as GHA data except for country and balancing.
     # Check by loading IEA data from IEATools package.
     GHA <- IEATools::load_tidy_iea_df() %>%
-      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA", .data[[IEATools::iea_cols$year]] == 1971) %>%
+      # dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA", .data[[IEATools::iea_cols$year]] == 1971) %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA") %>%
       IEATools::specify_all() %>%
       IEATools::fix_tidy_iea_df_balances()
 
@@ -212,6 +214,7 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
                                            completed_fu_allocation_tables = fu_allocations_GRC,
                                            tidy_specified_iea_data = iea_data_GRC,
                                            countries = "GRC", generate_missing_fu_etas_template = TRUE)
+
     # This should be a "GRC" template
     expect_equal(eta_fu_table_GRC[[IEATools::iea_cols$country]] %>% unique(), "GRC")
     # Turn the eta_fu part into a tidy data frame. It should have no rows, because it is a template.
@@ -220,19 +223,19 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
     expect_equal(nrow(tidy_grc_eta_fu_table), 0)
     # This file ought to look like the GHA eta_fu template, because GRC is based on GHA
     # Make sure that is true.
-    fu_alloc_cols <- fu_allocations_GRC %>%
+    fu_alloc_rows <- fu_allocations_GRC %>%
       dplyr::select(IEATools::iea_cols$country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type,
                     IEATools::iea_cols$last_stage, IEATools::iea_cols$unit,
                     IEATools::template_cols$machine, IEATools::template_cols$eu_product) %>%
       unique()
-    eta_fu_cols <- eta_fu_table_GRC %>%
+    eta_fu_rows <- eta_fu_table_GRC %>%
       dplyr::select(IEATools::iea_cols$country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type,
                     IEATools::iea_cols$last_stage, IEATools::iea_cols$unit,
                     IEATools::template_cols$machine, IEATools::template_cols$eu_product) %>%
       unique()
     # These two data frames should contain the same information, because
     # eta_fu_table_GRC was created from fu_allocations_GRC.
-    dplyr::anti_join(fu_alloc_cols, eta_fu_cols) %>%
+    dplyr::anti_join(fu_alloc_rows, eta_fu_rows, by = colnames(fu_alloc_rows)) %>%
       nrow() %>%
       expect_equal(0)
 
