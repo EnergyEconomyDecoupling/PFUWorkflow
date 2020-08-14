@@ -30,3 +30,4 @@ vignettes/*.pdf
 .DS_Store
 # Drake testing
 .drake/
+inst/doc

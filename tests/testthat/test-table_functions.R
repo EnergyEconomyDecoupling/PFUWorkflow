@@ -2,26 +2,242 @@
 context("Table Functions")
 ###########################################################
 
-test_that("load_fu_allocation_tables() works for a non-existent country", {
+test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-existent country", {
 
   # Create a directory structure in a tempdir for the allocation tables
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "fu_analysis_folder")
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "CompletedAllocationTables")
 
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
+
+    #### Check allocation tables
+
     # Try to read a country for which no allocations or efficiencies exist.
     # (Note that the test setup has only "GHA" and "ZAF" countries, so "GRC" should return NULL.)
-    expect_null(load_fu_allocation_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
-                                          countries = "GRC"))
-    expect_null(load_eta_fu_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
-                                          countries = "GRC"))
+    expect_null(load_fu_allocation_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, character_only = TRUE, path = testing_setup$cache_path),
+                                          countries = "GRC", generate_missing_fu_allocation_template = FALSE))
+    # Now try when we want to generate a template.
+    # First, we need to make some data for GRC, by pretending that GHA is GRC.
+    iea_data_GRC <- readd(SEAPSUTWorkflow::target_names$Specified, character_only = TRUE, path = testing_setup$cache_path) %>%
+      # dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA", .data[[IEATools::iea_cols$year]] == 1971) %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA") %>%
+      dplyr::mutate(
+        # Pretend that GHA is GRC.
+        "{IEATools::iea_cols$country}" := "GRC"
+      )
+    # Make sure that the GRC data are balanced
+    iea_data_GRC %>%
+      IEATools::calc_tidy_iea_df_balances() %>%
+      IEATools::tidy_iea_df_balanced() %>%
+      expect_true()
+
+    # The GRC data should be same as GHA data except for country and balancing.
+    # Check by loading IEA data from IEATools package.
+    GHA <- IEATools::load_tidy_iea_df() %>%
+      # dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA", .data[[IEATools::iea_cols$year]] == 1971) %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA") %>%
+      IEATools::specify_all() %>%
+      IEATools::fix_tidy_iea_df_balances()
+
+    # Use anti_join to find which rows are different. None should be different.
+    dplyr::anti_join(GHA,
+                     iea_data_GRC %>% dplyr::mutate("{IEATools::iea_cols$country}" := "GHA"),
+                     by = colnames(GHA)) %>%
+      nrow() %>%
+      expect_equal(0)
+    # If we get here without error, we know that we have correctly picked up the GHA data as GRC
+
+    # Now ask for an fu allocation table for GRC.
+    # GRC does not exist, so it will generate a blank template and write to disk.
+    GRC_alloc_table <- load_fu_allocation_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, character_only = TRUE, path = testing_setup$cache_path),
+                                                 specified_iea_data = iea_data_GRC,
+                                                 countries = "GRC",
+                                                 generate_missing_fu_allocation_template = TRUE)
+    # Check that the file exists on disk
+    expect_true(file.exists(testing_setup$plan %>%
+                              dplyr::filter(target == SEAPSUTWorkflow::target_names$fu_analysis_folder) %>%
+                              dplyr::select("command") %>%
+                              unlist() %>%
+                              # All of the above
+                              file.path("GRC", "GRC FU Analysis.xlsx")))
+    # Make sure it gets GRC as a country.
+    expect_equal(GRC_alloc_table[[IEATools::iea_cols$country]] %>% unique(), "GRC")
+    # It should have empty (NA) Machine and Eu.product columns
+    expect_true(GRC_alloc_table[[IEATools::template_cols$machine]] %>% is.na() %>% all())
+    expect_true(GRC_alloc_table[[IEATools::template_cols$eu_product]] %>% is.na() %>% all())
+    # If we make the template tidy, we should get no rows.
+    # That's because the tidy version strips the fu allocation table to only allocation rows.
+    # A blank template has no allocation rows, so the tidy version of the grc object should have no rows.
+    tidy_GRC <- IEATools::tidy_fu_allocation_table(GRC_alloc_table)
+    expect_equal(nrow(tidy_GRC), 0)
+    # Verify that all meaningful rows in the allocation table come from the GRC IEA data
+    iea_like_rows <- GRC_alloc_table %>%
+      dplyr::select(IEATools::iea_cols$country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type, IEATools::iea_cols$last_stage,
+                    IEATools::iea_cols$ledger_side, IEATools::iea_cols$flow_aggregation_point, IEATools::iea_cols$unit,
+                    IEATools::template_cols$ef_product, IEATools::template_cols$destination) %>%
+      dplyr::rename(
+        "{IEATools::iea_cols$flow}" := IEATools::template_cols$destination,
+        "{IEATools::iea_cols$product}" := IEATools::template_cols$ef_product
+      ) %>%
+      unique()
+    # Get the correct rows from the iea data table
+    iea_data_GRC_cons_eiou <- iea_data_GRC %>%
+      dplyr::filter(.data[[IEATools::iea_cols$ledger_side]] == IEATools::ledger_sides$consumption |
+                      (.data[[IEATools::iea_cols$ledger_side]] == IEATools::ledger_sides$supply &
+                         .data[[IEATools::iea_cols$flow_aggregation_point]] == IEATools::aggregation_flows$energy_industry_own_use)) %>%
+      dplyr::select(IEATools::iea_cols$country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type, IEATools::iea_cols$last_stage,
+                    IEATools::iea_cols$ledger_side, IEATools::iea_cols$flow_aggregation_point, IEATools::iea_cols$unit,
+                    IEATools::iea_cols$flow, IEATools::iea_cols$product)
+    # iea_like_rows and iea_data_GRC_cons_eiou should be same. Use anti_join to find out.
+    dplyr::anti_join(iea_like_rows, iea_data_GRC_cons_eiou, by = colnames(iea_like_rows)) %>%
+      nrow() %>%
+      expect_equal(0)
+    # If we get here without error, we know that the template for GRC correctly picked up the rows from the IEA data.
+
+
+    #### Check the eta_fu_tables.
+
+    # First, try without generating an empty template.
+    expect_null(load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE),
+                                   countries = "GRC", generate_missing_fu_etas_template = FALSE))
+
+    # Now try to generate an empty template.
+    # This should fail, because there are no rows in the allocation table from which machines can be determined.
+    expect_error(load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE),
+                                    completed_fu_allocation_tables = readd(SEAPSUTWorkflow::target_names$CompletedAllocationTables, path = testing_setup$cache_path, character_only = TRUE),
+                                    tidy_specified_iea_data = readd(SEAPSUTWorkflow::target_names$Specified, path = testing_setup$cache_path, character_only = TRUE),
+                                    countries = "GRC", generate_missing_fu_etas_template = TRUE),
+                 ".fu_allocations has no allocation rows.")
 
     # Try when we ask for one country that DOES exist and one that doesn't exist.
     # We should NOT get NULL here.
-    expect_true(!is.null(load_fu_allocation_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
-                                                   countries = c("GRC", "GHA"))))
-    expect_true(!is.null(load_eta_fu_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
-                                                   countries = c("GRC", "GHA"))))
+    expect_true(!is.null(alloc_tables_from_disk <- load_fu_allocation_tables(fu_analysis_folder = readd("fu_analysis_folder",
+                                                                                                        path = testing_setup$cache_path),
+                                                                             countries = c("GRC", "GHA"),
+                                                                             generate_missing_fu_allocation_template = FALSE)))
+    # Make sure that fu_tables contains what we expect
+    # The GRC portion should have no machines in it.
+    # In fact, every entry should be NA.
+    alloc_tables_from_disk %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GRC") %>%
+      dplyr::select(IEATools::template_cols$machine) %>%
+      is.na() %>%
+      all() %>%
+      expect_true()
+    # On the other hand, the GHA portion should have non-NA machines.
+    alloc_tables_from_disk %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA") %>%
+      dplyr::select(IEATools::template_cols$machine) %>%
+      is.na() %>%
+      all() %>%
+      expect_false()
+
+    # Now look at the eta_fu tables.
+    expect_true(!is.null(eta_tables_from_disk <- load_eta_fu_tables(fu_analysis_folder = readd("fu_analysis_folder",
+                                                                                               path = testing_setup$cache_path),
+                                                                    countries = c("GRC", "GHA"),
+                                                                    generate_missing_fu_etas_template = FALSE)))
+    # GRC should have no rows at all, because its fu allocation table is empty.
+    eta_tables_from_disk %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GRC") %>%
+      nrow() %>%
+      expect_equal(0)
+    # But GHA should have rows, because the data are available.
+    eta_tables_from_disk %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA") %>%
+      dplyr::select(IEATools::template_cols$machine) %>%
+      is.na() %>%
+      all() %>%
+      expect_false()
+
+
+    #############################
+    # This test actually reads some data from an allocation table
+    # and makes an eta_fu template.
+    #############################
+
+    # Pretend that GHA is GRC (we have iea_data_GRC from above)
+    # Pretend we have some GRC allocations
+    fu_allocations_GRC <- drake::readd(SEAPSUTWorkflow::target_names$CompletedAllocationTables,
+                                       path = testing_setup$cache_path,
+                                       character_only = TRUE) %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA") %>%
+      dplyr::mutate(
+        "{IEATools::iea_cols$country}" := "GRC",
+        "{IEATools::template_cols$c_source}" := NULL
+      )
+
+    # This fu_allocations_GRC object should be same a GHA allocations, except for country.
+    fu_allocations_GHA <- IEATools::load_fu_allocation_data() %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA") %>%
+      IEATools::tidy_fu_allocation_table()
+    # Check for sameness via anti_join
+    dplyr::anti_join(fu_allocations_GRC %>% dplyr::mutate("{IEATools::iea_cols$country}" := "GHA"),
+                     fu_allocations_GHA,
+                     by = colnames(fu_allocations_GRC)) %>%
+      nrow() %>%
+      expect_equal(0)
+
+
+    # Make sure the FU etas worksheet doesn't exist.
+    # fu_file is the file that contains the template fu_analysis worksheet.
+    fu_file <- file.path(readd(SEAPSUTWorkflow::target_names$fu_analysis_folder,
+                               path = testing_setup$cache_path,
+                               character_only = TRUE),
+                         "GRC",
+                         paste0("GRC", IEATools::fu_analysis_file_info$fu_analysis_file_suffix))
+    expect_false(IEATools::fu_analysis_file_info$eta_fu_tab_name %in% readxl::excel_sheets(fu_file))
+
+    # Try to load the GRC eta_fu table from disk.
+    # First try without specifying a completed_fu_allocation_table
+    # This should fail, because the completed_fu_allocation_tables argument is missing
+    expect_error(load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder,
+                                                               path = testing_setup$cache_path,
+                                                               character_only = TRUE),
+                                    tidy_specified_iea_data = iea_data_GRC,
+                                    countries = "GRC", generate_missing_fu_etas_template = TRUE),
+                 'argument "completed_fu_allocation_tables" is missing, with no default')
+    # Try again with missing tidy_specified_iea_data. This should also fail, because we need the IEA data
+    # to make an eta_fu template from only the completed_fu_allocation_table.
+    expect_error(load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder,
+                                                               path = testing_setup$cache_path,
+                                                               character_only = TRUE),
+                                    completed_fu_allocation_tables = fu_allocations_GRC,
+                                    countries = "GRC", generate_missing_fu_etas_template = TRUE),
+                 'argument "tidy_specified_iea_data" is missing, with no default')
+
+    # Now try with the completed_fu_allocation_tables and tidy_specified_iea_data arguments present
+    # This should work!
+    eta_fu_table_GRC <- load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder,
+                                                                      path = testing_setup$cache_path,
+                                                                      character_only = TRUE),
+                                           completed_fu_allocation_tables = fu_allocations_GRC,
+                                           tidy_specified_iea_data = iea_data_GRC,
+                                           countries = "GRC", generate_missing_fu_etas_template = TRUE)
+
+    # This should be a "GRC" template
+    expect_equal(eta_fu_table_GRC[[IEATools::iea_cols$country]] %>% unique(), "GRC")
+    # Turn the eta_fu part into a tidy data frame. It should have no rows, because it is a template.
+    tidy_grc_eta_fu_table <- IEATools::tidy_eta_fu_table(eta_fu_table_GRC) %>%
+      dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$eta_fu)
+    expect_equal(nrow(tidy_grc_eta_fu_table), 0)
+    # This file ought to look like the GHA eta_fu template, because GRC is based on GHA
+    # Make sure that is true.
+    fu_alloc_rows <- fu_allocations_GRC %>%
+      dplyr::select(IEATools::iea_cols$country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type,
+                    IEATools::iea_cols$last_stage, IEATools::iea_cols$unit,
+                    IEATools::template_cols$machine, IEATools::template_cols$eu_product) %>%
+      unique()
+    eta_fu_rows <- eta_fu_table_GRC %>%
+      dplyr::select(IEATools::iea_cols$country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type,
+                    IEATools::iea_cols$last_stage, IEATools::iea_cols$unit,
+                    IEATools::template_cols$machine, IEATools::template_cols$eu_product) %>%
+      unique()
+    # These two data frames should contain the same information, because
+    # eta_fu_table_GRC was created from fu_allocations_GRC.
+    dplyr::anti_join(fu_alloc_rows, eta_fu_rows, by = colnames(fu_alloc_rows)) %>%
+      nrow() %>%
+      expect_equal(0)
 
     # Try when we ask for two countries that exist. Should get one big data frame.
     result_alloc <- load_fu_allocation_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
