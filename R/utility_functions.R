@@ -95,7 +95,6 @@ dir_create_pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode =
 #'
 #' @noRd
 set_up_for_testing <- function(countries = c("GHA", "ZAF"),
-                               # additional_exemplar_countries = "World",
                                additional_exemplar_countries = NULL,
                                max_year = 2000,
                                how_far = "all_targets",
@@ -282,9 +281,12 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, iea_data_path, setu
 #'
 #' @noRd
 clean_up_after_testing <- function(testing_setup, cache_path = testing_setup$cache_path, temp_cache = testing_setup$temp_cache) {
+  # Clean up the fu analysis folder
+  fu_analysis_folder <- drake::readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, path = cache_path, character_only = TRUE)
+  if (file.exists(fu_analysis_folder)) {
+    unlink(fu_analysis_folder, recursive = TRUE, force = TRUE)
+  }
   # Clean up the cache.
-  drake::readd("fu_analysis_folder", path = cache_path) %>%
-    unlink(recursive = TRUE, force = TRUE)
   temp_cache$destroy()
   return(NULL)
 }

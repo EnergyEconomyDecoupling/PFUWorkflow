@@ -93,3 +93,8 @@ to obtain the value of a target for a country or vector of countries.
 Both `<<target>>` and `<<country>>` need to be strings (enclosed in `""`)
 for `SEAPSUTWorkflow::readd_by_country()`.
 
+
+
+```{r, include = FALSE}
+unlink(".drake", recursive=TRUE)
+```
