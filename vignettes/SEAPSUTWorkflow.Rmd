@@ -17,3 +17,25 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(SEAPSUTWorkflow)
 ```
+
+## Introduction
+
+`SEAPSUTWorkflow` is an `R` package that provides functions to build
+a database of energy conversion chain (ECC) analyses.
+`SEAPSUTWorkflow` makes use of the [drake](https://books.ropensci.org/drake/)
+package to ensure that "What gets done stays done."
+
+
+## Getting started
+
+To get started, create an `R` project in a new folder.
+
+
+
+data must be obtained and pulled into an R data frame.
+
+### Obtain IEA data
+
+Purchase the IEA extended energy balances product from (http://data.iea.org).
+Download the complete extended energy balance data for at least one country
+in a .csv file format as shown in the following figure.
