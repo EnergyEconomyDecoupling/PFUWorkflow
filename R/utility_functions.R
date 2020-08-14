@@ -156,7 +156,7 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, iea_data_path, setu
   }
   # Write the iea_df to disk in the temporary directory (fu_folder)
   dir.create(fu_folder, showWarnings = FALSE)
-  write.csv(iea_df, file.path(fu_folder, "IEAData.csv"), row.names = FALSE)
+  utils::write.csv(iea_df, file.path(fu_folder, "IEAData.csv"), row.names = FALSE)
 
   # Set up FU allocation tables. Need to split file that is stored in IEATools.
   GHAZAF_FU_allocation_tables <- IEATools::sample_fu_allocation_table_path() %>%
