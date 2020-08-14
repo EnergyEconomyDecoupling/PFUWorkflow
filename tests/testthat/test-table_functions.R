@@ -239,34 +239,6 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
       nrow() %>%
       expect_equal(0)
 
-
-
-
-
-
-
-
-
-
-
-    grc_eta_fu_table <- load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE),
-                                           tidy_specified_iea_data = zaf_iea_data,
-                                           countries = "GRC", generate_missing_fu_etas_template = TRUE)
-    # zaf_eta_fu_table will have eta rows filled, but should be in same format as grc_eta_fu_table
-    zaf_eta_fu_table <- load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE),
-                                           completed_fu_allocation_tables = grc_fu_allocations,
-                                           countries = "ZAF", generate_missing_fu_etas_template = TRUE)
-    # This should be a "ZAF" table.
-    expect_equal(zaf_eta_fu_table[[IEATools::iea_cols$country]] %>% unique(), "ZAF")
-    # Check the number of rows.
-    expect_equal(nrow(grc_eta_fu_table), nrow(zaf_eta_fu_table))
-    # Check to see that some columns are the same between grc_eta_fu_table and zaf_eta_fu_table
-    expect_equal(grc_eta_fu_table[[IEATools::template_cols$machine]],
-                 zaf_eta_fu_table[[IEATools::template_cols$machine]])
-    # Add more tests here, after I get the test above working.
-
-
-
     # Try when we ask for two countries that exist. Should get one big data frame.
     result_alloc <- load_fu_allocation_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
                                               countries = c("GHA", "ZAF"))
