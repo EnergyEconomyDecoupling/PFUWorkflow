@@ -1,7 +1,7 @@
 Package: SEAPSUTWorkflow
 Title: Functions and Workflows For Societal Exergy Analysis Within the PSUT Framework
-Version: 0.1.3
-Date: 2020-07-29
+Version: 0.1.4
+Date: 2020-08-14
 Authors@R: 
     person(given = "Matthew",
            family = "Heun",
@@ -16,6 +16,7 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports:
+    assertthat,
     drake,
     dplyr,
     ggplot2,
@@ -27,8 +28,13 @@ Imports:
     rlang, 
     tibble,
     tidyr, 
-    tidyselect,
+    tidyselect
 Suggests: 
-    testthat
+    knitr,
+    lubridate,
+    rmarkdown,
+    testthat,
+    visNetwork
 Depends: 
     R (>= 2.10)
+VignetteBuilder: knitr

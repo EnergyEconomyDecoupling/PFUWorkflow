@@ -14,7 +14,7 @@ test_that("load_exemplar_table() works correctly", {
   # Check that certain features are present
   # The exemplar country for everybody is South Africa,
   # matching the data bundled with the IEATools package.
-  expect_equal(et$Exemplar.country %>% unique(), "ESP")
+  expect_equal(et$Exemplar.country %>% unique(), c("ESP", NA_character_))
   # Make sure Ghana has the right name and 3-letter code.
   et %>%
     dplyr::filter(Country == "GHA") %>%

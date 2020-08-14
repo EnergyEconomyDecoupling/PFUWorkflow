@@ -90,7 +90,8 @@ generate_eta_fu_template <- function(country,
                                                                                        path = cache_path),
                                                                           country) %>%
                                        dir_create_pipe(showWarnings = FALSE, recursive = TRUE) %>%
-                                       file.path(paste0(fu_allocation_table_file_name, ext)),
+                                       # file.path(paste0(fu_allocation_table_file_name, ext)),
+                                       file.path(fu_allocation_table_file_name),
                                      fu_allocation_tab_name = IEATools::fu_analysis_file_info$fu_allocation_tab_name,
                                      eta_fu_template_file_name = paste0(country, " FU etas Template"),
                                      output_path = file.path(drake::readd(fu_analysis_path_target,

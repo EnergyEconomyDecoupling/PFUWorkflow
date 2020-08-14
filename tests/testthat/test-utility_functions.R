@@ -25,22 +25,30 @@ test_that("readd_by_country() works as expected", {
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
 
-    GHAdata <- readd_by_country("IEAData", country = "GHA", cache_path = testing_setup$cache_path)
+    GHAdata <- readd_by_country(SEAPSUTWorkflow::target_names$IEAData,
+                                country = "GHA",
+                                cache_path = testing_setup$cache_path)
     expect_equal(GHAdata %>%
                    magrittr::extract2(IEATools::iea_cols$country) %>%
                    unique(),
                  "GHA")
-    ZAFdata <- readd_by_country("IEAData", country = "ZAF", cache_path = testing_setup$cache_path)
+    ZAFdata <- readd_by_country(SEAPSUTWorkflow::target_names$IEAData,
+                                country = "ZAF",
+                                cache_path = testing_setup$cache_path)
     expect_equal(ZAFdata %>%
                    magrittr::extract2(IEATools::iea_cols$country) %>%
                    unique(),
                  "ZAF")
-    GHAZAFdata <- readd_by_country("IEAData", country = c("GHA", "ZAF"), cache_path = testing_setup$cache_path)
+    GHAZAFdata <- readd_by_country(SEAPSUTWorkflow::target_names$IEAData,
+                                   country = c("GHA", "ZAF"),
+                                   cache_path = testing_setup$cache_path)
     expect_equal(GHAZAFdata %>%
                    magrittr::extract2(IEATools::iea_cols$country) %>%
                    unique(),
                  c("GHA", "ZAF"))
-    ZAFGHAdata <- readd_by_country("IEAData", country = c("ZAF", "GHA"), cache_path = testing_setup$cache_path)
+    ZAFGHAdata <- readd_by_country(SEAPSUTWorkflow::target_names$IEAData,
+                                   country = c("ZAF", "GHA"),
+                                   cache_path = testing_setup$cache_path)
     expect_equal(ZAFGHAdata %>%
                    magrittr::extract2(IEATools::iea_cols$country) %>%
                    unique(),
@@ -53,11 +61,30 @@ test_that("readd_by_country() works as expected", {
 
 
 test_that("setup_exemplars() works as expected", {
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$CompletedAllocationTables,
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(additional_exemplar_countries = "World",
+                                                        how_far = SEAPSUTWorkflow::target_names$CompletedAllocationTables,
                                                         setup_exemplars = TRUE)
 
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
+
+    # Check that there is World IEA data
+    iea_data <- IEATools::load_tidy_iea_df(testing_setup$plan %>%
+                                           dplyr::filter(.data[["target"]] == SEAPSUTWorkflow::target_names$iea_data_path) %>%
+                                           magrittr::extract2("command") %>%
+                                           unlist())
+    iea_data %>%
+      magrittr::extract2(IEATools::iea_cols$country) %>%
+      unique() %>%
+      expect_equal(c("GHA", "World", "ZAF"))
+    # World and ZAF should be the same.
+    expect_equal(iea_data %>%
+                   dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF"),
+                 iea_data %>%
+                   dplyr::filter(.data[[IEATools::iea_cols$country]] == "World") %>%
+                   dplyr::mutate(
+                     "{IEATools::iea_cols$country}" := "ZAF"
+                   ))
 
     # Check that there is a World exemplar table
     testing_setup$plan %>%
@@ -88,6 +115,28 @@ test_that("setup_exemplars() works as expected", {
     expect_equal(World_fu_allocation_table %>%
                    dplyr::mutate("{IEATools::iea_cols$country}" := "ZAF"),
                  ZAF_fu_allocation_table)
+  },
+  finally = {
+    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+  })
+
+})
+
+
+test_that("set_up_for_testing() works when setting up exemplars with no exemplar countries ", {
+  # When we set up exemplars and we don't give additional exemplar countries,
+  # we should get "World" as an exemplar.
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$fu_analysis_folder,
+                                                        setup_exemplars = TRUE)
+
+  tryCatch({
+    drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
+
+    testing_setup$plan %>%
+      dplyr::filter(.data[["target"]] == SEAPSUTWorkflow::target_names$alloc_and_eff_couns) %>%
+      magrittr::extract2("command") %>%
+      grepl("World", .) %>%
+      expect_true()
   },
   finally = {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
