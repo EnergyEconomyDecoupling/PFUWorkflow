@@ -21,21 +21,75 @@ library(SEAPSUTWorkflow)
 ## Introduction
 
 `SEAPSUTWorkflow` is an `R` package that provides functions to build
-a database of energy conversion chain (ECC) analyses.
-`SEAPSUTWorkflow` makes use of the [drake](https://books.ropensci.org/drake/)
-package to ensure that "What gets done stays done."
+a database of primary-to-final-to-useful (PFU) energy conversion chain (ECC)
+societal exergy analyses (SEA).
+`SEAPSUTWorkflow` makes use of the [drake](https://books.ropensci.org/drake/) package.
+`SEAPSUTWorkflow` creates `drake` workflows that ensure that "What gets done stays done,"
+leading to analyses that are more reproducible and less prone to errors.
 
 
-## Getting started
+## Quick start
 
-To get started, create an `R` project in a new folder.
+To get started, follow these steps:
+
+1. Create a new `R` project in a new folder or repository.
+2. Make an `R` directory inside the new folder.
+3. Inside the `R` directory, 
+   make a file called `plan.R` that calls `SEAPSUTWorkflow::get_plan()` like this:
+
+```{r}
+plan <- SEAPSUTWorkflow::get_plan(countries = c("GHA", "ZAF"), 
+                                  max_year = 2017,
+                                  iea_data_path = "<<IEA extended energy balance path>>", 
+                                  exemplar_table_path = "<<exemplar table path>>", 
+                                  fu_analysis_folder = "<<FU analysis folder>>")
+```
+
+where
+
+* `countries` is the list of countries to be analyzed,
+* `max_year` is the latest year to be analyzed,
+* `<<IEA extended energy balance path>>` is the path to a `.csv` file that contains
+[IEA](https://www.iea.org) [extended energy balance data](http://data.iea.org),
+* `<<exemplar table path>>` is the path to an exemplar table (see below), and
+* `<<FU analysis folder>>` is the path to a folder containing final-to-useful analyses.
+
+The `plan` object is a data frame that provides a list of "targets" 
+and code that will generate the target,
+in the order the targets will be completed.
+
+```{r}
+plan
+```
+
+4. To visualize all dependencies in the plan,
+
+```{r}
+drake::vis_drake_graph(plan)
+```
+
+5. To execute the plan, call ``drake::make(plan)` or `drake::r_make(plan)`.
+   When `drake ` is installed, the `Addins` menu contains the item `Run a drake workflow,`
+   which sources the `plan.R` file and calls `drake::r_make(plan)`.
 
 
+## Targets
 
-data must be obtained and pulled into an R data frame.
+A list of targets can be found with `SEAPSUTWorkflow::target_names`.
+The meanings of the targets can be obtained with `?SEAPSUTWorkflow::target_names`.
 
-### Obtain IEA data
 
-Purchase the IEA extended energy balances product from (http://data.iea.org).
-Download the complete extended energy balance data for at least one country
-in a .csv file format as shown in the following figure.
+## Results
+
+To query the results of executing the plan, say `drake::readd(<<target>>)`,
+where `<<target>>` is unquoted.
+Alternatively, 
+`drake::readd("<<target>>", character_only = TRUE)` for 
+a string `<<target>>`.
+
+Targets are computed by country. 
+Say `SEAPSUTWorkflow::readd_by_country("<<target>>", "<<country>>")`
+to obtain the value of a target for a country or vector of countries.
+Both `<<target>>` and `<<country>>` need to be strings (enclosed in `""`)
+for `SEAPSUTWorkflow::readd_by_country()`.
+
