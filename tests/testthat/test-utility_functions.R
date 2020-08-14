@@ -121,3 +121,25 @@ test_that("setup_exemplars() works as expected", {
   })
 
 })
+
+
+test_that("set_up_for_testing() works when setting up exemplars with no exemplar countries ", {
+  # When we set up exemplars and we don't give additional exemplar countries,
+  # we should get "World" as an exemplar.
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$fu_analysis_folder,
+                                                        setup_exemplars = TRUE)
+
+  tryCatch({
+    drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
+
+    testing_setup$plan %>%
+      dplyr::filter(.data[["target"]] == SEAPSUTWorkflow::target_names$alloc_and_eff_couns) %>%
+      magrittr::extract2("command") %>%
+      grepl("World", .) %>%
+      expect_true()
+  },
+  finally = {
+    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+  })
+
+})

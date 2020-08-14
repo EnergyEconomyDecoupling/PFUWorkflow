@@ -1,3 +1,8 @@
+# SEAPSUTWorkflow 0.1.4 (2020-08-14)
+
+* New tests for new features and old bugs.
+    * Now up to 159 tests, all passing.
+    * Test coverage remains at 100%.
 * `load_fu_allocation_tables()` and `load_eta_fu_tables()`
   now write blank templates and read them back in 
   if you request a non-existent fu_allocation_table or eta_fu_table.
