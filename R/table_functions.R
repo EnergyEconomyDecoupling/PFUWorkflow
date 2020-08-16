@@ -261,6 +261,7 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
         # Note that the data frames in this column contain the SOURCE of information for each allocation.
         "{complete_alloc_tables}" := Map(IEATools::complete_fu_allocation_table,
                                          fu_allocation_table = .data[[incomplete_alloc_tables]],
+                                         country_to_complete = coun,
                                          exemplar_fu_allocation_tables = .data[[exemplar_tables]],
                                          tidy_specified_iea_data = .data[[iea_data]])
       )
