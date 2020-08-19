@@ -1,3 +1,8 @@
+# SEAPSUTWorkflow 0.1.5 (2020-08-19)
+
+* Fixed bugs with completion code when put into production.
+
+
 # SEAPSUTWorkflow 0.1.4 (2020-08-14)
 
 * New tests for new features and old bugs.
