@@ -11,6 +11,7 @@ Authors@R:
 Description: SEAPSUTWorkflow provides functions and workflows for societal exergy analysis within the PSUT framework.
              The package is compatible with `drake`.
 License: MIT + file LICENSE
+Language: en-US
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -34,7 +35,8 @@ Suggests:
     lubridate,
     rmarkdown,
     testthat,
-    visNetwork
+    visNetwork,
+    spelling
 Depends: 
     R (>= 2.10)
 VignetteBuilder: knitr

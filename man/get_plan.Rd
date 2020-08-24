@@ -69,7 +69,7 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{Specified}: A data frame with specified industries. See \code{IEATools::specify_all()}.
 \item \code{PSUT_final}: A data frame containing PSUT matrices up to the final stage.
 \item \code{IncompleteAllocationTables}: A data frame containing final-to-useful allocation tables.
-\item \code{IncompleteEfficiencyTables}: A data frame containing final-to-useful effiiency tables.
+\item \code{IncompleteEfficiencyTables}: A data frame containing final-to-useful efficiency tables.
 \item \code{ExemplarLists}: A data frame containing lists of exemplar countries on a per-country, per-year basis.
 }
 
@@ -101,7 +101,8 @@ get_plan(countries = c("GHA", "ZAF"),
          max_year = 1999,
          iea_data_path = "iea_path",
          exemplar_table_path = "exemplar_path",
-         fu_analysis_folder = "fu_folder")
+         fu_analysis_folder = "fu_folder",
+         report_output_folder = "report_output_folder")
 }
 \seealso{
 \itemize{

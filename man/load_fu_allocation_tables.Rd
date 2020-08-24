@@ -38,7 +38,7 @@ If no FU Allocation data are found and \code{generate_missing_fu_allocation_temp
 }
 \description{
 This function reads all final-to-useful allocation data
-in files in the \code{fu_analysis_folder} that start with the country appreviations
+in files in the \code{fu_analysis_folder} that start with the country abbreviations
 given in \code{countries}.
 }
 \details{
@@ -49,5 +49,5 @@ Set \code{use_subfolders} to \code{FALSE} to change the default behavior.
 If final-to-useful allocation data are not available, this function
 automatically creates an empty final-to-useful allocation template and writes it to disk.
 Then, this function reads the empty file.
-This behaviour can be modified by setting argument \code{generate_missing_fu_allocation_template} to \code{FALSE}.
+This behavior can be modified by setting argument \code{generate_missing_fu_allocation_template} to \code{FALSE}.
 }

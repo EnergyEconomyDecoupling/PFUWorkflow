@@ -22,7 +22,7 @@
 #' * `Specified`: A data frame with specified industries. See `IEATools::specify_all()`.
 #' * `PSUT_final`: A data frame containing PSUT matrices up to the final stage.
 #' * `IncompleteAllocationTables`: A data frame containing final-to-useful allocation tables.
-#' * `IncompleteEfficiencyTables`: A data frame containing final-to-useful effiiency tables.
+#' * `IncompleteEfficiencyTables`: A data frame containing final-to-useful efficiency tables.
 #' * `ExemplarLists`: A data frame containing lists of exemplar countries on a per-country, per-year basis.
 #'
 #' Callers can execute the plan by calling `drake::make(plan)`.
@@ -82,7 +82,8 @@
 #'          max_year = 1999,
 #'          iea_data_path = "iea_path",
 #'          exemplar_table_path = "exemplar_path",
-#'          fu_analysis_folder = "fu_folder")
+#'          fu_analysis_folder = "fu_folder",
+#'          report_output_folder = "report_output_folder")
 get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
                      iea_data_path, exemplar_table_path, fu_analysis_folder, report_output_folder) {

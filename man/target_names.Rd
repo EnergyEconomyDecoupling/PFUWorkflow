@@ -16,7 +16,7 @@ A string list with 20 entries.
 \item{report_folder}{A string representing the folder containing reports from the workflow.}
 \item{AllIEAData}{The name of a data frame containing all IEA data read from \code{iea_data_path}.}
 \item{IEAData}{A filtered version of \code{AllIEAData} containing information for only \code{countries}.}
-\item{balanced_before}{A boolean indicating whether the \code{IEAData} are balanced before any further analysis. They ususally are not, so this value is typically \code{FALSE}.}
+\item{balanced_before}{A boolean indicating whether the \code{IEAData} are balanced before any further analysis. They usually are not, so this value is typically \code{FALSE}.}
 \item{BalancedIEAData}{A balanced version of \code{IEAData}.}
 \item{balanced_after}{Same as \code{balanced_before}, only for after balancing. This should be \code{TRUE}.}
 \item{Specified}{A data frame containing specified IEA data.}

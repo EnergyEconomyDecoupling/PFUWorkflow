@@ -1,3 +1,4 @@
+* Added automated spell checking to package checks.
 * Added new target `report_output_folder` to plan and tests.
 
 

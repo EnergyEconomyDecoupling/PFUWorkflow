@@ -1,7 +1,7 @@
 #' Load FU allocation tables
 #'
 #' This function reads all final-to-useful allocation data
-#' in files in the `fu_analysis_folder` that start with the country appreviations
+#' in files in the `fu_analysis_folder` that start with the country abbreviations
 #' given in `countries`.
 #'
 #' By default, it is assumed that each country's final-to-useful analysis file will be in a subfolder
@@ -11,7 +11,7 @@
 #' If final-to-useful allocation data are not available, this function
 #' automatically creates an empty final-to-useful allocation template and writes it to disk.
 #' Then, this function reads the empty file.
-#' This behaviour can be modified by setting argument `generate_missing_fu_allocation_template` to `FALSE`.
+#' This behavior can be modified by setting argument `generate_missing_fu_allocation_template` to `FALSE`.
 #'
 #' @param fu_analysis_folder The folder from which final-to-useful analyses will be loaded.
 #' @param specified_iea_data A data frame of specified IEA data for `countries`.

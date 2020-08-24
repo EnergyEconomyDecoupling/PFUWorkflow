@@ -16,7 +16,7 @@
 #' \item{report_folder}{A string representing the folder containing reports from the workflow.}
 #' \item{AllIEAData}{The name of a data frame containing all IEA data read from `iea_data_path`.}
 #' \item{IEAData}{A filtered version of `AllIEAData` containing information for only `countries`.}
-#' \item{balanced_before}{A boolean indicating whether the `IEAData` are balanced before any further analysis. They ususally are not, so this value is typically `FALSE`.}
+#' \item{balanced_before}{A boolean indicating whether the `IEAData` are balanced before any further analysis. They usually are not, so this value is typically `FALSE`.}
 #' \item{BalancedIEAData}{A balanced version of `IEAData`.}
 #' \item{balanced_after}{Same as `balanced_before`, only for after balancing. This should be `TRUE`.}
 #' \item{Specified}{A data frame containing specified IEA data.}

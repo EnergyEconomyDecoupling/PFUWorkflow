@@ -42,7 +42,8 @@ plan <- SEAPSUTWorkflow::get_plan(countries = c("GHA", "ZAF"),
                                   max_year = 2017,
                                   iea_data_path = "<<IEA extended energy balance path>>", 
                                   exemplar_table_path = "<<exemplar table path>>", 
-                                  fu_analysis_folder = "<<FU analysis folder>>")
+                                  fu_analysis_folder = "<<FU analysis folder>>", 
+                                  report_output_folder = "<<Report output folder>>")
 ```
 
 where
