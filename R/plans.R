@@ -13,6 +13,7 @@
 #' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
 #' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.
 #' * `fu_analysis_folder`: The path to the final-to-useful analysis folder, supplied in the `fu_analysis_folder` argument.
+#' * `report_output_folder`: The path to a report output folder, supplied in the `report_output_folder` argument.
 #' * `AllIEAData`: A data frame with all IEA extended energy balance data read from `iea_data_path`.
 #' * `IEAData`: A version of the `AllIEAData` data frame containing data for only those countries specified in `countries`.
 #' * `balanced_before`: A boolean that tells where the data were balanced as received, usually a vector of `FALSE`, one for each country.
@@ -86,7 +87,8 @@
 #'          report_output_folder = "report_output_folder")
 get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
-                     iea_data_path, exemplar_table_path, fu_analysis_folder, report_output_folder) {
+                     iea_data_path, exemplar_table_path, fu_analysis_folder,
+                     report_output_folder) {
 
   # Get around some warnings.
   alloc_and_eff_couns <- NULL
@@ -197,7 +199,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                                      completed_fu_allocation_tables = CompletedAllocationTables,
                                                                      countries = countries,
                                                                      max_year = max_year),
-                                              dynamic = map(countries))
+                                              dynamic = map(countries)),
 
     # (10) Extend to useful stage
 
@@ -211,13 +213,21 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (13) Off to the races!  Do other calculations
 
+
+
+
+
+
+    # (N) Build reports
+    report_paths = drake::target(report_paths())
+
   )
   if (how_far != "all_targets") {
     # Find the last row of the plan to keep.
     last_row_to_keep <- p %>%
-      tibble::rowid_to_column(var = "rownum") %>%
+      tibble::rowid_to_column(var = ".rownum") %>%
       dplyr::filter(.data[["target"]] == how_far) %>%
-      dplyr::select("rownum") %>%
+      dplyr::select(".rownum") %>%
       unlist() %>%
       unname()
     p <- p %>%
