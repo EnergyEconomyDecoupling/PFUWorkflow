@@ -64,6 +64,7 @@
 #' @param exemplar_table_path The path to an exemplar table.
 #' @param fu_analysis_folder The path to a folder containing final-to-useful analyses.
 #'                           Sub-folders named with 3-letter country abbreviations are assumed.
+#' @param report_output_folder The path to a folder containing reports.
 #'
 #' @return A drake plan object.
 #'
@@ -84,7 +85,7 @@
 #'          fu_analysis_folder = "fu_folder")
 get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
-                     iea_data_path, exemplar_table_path, fu_analysis_folder) {
+                     iea_data_path, exemplar_table_path, fu_analysis_folder, report_output_folder) {
 
   # Get around some warnings.
   alloc_and_eff_couns <- NULL
@@ -114,6 +115,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     iea_data_path = !!iea_data_path,
     exemplar_table_path = !!exemplar_table_path,
     fu_analysis_folder = !!fu_analysis_folder,
+    report_output_folder = !!report_output_folder,
 
     # (1) Grab all IEA data for ALL countries
 

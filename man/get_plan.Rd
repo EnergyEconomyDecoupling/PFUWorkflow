@@ -11,7 +11,8 @@ get_plan(
   how_far = "all_targets",
   iea_data_path,
   exemplar_table_path,
-  fu_analysis_folder
+  fu_analysis_folder,
+  report_output_folder
 )
 }
 \arguments{
@@ -38,6 +39,8 @@ Default is "all_targets" to indicate all targets of the plan should be returned.
 
 \item{fu_analysis_folder}{The path to a folder containing final-to-useful analyses.
 Sub-folders named with 3-letter country abbreviations are assumed.}
+
+\item{report_output_folder}{The path to a folder containing reports.}
 }
 \value{
 A drake plan object.

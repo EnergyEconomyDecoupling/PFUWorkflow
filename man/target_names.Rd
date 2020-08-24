@@ -5,7 +5,7 @@
 \alias{target_names}
 \title{Drake cache target names}
 \format{
-A string list with 19 entries.
+A string list with 20 entries.
 \describe{
 \item{countries}{The string name of the countries target in the drake cache, giving the countries to be analyzed.}
 \item{alloc_and_eff_couns}{The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.}
@@ -13,6 +13,7 @@ A string list with 19 entries.
 \item{iea_data_path}{A string representing the path to the file containing IEA extended energy balance data.}
 \item{exemplar_table_path}{A string representing the path to the exemplar table.}
 \item{fu_analysis_folder}{A string representing the folder containing final-to-useful analyses for various countries.}
+\item{report_folder}{A string representing the folder containing reports from the workflow.}
 \item{AllIEAData}{The name of a data frame containing all IEA data read from \code{iea_data_path}.}
 \item{IEAData}{A filtered version of \code{AllIEAData} containing information for only \code{countries}.}
 \item{balanced_before}{A boolean indicating whether the \code{IEAData} are balanced before any further analysis. They ususally are not, so this value is typically \code{FALSE}.}

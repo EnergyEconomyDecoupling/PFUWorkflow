@@ -13,6 +13,7 @@
 #' \item{iea_data_path}{A string representing the path to the file containing IEA extended energy balance data.}
 #' \item{exemplar_table_path}{A string representing the path to the exemplar table.}
 #' \item{fu_analysis_folder}{A string representing the folder containing final-to-useful analyses for various countries.}
+#' \item{report_folder}{A string representing the folder containing reports from the workflow.}
 #' \item{AllIEAData}{The name of a data frame containing all IEA data read from `iea_data_path`.}
 #' \item{IEAData}{A filtered version of `AllIEAData` containing information for only `countries`.}
 #' \item{balanced_before}{A boolean indicating whether the `IEAData` are balanced before any further analysis. They ususally are not, so this value is typically `FALSE`.}

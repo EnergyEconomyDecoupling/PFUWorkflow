@@ -6,6 +6,7 @@ test_that("get_plan works", {
   my_plan <- get_plan(iea_data_path = "datapath",
                       exemplar_table_path = "exemplarpath",
                       fu_analysis_folder = "FUpath",
+                      report_output_folder = "reportpath",
                       countries = c("GHA", "ZAF"),
                       max_year = 1999)
 
@@ -18,14 +19,16 @@ test_that("get_plan works", {
   expect_equal(my_plan[[5, "command"]], list("exemplarpath"))
   expect_equal(my_plan[[6, "target"]], "fu_analysis_folder")
   expect_equal(my_plan[[6, "command"]], list("FUpath"))
-  expect_equal(my_plan[[7, "target"]], "AllIEAData")
-  expect_equal(my_plan[[8, "target"]], "IEAData")
-  expect_equal(my_plan[[9, "target"]], "balanced_before")
-  expect_equal(my_plan[[10, "target"]], "BalancedIEAData")
-  expect_equal(my_plan[[11, "target"]], "balanced_after")
-  expect_equal(my_plan[[12, "target"]], "OKToProceed")
-  expect_equal(my_plan[[13, "target"]], "Specified")
-  expect_equal(my_plan[[14, "target"]], "PSUT_final")
+  expect_equal(my_plan[[7, "target"]], "report_output_folder")
+  expect_equal(my_plan[[7, "command"]], list("reportpath"))
+  expect_equal(my_plan[[8, "target"]], "AllIEAData")
+  expect_equal(my_plan[[9, "target"]], "IEAData")
+  expect_equal(my_plan[[10, "target"]], "balanced_before")
+  expect_equal(my_plan[[11, "target"]], "BalancedIEAData")
+  expect_equal(my_plan[[12, "target"]], "balanced_after")
+  expect_equal(my_plan[[13, "target"]], "OKToProceed")
+  expect_equal(my_plan[[14, "target"]], "Specified")
+  expect_equal(my_plan[[15, "target"]], "PSUT_final")
 })
 
 
@@ -33,11 +36,13 @@ test_that("keeping only some rows of a plan works", {
   full_plan <- get_plan(iea_data_path = "datapath",
                         exemplar_table_path = "exemplarpath",
                         fu_analysis_folder = "FUpath",
+                        report_output_folder = "reportpath",
                         countries = c("GHA", "ZAF"),
                         max_year = 1999)
   short_plan <- get_plan(iea_data_path = "mypath",
                       exemplar_table_path = "exemplarpath",
                       fu_analysis_folder = "FUpath",
+                      report_output_folder = "reportpath",
                       countries = c("GHA", "ZAF"),
                       max_year = 1999,
                       how_far = "Specified")
@@ -69,6 +74,7 @@ test_that("make works", {
     expect_equal(drake::readd(target = SEAPSUTWorkflow::target_names$exemplar_table_path, path = testing_setup$cache_path, character_only = TRUE),
                  testing_setup$plan %>% dplyr::filter(target == "exemplar_table_path") %>% magrittr::extract2("command") %>% unlist())
     expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE)))
+    expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$report_output_folder, path = testing_setup$cache_path, character_only = TRUE)))
 
     # Be sure that IEAData is present
     expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$IEAData, path = testing_setup$cache_path, character_only = TRUE)))

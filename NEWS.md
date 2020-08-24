@@ -1,3 +1,6 @@
+* Added new target `report_output_folder` to plan and tests.
+
+
 # SEAPSUTWorkflow 0.1.5 (2020-08-19)
 
 * Fixed bugs with completion code when put into production.
