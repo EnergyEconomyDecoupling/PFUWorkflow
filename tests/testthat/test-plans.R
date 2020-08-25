@@ -6,7 +6,8 @@ test_that("get_plan works", {
   my_plan <- get_plan(iea_data_path = "datapath",
                       exemplar_table_path = "exemplarpath",
                       fu_analysis_folder = "FUpath",
-                      report_output_folder = "reportpath",
+                      report_source_folders = "report_source_folders",
+                      report_dest_folder = "report_dest_path",
                       countries = c("GHA", "ZAF"),
                       max_year = 1999)
 
@@ -19,16 +20,22 @@ test_that("get_plan works", {
   expect_equal(my_plan[[5, "command"]], list("exemplarpath"))
   expect_equal(my_plan[[6, "target"]], "fu_analysis_folder")
   expect_equal(my_plan[[6, "command"]], list("FUpath"))
-  expect_equal(my_plan[[7, "target"]], "report_output_folder")
-  expect_equal(my_plan[[7, "command"]], list("reportpath"))
-  expect_equal(my_plan[[8, "target"]], "AllIEAData")
-  expect_equal(my_plan[[9, "target"]], "IEAData")
-  expect_equal(my_plan[[10, "target"]], "balanced_before")
-  expect_equal(my_plan[[11, "target"]], "BalancedIEAData")
-  expect_equal(my_plan[[12, "target"]], "balanced_after")
-  expect_equal(my_plan[[13, "target"]], "OKToProceed")
-  expect_equal(my_plan[[14, "target"]], "Specified")
-  expect_equal(my_plan[[15, "target"]], "PSUT_final")
+
+
+  expect_equal(my_plan[[7, "target"]], "report_source_folders")
+  expect_equal(my_plan[[7, "command"]], list("report_source_folders"))
+
+
+  expect_equal(my_plan[[8, "target"]], "report_dest_folder")
+  expect_equal(my_plan[[8, "command"]], list("report_dest_folder"))
+  expect_equal(my_plan[[9, "target"]], "AllIEAData")
+  expect_equal(my_plan[[10, "target"]], "IEAData")
+  expect_equal(my_plan[[11, "target"]], "balanced_before")
+  expect_equal(my_plan[[12, "target"]], "BalancedIEAData")
+  expect_equal(my_plan[[13, "target"]], "balanced_after")
+  expect_equal(my_plan[[14, "target"]], "OKToProceed")
+  expect_equal(my_plan[[15, "target"]], "Specified")
+  expect_equal(my_plan[[16, "target"]], "PSUT_final")
 })
 
 
