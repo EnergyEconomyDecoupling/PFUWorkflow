@@ -1,19 +1,19 @@
 #' List reports found in report directory
 #'
-#' Makes a list of raw report files in `report_dirs`.
-#' This function descends the directories rooted at `report_dirs` to find all reports to be run.
+#' Makes a list of raw report files in `report_source_folders`.
+#' This function descends the directories rooted at `report_source_folders` to find all reports to be run.
 #' Reports to be run are identified by filename extensions,
 #' by default `c(".Rmd", ".Rnw")`.
 #'
-#' Users can override the default value of `report_dirs` to supply their own
-#' report directory(ies).
+#' Users can override the default value of `report_source_folders` to supply their own
+#' report directory(ies) of reports.
 #' If users want to also include the default reports,
 #' be sure to include `system.file(file.path("reports"), package = "SEAPSUTWorkflow")`
-#' in the vector of paths supplied to `report_dirs`.
+#' in the vector of paths supplied to `report_source_folders`.
 #'
-#' @param report_dirs A string that identifies a directory of reports to be generated.
-#'                    Default is `system.file(file.path("reports"), package = "SEAPSUTWorkflow")`,
-#'                    which provides some default reports.
+#' @param report_source_folders A string that identifies a directory of reports to be generated.
+#'                              Default is `system.file(file.path("reports"), package = "SEAPSUTWorkflow")`,
+#'                              which provides some default reports.
 #' @param report_suffixes A vector of strings of report suffixes. Default is `c(".Rmd", ".Rnw")`.
 #'
 #' @return A vector of absolute paths to reports to be generated.
@@ -42,10 +42,11 @@ report_source_paths <- function(report_source_folders = system.file(file.path("r
 
 #' Generate reports found in report directory
 #'
-#' This function descends the directory rooted at `report_dir` and executes `knitr::knit()` on all
-#' files with `report_suffixes`.
+#' This function builds all `report_source_files` with `knitr::knit()`.
 #'
-#' Each report name is suffixed by date and time.
+#' Each report name is suffixed by date and time (down to the second).
+#' Duplicate report names in `report_source_files` generates an error.
+#'
 #' Previous reports are shuffled to a folder named `<<report_name>>_prev`.
 #'
 #' @param report_source_files A vector of absolute paths to reports that need to be run,
@@ -53,7 +54,7 @@ report_source_paths <- function(report_source_folders = system.file(file.path("r
 #' @param report_dest_folder A string that identifies the directory into which the completed reports should be written.
 #'                           Default is `drake::readd(SEAPSUTWorkflow::target_names[["report_dest_folder"]]`
 #'
-#' @return A boolean. `TRUE` for success, `FALSE` if an error occurred.
+#' @return A boolean. `TRUE` for success with all reports, `FALSE` if an error occurred with any report.
 #' @export
 #'
 #' @examples
@@ -66,7 +67,7 @@ generate_reports <- function(report_source_files,
   # }
   #
   #
-print("would generate reports here")
-return(TRUE)
+# print("would generate reports here")
+return(FALSE)
 
 }

@@ -11,25 +11,25 @@ report_source_paths(
 )
 }
 \arguments{
-\item{report_suffixes}{A vector of strings of report suffixes. Default is \code{c(".Rmd", ".Rnw")}.}
-
-\item{report_dirs}{A string that identifies a directory of reports to be generated.
+\item{report_source_folders}{A string that identifies a directory of reports to be generated.
 Default is \code{system.file(file.path("reports"), package = "SEAPSUTWorkflow")},
 which provides some default reports.}
+
+\item{report_suffixes}{A vector of strings of report suffixes. Default is \code{c(".Rmd", ".Rnw")}.}
 }
 \value{
 A vector of absolute paths to reports to be generated.
 }
 \description{
-Makes a list of raw report files in \code{report_dirs}.
-This function descends the directories rooted at \code{report_dirs} to find all reports to be run.
+Makes a list of raw report files in \code{report_source_folders}.
+This function descends the directories rooted at \code{report_source_folders} to find all reports to be run.
 Reports to be run are identified by filename extensions,
 by default \code{c(".Rmd", ".Rnw")}.
 }
 \details{
-Users can override the default value of \code{report_dirs} to supply their own
-report directory(ies).
+Users can override the default value of \code{report_source_folders} to supply their own
+report directory(ies) of reports.
 If users want to also include the default reports,
 be sure to include \code{system.file(file.path("reports"), package = "SEAPSUTWorkflow")}
-in the vector of paths supplied to \code{report_dirs}.
+in the vector of paths supplied to \code{report_source_folders}.
 }

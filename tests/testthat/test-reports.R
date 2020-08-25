@@ -17,4 +17,7 @@ test_that("reports_paths() works as expected", {
 
   expect_equal(length(setdiff(paths, reports)), 0)
 
+  # Now try to generate reports.
+  expect_true(generate_reports())
+
 })
