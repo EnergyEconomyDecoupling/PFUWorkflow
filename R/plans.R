@@ -222,7 +222,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (N) Build reports
     report_source_paths = drake::target(report_source_paths(report_source_folders = report_source_folders)),
-    report_dest_folder = drake::target(generate_reports(report_dest_folder))
+    reports_complete = drake::target(generate_reports(report_source_files = report_source_paths,
+                                                      report_dest_folder = report_dest_folder))
 
   )
   if (how_far != "all_targets") {

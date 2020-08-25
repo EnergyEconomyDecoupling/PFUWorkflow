@@ -11,9 +11,9 @@ test_that("reports_paths() works as expected", {
   which_files_are_Rmd <- which(endsWith(files, ".Rmd"), arr.ind = TRUE)
   report_indices <- append(which_files_are_Rmd, which_files_are_Rnw) %>%
     unlist()
-  reports <- files[[report_indices]]
+  reports <- files[report_indices]
 
-  paths <- reports_paths()
+  paths <- report_source_paths()
 
   expect_equal(length(setdiff(paths, reports)), 0)
 

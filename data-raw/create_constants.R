@@ -30,7 +30,10 @@ target_names <- list(countries = "countries",
                      IncompleteEfficiencyTables = "IncompleteEfficiencyTables",
                      ExemplarLists = "ExemplarLists",
                      CompletedAllocationTables = "CompletedAllocationTables",
-                     CompletedEfficiencyTables = "CompletedEfficiencyTables")
+                     CompletedEfficiencyTables = "CompletedEfficiencyTables",
+                     report_source_paths = "report_source_paths",
+                     reports_complete = "reports_complete")
+
 usethis::use_data(target_names, overwrite = TRUE)
 
 

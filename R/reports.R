@@ -25,18 +25,18 @@ report_source_paths <- function(report_source_folders = system.file(file.path("r
                           report_suffixes = c(".Rmd", ".Rnw")) {
 
   # Make a list in which we'll collect paths to all reports that need to be run.
-  reports_to_run <- list()
+  report_files <- list()
   # Cycle through all paths
-  for (rs in report_sources) {
+  for (rs in report_source_folders) {
     all_files <- list.files(path = rs, full.names = TRUE, recursive = TRUE, include.dirs = TRUE)
     for (suff in report_suffixes) {
       which_files_are_reports <- which(endsWith(all_files, suffix = suff), arr.ind = TRUE)
       if (length(which_files_are_reports) > 0) {
-        reports_to_run <- append(reports_to_run, all_files[[which_files_are_reports]])
+        report_files <- append(report_files, all_files[which_files_are_reports])
       }
     }
   }
-  unlist(reports_to_run)
+  unlist(report_files)
 }
 
 
@@ -67,6 +67,6 @@ generate_reports <- function(report_source_files,
   #
   #
 print("would generate reports here")
-return(NULL)
+return(TRUE)
 
 }
