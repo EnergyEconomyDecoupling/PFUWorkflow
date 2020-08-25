@@ -41,7 +41,10 @@ Default is "all_targets" to indicate all targets of the plan should be returned.
 \item{fu_analysis_folder}{The path to a folder containing final-to-useful analyses.
 Sub-folders named with 3-letter country abbreviations are assumed.}
 
-\item{report_output_folder}{The path to a folder containing reports.}
+\item{report_source_folders}{A string vector containing paths to folders of report sources, usually
+\code{.Rnw} or \code{.Rmd} files.}
+
+\item{report_output_folder}{The path to a folder into which reports are written.}
 }
 \value{
 A drake plan object.
@@ -70,9 +73,14 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{OKToProceed}: \code{NULL} means everything is balanced and proceeding is OK.
 \item \code{Specified}: A data frame with specified industries. See \code{IEATools::specify_all()}.
 \item \code{PSUT_final}: A data frame containing PSUT matrices up to the final stage.
-\item \code{IncompleteAllocationTables}: A data frame containing final-to-useful allocation tables.
-\item \code{IncompleteEfficiencyTables}: A data frame containing final-to-useful efficiency tables.
 \item \code{ExemplarLists}: A data frame containing lists of exemplar countries on a per-country, per-year basis.
+\item \code{IncompleteAllocationTables}: A data frame containing final-to-useful allocation tables.
+\item \code{CompletedAllocationTables} : A data frame containing completed final-to-useful allocation tables.
+\item \code{IncompleteEfficiencyTables}: A data frame containing final-to-useful efficiency tables.
+\item \code{CompletedEfficiencyTables}: A data frame containing completed final-to-useful efficiency tables.
+\item \code{report_source_paths}: A string vector of paths to sources for reports.
+\item \code{report_dest_paths}: A string for the path to a folder into which reports will written.
+\item \code{reports_complete}: A boolean that tells whether reports were written successfully.
 }
 
 Callers can execute the plan by calling \code{drake::make(plan)}.
@@ -86,17 +94,12 @@ Note that some targets can be read using \code{readd_by_country()}, including:
 \item \code{BalancedIEAData},
 \item \code{Specified},
 \item \code{PSUT_final},
-\item \code{IncompleteAllocationTables},
-\item \code{IncompleteEfficiencyTables},
 \item \code{ExemplarLists},
-\item \code{CompletedAllocationTables}, and
-\item \code{CompletedEfficiencyTables}.
+\item \code{IncompleteAllocationTables},
+\item \code{CompletedAllocationTables},
+\item \code{IncompleteEfficiencyTables}, and
+\item \code{CompletedEfficiencyTables},
 }
-
-If a country is to have its energy conversion chain analyzed \emph{and}
-serve as an exemplar, it should be listed in \code{countries}.
-If a country is to serve as an exemplar only (not have its energy conversion chain analyzed),
-it should be listed in \code{additional_exemplar_countries}.
 }
 \examples{
 get_plan(countries = c("GHA", "ZAF"),

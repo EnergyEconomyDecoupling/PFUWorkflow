@@ -101,7 +101,7 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                how_far = "all_targets",
                                iea_data_path = IEATools::sample_iea_data_path(),
                                fu_analysis_folder = tempdir(),
-                               report_source_folder = system.file("reports", package = "SEAPSUTWorkflow"),
+                               report_source_folders = system.file("reports", package = "SEAPSUTWorkflow"),
                                report_output_folder = tempdir(),
                                exemplar_folder = tempdir(),
                                cache_path = tempfile("drake_cache_for_testing"),
@@ -119,7 +119,7 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                    iea_data_path = file.path(fu_analysis_folder, "IEAData.csv"),
                    exemplar_table_path = file.path(exemplar_folder, "Exemplar_Table.xlsx"),
                    fu_analysis_folder = fu_analysis_folder,
-                   report_source_folders = report_source_folder,
+                   report_source_folders = report_source_folders,
                    report_dest_folder = report_output_folder)
   temp_cache <- drake::new_cache(path = cache_path)
   list(plan = plan, cache_path = cache_path, temp_cache = temp_cache)
