@@ -17,7 +17,7 @@ library(rprojroot)
 library(SEAPSUTWorkflow)
 
 # Set up the root directory
-root <- rprojroot::is_rstudio_project
+root <- rprojroot::is_r_package
 # And the cache
 cache_path <- root$find_file(".drake")
 ```
