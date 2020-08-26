@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pipe operator — %&gt;% • SEAPSUTWorkflow</title>
+<title>List reports found in report directory — report_source_paths • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,11 @@
 
 
 
-<meta property="og:title" content="Pipe operator — %&gt;%" />
-<meta property="og:description" content="See magrittr::%&amp;gt;% for details." />
+<meta property="og:title" content="List reports found in report directory — report_source_paths" />
+<meta property="og:description" content="Makes a list of raw report files in report_source_folders.
+This function descends the directories rooted at report_source_folders to find all reports to be run.
+Reports to be run are identified by filename extensions,
+by default c(&quot;.Rmd&quot;, &quot;.Rnw&quot;)." />
 
 
 
@@ -109,18 +112,49 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pipe operator</h1>
+    <h1>List reports found in report directory</h1>
     
-    <div class="hidden name"><code>pipe.Rd</code></div>
+    <div class="hidden name"><code>report_source_paths.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>See <code>magrittr::%&gt;%</code> for details.</p>
+    <p>Makes a list of raw report files in <code>report_source_folders</code>.
+This function descends the directories rooted at <code>report_source_folders</code> to find all reports to be run.
+Reports to be run are identified by filename extensions,
+by default <code><a href='https://rdrr.io/r/base/c.html'>c(".Rmd", ".Rnw")</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='no'>lhs</span> <span class='kw'>%&gt;%</span> <span class='no'>rhs</span></pre>
+    <pre class="usage"><span class='fu'>report_source_paths</span>(
+  <span class='kw'>report_source_folders</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='st'>"reports"</span>), <span class='kw'>package</span> <span class='kw'>=</span>
+    <span class='st'>"SEAPSUTWorkflow"</span>),
+  <span class='kw'>report_suffixes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".Rmd"</span>, <span class='st'>".Rnw"</span>)
+)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>report_source_folders</th>
+      <td><p>A string that identifies a directory of reports to be generated.
+Default is <code><a href='https://rdrr.io/r/base/system.file.html'>system.file(file.path("reports"), package = "SEAPSUTWorkflow")</a></code>,
+which provides some default reports.</p></td>
+    </tr>
+    <tr>
+      <th>report_suffixes</th>
+      <td><p>A vector of strings of report suffixes. Default is <code><a href='https://rdrr.io/r/base/c.html'>c(".Rmd", ".Rnw")</a></code>.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A vector of absolute paths to reports to be generated.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Users can override the default value of <code>report_source_folders</code> to supply their own
+report directory (directories) of reports.
+If users want to also include the default reports,
+be sure to include <code><a href='https://rdrr.io/r/base/system.file.html'>system.file(file.path("reports"), package = "SEAPSUTWorkflow")</a></code>
+in the vector of paths supplied to <code>report_source_folders</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
