@@ -44,7 +44,7 @@ Sub-folders named with 3-letter country abbreviations are assumed.}
 \item{reports_source_folders}{A string vector containing paths to folders of report sources, usually
 \code{.Rnw} or \code{.Rmd} files.}
 
-\item{reports_output_folder}{The path to a folder into which reports are written.}
+\item{reports_dest_folder}{The path to a folder into which reports are written.}
 }
 \value{
 A drake plan object.
@@ -107,8 +107,8 @@ get_plan(countries = c("GHA", "ZAF"),
          iea_data_path = "iea_path",
          exemplar_table_path = "exemplar_path",
          fu_analysis_folder = "fu_folder",
-         report_source_folders = "report_source_folders",
-         report_dest_folder = "report_dest_folder")
+         reports_source_folders = "reports_source_folders",
+         reports_dest_folder = "reports_dest_folder")
 }
 \seealso{
 \itemize{

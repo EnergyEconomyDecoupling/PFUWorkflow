@@ -28,7 +28,7 @@ by default \code{c(".Rmd", ".Rnw")}.
 }
 \details{
 Users can override the default value of \code{report_source_folders} to supply their own
-report directory(ies) of reports.
+report directory (directories) of reports.
 If users want to also include the default reports,
 be sure to include \code{system.file(file.path("reports"), package = "SEAPSUTWorkflow")}
 in the vector of paths supplied to \code{report_source_folders}.

@@ -103,7 +103,7 @@ test_that("make() works", {
     expect_equal(drake::readd(target = SEAPSUTWorkflow::target_names$exemplar_table_path, path = testing_setup$cache_path, character_only = TRUE),
                  testing_setup$plan %>% dplyr::filter(target == "exemplar_table_path") %>% magrittr::extract2("command") %>% unlist())
     expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE)))
-    expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$reports_dest_folder, path = testing_setup$cache_path, character_only = TRUE)))
+    # expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$reports_dest_folder, path = testing_setup$cache_path, character_only = TRUE)))
 
     # Be sure that IEAData is present
     expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$IEAData, path = testing_setup$cache_path, character_only = TRUE)))

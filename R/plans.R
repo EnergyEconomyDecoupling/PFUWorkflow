@@ -67,7 +67,7 @@
 #'                           Sub-folders named with 3-letter country abbreviations are assumed.
 #' @param reports_source_folders A string vector containing paths to folders of report sources, usually
 #'                               `.Rnw` or `.Rmd` files.
-#' @param reports_output_folder The path to a folder into which reports are written.
+#' @param reports_dest_folder The path to a folder into which reports are written.
 #'
 #' @return A drake plan object.
 #'
@@ -86,8 +86,8 @@
 #'          iea_data_path = "iea_path",
 #'          exemplar_table_path = "exemplar_path",
 #'          fu_analysis_folder = "fu_folder",
-#'          report_source_folders = "report_source_folders",
-#'          report_dest_folder = "report_dest_folder")
+#'          reports_source_folders = "reports_source_folders",
+#'          reports_dest_folder = "reports_dest_folder")
 get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
                      iea_data_path, exemplar_table_path, fu_analysis_folder,

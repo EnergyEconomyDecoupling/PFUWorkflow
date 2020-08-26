@@ -6,7 +6,7 @@
 #' by default `c(".Rmd", ".Rnw")`.
 #'
 #' Users can override the default value of `report_source_folders` to supply their own
-#' report directory(ies) of reports.
+#' report directory (directories) of reports.
 #' If users want to also include the default reports,
 #' be sure to include `system.file(file.path("reports"), package = "SEAPSUTWorkflow")`
 #' in the vector of paths supplied to `report_source_folders`.
@@ -19,8 +19,6 @@
 #' @return A vector of absolute paths to reports to be generated.
 #'
 #' @export
-#'
-#' @examples
 report_source_paths <- function(report_source_folders = system.file(file.path("reports"), package = "SEAPSUTWorkflow"),
                           report_suffixes = c(".Rmd", ".Rnw")) {
 
@@ -50,8 +48,6 @@ report_source_paths <- function(report_source_folders = system.file(file.path("r
 #' @return A vector of file paths for reports output.
 #'
 #' @export
-#'
-#' @examples
 report_dest_paths <- function(report_source_files, report_dest_folder) {
   base_names <- basename(report_source_files)
   file.path(report_dest_folder, paste0(tools::file_path_sans_ext(base_names), ".pdf"))
@@ -80,8 +76,6 @@ report_dest_paths <- function(report_source_files, report_dest_folder) {
 #' @return A boolean. `TRUE` for success with all reports, `FALSE` if an error occurred with any report.
 #'
 #' @export
-#'
-#' @examples
 generate_reports <- function(report_source_files, report_dest_files, archive_reports = TRUE, timestamp_sep = "__") {
   # dt <- Sys.time() %>%
   #   as.character(tz = "UTC") %>%
@@ -90,20 +84,20 @@ generate_reports <- function(report_source_files, report_dest_files, archive_rep
   # fname <- paste0(bn, timestamp_sep, dt, ".pdf")
 
 
-  for (f in report_source_files) {
-    # Figure out the file name of the output file
-    bn <- basename(f)
-    dt <- Sys.time() %>%
-      anytime::iso8601()
-    fname <-paste0(bn, timestamp_sep, dt, ".pdf")
-    output_path <- file.path(report_dest_folder, fname)
-
-    # Move any existing files whose base name starts with bn to the nearby folder.
-
-    # Now make the new report.
-    knitr::knit(input = f, output = output_path)
-
-  }
+  # for (f in report_source_files) {
+  #   # Figure out the file name of the output file
+  #   bn <- basename(f)
+  #   dt <- Sys.time() %>%
+  #     anytime::iso8601()
+  #   fname <-paste0(bn, timestamp_sep, dt, ".pdf")
+  #   output_path <- file.path(report_dest_folder, fname)
+  #
+  #   # Move any existing files whose base name starts with bn to the nearby folder.
+  #
+  #   # Now make the new report.
+  #   knitr::knit(input = f, output = output_path)
+  #
+  # }
 
 
   return(TRUE)
