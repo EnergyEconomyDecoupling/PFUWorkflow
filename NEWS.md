@@ -1,6 +1,8 @@
+# SEAPSUTWorkflow 0.1.6 (2020-08-26)
+
 * First version that works with full SEAPSUT workflow.
 * Added automated spell checking to package checks.
-* Added new target `report_output_folder` to plan and tests.
+* Added new target `reports_output_folder` to plan and tests.
 
 
 # SEAPSUTWorkflow 0.1.5 (2020-08-19)
