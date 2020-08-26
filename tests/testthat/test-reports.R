@@ -37,6 +37,13 @@ test_that("report_dest_paths() works as expected", {
 })
 
 
+test_that("generate_reports() works as intended", {
+
+  # This is a bogus test for the time being.
+  # Replace with something better when the code is written.
+  expect_true(generate_reports())
+})
+
 
 
 
