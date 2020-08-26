@@ -6,8 +6,8 @@ test_that("get_plan works", {
   my_plan <- get_plan(iea_data_path = "datapath",
                       exemplar_table_path = "exemplarpath",
                       fu_analysis_folder = "FUpath",
-                      report_source_folders = "report_source_folders",
-                      report_dest_folder = "report_dest_folder",
+                      reports_source_folders = "reports_source_folders",
+                      reports_dest_folder = "reports_dest_folder",
                       countries = c("GHA", "ZAF"),
                       max_year = 1999)
 
@@ -26,11 +26,11 @@ test_that("get_plan works", {
   expect_equal(my_plan[[6, "target"]], "fu_analysis_folder")
   expect_equal(my_plan[[6, "command"]], list("FUpath"))
 
-  expect_equal(my_plan[[7, "target"]], "report_source_folders")
-  expect_equal(my_plan[[7, "command"]], list("report_source_folders"))
+  expect_equal(my_plan[[7, "target"]], "reports_source_folders")
+  expect_equal(my_plan[[7, "command"]], list("reports_source_folders"))
 
-  expect_equal(my_plan[[8, "target"]], "report_dest_folder")
-  expect_equal(my_plan[[8, "command"]], list("report_dest_folder"))
+  expect_equal(my_plan[[8, "target"]], "reports_dest_folder")
+  expect_equal(my_plan[[8, "command"]], list("reports_dest_folder"))
 
   expect_equal(my_plan[[9, "target"]], "AllIEAData")
 
@@ -63,15 +63,15 @@ test_that("keeping only some rows of a plan works", {
   full_plan <- get_plan(iea_data_path = "datapath",
                         exemplar_table_path = "exemplarpath",
                         fu_analysis_folder = "FUpath",
-                        report_source_folders = "report_source_path",
-                        report_dest_folder = "report_dest_folder",
+                        reports_source_folders = "reports_source_path",
+                        reports_dest_folder = "reports_dest_folder",
                         countries = c("GHA", "ZAF"),
                         max_year = 1999)
   short_plan <- get_plan(iea_data_path = "mypath",
                       exemplar_table_path = "exemplarpath",
                       fu_analysis_folder = "FUpath",
-                      report_source_folders = "report_source_path",
-                      report_dest_folder = "report_dest_folder",
+                      reports_source_folders = "reports_source_path",
+                      reports_dest_folder = "reports_dest_folder",
                       countries = c("GHA", "ZAF"),
                       max_year = 1999,
                       how_far = "Specified")
@@ -86,7 +86,7 @@ test_that("keeping only some rows of a plan works", {
 })
 
 
-test_that("make works", {
+test_that("make() works", {
 
   testing_setup <- SEAPSUTWorkflow:::set_up_for_testing()
 
@@ -103,7 +103,7 @@ test_that("make works", {
     expect_equal(drake::readd(target = SEAPSUTWorkflow::target_names$exemplar_table_path, path = testing_setup$cache_path, character_only = TRUE),
                  testing_setup$plan %>% dplyr::filter(target == "exemplar_table_path") %>% magrittr::extract2("command") %>% unlist())
     expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE)))
-    expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$report_dest_folder, path = testing_setup$cache_path, character_only = TRUE)))
+    expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$reports_dest_folder, path = testing_setup$cache_path, character_only = TRUE)))
 
     # Be sure that IEAData is present
     expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$IEAData, path = testing_setup$cache_path, character_only = TRUE)))

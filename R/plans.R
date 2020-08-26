@@ -65,9 +65,9 @@
 #' @param exemplar_table_path The path to an exemplar table.
 #' @param fu_analysis_folder The path to a folder containing final-to-useful analyses.
 #'                           Sub-folders named with 3-letter country abbreviations are assumed.
-#' @param report_source_folders A string vector containing paths to folders of report sources, usually
-#'                              `.Rnw` or `.Rmd` files.
-#' @param report_output_folder The path to a folder into which reports are written.
+#' @param reports_source_folders A string vector containing paths to folders of report sources, usually
+#'                               `.Rnw` or `.Rmd` files.
+#' @param reports_output_folder The path to a folder into which reports are written.
 #'
 #' @return A drake plan object.
 #'
@@ -91,7 +91,7 @@
 get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
                      iea_data_path, exemplar_table_path, fu_analysis_folder,
-                     report_source_folders, report_dest_folder) {
+                     reports_source_folders, reports_dest_folder) {
 
   # Get around some warnings.
   alloc_and_eff_couns <- NULL
@@ -121,8 +121,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     iea_data_path = !!iea_data_path,
     exemplar_table_path = !!exemplar_table_path,
     fu_analysis_folder = !!fu_analysis_folder,
-    report_source_folders = !!report_source_folders,
-    report_dest_folder = !!report_dest_folder,
+    reports_source_folders = !!reports_source_folders,
+    reports_dest_folder = !!reports_dest_folder,
 
     # (1) Grab all IEA data for ALL countries
 
@@ -224,8 +224,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (N) Build reports
     # Allocation_Report =
-    # report_source_paths = drake::target(drake::file_in(report_source_paths(report_source_folders = report_source_folders))),
-    # report_dest_paths = drake::target(drake::file_out(report_dest_paths(report_source_paths))),
+    # reports_source_paths = drake::target(drake::file_in(report_source_paths(report_source_folders = report_source_folders))),
+    # reports_dest_path = drake::target(drake::file_out(report_dest_paths(report_source_paths))),
     # reports_complete = drake::target(generate_reports(report_source_files = report_source_paths,
     #                                                   report_dest_folder = report_dest_folder))
 

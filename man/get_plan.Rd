@@ -12,8 +12,8 @@ get_plan(
   iea_data_path,
   exemplar_table_path,
   fu_analysis_folder,
-  report_source_folders,
-  report_dest_folder
+  reports_source_folders,
+  reports_dest_folder
 )
 }
 \arguments{
@@ -41,10 +41,10 @@ Default is "all_targets" to indicate all targets of the plan should be returned.
 \item{fu_analysis_folder}{The path to a folder containing final-to-useful analyses.
 Sub-folders named with 3-letter country abbreviations are assumed.}
 
-\item{report_source_folders}{A string vector containing paths to folders of report sources, usually
+\item{reports_source_folders}{A string vector containing paths to folders of report sources, usually
 \code{.Rnw} or \code{.Rmd} files.}
 
-\item{report_output_folder}{The path to a folder into which reports are written.}
+\item{reports_output_folder}{The path to a folder into which reports are written.}
 }
 \value{
 A drake plan object.
