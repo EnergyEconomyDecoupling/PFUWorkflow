@@ -1,16 +1,28 @@
-#' Title
+#' Generate an allocation graph
 #'
-#' @param .df
-#' @param year
-#' @param .values
-#' @param machine
-#' @param eu_product
-#' @param machine_eu_product
+#' Creates an allocation graph from a completed allocation table,
+#' mostly likely created by the `assemble_fu_allocation_tables()` function.
 #'
-#' @return
+#' This function is called repeatedly from `alloc_plots_df()`.
+#'
+#' @param .df A data frame comprised of completed final energy allocations.
+#' @param year See `IEATools::iea_cols`.
+#' @param .values,machine,eu_product See `IEATools::template_cols`.
+#' @param machine_eu_product The name of a combined `machine` and `eu_product` column.
+#'
+#' @return A `ggplot2` graph object
+#'
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#' # Make a simple data frame with the expected structure.
+#' tibble::tribble(~Year, ~.values, ~Machine, ~Eu.product,
+#'                 1967, 0.5, "Cars", "MD",
+#'                 1967, 0.5, "Industry static engines", "MD",
+#'                 2020, 0.8, "Cars", "MD",
+#'                 2020, 0.2, "Industry static engines", "MD") %>%
+#'   alloc_graph()
 alloc_graph <- function(.df,
                         year = IEATools::iea_cols$year,
                         .values = IEATools::template_cols$.values,
@@ -29,34 +41,64 @@ alloc_graph <- function(.df,
     ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("Allocation [-]") +
     MKHthemes::xy_theme() +
-    theme(axis.title.x = element_blank(),
-          legend.title = element_blank())
+    ggplot2::theme(axis.title.x = element_blank(),
+                   legend.title = element_blank())
 }
 
 
-#' Title
+#' Create allocation graphs in a data frame
 #'
-#' @param completed_allocation_tables_target
-#' @param path
-#' @param country
-#' @param ef_product
-#' @param destination
+#' This function adds a column of `ggplot2` graphs to a completed allocation tables data frame.
+#' The graphs are stored in a list column named `plots`.
 #'
-#' @return
+#' By default, the completed allocation tables data frame is read from a `drake` cache.
+#'
+#' The data frame is grouped by `country`, `ef_product`, and `destination` and nested prior to making the graphs,
+#' meaning that one allocation graph is constructed for each combination of country, ef_product, and destination.
+#'
+#' @param completed_allocation_tables_target The string name of the completed allocation tables target. Default is `SEAPSUTWorkflow::target_names$CompletedAllocationTables`.
+#' @param cache_path The path to the drake cache from which `completed_allocation_tables_target` will be read. Default is ".drake".
+#' @param .df The completed allocation tables data frame. Default is `drake::readd(completed_allocation_tables_target, path = cache_path, character_only = TRUE)`.
+#' @param plots The name of the output column containing allocation graphs.
+#' @param country See `IEATools::iea_cols`.
+#' @param ef_product,destination See `IEATools::template_cols`.
+#' @param year See `IEATools::iea_cols`. Passed to `alloc_graph()`.
+#' @param .values,machine,eu_product See `IEATools::template_cols`. Passed to `alloc_graph()`.
+#'
+#' @return A data frame containing a list column of `ggplot2` allocation graphs.
+#'
 #' @export
 #'
 #' @examples
+#' # Make a simple data frame with the expected structure.
+#' alloc_table <- tibble::tribble(~Country, ~Year, ~Ef.product, ~Destination,
+#'                                ~.values, ~Machine, ~Eu.product,
+#'                                "GHA", 1971, "Gasoline", "Transport", 0.5, "Cars", "MD",
+#'                                "GHA", 1971, "Gasoline", "Transport", 0.5, "Trucks", "MD",
+#'                                "GHA", 2020, "Gasoline", "Transport", 0.2, "Cars", "MD",
+#'                                "GHA", 2020, "Gasoline", "Transport", 0.8, "Trucks", "MD",
+#'                                "ZAF", 1971, "Gasoline", "Transport", 0.5, "Cars", "MD",
+#'                                "ZAF", 1971, "Gasoline", "Transport", 0.5, "Trucks", "MD",
+#'                                "ZAF", 2020, "Gasoline", "Transport", 0.3, "Cars", "MD",
+#'                                "ZAF", 2020, "Gasoline", "Transport", 0.7, "Trucks", "MD")
+#' alloc_plots_df(.df = alloc_table)
 alloc_plots_df <- function(completed_allocation_tables_target = SEAPSUTWorkflow::target_names$CompletedAllocationTables,
-                           path = ".drake",
+                           cache_path = ".drake",
+                           .df = drake::readd(completed_allocation_tables_target, path = cache_path, character_only = TRUE),
+                           plots = "plots",
                            country = IEATools::iea_cols$country,
                            ef_product = IEATools::template_cols$ef_product,
-                           destination = IEATools::template_cols$destination) {
-  drake::readd(completed_allocation_tables_target, path = cache_path, character_only = TRUE) %>%
+                           destination = IEATools::template_cols$destination,
+                           year = IEATools::iea_cols$year,
+                           .values = IEATools::template_cols$.values,
+                           machine = IEATools::template_cols$machine,
+                           eu_product = IEATools::template_cols$eu_product) {
+  .df %>%
     dplyr::group_by(.data[[country]],
                     .data[[ef_product]],
                     .data[[destination]]) %>%
     tidyr::nest() %>%
     dplyr::mutate(
-      plots = purrr::map(data, alloc_graph)
+      "{plots}" := purrr::map(data, alloc_graph, year = year, .values = .values, machine = machine, eu_product = eu_product)
     )
 }

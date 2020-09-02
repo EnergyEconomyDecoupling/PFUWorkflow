@@ -15,6 +15,7 @@ test_that("report_source_paths() works as expected", {
 
   paths <- report_source_paths()
 
+  expect_equal(length(reports), 3)
   expect_equal(length(setdiff(paths, reports)), 0)
 
 

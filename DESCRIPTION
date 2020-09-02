@@ -23,6 +23,7 @@ Imports:
     ggplot2,
     IEATools,
     magrittr,
+    MKHthemes,
     openxlsx,
     readxl,
     Recca,
