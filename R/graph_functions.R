@@ -48,7 +48,9 @@ alloc_graph <- function(.df,
     ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
     ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("Allocation [-]") +
-    ggplot2::ggtitle(paste0(c(country, ef_product, destination),collapse = "\n")) +
+    # ggplot2::ggtitle(paste0(c(country, ef_product, destination),collapse = "\n")) +
+    ggplot2::ggtitle(paste0(c(country,
+                              paste(ef_product, "->", destination)),collapse = "\n")) +
     MKHthemes::xy_theme() +
     ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                    legend.title = ggplot2::element_blank(),
