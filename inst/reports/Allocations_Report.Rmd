@@ -61,45 +61,10 @@ This is a sample graph showing the world allocation of residential electricity o
 
 
 ```{r, echo = FALSE}
-alloc_graph <- function(.df, 
-                        year = IEATools::iea_cols$year,
-                        .values = IEATools::template_cols$.values, 
-                        machine = IEATools::template_cols$machine, 
-                        eu_product = IEATools::template_cols$eu_product, 
-                        machine_eu_product = paste0(machine, "_", eu_product)) {
-  .df %>%
-    dplyr::mutate(
-      "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
-    ) %>% 
-    ggplot2::ggplot(mapping = ggplot2::aes(x = .data[[year]],
-                                           y = .data[[.values]],
-                                           fill = .data[[machine_eu_product]])) +
-    ggplot2::geom_area() +
-    ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
-    ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
-    ggplot2::ylab("Allocation [-]") +
-    MKHthemes::xy_theme() +
-    theme(axis.title.x = element_blank(),
-          legend.title = element_blank())
-}
-
-plots_df <- drake::readd(SEAPSUTWorkflow::target_names$CompletedAllocationTables, path = cache_path, character_only = TRUE) %>%
-  dplyr::group_by(.data[[IEATools::iea_cols$country]], 
-                  .data[[IEATools::template_cols$ef_product]], 
-                  .data[[IEATools::template_cols$destination]]) %>% 
-  tidyr::nest() %>% 
-  dplyr::mutate(
-    plots = purrr::map(data, alloc_graph)
-  )
+alloc_plots <- alloc_plots_df()[["plots"]]
+alloc_plots
 ```
 
 
 
-
-```{r}
-plots_df[[IEATools::iea_cols$country]][[1]]
-plots_df[[IEATools::template_cols$ef_product]][[1]]
-plots_df[[IEATools::template_cols$destination]][[1]]
-plots_df$plots[[1]]
-```
 
