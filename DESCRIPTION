@@ -25,6 +25,7 @@ Imports:
     magrittr,
     MKHthemes,
     openxlsx,
+    purrr,
     readxl,
     Recca,
     rlang, 

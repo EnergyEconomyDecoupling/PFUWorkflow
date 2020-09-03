@@ -56,7 +56,7 @@ alloc_graph <- function(.df,
 #' The data frame is grouped by `country`, `ef_product`, and `destination` and nested prior to making the graphs,
 #' meaning that one allocation graph is constructed for each combination of country, ef_product, and destination.
 #'
-#' @param completed_allocation_tables_target The string name of the completed allocation tables target. Default is `SEAPSUTWorkflow::target_names$CompletedAllocationTables`.
+#' @param completed_alloc_tab_targ The string name of the completed allocation tables target. Default is `SEAPSUTWorkflow::target_names$CompletedAllocationTables`.
 #' @param cache_path The path to the drake cache from which `completed_allocation_tables_target` will be read. Default is ".drake".
 #' @param .df The completed allocation tables data frame. Default is `drake::readd(completed_allocation_tables_target, path = cache_path, character_only = TRUE)`.
 #' @param plots The name of the output column containing allocation graphs.
@@ -67,24 +67,36 @@ alloc_graph <- function(.df,
 #'
 #' @return A data frame containing a list column of `ggplot2` allocation graphs.
 #'
+#' @importFrom utils data
+#'
 #' @export
 #'
 #' @examples
 #' # Make a simple data frame with the expected structure.
 #' alloc_table <- tibble::tribble(~Country, ~Year, ~Ef.product, ~Destination,
 #'                                ~.values, ~Machine, ~Eu.product,
-#'                                "GHA", 1971, "Gasoline", "Transport", 0.5, "Cars", "MD",
-#'                                "GHA", 1971, "Gasoline", "Transport", 0.5, "Trucks", "MD",
-#'                                "GHA", 2020, "Gasoline", "Transport", 0.2, "Cars", "MD",
-#'                                "GHA", 2020, "Gasoline", "Transport", 0.8, "Trucks", "MD",
-#'                                "ZAF", 1971, "Gasoline", "Transport", 0.5, "Cars", "MD",
-#'                                "ZAF", 1971, "Gasoline", "Transport", 0.5, "Trucks", "MD",
-#'                                "ZAF", 2020, "Gasoline", "Transport", 0.3, "Cars", "MD",
-#'                                "ZAF", 2020, "Gasoline", "Transport", 0.7, "Trucks", "MD")
+#'                                "GHA", 1971, "Gasoline", "Transport",
+#'                                0.5, "Cars", "MD",
+#'                                "GHA", 1971, "Gasoline", "Transport",
+#'                                0.5, "Trucks", "MD",
+#'                                "GHA", 2020, "Gasoline", "Transport",
+#'                                0.2, "Cars", "MD",
+#'                                "GHA", 2020, "Gasoline", "Transport",
+#'                                0.8, "Trucks", "MD",
+#'                                "ZAF", 1971, "Gasoline", "Transport",
+#'                                0.5, "Cars", "MD",
+#'                                "ZAF", 1971, "Gasoline", "Transport",
+#'                                0.5, "Trucks", "MD",
+#'                                "ZAF", 2020, "Gasoline", "Transport",
+#'                                0.3, "Cars", "MD",
+#'                                "ZAF", 2020, "Gasoline", "Transport",
+#'                                0.7, "Trucks", "MD")
 #' alloc_plots_df(.df = alloc_table)
-alloc_plots_df <- function(completed_allocation_tables_target = SEAPSUTWorkflow::target_names$CompletedAllocationTables,
+alloc_plots_df <- function(completed_alloc_tab_targ = SEAPSUTWorkflow::target_names$CompletedAllocationTables,
                            cache_path = ".drake",
-                           .df = drake::readd(completed_allocation_tables_target, path = cache_path, character_only = TRUE),
+                           .df = drake::readd(completed_alloc_tab_targ,
+                                              path = cache_path,
+                                              character_only = TRUE),
                            plots = "plots",
                            country = IEATools::iea_cols$country,
                            ef_product = IEATools::template_cols$ef_product,
@@ -93,6 +105,7 @@ alloc_plots_df <- function(completed_allocation_tables_target = SEAPSUTWorkflow:
                            .values = IEATools::template_cols$.values,
                            machine = IEATools::template_cols$machine,
                            eu_product = IEATools::template_cols$eu_product) {
+
   .df %>%
     dplyr::group_by(.data[[country]],
                     .data[[ef_product]],
