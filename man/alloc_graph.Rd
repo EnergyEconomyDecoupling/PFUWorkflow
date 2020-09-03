@@ -6,6 +6,9 @@
 \usage{
 alloc_graph(
   .df,
+  country,
+  ef_product,
+  destination,
   year = IEATools::iea_cols$year,
   .values = IEATools::template_cols$.values,
   machine = IEATools::template_cols$machine,
@@ -15,6 +18,12 @@ alloc_graph(
 }
 \arguments{
 \item{.df}{A data frame comprised of completed final energy allocations.}
+
+\item{country}{The country for which this graph applies.}
+
+\item{ef_product}{The final energy product for which this graph applies.}
+
+\item{destination}{The destination sector for the final energy product.}
 
 \item{year}{See \code{IEATools::iea_cols}.}
 
@@ -31,6 +40,8 @@ mostly likely created by the \code{assemble_fu_allocation_tables()} function.
 }
 \details{
 This function is called repeatedly from \code{alloc_plots_df()}.
+
+\code{country}, \code{ef_product}, and \code{destination} are added to the graph as a title.
 }
 \examples{
 library(ggplot2)
@@ -40,5 +51,5 @@ tibble::tribble(~Year, ~.values, ~Machine, ~Eu.product,
                 1967, 0.5, "Industry static engines", "MD",
                 2020, 0.8, "Cars", "MD",
                 2020, 0.2, "Industry static engines", "MD") \%>\%
-  alloc_graph()
+  alloc_graph(country = "Example", ef_product = "Petrol", destination = "Transport")
 }

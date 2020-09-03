@@ -9,7 +9,7 @@ test_that("alloc_graph() works", {
                   1967, 0.5, "Industry static engines", "MD",
                   2020, 0.8, "Cars", "MD",
                   2020, 0.2, "Industry static engines", "MD") %>%
-    alloc_graph()
+    alloc_graph(country = "Example", ef_product = "Petrol", destination = "Transport")
 
   expect_true(!is.null(g))
   expect_true(inherits(g, "ggplot"))

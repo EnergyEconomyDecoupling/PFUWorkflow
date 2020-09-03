@@ -5,7 +5,12 @@
 #'
 #' This function is called repeatedly from `alloc_plots_df()`.
 #'
+#' `country`, `ef_product`, and `destination` form the title of the graph.
+#'
 #' @param .df A data frame comprised of completed final energy allocations.
+#' @param country The country for which this graph applies.
+#' @param ef_product The final energy product for which this graph applies.
+#' @param destination The destination sector for the final energy product.
 #' @param year See `IEATools::iea_cols`.
 #' @param .values,machine,eu_product See `IEATools::template_cols`.
 #' @param machine_eu_product The name of a combined `machine` and `eu_product` column.
@@ -22,8 +27,11 @@
 #'                 1967, 0.5, "Industry static engines", "MD",
 #'                 2020, 0.8, "Cars", "MD",
 #'                 2020, 0.2, "Industry static engines", "MD") %>%
-#'   alloc_graph()
+#'   alloc_graph(country = "Example", ef_product = "Petrol", destination = "Transport")
 alloc_graph <- function(.df,
+                        country,
+                        ef_product,
+                        destination,
                         year = IEATools::iea_cols$year,
                         .values = IEATools::template_cols$.values,
                         machine = IEATools::template_cols$machine,
@@ -40,9 +48,12 @@ alloc_graph <- function(.df,
     ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
     ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("Allocation [-]") +
+    ggplot2::ggtitle(paste0(c(country, ef_product, destination),collapse = "\n")) +
     MKHthemes::xy_theme() +
     ggplot2::theme(axis.title.x = ggplot2::element_blank(),
-                   legend.title = ggplot2::element_blank())
+                   legend.title = ggplot2::element_blank(),
+                   plot.title   = ggplot2::element_text(colour = "gray50", size = 10),
+                   legend.text  = ggplot2::element_text(size = 10))
 }
 
 
@@ -109,6 +120,8 @@ alloc_plots_df <- function(.df,
                     .data[[destination]]) %>%
     tidyr::nest() %>%
     dplyr::mutate(
-      "{plots}" := purrr::map(data, alloc_graph, year = year, .values = .values, machine = machine, eu_product = eu_product)
+      "{plots}" := purrr::map(data, alloc_graph,
+                              country = .data[[country]], ef_product = .data[[ef_product]], destination = .data[[destination]],
+                              year = year, .values = .values, machine = machine, eu_product = eu_product)
     )
 }
