@@ -27,7 +27,7 @@ test_that("alloc_plots_df() works as expected", {
                                  "ZAF", 1971, "Gasoline", "Transport", 0.5, "Trucks", "MD",
                                  "ZAF", 2020, "Gasoline", "Transport", 0.3, "Cars", "MD",
                                  "ZAF", 2020, "Gasoline", "Transport", 0.7, "Trucks", "MD")
-  plots_df <- alloc_plots_df(.df = alloc_table)
+  plots_df <- alloc_plots_df(alloc_table, countries = c("GHA", "ZAF"))
 
   expect_true(!is.null(plots_df))
   expect_true(inherits(plots_df$plots[[1]], "ggplot"))

@@ -5,10 +5,8 @@
 \title{Create allocation graphs in a data frame}
 \usage{
 alloc_plots_df(
-  completed_alloc_tab_targ = SEAPSUTWorkflow::target_names$CompletedAllocationTables,
-  cache_path = ".drake",
-  .df = drake::readd(completed_alloc_tab_targ, path = cache_path, character_only =
-    TRUE),
+  .df,
+  countries,
   plots = "plots",
   country = IEATools::iea_cols$country,
   ef_product = IEATools::template_cols$ef_product,
@@ -20,11 +18,9 @@ alloc_plots_df(
 )
 }
 \arguments{
-\item{completed_alloc_tab_targ}{The string name of the completed allocation tables target. Default is \code{SEAPSUTWorkflow::target_names$CompletedAllocationTables}.}
-
-\item{cache_path}{The path to the drake cache from which \code{completed_allocation_tables_target} will be read. Default is ".drake".}
-
 \item{.df}{The completed allocation tables data frame. Default is \code{drake::readd(completed_allocation_tables_target, path = cache_path, character_only = TRUE)}.}
+
+\item{countries}{The countries for which allocation plots are to be created.}
 
 \item{plots}{The name of the output column containing allocation graphs. Default is "plots".}
 
@@ -69,5 +65,5 @@ alloc_table <- tibble::tribble(~Country, ~Year, ~Ef.product, ~Destination,
                                0.3, "Cars", "MD",
                                "ZAF", 2020, "Gasoline", "Transport",
                                0.7, "Trucks", "MD")
-alloc_plots_df(.df = alloc_table)
+alloc_plots_df(alloc_table, c("GHA", "ZAF"))
 }
