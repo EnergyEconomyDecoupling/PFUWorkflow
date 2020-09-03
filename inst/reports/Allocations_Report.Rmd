@@ -24,43 +24,14 @@ cache_path <- root$find_file(".drake")
 
 ## Introduction
 
-Put an introduction here.
+This report shows graphs of all final energy allocations to final-to-useful machines.
 
-
-## Residential electricity
-
-This is a sample graph showing the world allocation of residential electricity over time.
-
-<!-- ```{r, echo = FALSE} -->
-<!-- residential_elect <- function(.df) { -->
-<!--   .df %>% -->
-<!--     ggplot2::ggplot(mapping = ggplot2::aes(x = .data[[IEATools::iea_cols$year]], -->
-<!--                                            y = .data[[IEATools::template_cols$.values]], -->
-<!--                                            fill = .data[[IEATools::template_cols$machine]])) + -->
-<!--     ggplot2::geom_area() + -->
-
-<!--     ggplot2::facet_grid(rows = ggplot2::vars(.data[[IEATools::iea_cols$country]]), -->
-<!--                         cols = ggplot2::vars(.data[[IEATools::template_cols$destination]])) + -->
-
-<!--     theme(axis.title.x = element_blank(), -->
-<!--           legend.title = element_blank()) -->
-<!-- } -->
-
-<!-- drake::readd(SEAPSUTWorkflow::target_names$CompletedAllocationTables, path = cache_path, character_only = TRUE) %>% -->
-<!--   dplyr::group_by(.data[[IEATools::iea_cols$country]]) %>%  -->
-
-
-<!--     dplyr::filter(.data[[IEATools::template_cols$ef_product]] == "Electricity", -->
-<!--                   .data[[IEATools::template_cols$destination]] == "Residential") %>% -->
-
-<!--   residential_elect() +  -->
-
-<!--   MKHthemes::xy_theme() -->
-
-<!-- ``` -->
 
 
 ```{r, echo = FALSE}
+alloc_plots <- drake::readd(SEAPSUTWorkflow::target_names$AllocationGraphs, 
+                            path = cache_path, 
+                            character_only = TRUE)
 alloc_plots <- alloc_plots_df()[["plots"]]
 alloc_plots
 ```
