@@ -26,7 +26,7 @@ alloc_plots_df(
 
 \item{.df}{The completed allocation tables data frame. Default is \code{drake::readd(completed_allocation_tables_target, path = cache_path, character_only = TRUE)}.}
 
-\item{plots}{The name of the output column containing allocation graphs.}
+\item{plots}{The name of the output column containing allocation graphs. Default is "plots".}
 
 \item{country}{See \code{IEATools::iea_cols}.}
 
