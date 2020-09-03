@@ -41,8 +41,8 @@ alloc_graph <- function(.df,
     ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("Allocation [-]") +
     MKHthemes::xy_theme() +
-    ggplot2::theme(axis.title.x = element_blank(),
-                   legend.title = element_blank())
+    ggplot2::theme(axis.title.x = ggplot2::element_blank(),
+                   legend.title = ggplot2::element_blank())
 }
 
 
