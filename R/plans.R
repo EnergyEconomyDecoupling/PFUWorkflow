@@ -203,7 +203,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                                      completed_fu_allocation_tables = CompletedAllocationTables,
                                                                      countries = countries,
                                                                      max_year = max_year),
-                                              dynamic = map(countries))
+                                              dynamic = map(countries)),
 
     # (10) Extend to useful stage
 
@@ -223,6 +223,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
 
     # (N) Build reports
+    AllocationGraphs = drake::target(alloc_plots_df(CompletedAllocationTables, countries = countries),
+                                     dynamic = map(countries))
     # Allocation_Report =
     # reports_source_paths = drake::target(drake::file_in(report_source_paths(report_source_folders = report_source_folders))),
     # reports_dest_path = drake::target(drake::file_out(report_dest_paths(report_source_paths))),

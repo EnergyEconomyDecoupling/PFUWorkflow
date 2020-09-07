@@ -1,3 +1,8 @@
+# SEAPSUTWorkflow 0.1.7 (2020-09-07)
+
+* Added allocation report.
+
+
 # SEAPSUTWorkflow 0.1.6 (2020-08-26)
 
 * First version that works with full SEAPSUT workflow.
