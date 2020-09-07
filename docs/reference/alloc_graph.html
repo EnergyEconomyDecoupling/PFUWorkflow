@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Balance IEA data — make_balanced • SEAPSUTWorkflow</title>
+<title>Generate an allocation graph — alloc_graph • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,9 @@
 
 
 
-<meta property="og:title" content="Balance IEA data — make_balanced" />
-<meta property="og:description" content="Balances the IEA data in a way that is amenable to drake subtargets.
-Internally, this function uses IEATools::fix_tidy_iea_df_balances().
-Grouping is done internal to this function using the value of grp_vars." />
+<meta property="og:title" content="Generate an allocation graph — alloc_graph" />
+<meta property="og:description" content="Creates an allocation graph from a completed allocation table,
+mostly likely created by the assemble_fu_allocation_tables() function." />
 
 
 
@@ -111,56 +110,78 @@ Grouping is done internal to this function using the value of grp_vars." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Balance IEA data</h1>
+    <h1>Generate an allocation graph</h1>
     
-    <div class="hidden name"><code>make_balanced.Rd</code></div>
+    <div class="hidden name"><code>alloc_graph.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Balances the IEA data in a way that is amenable to drake subtargets.
-Internally, this function uses <code><a href='https://rdrr.io/pkg/IEATools/man/fix_tidy_iea_df_balances.html'>IEATools::fix_tidy_iea_df_balances()</a></code>.
-Grouping is done internal to this function using the value of <code>grp_vars</code>.</p>
+    <p>Creates an allocation graph from a completed allocation table,
+mostly likely created by the <code><a href='assemble_fu_allocation_tables.html'>assemble_fu_allocation_tables()</a></code> function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_balanced</span>(
-  <span class='no'>IEAData</span>,
-  <span class='no'>countries</span>,
-  <span class='kw'>country</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>country</span>,
-  <span class='kw'>grp_vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>country</span>, <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>method</span>, <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>energy_type</span>,
-    <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>last_stage</span>, <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>year</span>, <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>product</span>)
+    <pre class="usage"><span class='fu'>alloc_graph</span>(
+  <span class='no'>.df</span>,
+  <span class='no'>country</span>,
+  <span class='no'>ef_product</span>,
+  <span class='no'>destination</span>,
+  <span class='kw'>year</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>year</span>,
+  <span class='kw'>.values</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span>$<span class='no'>.values</span>,
+  <span class='kw'>machine</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span>$<span class='no'>machine</span>,
+  <span class='kw'>eu_product</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span>$<span class='no'>eu_product</span>,
+  <span class='kw'>machine_eu_product</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='no'>machine</span>, <span class='st'>"_"</span>, <span class='no'>eu_product</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>IEAData</th>
-      <td><p>A tidy IEA data frame</p></td>
-    </tr>
-    <tr>
-      <th>countries</th>
-      <td><p>The countries that should be balanced</p></td>
+      <th>.df</th>
+      <td><p>A data frame comprised of completed final energy allocations.</p></td>
     </tr>
     <tr>
       <th>country</th>
-      <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>IEATools::iea_cols</a></code></p></td>
+      <td><p>The country for which this graph applies.</p></td>
     </tr>
     <tr>
-      <th>grp_vars</th>
-      <td><p>the groups that should be checked. Default is
-<code><a href='https://rdrr.io/r/base/c.html'>c(country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type, IEATools::iea_cols$last_stage, IEATools::iea_cols$product)</a></code>.</p></td>
+      <th>ef_product</th>
+      <td><p>The final energy product for which this graph applies.</p></td>
+    </tr>
+    <tr>
+      <th>destination</th>
+      <td><p>The destination sector for the final energy product.</p></td>
+    </tr>
+    <tr>
+      <th>year</th>
+      <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>IEATools::iea_cols</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>.values, machine, eu_product</th>
+      <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>IEATools::template_cols</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>machine_eu_product</th>
+      <td><p>The name of a combined <code>machine</code> and <code>eu_product</code> column.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>balanced IEA data</p>
+    <p>A <code>ggplot2</code> graph object</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function is called repeatedly from <code><a href='alloc_plots_df.html'>alloc_plots_df()</a></code>.</p>
+<p><code>country</code>, <code>ef_product</code>, and <code>destination</code> form the title of the graph.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/sample_iea_data_path.html'>sample_iea_data_path</a></span>() <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/load_tidy_iea_df.html'>load_tidy_iea_df</a></span>() <span class='kw'>%&gt;%</span>
-  <span class='fu'>make_balanced</span>(<span class='kw'>countries</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='is_balanced.html'>is_balanced</a></span>(<span class='kw'>countries</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span>))</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='co'># Make a simple data frame with the expected structure.</span>
+<span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(~<span class='no'>Year</span>, ~<span class='no'>.values</span>, ~<span class='no'>Machine</span>, ~<span class='no'>Eu.product</span>,
+                <span class='fl'>1967</span>, <span class='fl'>0.5</span>, <span class='st'>"Cars"</span>, <span class='st'>"MD"</span>,
+                <span class='fl'>1967</span>, <span class='fl'>0.5</span>, <span class='st'>"Industry static engines"</span>, <span class='st'>"MD"</span>,
+                <span class='fl'>2020</span>, <span class='fl'>0.8</span>, <span class='st'>"Cars"</span>, <span class='st'>"MD"</span>,
+                <span class='fl'>2020</span>, <span class='fl'>0.2</span>, <span class='st'>"Industry static engines"</span>, <span class='st'>"MD"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>alloc_graph</span>(<span class='kw'>country</span> <span class='kw'>=</span> <span class='st'>"Example"</span>, <span class='kw'>ef_product</span> <span class='kw'>=</span> <span class='st'>"Petrol"</span>, <span class='kw'>destination</span> <span class='kw'>=</span> <span class='st'>"Transport"</span>)</div><div class='img'><img src='alloc_graph-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

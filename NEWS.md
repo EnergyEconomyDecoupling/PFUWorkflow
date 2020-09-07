@@ -1,3 +1,5 @@
+# SEAPSUTWorkflow 0.1.7 (2020-09-07)
+
 * Added allocation report.
 
 
