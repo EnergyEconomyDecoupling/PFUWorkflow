@@ -41,7 +41,7 @@ mostly likely created by the \code{assemble_fu_allocation_tables()} function.
 \details{
 This function is called repeatedly from \code{alloc_plots_df()}.
 
-\code{country}, \code{ef_product}, and \code{destination} are added to the graph as a title.
+\code{country}, \code{ef_product}, and \code{destination} form the title of the graph.
 }
 \examples{
 library(ggplot2)
