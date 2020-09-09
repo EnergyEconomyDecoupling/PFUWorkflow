@@ -64,16 +64,17 @@ alloc_graph <- function(.df,
 #' This function adds a column of `ggplot2` graphs to a completed allocation tables data frame.
 #' The graphs are stored in a list column named `plots`.
 #'
-#' By default, the completed allocation tables data frame is read from a `drake` cache.
-#'
-#' The data frame is grouped by `country`, `ef_product`, and `destination` and nested prior to making the graphs,
-#' meaning that one allocation graph is constructed for each combination of country, ef_product, and destination.
+#' The data frame is grouped by all variables needed to create the allocation graph, specifically
+#' `country`, `ef_product`, and `destination` and nested prior to making the graphs, namely
+#' `machine`, `eu_product`, `quantity`, `year`, `.values`, and `c_source`,
+#' meaning that one allocation graph is constructed for each combination of those variables.
 #'
 #' @param .df The completed allocation tables data frame. Default is `drake::readd(completed_allocation_tables_target, path = cache_path, character_only = TRUE)`.
 #' @param countries The countries for which allocation plots are to be created.
+#' @param data The name of the output column containing nested data for allocation graphs. Default is "data".
 #' @param plots The name of the output column containing allocation graphs. Default is "plots".
 #' @param country See `IEATools::iea_cols`.
-#' @param ef_product,destination See `IEATools::template_cols`.
+#' @param ef_product,destination,quantity,c_source See `IEATools::template_cols`.
 #' @param year See `IEATools::iea_cols`. Passed to `alloc_graph()`.
 #' @param .values,machine,eu_product See `IEATools::template_cols`. Passed to `alloc_graph()`.
 #'
@@ -85,31 +86,34 @@ alloc_graph <- function(.df,
 #'
 #' @examples
 #' # Make a simple data frame with the expected structure.
-#' alloc_table <- tibble::tribble(~Country, ~Year, ~Ef.product, ~Destination,
-#'                                ~.values, ~Machine, ~Eu.product,
-#'                                "GHA", 1971, "Gasoline", "Transport",
-#'                                0.5, "Cars", "MD",
-#'                                "GHA", 1971, "Gasoline", "Transport",
-#'                                0.5, "Trucks", "MD",
-#'                                "GHA", 2020, "Gasoline", "Transport",
-#'                                0.2, "Cars", "MD",
-#'                                "GHA", 2020, "Gasoline", "Transport",
-#'                                0.8, "Trucks", "MD",
-#'                                "ZAF", 1971, "Gasoline", "Transport",
-#'                                0.5, "Cars", "MD",
-#'                                "ZAF", 1971, "Gasoline", "Transport",
-#'                                0.5, "Trucks", "MD",
-#'                                "ZAF", 2020, "Gasoline", "Transport",
-#'                                0.3, "Cars", "MD",
-#'                                "ZAF", 2020, "Gasoline", "Transport",
-#'                                0.7, "Trucks", "MD")
+#' alloc_table <- tibble::tribble(~Country, ~Method, ~Energy.type, ~Year, ~Ef.product, ~Destination,
+#'                                ~.values, ~Machine, ~Quantity, ~Eu.product, ~C.source,
+#'                                "GHA", "PCM", "E", 1971, "Gasoline", "Transport",
+#'                                0.5, "Cars", "C_1 [%]", "MD", "World",
+#'                                "GHA", "PCM", "E", 1971, "Gasoline", "Transport",
+#'                                0.5, "Trucks", "C_2 [%]", "MD", "World",
+#'                                "GHA", "PCM", "E", 2020, "Gasoline", "Transport",
+#'                                0.2, "Cars", "C_1 [%]", "MD", "World",
+#'                                "GHA", "PCM", "E", 2020, "Gasoline", "Transport",
+#'                                0.8, "Trucks", "C_2 [%]", "MD", "World",
+#'                                "ZAF", "PCM", "E", 1971, "Gasoline", "Transport",
+#'                                0.5, "Cars", "C_1 [%]", "MD", "World",
+#'                                "ZAF", "PCM", "E", 1971, "Gasoline", "Transport",
+#'                                0.5, "Trucks", "C_2 [%]", "MD", "World",
+#'                                "ZAF", "PCM", "E", 2020, "Gasoline", "Transport",
+#'                                0.3, "Cars", "C_1 [%]", "MD", "World",
+#'                                "ZAF", "PCM", "E", 2020, "Gasoline", "Transport",
+#'                                0.7, "Trucks", "C_2 [%]", "MD", "World")
 #' alloc_plots_df(alloc_table, c("GHA", "ZAF"))
 alloc_plots_df <- function(.df,
                            countries,
-                           plots = "plots",
+                           data_col = "Data",
+                           plots = "Plots",
                            country = IEATools::iea_cols$country,
                            ef_product = IEATools::template_cols$ef_product,
                            destination = IEATools::template_cols$destination,
+                           quantity = IEATools::template_cols$quantity,
+                           c_source = IEATools::template_cols$c_source,
                            year = IEATools::iea_cols$year,
                            .values = IEATools::template_cols$.values,
                            machine = IEATools::template_cols$machine,
@@ -117,13 +121,49 @@ alloc_plots_df <- function(.df,
 
   .df %>%
     dplyr::filter(.data[[country]] %in% countries) %>%
-    dplyr::group_by(.data[[country]],
-                    .data[[ef_product]],
-                    .data[[destination]]) %>%
+    # dplyr::group_by(.data[[country]],
+    #                 .data[[ef_product]],
+    #                 .data[[destination]]) %>%
+    # dplyr::group_by(.data[[country]],
+    #                 .data[["Method"]],
+    #                 .data[["Energy.type"]],
+    #                 # .data[["Last.stage"]],
+    #                 # .data[["Ledger.side"]],
+    #                 # .data[["Flow.aggregation.point"]],
+    #                 # .data[["Unit"]],
+    #                 .data[[ef_product]],
+  #                 .data[[destination]]) %>%
+  # Delete C.source column if it exists, because we don't need it for the graph,
+  # and if it doesn't exist, we don't want to halt execution when an error is
+  # thrown because we can't nest by a missing column.
+  dplyr::mutate(
+    "{c_source}" := NULL
+  ) %>%
+    matsindf::group_by_everything_except(machine, eu_product, quantity, year, .values) %>%
     tidyr::nest() %>%
+    # The nest function creates a column called "data".
+    # We want to rename it to the name specified by the caller.
+    dplyr::rename(
+      "{data_col}" := data
+    ) %>%
+
+    # Delete C.source column if it exists, because we don't need it for the graph,
+    # and if it doesn't exist, we don't want to halt execution when an error is
+    # thrown because we can't nest by a missing column.
+    # dplyr::mutate(
+    #   "{c_source}" := NULL
+    # ) %>%
+    # tidyr::nest("{data_col}" := c(machine, eu_product, quantity, year, .values)) %>%
     dplyr::mutate(
-      "{plots}" := purrr::map(data, alloc_graph,
+      # "{plots}" := purrr::map(.x = data, .f = alloc_graph,
+      #                         country = .data[[country]], ef_product = .data[[ef_product]], destination = .data[[destination]],
+      #                         year = year, .values = .values, machine = machine, eu_product = eu_product)
+      "{plots}" := purrr::map(.x = .data[[data_col]], .f = alloc_graph,
                               country = .data[[country]], ef_product = .data[[ef_product]], destination = .data[[destination]],
                               year = year, .values = .values, machine = machine, eu_product = eu_product)
+      # "{plots}" := purrr::map(.x = .data[[data_col]], .f = alloc_graph,
+      #                         country = .data[[country]], ef_product = ef_product, destination = destination,
+      #                         year = year, .values = .values, machine = machine, eu_product = eu_product)
+
     )
 }

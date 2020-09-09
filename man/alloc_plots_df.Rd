@@ -7,10 +7,13 @@
 alloc_plots_df(
   .df,
   countries,
-  plots = "plots",
+  data_col = "Data",
+  plots = "Plots",
   country = IEATools::iea_cols$country,
   ef_product = IEATools::template_cols$ef_product,
   destination = IEATools::template_cols$destination,
+  quantity = IEATools::template_cols$quantity,
+  c_source = IEATools::template_cols$c_source,
   year = IEATools::iea_cols$year,
   .values = IEATools::template_cols$.values,
   machine = IEATools::template_cols$machine,
@@ -26,11 +29,13 @@ alloc_plots_df(
 
 \item{country}{See \code{IEATools::iea_cols}.}
 
-\item{ef_product, destination}{See \code{IEATools::template_cols}.}
+\item{ef_product, destination, quantity, c_source}{See \code{IEATools::template_cols}.}
 
 \item{year}{See \code{IEATools::iea_cols}. Passed to \code{alloc_graph()}.}
 
 \item{.values, machine, eu_product}{See \code{IEATools::template_cols}. Passed to \code{alloc_graph()}.}
+
+\item{data}{The name of the output column containing nested data for allocation graphs. Default is "data".}
 }
 \value{
 A data frame containing a list column of \code{ggplot2} allocation graphs.
@@ -40,30 +45,30 @@ This function adds a column of \code{ggplot2} graphs to a completed allocation t
 The graphs are stored in a list column named \code{plots}.
 }
 \details{
-By default, the completed allocation tables data frame is read from a \code{drake} cache.
-
-The data frame is grouped by \code{country}, \code{ef_product}, and \code{destination} and nested prior to making the graphs,
-meaning that one allocation graph is constructed for each combination of country, ef_product, and destination.
+The data frame is grouped by all variables needed to create the allocation graph, specifically
+\code{country}, \code{ef_product}, and \code{destination} and nested prior to making the graphs, namely
+\code{machine}, \code{eu_product}, \code{quantity}, \code{year}, \code{.values}, and \code{c_source},
+meaning that one allocation graph is constructed for each combination of those variables.
 }
 \examples{
 # Make a simple data frame with the expected structure.
-alloc_table <- tibble::tribble(~Country, ~Year, ~Ef.product, ~Destination,
-                               ~.values, ~Machine, ~Eu.product,
-                               "GHA", 1971, "Gasoline", "Transport",
-                               0.5, "Cars", "MD",
-                               "GHA", 1971, "Gasoline", "Transport",
-                               0.5, "Trucks", "MD",
-                               "GHA", 2020, "Gasoline", "Transport",
-                               0.2, "Cars", "MD",
-                               "GHA", 2020, "Gasoline", "Transport",
-                               0.8, "Trucks", "MD",
-                               "ZAF", 1971, "Gasoline", "Transport",
-                               0.5, "Cars", "MD",
-                               "ZAF", 1971, "Gasoline", "Transport",
-                               0.5, "Trucks", "MD",
-                               "ZAF", 2020, "Gasoline", "Transport",
-                               0.3, "Cars", "MD",
-                               "ZAF", 2020, "Gasoline", "Transport",
-                               0.7, "Trucks", "MD")
+alloc_table <- tibble::tribble(~Country, ~Method, ~Energy.type, ~Year, ~Ef.product, ~Destination,
+                               ~.values, ~Machine, ~Quantity, ~Eu.product, ~C.source,
+                               "GHA", "PCM", "E", 1971, "Gasoline", "Transport",
+                               0.5, "Cars", "C_1 [\%]", "MD", "World",
+                               "GHA", "PCM", "E", 1971, "Gasoline", "Transport",
+                               0.5, "Trucks", "C_2 [\%]", "MD", "World",
+                               "GHA", "PCM", "E", 2020, "Gasoline", "Transport",
+                               0.2, "Cars", "C_1 [\%]", "MD", "World",
+                               "GHA", "PCM", "E", 2020, "Gasoline", "Transport",
+                               0.8, "Trucks", "C_2 [\%]", "MD", "World",
+                               "ZAF", "PCM", "E", 1971, "Gasoline", "Transport",
+                               0.5, "Cars", "C_1 [\%]", "MD", "World",
+                               "ZAF", "PCM", "E", 1971, "Gasoline", "Transport",
+                               0.5, "Trucks", "C_2 [\%]", "MD", "World",
+                               "ZAF", "PCM", "E", 2020, "Gasoline", "Transport",
+                               0.3, "Cars", "C_1 [\%]", "MD", "World",
+                               "ZAF", "PCM", "E", 2020, "Gasoline", "Transport",
+                               0.7, "Trucks", "C_2 [\%]", "MD", "World")
 alloc_plots_df(alloc_table, c("GHA", "ZAF"))
 }
