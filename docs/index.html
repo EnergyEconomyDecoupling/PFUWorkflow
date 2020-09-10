@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
       </span>
     </div>
 
@@ -81,19 +81,22 @@
 <!-- ``` -->
 <!-- And the development version from [GitHub](https://github.com/) with: -->
 <p>You can install <code>SEAPSUTWorkflow</code> from github with:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="co"># install.packages("devtools")</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"MatthewHeun/SEAPSUTWorkflow"</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co"># install.packages("devtools")</span>
+<span class="kw">devtools</span>::<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"MatthewHeun/SEAPSUTWorkflow"</span>)
+</pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>To create a <code>drake</code> workflow, do this:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">SEAPSUTWorkflow</span>)
-<span class="fu"><a href="reference/get_plan.html">get_plan</a></span>(<span class="kw">countries</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"GHA"</span>, <span class="st">"ZAF"</span>),
-         <span class="kw">max_year</span> <span class="kw">=</span> <span class="fl">1999</span>,
-         <span class="kw">iea_data_path</span> <span class="kw">=</span> <span class="st">"iea_path"</span>,
-         <span class="kw">exemplar_table_path</span> <span class="kw">=</span> <span class="st">"exemplar_path"</span>,
-         <span class="kw">fu_analysis_folder</span> <span class="kw">=</span> <span class="st">"fu_folder"</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">SEAPSUTWorkflow</span>)
+<span class="fu"><a href="reference/get_plan.html">get_plan</a></span>(countries = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"GHA"</span>, <span class="st">"ZAF"</span>),
+         max_year = <span class="fl">1999</span>,
+         iea_data_path = <span class="st">"iea_path"</span>,
+         exemplar_table_path = <span class="st">"exemplar_path"</span>,
+         fu_analysis_folder = <span class="st">"fu_folder"</span>)
 <span class="co">#&gt; # A tibble: 18 x 3</span>
 <span class="co">#&gt;    target            command                                     dynamic        </span>
 <span class="co">#&gt;    &lt;chr&gt;             &lt;expr_lst&gt;                                  &lt;expr_lst&gt;     </span>
@@ -114,7 +117,8 @@
 <span class="co">#&gt; 15 IncompleteAlloca… fu_analysis_folder %&gt;% load_fu_allocation_… map(alloc_and_…</span>
 <span class="co">#&gt; 16 IncompleteEffici… fu_analysis_folder %&gt;% load_eta_fu_tables(… map(alloc_and_…</span>
 <span class="co">#&gt; 17 ExemplarLists     exemplar_table_path %&gt;% load_exemplar_tabl… map(countries)…</span>
-<span class="co">#&gt; 18 CompletedAllocat… assemble_fu_allocation_tables(IncompleteAl… map(countries)…</span></pre></div>
+<span class="co">#&gt; 18 CompletedAllocat… assemble_fu_allocation_tables(IncompleteAl… map(countries)…</span>
+</pre></div>
 </div>
 <div id="history" class="section level2">
 <h2 class="hasAnchor">
@@ -175,7 +179,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

@@ -78,7 +78,7 @@ to create exemplar lists." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
       </span>
     </div>
 
@@ -131,17 +131,17 @@ to create exemplar lists.</p>
     </div>
 
     <pre class="usage"><span class='fu'>exemplar_lists</span>(
-  <span class='no'>exemplar_table</span>,
-  <span class='kw'>countries</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>prev_names</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='exemplar_names.html'>exemplar_names</a></span>$<span class='no'>prev_names</span>,
-  <span class='kw'>exemplar_country</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='exemplar_names.html'>exemplar_names</a></span>$<span class='no'>exemplar_country</span>,
-  <span class='kw'>exemplars</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='exemplar_names.html'>exemplar_names</a></span>$<span class='no'>exemplars</span>,
-  <span class='kw'>row_code</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='exemplar_names.html'>exemplar_names</a></span>$<span class='no'>row_code</span>,
-  <span class='kw'>world</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='exemplar_names.html'>exemplar_names</a></span>$<span class='no'>world</span>,
-  <span class='kw'>country</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>country</span>,
-  <span class='kw'>year</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>year</span>,
-  <span class='kw'>year_temp</span> <span class='kw'>=</span> <span class='st'>".year_temp"</span>,
-  <span class='kw'>prev_names_list</span> <span class='kw'>=</span> <span class='st'>".prev_names_list"</span>
+  <span class='kw'>exemplar_table</span>,
+  countries = <span class='kw'>NULL</span>,
+  prev_names = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>prev_names</span>,
+  exemplar_country = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>exemplar_country</span>,
+  exemplars = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>exemplars</span>,
+  row_code = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>row_code</span>,
+  world = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>world</span>,
+  country = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>country</span>,
+  year = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>year</span>,
+  year_temp = <span class='st'>".year_temp"</span>,
+  prev_names_list = <span class='st'>".prev_names_list"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -193,25 +193,30 @@ when searching for missing allocations and efficiencies.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Use an exemplar table that is part of this package.</span>
-<span class='no'>el</span> <span class='kw'>&lt;-</span> <span class='fu'>exemplar_lists</span>(<span class='fu'><a href='load_exemplar_table.html'>load_exemplar_table</a></span>()) <span class='kw'>%&gt;%</span>
+<span class='kw'>el</span> <span class='op'>&lt;-</span> <span class='fu'>exemplar_lists</span>(<span class='fu'><a href='load_exemplar_table.html'>load_exemplar_table</a></span>()) <span class='op'>%&gt;%</span>
 <span class='co'># Montenegro is a particularly interesting case, as it had many name changes.</span>
 <span class='co'># Look at the first year, the last year as Yugoslavia, the first year as Serbia,</span>
 <span class='co'># and today.</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>.data</span><span class='kw'>[[</span><span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>country</span>]] <span class='kw'>==</span> <span class='st'>"MNE"</span>,
-                <span class='no'>.data</span><span class='kw'>[[</span><span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>year</span>]] <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1971</span>, <span class='fl'>1989</span>, <span class='fl'>1990</span>, <span class='fl'>2017</span>))
-<span class='no'>el</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span><span>
+  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>.data</span>[[<span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>country</span>]] <span class='op'>==</span> <span class='st'>"MNE"</span>,
+                <span class='kw'>.data</span>[[<span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>year</span>]] <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1971</span>, <span class='fl'>1989</span>, <span class='fl'>1990</span>, <span class='fl'>2017</span>))
+<span class='kw'>el</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt;   Country  Year Exemplars
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>   
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> MNE      </span><span style='text-decoration: underline;'>1</span><span>971 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> MNE      </span><span style='text-decoration: underline;'>1</span><span>989 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> MNE      </span><span style='text-decoration: underline;'>1</span><span>990 </span><span style='color: #949494;'>&lt;chr [5]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> MNE      </span><span style='text-decoration: underline;'>2</span><span>017 </span><span style='color: #949494;'>&lt;chr [5]&gt;</span><span></div><div class='input'><span class='no'>el</span><span class='kw'>[[</span><span class='fl'>1</span>, <span class='st'>"Exemplars"</span>]]</div><div class='output co'>#&gt; [[1]]
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>   
+#&gt; </span><span style='color: #555555;'>1</span><span> MNE      </span><span style='text-decoration: underline;'>1</span><span>971 </span><span style='color: #555555;'>&lt;chr [4]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> MNE      </span><span style='text-decoration: underline;'>1</span><span>989 </span><span style='color: #555555;'>&lt;chr [4]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> MNE      </span><span style='text-decoration: underline;'>1</span><span>990 </span><span style='color: #555555;'>&lt;chr [5]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span> MNE      </span><span style='text-decoration: underline;'>2</span><span>017 </span><span style='color: #555555;'>&lt;chr [5]&gt;</span><span></div><div class='input'><span class='kw'>el</span>[[<span class='fl'>1</span>, <span class='st'>"Exemplars"</span>]]
+</div><div class='output co'>#&gt; [[1]]
 #&gt; [1] "YGS"   "ESP"   "RoEUR" "World"
-#&gt; </div><div class='input'><span class='no'>el</span><span class='kw'>[[</span><span class='fl'>2</span>, <span class='st'>"Exemplars"</span>]]</div><div class='output co'>#&gt; [[1]]
+#&gt; </div><div class='input'><span class='kw'>el</span>[[<span class='fl'>2</span>, <span class='st'>"Exemplars"</span>]]
+</div><div class='output co'>#&gt; [[1]]
 #&gt; [1] "YGS"   "ESP"   "RoEUR" "World"
-#&gt; </div><div class='input'><span class='no'>el</span><span class='kw'>[[</span><span class='fl'>3</span>, <span class='st'>"Exemplars"</span>]]</div><div class='output co'>#&gt; [[1]]
+#&gt; </div><div class='input'><span class='kw'>el</span>[[<span class='fl'>3</span>, <span class='st'>"Exemplars"</span>]]
+</div><div class='output co'>#&gt; [[1]]
 #&gt; [1] "SRB"   "YGS"   "ESP"   "RoEUR" "World"
-#&gt; </div><div class='input'><span class='no'>el</span><span class='kw'>[[</span><span class='fl'>4</span>, <span class='st'>"Exemplars"</span>]]</div><div class='output co'>#&gt; [[1]]
+#&gt; </div><div class='input'><span class='kw'>el</span>[[<span class='fl'>4</span>, <span class='st'>"Exemplars"</span>]]
+</div><div class='output co'>#&gt; [[1]]
 #&gt; [1] "SRB"   "YGS"   "ESP"   "RoEUR" "World"
 #&gt; </div></span></pre>
   </div>
@@ -229,7 +234,7 @@ when searching for missing allocations and efficiencies.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

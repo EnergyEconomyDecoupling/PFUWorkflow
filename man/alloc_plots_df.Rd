@@ -25,7 +25,9 @@ alloc_plots_df(
 
 \item{countries}{The countries for which allocation plots are to be created.}
 
-\item{plots}{The name of the output column containing allocation graphs. Default is "plots".}
+\item{data_col}{The name of the output column containing nested data for allocation graphs. Default is "Data".}
+
+\item{plots}{The name of the output column containing allocation graphs. Default is "Plots".}
 
 \item{country}{See \code{IEATools::iea_cols}.}
 
@@ -34,8 +36,6 @@ alloc_plots_df(
 \item{year}{See \code{IEATools::iea_cols}. Passed to \code{alloc_graph()}.}
 
 \item{.values, machine, eu_product}{See \code{IEATools::template_cols}. Passed to \code{alloc_graph()}.}
-
-\item{data}{The name of the output column containing nested data for allocation graphs. Default is "data".}
 }
 \value{
 A data frame containing a list column of \code{ggplot2} allocation graphs.

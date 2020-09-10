@@ -71,8 +71,8 @@ alloc_graph <- function(.df,
 #'
 #' @param .df The completed allocation tables data frame. Default is `drake::readd(completed_allocation_tables_target, path = cache_path, character_only = TRUE)`.
 #' @param countries The countries for which allocation plots are to be created.
-#' @param data The name of the output column containing nested data for allocation graphs. Default is "data".
-#' @param plots The name of the output column containing allocation graphs. Default is "plots".
+#' @param data_col The name of the output column containing nested data for allocation graphs. Default is "Data".
+#' @param plots The name of the output column containing allocation graphs. Default is "Plots".
 #' @param country See `IEATools::iea_cols`.
 #' @param ef_product,destination,quantity,c_source See `IEATools::template_cols`.
 #' @param year See `IEATools::iea_cols`. Passed to `alloc_graph()`.
