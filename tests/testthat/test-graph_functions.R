@@ -38,6 +38,6 @@ test_that("alloc_plots_df() works as expected", {
   plots_df <- alloc_plots_df(alloc_table, countries = c("GHA", "ZAF"))
 
   expect_true(!is.null(plots_df))
-  expect_true(inherits(plots_df$plots[[1]], "ggplot"))
-  expect_true(inherits(plots_df$plots[[2]], "ggplot"))
+  expect_true(inherits(plots_df$Plots[[1]], "ggplot"))
+  expect_true(inherits(plots_df$Plots[[2]], "ggplot"))
 })
