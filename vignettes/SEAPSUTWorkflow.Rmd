@@ -42,7 +42,9 @@ plan <- SEAPSUTWorkflow::get_plan(countries = c("GHA", "ZAF"),
                                   max_year = 2017,
                                   iea_data_path = "<<IEA extended energy balance path>>", 
                                   exemplar_table_path = "<<exemplar table path>>", 
-                                  fu_analysis_folder = "<<FU analysis folder>>")
+                                  fu_analysis_folder = "<<FU analysis folder>>", 
+                                  reports_source_folders = "<<Reports source folders>>",
+                                  reports_dest_folder = "<<Reports output folder>>")
 ```
 
 where
@@ -51,8 +53,10 @@ where
 * `max_year` is the latest year to be analyzed,
 * `<<IEA extended energy balance path>>` is the path to a `.csv` file that contains
 [IEA](https://www.iea.org) [extended energy balance data](http://data.iea.org),
-* `<<exemplar table path>>` is the path to an exemplar table (see below), and
-* `<<FU analysis folder>>` is the path to a folder containing final-to-useful analyses.
+* `<<exemplar table path>>` is the path to an exemplar table (see below), 
+* `<<FU analysis folder>>` is the path to a folder containing final-to-useful analyses, 
+* `<<Reports source folders>>` is a vector of paths to folders containing report sources (usually `.Rmd` and `.Rnw` files), and
+* `<<Reports output folder>>` is the path to a folder for completed reports.
 
 The `plan` object is a data frame that provides a list of "targets" 
 and code that will generate the target,

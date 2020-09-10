@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a final-to-useful allocation template — generate_fu_allocation_template • SEAPSUTWorkflow</title>
+<title>Generate an allocation graph — alloc_graph • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Create a final-to-useful allocation template — generate_fu_allocation_template" />
-<meta property="og:description" content="This function creates a blank final-to-useful allocation template on a per-country basis." />
+<meta property="og:title" content="Generate an allocation graph — alloc_graph" />
+<meta property="og:description" content="Creates an allocation graph from a completed allocation table,
+mostly likely created by the assemble_fu_allocation_tables() function." />
 
 
 
@@ -109,83 +110,79 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a final-to-useful allocation template</h1>
+    <h1>Generate an allocation graph</h1>
     
-    <div class="hidden name"><code>generate_fu_allocation_template.Rd</code></div>
+    <div class="hidden name"><code>alloc_graph.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function creates a blank final-to-useful allocation template on a per-country basis.</p>
+    <p>Creates an allocation graph from a completed allocation table,
+mostly likely created by the <code><a href='assemble_fu_allocation_tables.html'>assemble_fu_allocation_tables()</a></code> function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generate_fu_allocation_template</span>(
+    <pre class="usage"><span class='fu'>alloc_graph</span>(
+  <span class='kw'>.df</span>,
   <span class='kw'>country</span>,
-  cache_path = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='cache_info.html'>cache_info</a></span><span class='op'>$</span><span class='kw'>cache_path</span>,
-  data_target = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='target_names.html'>target_names</a></span><span class='op'>$</span><span class='kw'>Specified</span>,
-  fu_analysis_path_target = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='target_names.html'>target_names</a></span><span class='op'>$</span><span class='kw'>fu_analysis_folder</span>,
-  fu_allocation_template_file_name = <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='kw'>country</span>, <span class='st'>" FU Allocations Template"</span>),
-  ext = <span class='st'>".xlsx"</span>,
-  output_path = <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>drake</span>::<span class='fu'><a href='https://docs.ropensci.org/drake/reference/readd.html'>readd</a></span>(<span class='kw'>fu_analysis_path_target</span>, character_only = <span class='fl'>TRUE</span>,
-    path = <span class='kw'>cache_path</span>), <span class='kw'>country</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='dir_create_pipe.html'>dir_create_pipe</a></span>(showWarnings = <span class='fl'>FALSE</span>, recursive =
-    <span class='fl'>TRUE</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='kw'>fu_allocation_template_file_name</span>, <span class='kw'>ext</span>)),
-  n_allocation_rows = <span class='fl'>4</span>,
-  overwrite = <span class='fl'>FALSE</span>
+  <span class='kw'>ef_product</span>,
+  <span class='kw'>destination</span>,
+  year = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>year</span>,
+  .values = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='kw'>.values</span>,
+  machine = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='kw'>machine</span>,
+  eu_product = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='kw'>eu_product</span>,
+  machine_eu_product = <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='kw'>machine</span>, <span class='st'>"_"</span>, <span class='kw'>eu_product</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>.df</th>
+      <td><p>A data frame comprised of completed final energy allocations.</p></td>
+    </tr>
+    <tr>
       <th>country</th>
-      <td><p>A string, the 3-letter ISO code of the country for which a template is desired.</p></td>
+      <td><p>The country for which this graph applies.</p></td>
     </tr>
     <tr>
-      <th>cache_path</th>
-      <td><p>See <code><a href='cache_info.html'>SEAPSUTWorkflow::cache_info</a></code>.</p></td>
+      <th>ef_product</th>
+      <td><p>The final energy product for which this graph applies.</p></td>
     </tr>
     <tr>
-      <th>data_target, fu_analysis_path_target</th>
-      <td><p>See <code><a href='target_names.html'>SEAPSUTWorkflow::target_names</a></code>.</p></td>
+      <th>destination</th>
+      <td><p>The destination sector for the final energy product.</p></td>
     </tr>
     <tr>
-      <th>fu_allocation_template_file_name</th>
-      <td><p>The file name for the template.
-Default is "<code>country</code> FU Allocations Template.<code>ext</code>".</p></td>
+      <th>year</th>
+      <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>IEATools::iea_cols</a></code>.</p></td>
     </tr>
     <tr>
-      <th>ext</th>
-      <td><p>The output file name extension.
-Default is ".xlsx" for an Excel file.</p></td>
+      <th>.values, machine, eu_product</th>
+      <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>IEATools::template_cols</a></code>.</p></td>
     </tr>
     <tr>
-      <th>output_path</th>
-      <td><p>The path of the output file to be created.
-Default uses arguments <code>country</code>, <code>fu_analysis_path_target</code>,
-<code>fu_allocation_template_file_name</code>, and
-<code>ext</code> to construct a path.</p></td>
-    </tr>
-    <tr>
-      <th>n_allocation_rows</th>
-      <td><p>The number of allocation rows per combination of sector and final energy carrier.
-Default is <code>4</code>.</p></td>
-    </tr>
-    <tr>
-      <th>overwrite</th>
-      <td><p>Tells whether to overwrite an existing file at <code>output+path</code>.
-Default is <code>FALSE</code>.</p></td>
+      <th>machine_eu_product</th>
+      <td><p>The name of a combined <code>machine</code> and <code>eu_product</code> column.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>the path to the blank final-to-useful allocation template</p>
+    <p>A <code>ggplot2</code> graph object</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The only arguments used internally are <code>country</code>, <code>data_target</code>, <code>cache_path</code>,
-<code>overwrite</code>, <code>n_allocation_rows</code>, and <code>output_path</code>,
-allowing the caller to specify only output_path to override all of the
-path information stored in the drake cache.</p>
+    <p>This function is called repeatedly from <code><a href='alloc_plots_df.html'>alloc_plots_df()</a></code>.</p>
+<p><code>country</code>, <code>ef_product</code>, and <code>destination</code> form the title of the graph.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
+<span class='co'># Make a simple data frame with the expected structure.</span>
+<span class='kw'>tibble</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(<span class='op'>~</span><span class='kw'>Year</span>, <span class='op'>~</span><span class='kw'>.values</span>, <span class='op'>~</span><span class='kw'>Machine</span>, <span class='op'>~</span><span class='kw'>Eu.product</span>,
+                <span class='fl'>1967</span>, <span class='fl'>0.5</span>, <span class='st'>"Cars"</span>, <span class='st'>"MD"</span>,
+                <span class='fl'>1967</span>, <span class='fl'>0.5</span>, <span class='st'>"Industry static engines"</span>, <span class='st'>"MD"</span>,
+                <span class='fl'>2020</span>, <span class='fl'>0.8</span>, <span class='st'>"Cars"</span>, <span class='st'>"MD"</span>,
+                <span class='fl'>2020</span>, <span class='fl'>0.2</span>, <span class='st'>"Industry static engines"</span>, <span class='st'>"MD"</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>alloc_graph</span>(country = <span class='st'>"Example"</span>, ef_product = <span class='st'>"Petrol"</span>, destination = <span class='st'>"Transport"</span>)
+</div><div class='img'><img src='alloc_graph-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

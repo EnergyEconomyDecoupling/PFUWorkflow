@@ -16,6 +16,8 @@ target_names <- list(countries = "countries",
                      iea_data_path = "iea_data_path",
                      exemplar_table_path = "exemplar_table_path",
                      fu_analysis_folder = "fu_analysis_folder",
+                     report_source_folders = "report_source_folders",
+                     report_dest_folder = "report_dest_folder",
                      AllIEAData = "AllIEAData",
                      IEAData = "IEAData",
                      balanced_before = "balanced_before",
@@ -28,7 +30,11 @@ target_names <- list(countries = "countries",
                      IncompleteEfficiencyTables = "IncompleteEfficiencyTables",
                      ExemplarLists = "ExemplarLists",
                      CompletedAllocationTables = "CompletedAllocationTables",
-                     CompletedEfficiencyTables = "CompletedEfficiencyTables")
+                     CompletedEfficiencyTables = "CompletedEfficiencyTables",
+                     AllocationGraphs = "AllocationGraphs",
+                     reports_dest_folder = "reports_dest_folder",
+                     reports_complete = "reports_complete")
+
 usethis::use_data(target_names, overwrite = TRUE)
 
 

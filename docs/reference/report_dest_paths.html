@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cache information — cache_info • SEAPSUTWorkflow</title>
+<title>Create file paths for reports output — report_dest_paths • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Cache information — cache_info" />
-<meta property="og:description" content="A string list containing information about the drake cache.
-Items in the list provide default values for column name function arguments
-throughout the SEAPSUTWorkflow package." />
+<meta property="og:title" content="Create file paths for reports output — report_dest_paths" />
+<meta property="og:description" content="Create a vector of file paths for reports output." />
 
 
 
@@ -74,7 +72,7 @@ throughout the SEAPSUTWorkflow package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -111,33 +109,34 @@ throughout the SEAPSUTWorkflow package." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Cache information</h1>
+    <h1>Create file paths for reports output</h1>
     
-    <div class="hidden name"><code>cache_info.Rd</code></div>
+    <div class="hidden name"><code>report_dest_paths.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A string list containing information about the drake cache.
-Items in the list provide default values for column name function arguments
-throughout the <code>SEAPSUTWorkflow</code> package.</p>
+    <p>Create a vector of file paths for reports output.</p>
     </div>
 
-    <pre class="usage"><span class='kw'>cache_info</span></pre>
+    <pre class="usage"><span class='fu'>report_dest_paths</span>(<span class='no'>report_source_files</span>, <span class='no'>report_dest_folder</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>report_source_files</th>
+      <td><p>A vector of report source file names, probably created with <code><a href='report_source_paths.html'>report_source_paths()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>report_dest_folder</th>
+      <td><p>A directory for report output.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A string list with 1 entries.</p><dl>
-<dt>cache_path</dt><dd><p>The default path to the drake cache.</p></dd>
+    <p>A vector of file paths for reports output.</p>
 
-</dl>
-
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>cache_info</span>
-</div><div class='output co'>#&gt; $cache_path
-#&gt; [1] ".drake"
-#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -153,7 +152,7 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

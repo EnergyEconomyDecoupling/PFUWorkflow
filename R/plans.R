@@ -13,6 +13,7 @@
 #' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
 #' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.
 #' * `fu_analysis_folder`: The path to the final-to-useful analysis folder, supplied in the `fu_analysis_folder` argument.
+#' * `report_output_folder`: The path to a report output folder, supplied in the `report_output_folder` argument.
 #' * `AllIEAData`: A data frame with all IEA extended energy balance data read from `iea_data_path`.
 #' * `IEAData`: A version of the `AllIEAData` data frame containing data for only those countries specified in `countries`.
 #' * `balanced_before`: A boolean that tells where the data were balanced as received, usually a vector of `FALSE`, one for each country.
@@ -21,9 +22,14 @@
 #' * `OKToProceed`: `NULL` means everything is balanced and proceeding is OK.
 #' * `Specified`: A data frame with specified industries. See `IEATools::specify_all()`.
 #' * `PSUT_final`: A data frame containing PSUT matrices up to the final stage.
-#' * `IncompleteAllocationTables`: A data frame containing final-to-useful allocation tables.
-#' * `IncompleteEfficiencyTables`: A data frame containing final-to-useful effiiency tables.
 #' * `ExemplarLists`: A data frame containing lists of exemplar countries on a per-country, per-year basis.
+#' * `IncompleteAllocationTables`: A data frame containing final-to-useful allocation tables.
+#' * `CompletedAllocationTables` : A data frame containing completed final-to-useful allocation tables.
+#' * `IncompleteEfficiencyTables`: A data frame containing final-to-useful efficiency tables.
+#' * `CompletedEfficiencyTables`: A data frame containing completed final-to-useful efficiency tables.
+#' * `report_source_paths`: A string vector of paths to sources for reports.
+#' * `report_dest_paths`: A string for the path to a folder into which reports will written.
+#' * `reports_complete`: A boolean that tells whether reports were written successfully.
 #'
 #' Callers can execute the plan by calling `drake::make(plan)`.
 #' Results can be recovered with
@@ -36,16 +42,11 @@
 #' * `BalancedIEAData`,
 #' * `Specified`,
 #' * `PSUT_final`,
-#' * `IncompleteAllocationTables`,
-#' * `IncompleteEfficiencyTables`,
 #' * `ExemplarLists`,
-#' * `CompletedAllocationTables`, and
-#' * `CompletedEfficiencyTables`.
-#'
-#' If a country is to have its energy conversion chain analyzed _and_
-#' serve as an exemplar, it should be listed in `countries`.
-#' If a country is to serve as an exemplar only (not have its energy conversion chain analyzed),
-#' it should be listed in `additional_exemplar_countries`.
+#' * `IncompleteAllocationTables`,
+#' * `CompletedAllocationTables`,
+#' * `IncompleteEfficiencyTables`, and
+#' * `CompletedEfficiencyTables`,
 #'
 #' @param countries A vector of abbreviations for countries whose energy conversion chain is to be analyzed,
 #'                  such as "c('GHA', 'ZAF')".
@@ -64,6 +65,9 @@
 #' @param exemplar_table_path The path to an exemplar table.
 #' @param fu_analysis_folder The path to a folder containing final-to-useful analyses.
 #'                           Sub-folders named with 3-letter country abbreviations are assumed.
+#' @param reports_source_folders A string vector containing paths to folders of report sources, usually
+#'                               `.Rnw` or `.Rmd` files.
+#' @param reports_dest_folder The path to a folder into which reports are written.
 #'
 #' @return A drake plan object.
 #'
@@ -81,10 +85,13 @@
 #'          max_year = 1999,
 #'          iea_data_path = "iea_path",
 #'          exemplar_table_path = "exemplar_path",
-#'          fu_analysis_folder = "fu_folder")
+#'          fu_analysis_folder = "fu_folder",
+#'          reports_source_folders = "reports_source_folders",
+#'          reports_dest_folder = "reports_dest_folder")
 get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
-                     iea_data_path, exemplar_table_path, fu_analysis_folder) {
+                     iea_data_path, exemplar_table_path, fu_analysis_folder,
+                     reports_source_folders, reports_dest_folder) {
 
   # Get around some warnings.
   alloc_and_eff_couns <- NULL
@@ -114,6 +121,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     iea_data_path = !!iea_data_path,
     exemplar_table_path = !!exemplar_table_path,
     fu_analysis_folder = !!fu_analysis_folder,
+    reports_source_folders = !!reports_source_folders,
+    reports_dest_folder = !!reports_dest_folder,
 
     # (1) Grab all IEA data for ALL countries
 
@@ -194,7 +203,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                                      completed_fu_allocation_tables = CompletedAllocationTables,
                                                                      countries = countries,
                                                                      max_year = max_year),
-                                              dynamic = map(countries))
+                                              dynamic = map(countries)),
 
     # (10) Extend to useful stage
 
@@ -208,13 +217,27 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (13) Off to the races!  Do other calculations
 
+
+
+
+
+
+    # (N) Build reports
+    AllocationGraphs = drake::target(alloc_plots_df(CompletedAllocationTables, countries = countries),
+                                     dynamic = map(countries))
+    # Allocation_Report =
+    # reports_source_paths = drake::target(drake::file_in(report_source_paths(report_source_folders = report_source_folders))),
+    # reports_dest_path = drake::target(drake::file_out(report_dest_paths(report_source_paths))),
+    # reports_complete = drake::target(generate_reports(report_source_files = report_source_paths,
+    #                                                   report_dest_folder = report_dest_folder))
+
   )
   if (how_far != "all_targets") {
     # Find the last row of the plan to keep.
     last_row_to_keep <- p %>%
-      tibble::rowid_to_column(var = "rownum") %>%
+      tibble::rowid_to_column(var = ".rownum") %>%
       dplyr::filter(.data[["target"]] == how_far) %>%
-      dplyr::select("rownum") %>%
+      dplyr::select(".rownum") %>%
       unlist() %>%
       unname()
     p <- p %>%

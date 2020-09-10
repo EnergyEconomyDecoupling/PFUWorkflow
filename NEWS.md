@@ -1,3 +1,22 @@
+# SEAPSUTWorkflow 0.1.8 (2020-09-09)
+
+* Changed structure of data frame in AllocationGraphs target. 
+  Now, fewer columns are in the data that is graphed. 
+  More columns are in the outer (not nested) data frame.
+
+
+# SEAPSUTWorkflow 0.1.7 (2020-09-07)
+
+* Added allocation report.
+
+
+# SEAPSUTWorkflow 0.1.6 (2020-08-26)
+
+* First version that works with full SEAPSUT workflow.
+* Added automated spell checking to package checks.
+* Added new target `reports_output_folder` to plan and tests.
+
+
 # SEAPSUTWorkflow 0.1.5 (2020-08-19)
 
 * Fixed bugs with completion code when put into production.
