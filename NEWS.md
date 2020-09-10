@@ -1,3 +1,8 @@
+* Changed structure of data frame in AllocationGraphs target. 
+  Now, fewer columns are in the data that is graphed. 
+  More columns are in the outer (not nested) data frame.
+
+
 # SEAPSUTWorkflow 0.1.7 (2020-09-07)
 
 * Added allocation report.
