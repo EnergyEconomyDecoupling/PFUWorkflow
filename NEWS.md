@@ -1,3 +1,5 @@
+# SEAPSUTWorkflow 0.1.8 (2020-09-09)
+
 * Changed structure of data frame in AllocationGraphs target. 
   Now, fewer columns are in the data that is graphed. 
   More columns are in the outer (not nested) data frame.
