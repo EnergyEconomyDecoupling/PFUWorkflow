@@ -230,8 +230,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # Allocation_Report =
 
     # Build Efficiency Graphs
-    EfficiencyGraphs = drake::target(eta_fu_plots_df(CompletedEfficiencyTables, countries = countries),
-                                     dynamic = map(machine & eu_product))
+    EfficiencyGraphs = drake::target(eta_fu_plots_df(CompletedEfficiencyTables, countries = countries))
+                       #,dynamic = map(machine & eu_product)) # How to map by
 
     # reports_source_paths = drake::target(drake::file_in(report_source_paths(report_source_folders = report_source_folders))),
     # reports_dest_path = drake::target(drake::file_out(report_dest_paths(report_source_paths))),

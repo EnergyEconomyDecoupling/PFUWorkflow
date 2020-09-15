@@ -175,7 +175,7 @@ eta_fu_graph <- function(.df,
     ) %>%
     ggplot2::ggplot(mapping = ggplot2::aes(x = .data[[year]],
                                            y = .data[[.values]],
-                                           colour = Country))
+                                           colour = .data[[Country]])) # Check if lowercase?
   ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
     #ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("eta.fu [%]") +
