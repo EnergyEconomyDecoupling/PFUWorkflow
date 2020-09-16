@@ -161,9 +161,7 @@ alloc_plots_df <- function(.df,
 #'                 2020, 0.2, "Industry static engines", "MD") %>%
 #'   alloc_graph(country = "Example", ef_product = "Petrol", destination = "Transport")
 eta_fu_graph <- function(.df,
-                         country,
-                         # machine,
-                         # eu_product,
+                         country = IEATools::iea_cols$country,
                          year = IEATools::iea_cols$year,
                          .values = IEATools::template_cols$.values,
                          machine = IEATools::template_cols$machine,
@@ -175,7 +173,7 @@ eta_fu_graph <- function(.df,
     ) %>%
     ggplot2::ggplot(mapping = ggplot2::aes(x = .data[[year]],
                                            y = .data[[.values]],
-                                           colour = .data[[Country]])) # Check if lowercase?
+                                           colour = .data[[country]])) # Check if lowercase?
   ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
     #ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("eta.fu [%]") +
@@ -257,7 +255,7 @@ eta_fu_plots_df <- function(.df,
                               country = .data[[country]],
                               year = year,
                               .values = .values,
-                              machine = machine,
-                              eu_product = eu_product)
+                              machine = .data[[machine]],
+                              eu_product = .data[[eu_product]])
     )
 }
