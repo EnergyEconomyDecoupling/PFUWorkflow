@@ -1,0 +1,89 @@
+###########################################################
+context("Graph Functions")
+###########################################################
+
+# This tests the function alloc_graph()
+test_that("alloc_graph() works", {
+  # Make a simple data frame with the expected structure.
+  g <- tibble::tribble(~Year, ~.values, ~Machine, ~Eu.product,
+                  1967, 0.5, "Cars", "MD",
+                  1967, 0.5, "Industry static engines", "MD",
+                  2020, 0.8, "Cars", "MD",
+                  2020, 0.2, "Industry static engines", "MD") %>%
+    alloc_graph(country = "Example", ef_product = "Petrol", destination = "Transport")
+
+  expect_true(!is.null(g))
+  expect_true(inherits(g, "ggplot"))
+})
+
+
+test_that("alloc_plots_df() works as expected", {
+  alloc_table <- alloc_table <- tibble::tribble(~Country, ~Method, ~Energy.type, ~Year, ~Ef.product, ~Destination,
+                                                ~.values, ~Machine, ~Quantity, ~Eu.product, ~C.source,
+                                                "GHA", "PCM", "E", 1971, "Gasoline", "Transport",
+                                                0.5, "Cars", "C_1 [%]", "MD", "World",
+                                                "GHA", "PCM", "E", 1971, "Gasoline", "Transport",
+                                                0.5, "Trucks", "C_2 [%]", "MD", "World",
+                                                "GHA", "PCM", "E", 2020, "Gasoline", "Transport",
+                                                0.2, "Cars", "C_1 [%]", "MD", "World",
+                                                "GHA", "PCM", "E", 2020, "Gasoline", "Transport",
+                                                0.8, "Trucks", "C_2 [%]", "MD", "World",
+                                                "ZAF", "PCM", "E", 1971, "Gasoline", "Transport",
+                                                0.5, "Cars", "C_1 [%]", "MD", "World",
+                                                "ZAF", "PCM", "E", 1971, "Gasoline", "Transport",
+                                                0.5, "Trucks", "C_2 [%]", "MD", "World",
+                                                "ZAF", "PCM", "E", 2020, "Gasoline", "Transport",
+                                                0.3, "Cars", "C_1 [%]", "MD", "World",
+                                                "ZAF", "PCM", "E", 2020, "Gasoline", "Transport",
+                                                0.7, "Trucks", "C_2 [%]", "MD", "World")
+  plots_df <- alloc_plots_df(alloc_table, countries = c("GHA", "ZAF"))
+
+  expect_true(!is.null(plots_df))
+  expect_true(inherits(plots_df$Plots[[1]], "ggplot"))
+  expect_true(inherits(plots_df$Plots[[2]], "ggplot"))
+})
+
+###########################################################################################################
+
+# This tests the function eta_fu_graph()
+test_that("eta_fu_graph() works", {
+
+  # Make a simple data frame with the expected structure.
+  h <- tibble::tribble(~Country, ~Year, ~.values, ~Machine, ~Eu.product,
+                       "ESP", 1967, 0.5, "Cars", "MD",
+                       "MEX", 1967, 0.6, "Cars", "MD",
+                       "ESP", 2020, 0.7, "Cars", "MD",
+                       "MEX", 2020, 0.8, "Cars", "MD") %>%
+
+    eta_fu_graph(countries = c("ESP", "MEX"))
+
+  expect_true(!is.null(h))
+  expect_true(inherits(h, "ggplot"))
+
+  bad_df <- tibble::tribble(~Country, ~Year, ~.values, ~Machine, ~Eu.product,
+                            "ESP", 1967, 0.5, "Cars", "MD",
+                            "MEX", 1967, 0.6, "Cars", "MD",
+                            "ESP", 2020, 0.7, "Cars", "MD",
+                            "MEX", 2020, 0.8, "Trucks", "MD")
+
+  expect_error(eta_fu_graph(bad_df, countries = c("ESP", "MEX")), regexp = "Found more than 1 machine in eta_fu_graph()")
+})
+
+
+test_that("eta_fu_plots_df() works as expected", {
+  eta_fu_table <- tibble::tribble(~Country, ~Year, ~.values, ~Machine, ~Eu.product,
+                                  "ESP", 1971, 0.4, "Cars", "MD",
+                                  "ESP", 1971, 0.5, "Trucks", "MD",
+                                  "ESP", 2020, 0.6, "Cars", "MD",
+                                  "ESP", 2020, 0.7, "Trucks", "MD",
+                                  "MEX", 1971, 0.3, "Cars", "MD",
+                                  "MEX", 1971, 0.4, "Trucks", "MD",
+                                  "MEX", 2020, 0.4, "Cars", "MD",
+                                  "MEX", 2020, 0.5, "Trucks", "MD")
+
+  plots_eta_df <- eta_fu_plots_df(eta_fu_table, countries = c("ESP", "MEX"))
+
+  expect_true(!is.null(plots_eta_df))
+  expect_true(inherits(plots_eta_df$Plots[[1]], "ggplot"))
+  expect_true(inherits(plots_eta_df$Plots[[2]], "ggplot"))
+})

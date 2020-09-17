@@ -1,1 +1,0 @@
-This is an example file that is NOT a report, used for tesing purposes.

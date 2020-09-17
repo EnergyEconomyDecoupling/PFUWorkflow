@@ -31,6 +31,7 @@ target_names <- list(countries = "countries",
                      ExemplarLists = "ExemplarLists",
                      CompletedAllocationTables = "CompletedAllocationTables",
                      CompletedEfficiencyTables = "CompletedEfficiencyTables",
+                     AllocationGraphs = "AllocationGraphs",
                      reports_dest_folder = "reports_dest_folder",
                      reports_complete = "reports_complete")
 

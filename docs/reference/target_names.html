@@ -74,7 +74,7 @@ throughout the SEAPSUTWorkflow package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
       </span>
     </div>
 
@@ -122,12 +122,12 @@ Items in the list provide default values for function arguments
 throughout the <code>SEAPSUTWorkflow</code> package.</p>
     </div>
 
-    <pre class="usage"><span class='no'>target_names</span></pre>
+    <pre class="usage"><span class='kw'>target_names</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A string list with 23 entries.</p><dl'>
+    <p>A string list with 24 entries.</p><dl>
 <dt>countries</dt><dd><p>The string name of the countries target in the drake cache, giving the countries to be analyzed.</p></dd>
 <dt>alloc_and_eff_couns</dt><dd><p>The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.</p></dd>
 <dt>max_year</dt><dd><p>The integer representing the maximum year to be analyzed.</p></dd>
@@ -148,6 +148,7 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 <dt>ExemplarLists</dt><dd><p>A data frame of lists of exemplar countries for each country in <code>countries</code>, and maybe more.</p></dd>
 <dt>CompletedAllocationTables</dt><dd><p>A data frame of completed final-to-useful allocation tables.</p></dd>
 <dt>CompletedEfficiencyTables</dt><dd><p>A data frame of completed final-to-useful efficiency tables.</p></dd>
+<dt>AllocationGraphs</dt><dd><p>A data frame containing allocation graphs.</p></dd>
 <dt>report_source_paths</dt><dd><p>A string vector containing paths to report files. These strings provide a detailed view of all the reports that <code>drake</code> will generate and should be all report files in <code>report_source_folders</code>.</p></dd>
 <dt>reports_complete</dt><dd><p>A boolean indicating success (<code>TRUE</code>) or failure (<code>FALSE</code>) of report generation.</p></dd>
 
@@ -155,7 +156,8 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>target_names</span></div><div class='output co'>#&gt; $countries
+    <pre class="examples"><div class='input'><span class='kw'>target_names</span>
+</div><div class='output co'>#&gt; $countries
 #&gt; [1] "countries"
 #&gt; 
 #&gt; $alloc_and_eff_couns
@@ -218,8 +220,11 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 #&gt; $CompletedEfficiencyTables
 #&gt; [1] "CompletedEfficiencyTables"
 #&gt; 
-#&gt; $report_source_paths
-#&gt; [1] "report_source_paths"
+#&gt; $AllocationGraphs
+#&gt; [1] "AllocationGraphs"
+#&gt; 
+#&gt; $reports_dest_folder
+#&gt; [1] "reports_dest_folder"
 #&gt; 
 #&gt; $reports_complete
 #&gt; [1] "reports_complete"
@@ -239,7 +244,7 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

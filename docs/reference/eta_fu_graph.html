@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Specify the IEA data — specify • SEAPSUTWorkflow</title>
+<title>Generate an eta_fu graph — eta_fu_graph • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Specify the IEA data — specify" />
-<meta property="og:description" content="Specifies the IEA data in a way that is amenable to drake subtargets.
-See IEATools::specify_all() for details." />
+<meta property="og:title" content="Generate an eta_fu graph — eta_fu_graph" />
+<meta property="og:description" content="Creates an eta_fu graph from a completed eta_fu table,
+created by the assemble_eta_fu_tables() function." />
 
 
 
@@ -110,59 +110,70 @@ See IEATools::specify_all() for details." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Specify the IEA data</h1>
+    <h1>Generate an eta_fu graph</h1>
     
-    <div class="hidden name"><code>specify.Rd</code></div>
+    <div class="hidden name"><code>eta_fu_graph.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Specifies the IEA data in a way that is amenable to drake subtargets.
-See <code><a href='https://rdrr.io/pkg/IEATools/man/specify_all.html'>IEATools::specify_all()</a></code> for details.</p>
+    <p>Creates an eta_fu graph from a completed eta_fu table,
+created by the <code><a href='assemble_eta_fu_tables.html'>assemble_eta_fu_tables()</a></code> function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>specify</span>(<span class='kw'>BalancedIEAData</span>, <span class='kw'>countries</span>, country = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>country</span>)</pre>
+    <pre class="usage"><span class='fu'>eta_fu_graph</span>(
+  <span class='kw'>.df</span>,
+  <span class='kw'>countries</span>,
+  country = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>country</span>,
+  year = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>year</span>,
+  .values = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='kw'>.values</span>,
+  machine = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='kw'>machine</span>,
+  eu_product = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='kw'>eu_product</span>,
+  machine_eu_product = <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='kw'>machine</span>, <span class='st'>"_"</span>, <span class='kw'>eu_product</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>BalancedIEAData</th>
-      <td><p>IEA data that have already been balanced</p></td>
+      <th>.df</th>
+      <td><p>A data frame comprised of completed final to useful efficiency values - eta.fu</p></td>
     </tr>
     <tr>
       <th>countries</th>
-      <td><p>the countries for which specification should occur</p></td>
+      <td><p>The countries for which efficiency plots are to be created.</p></td>
     </tr>
     <tr>
-      <th>country</th>
+      <th>country, year</th>
       <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>IEATools::iea_cols</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>.values, machine, eu_product</th>
+      <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>IEATools::template_cols</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>machine_eu_product</th>
+      <td><p>The name of a combined <code>machine</code> and <code>eu_product</code> column.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame of specified IEA data</p>
+    <p>A <code>ggplot2</code> graph object</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function is called repeatedly from <code><a href='eta_fu_plots_df.html'>eta_fu_plots_df()</a></code>.</p>
+<p><code>country</code>, <code>machine</code>, and <code>destination</code> form the title of the graph.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>IEATools</span>::<span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/sample_iea_data_path.html'>sample_iea_data_path</a></span>() <span class='op'>%&gt;%</span>
-  <span class='kw'>IEATools</span>::<span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/load_tidy_iea_df.html'>load_tidy_iea_df</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='make_balanced.html'>make_balanced</a></span>(countries = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span>)) <span class='op'>%&gt;%</span>
-  <span class='fu'>specify</span>(countries = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span>))
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 436 x 11</span><span>
-#&gt;    Country Method Energy.type Last.stage  Year Ledger.side Flow.aggregatio…
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> GHA     PCM    E           Final       </span><span style='text-decoration: underline;'>1</span><span>971 Consumption Industry        
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> GHA     PCM    E           Final       </span><span style='text-decoration: underline;'>1</span><span>971 Consumption Industry        
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> GHA     PCM    E           Final       </span><span style='text-decoration: underline;'>1</span><span>971 Consumption Industry        
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> GHA     PCM    E           Final       </span><span style='text-decoration: underline;'>1</span><span>971 Consumption Industry        
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> GHA     PCM    E           Final       </span><span style='text-decoration: underline;'>1</span><span>971 Consumption Industry        
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> GHA     PCM    E           Final       </span><span style='text-decoration: underline;'>1</span><span>971 Consumption Industry        
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> GHA     PCM    E           Final       </span><span style='text-decoration: underline;'>1</span><span>971 Consumption Industry        
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> GHA     PCM    E           Final       </span><span style='text-decoration: underline;'>1</span><span>971 Consumption Other           
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GHA     PCM    E           Final       </span><span style='text-decoration: underline;'>1</span><span>971 Consumption Other           
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> GHA     PCM    E           Final       </span><span style='text-decoration: underline;'>1</span><span>971 Consumption Other           
-#&gt; </span><span style='color: #949494;'># … with 426 more rows, and 4 more variables: Flow </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, Product </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   Unit </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, E.dot </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span></div></span></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
+<span class='co'># Make a simple data frame with the expected structure.</span>
+<span class='kw'>tibble</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(<span class='op'>~</span><span class='kw'>Year</span>, <span class='op'>~</span><span class='kw'>.values</span>, <span class='op'>~</span><span class='kw'>Machine</span>, <span class='op'>~</span><span class='kw'>Eu.product</span>,
+                <span class='fl'>1967</span>, <span class='fl'>0.5</span>, <span class='st'>"Cars"</span>, <span class='st'>"MD"</span>,
+                <span class='fl'>1967</span>, <span class='fl'>0.5</span>, <span class='st'>"Industry static engines"</span>, <span class='st'>"MD"</span>,
+                <span class='fl'>2020</span>, <span class='fl'>0.8</span>, <span class='st'>"Cars"</span>, <span class='st'>"MD"</span>,
+                <span class='fl'>2020</span>, <span class='fl'>0.2</span>, <span class='st'>"Industry static engines"</span>, <span class='st'>"MD"</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='alloc_graph.html'>alloc_graph</a></span>(country = <span class='st'>"Example"</span>, ef_product = <span class='st'>"Petrol"</span>, destination = <span class='st'>"Transport"</span>)
+</div><div class='img'><img src='eta_fu_graph-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -75,7 +75,7 @@ See examples for how to construct exemplar_lists." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
       </span>
     </div>
 
@@ -125,19 +125,19 @@ See examples for how to construct <code>exemplar_lists</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>assemble_eta_fu_tables</span>(
-  <span class='no'>incomplete_eta_fu_tables</span>,
-  <span class='no'>exemplar_lists</span>,
-  <span class='no'>completed_fu_allocation_tables</span>,
-  <span class='no'>countries</span>,
-  <span class='kw'>max_year</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>which_quantity</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span>$<span class='no'>eta_fu</span>, <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span>$<span class='no'>phi_u</span>),
-  <span class='kw'>country</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>country</span>,
-  <span class='kw'>year</span> <span class='kw'>=</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span>$<span class='no'>year</span>,
-  <span class='kw'>exemplars</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='exemplar_names.html'>exemplar_names</a></span>$<span class='no'>exemplars</span>,
-  <span class='kw'>exemplar_tables</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='exemplar_names.html'>exemplar_names</a></span>$<span class='no'>exemplar_tables</span>,
-  <span class='kw'>alloc_data</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='exemplar_names.html'>exemplar_names</a></span>$<span class='no'>alloc_data</span>,
-  <span class='kw'>incomplete_eta_tables</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='exemplar_names.html'>exemplar_names</a></span>$<span class='no'>incomplete_eta_table</span>,
-  <span class='kw'>complete_eta_tables</span> <span class='kw'>=</span> <span class='kw pkg'>SEAPSUTWorkflow</span><span class='kw ns'>::</span><span class='no'><a href='exemplar_names.html'>exemplar_names</a></span>$<span class='no'>complete_eta_table</span>
+  <span class='kw'>incomplete_eta_fu_tables</span>,
+  <span class='kw'>exemplar_lists</span>,
+  <span class='kw'>completed_fu_allocation_tables</span>,
+  <span class='kw'>countries</span>,
+  max_year = <span class='kw'>NULL</span>,
+  which_quantity = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='kw'>eta_fu</span>, <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='kw'>phi_u</span>),
+  country = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>country</span>,
+  year = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>year</span>,
+  exemplars = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>exemplars</span>,
+  exemplar_tables = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>exemplar_tables</span>,
+  alloc_data = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>alloc_data</span>,
+  incomplete_eta_tables = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>incomplete_eta_table</span>,
+  complete_eta_tables = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>complete_eta_table</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -192,29 +192,31 @@ The return value is a tidy data frame.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Make some incomplete efficiency tables for GHA by removing Wood cookstoves.</span>
 <span class='co'># Information from the exemplar, ZAF, will supply efficiency for Wood cookstoves.</span>
-<span class='no'>incomplete_eta_fu_tables</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/load_eta_fu_data.html'>load_eta_fu_data</a></span>() <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(! (<span class='no'>Country</span> <span class='kw'>==</span> <span class='st'>"GHA"</span> <span class='kw'>&amp;</span> <span class='no'>Machine</span> <span class='kw'>==</span> <span class='st'>"Wood cookstoves"</span>))
+<span class='kw'>incomplete_eta_fu_tables</span> <span class='op'>&lt;-</span> <span class='kw'>IEATools</span>::<span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/load_eta_fu_data.html'>load_eta_fu_data</a></span>() <span class='op'>%&gt;%</span>
+  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='op'>!</span> (<span class='kw'>Country</span> <span class='op'>==</span> <span class='st'>"GHA"</span> <span class='op'>&amp;</span> <span class='kw'>Machine</span> <span class='op'>==</span> <span class='st'>"Wood cookstoves"</span>))
 <span class='co'># The rows for Wood cookstoves are missing.</span>
-<span class='no'>incomplete_eta_fu_tables</span> <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Country</span> <span class='kw'>==</span> <span class='st'>"GHA"</span>, <span class='no'>Machine</span> <span class='kw'>==</span> <span class='st'>"Wood cookstoves"</span>)</div><div class='output co'>#&gt;  [1] Country        Method         Energy.type    Last.stage     Unit          
+<span class='kw'>incomplete_eta_fu_tables</span> <span class='op'>%&gt;%</span>
+  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Country</span> <span class='op'>==</span> <span class='st'>"GHA"</span>, <span class='kw'>Machine</span> <span class='op'>==</span> <span class='st'>"Wood cookstoves"</span>)
+</div><div class='output co'>#&gt;  [1] Country        Method         Energy.type    Last.stage     Unit          
 #&gt;  [6] Machine        Eu.product     Quantity       Maximum.values 1971          
 #&gt; [11] 2000          
 #&gt; &lt;0 rows&gt; (or 0-length row.names)</div><div class='input'><span class='co'># Set up exemplar list</span>
-<span class='no'>el</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
-  ~<span class='no'>Country</span>, ~<span class='no'>Year</span>, ~<span class='no'>Exemplars</span>,
+<span class='kw'>el</span> <span class='op'>&lt;-</span> <span class='kw'>tibble</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
+  <span class='op'>~</span><span class='kw'>Country</span>, <span class='op'>~</span><span class='kw'>Year</span>, <span class='op'>~</span><span class='kw'>Exemplars</span>,
   <span class='st'>"GHA"</span>, <span class='fl'>1971</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ZAF"</span>),
   <span class='st'>"GHA"</span>, <span class='fl'>2000</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ZAF"</span>))
 <span class='co'># Load FU allocation data.</span>
 <span class='co'># An efficiency is needed for each machine in FU allocation data.</span>
-<span class='no'>fu_allocation_data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>IEATools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/load_fu_allocation_data.html'>load_fu_allocation_data</a></span>()
+<span class='kw'>fu_allocation_data</span> <span class='op'>&lt;-</span> <span class='kw'>IEATools</span>::<span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/load_fu_allocation_data.html'>load_fu_allocation_data</a></span>()
 <span class='co'># Assemble complete allocation tables</span>
-<span class='no'>completed</span> <span class='kw'>&lt;-</span> <span class='fu'>assemble_eta_fu_tables</span>(<span class='kw'>incomplete_eta_fu_tables</span> <span class='kw'>=</span> <span class='no'>incomplete_eta_fu_tables</span>,
-                                    <span class='kw'>exemplar_lists</span> <span class='kw'>=</span> <span class='no'>el</span>,
-                                    <span class='kw'>completed_fu_allocation_tables</span> <span class='kw'>=</span> <span class='no'>fu_allocation_data</span>,
-                                    <span class='kw'>countries</span> <span class='kw'>=</span> <span class='st'>"GHA"</span>)
+<span class='kw'>completed</span> <span class='op'>&lt;-</span> <span class='fu'>assemble_eta_fu_tables</span>(incomplete_eta_fu_tables = <span class='kw'>incomplete_eta_fu_tables</span>,
+                                    exemplar_lists = <span class='kw'>el</span>,
+                                    completed_fu_allocation_tables = <span class='kw'>fu_allocation_data</span>,
+                                    countries = <span class='st'>"GHA"</span>)
 <span class='co'># Show that the missing rows have been picked up from the exemplar country, ZAF.</span>
-<span class='no'>completed</span> <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Country</span> <span class='kw'>==</span> <span class='st'>"GHA"</span>, <span class='no'>Machine</span> <span class='kw'>==</span> <span class='st'>"Wood cookstoves"</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 11</span><span>
+<span class='kw'>completed</span> <span class='op'>%&gt;%</span>
+  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Country</span> <span class='op'>==</span> <span class='st'>"GHA"</span>, <span class='kw'>Machine</span> <span class='op'>==</span> <span class='st'>"Wood cookstoves"</span>)
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 11</span><span>
 #&gt;   Country Method Energy.type Last.stage Unit  Machine Eu.product Quantity  Year
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> GHA     PCM    E           Final      ktoe  Wood c… MTH.100.C  eta.fu    </span><span style='text-decoration: underline;'>1</span><span>971
@@ -237,7 +239,7 @@ The return value is a tidy data frame.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

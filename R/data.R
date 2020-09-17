@@ -27,6 +27,7 @@
 #' \item{ExemplarLists}{A data frame of lists of exemplar countries for each country in `countries`, and maybe more.}
 #' \item{CompletedAllocationTables}{A data frame of completed final-to-useful allocation tables.}
 #' \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}
+#' \item{AllocationGraphs}{A data frame containing allocation graphs.}
 #' \item{report_source_paths}{A string vector containing paths to report files. These strings provide a detailed view of all the reports that `drake` will generate and should be all report files in `report_source_folders`.}
 #' \item{reports_complete}{A boolean indicating success (`TRUE`) or failure (`FALSE`) of report generation.}
 #' }
