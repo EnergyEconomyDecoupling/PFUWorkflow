@@ -6,6 +6,8 @@
 \usage{
 eta_fu_graph(
   .df,
+  countries,
+  plots = "Plots",
   country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year,
   .values = IEATools::template_cols$.values,
@@ -17,15 +19,11 @@ eta_fu_graph(
 \arguments{
 \item{.df}{A data frame comprised of completed final to useful efficiency values - eta.fu}
 
-\item{country}{The country for which this graph applies.}
+\item{countries}{The countries for which efficiency plots are to be created.}
 
-\item{year}{See \code{IEATools::iea_cols}.}
+\item{country, year}{See \code{IEATools::iea_cols}.}
 
 \item{.values, machine, eu_product}{See \code{IEATools::template_cols}.}
-
-\item{machine}{The machine for which this graph applies.}
-
-\item{eu_product}{The useful work product for which this graph applies.}
 
 \item{machine_eu_product}{The name of a combined \code{machine} and \code{eu_product} column.}
 }

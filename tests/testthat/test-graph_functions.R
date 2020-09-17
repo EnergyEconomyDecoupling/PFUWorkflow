@@ -45,7 +45,7 @@ test_that("eta_fu_graph() works", {
                        "MEX", 1967, 0.6, "Cars", "MD",
                        "ESP", 2020, 0.7, "Cars", "MD",
                        "MEX", 2020, 0.8, "Cars", "MD") %>%
-    eta_fu_graph(country = c("ESP", "MEX"), machine = "Cars", eu_product = "MD")
+    eta_fu_graph(countries = c("ESP", "MEX"))
 
   expect_true(!is.null(h))
   expect_true(inherits(h, "ggplot"))

@@ -140,10 +140,8 @@ alloc_plots_df <- function(.df,
 #' `country`, `machine`, and `destination` form the title of the graph.
 #'
 #' @param .df A data frame comprised of completed final to useful efficiency values - eta.fu
-#' @param country The country for which this graph applies.
-#' @param machine The machine for which this graph applies.
-#' @param eu_product The useful work product for which this graph applies.
-#' @param year See `IEATools::iea_cols`.
+#' @param countries The countries for which efficiency plots are to be created.
+#' @param country,year See `IEATools::iea_cols`.
 #' @param .values,machine,eu_product See `IEATools::template_cols`.
 #' @param machine_eu_product The name of a combined `machine` and `eu_product` column.
 #'
@@ -161,30 +159,44 @@ alloc_plots_df <- function(.df,
 #'                 2020, 0.2, "Industry static engines", "MD") %>%
 #'   alloc_graph(country = "Example", ef_product = "Petrol", destination = "Transport")
 eta_fu_graph <- function(.df,
+                         countries,
+                         plots = "Plots",
                          country = IEATools::iea_cols$country,
                          year = IEATools::iea_cols$year,
                          .values = IEATools::template_cols$.values,
                          machine = IEATools::template_cols$machine,
                          eu_product = IEATools::template_cols$eu_product,
                          machine_eu_product = paste0(machine, "_", eu_product)) {
+  the_machine <- .df[[machine]] %>%
+    unique()
+  assertthat::assert_that(length(the_machine) == 1,
+                          msg = paste0("Found more than 1 machine in eta_fu_graph(). The machines are ",
+                                      the_machine, "."))
+  the_eu_product <- .df[[eu_product]] %>%
+    unique()
+  assertthat::assert_that(length(the_eu_product) == 1,
+                          msg = paste0("Found more than 1 eu_product in eta_fu_graph(). The eu_products are ",
+                                       the_eu_product, "."))
+
   .df %>%
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
     ) %>%
     ggplot2::ggplot(mapping = ggplot2::aes(x = .data[[year]],
                                            y = .data[[.values]],
-                                           colour = .data[[country]])) # Check if lowercase?
-  ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
+                                           colour = .data[[country]])) +
+    ggplot2::geom_line() +
+    ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
     #ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("eta.fu [%]") +
     # ggplot2::ggtitle(paste0(c(country, ef_product, destination),collapse = "\n")) +
-    ggplot2::ggtitle(paste0(c(paste(machine, "->", eu_product), collapse = "\n")) +
-                       MKHthemes::xy_theme() +
-                       ggplot2::theme(axis.title.x = ggplot2::element_blank(),
-                                      legend.title = ggplot2::element_blank(),
-                                      plot.title   = ggplot2::element_text(colour = "gray50", size = 10),
-                                      legend.text  = ggplot2::element_text(size = 10))
-    )
+    ggplot2::ggtitle(paste0(c(paste(the_machine, "->", the_eu_product), collapse = "\n"))) +
+    MKHthemes::xy_theme() +
+    ggplot2::theme(axis.title.x = ggplot2::element_blank(),
+                   legend.title = ggplot2::element_blank(),
+                   plot.title   = ggplot2::element_text(colour = "gray50", size = 10),
+                   legend.text  = ggplot2::element_text(size = 10))
+
 }
 
 
