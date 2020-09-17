@@ -19,23 +19,23 @@
 #' @return A vector of absolute paths to reports to be generated.
 #'
 #' @export
-report_source_paths <- function(report_source_folders = system.file(file.path("reports"), package = "SEAPSUTWorkflow"),
-                          report_suffixes = c(".Rmd", ".Rnw")) {
-
-  # Make a list in which we'll collect paths to all reports that need to be run.
-  report_files <- list()
-  # Cycle through all paths
-  for (rs in report_source_folders) {
-    all_files <- list.files(path = rs, full.names = TRUE, recursive = TRUE, include.dirs = TRUE)
-    for (suff in report_suffixes) {
-      which_files_are_reports <- which(endsWith(all_files, suffix = suff), arr.ind = TRUE)
-      if (length(which_files_are_reports) > 0) {
-        report_files <- append(report_files, all_files[which_files_are_reports])
-      }
-    }
-  }
-  unlist(report_files)
-}
+# report_source_paths <- function(report_source_folders = system.file(file.path("reports"), package = "SEAPSUTWorkflow"),
+#                           report_suffixes = c(".Rmd", ".Rnw")) {
+#
+#   # Make a list in which we'll collect paths to all reports that need to be run.
+#   report_files <- list()
+#   # Cycle through all paths
+#   for (rs in report_source_folders) {
+#     all_files <- list.files(path = rs, full.names = TRUE, recursive = TRUE, include.dirs = TRUE)
+#     for (suff in report_suffixes) {
+#       which_files_are_reports <- which(endsWith(all_files, suffix = suff), arr.ind = TRUE)
+#       if (length(which_files_are_reports) > 0) {
+#         report_files <- append(report_files, all_files[which_files_are_reports])
+#       }
+#     }
+#   }
+#   unlist(report_files)
+# }
 
 
 #' Create file paths for reports output
@@ -48,10 +48,10 @@ report_source_paths <- function(report_source_folders = system.file(file.path("r
 #' @return A vector of file paths for reports output.
 #'
 #' @export
-report_dest_paths <- function(report_source_files, report_dest_folder) {
-  base_names <- basename(report_source_files)
-  file.path(report_dest_folder, paste0(tools::file_path_sans_ext(base_names), ".pdf"))
-}
+# report_dest_paths <- function(report_source_files, report_dest_folder) {
+#   base_names <- basename(report_source_files)
+#   file.path(report_dest_folder, paste0(tools::file_path_sans_ext(base_names), ".pdf"))
+# }
 
 
 #' Generate reports found in report directory
@@ -76,32 +76,32 @@ report_dest_paths <- function(report_source_files, report_dest_folder) {
 #' @return A boolean. `TRUE` for success with all reports, `FALSE` if an error occurred with any report.
 #'
 #' @export
-generate_reports <- function(report_source_files, report_dest_files, archive_reports = TRUE, timestamp_sep = "__") {
-  # dt <- Sys.time() %>%
-  #   as.character(tz = "UTC") %>%
-  #   gsub(pattern = " ", replacement = "T", .) %>%
-  #   gsub(pattern = ":", replacement = "_", .)
-  # fname <- paste0(bn, timestamp_sep, dt, ".pdf")
-
-
-  # for (f in report_source_files) {
-  #   # Figure out the file name of the output file
-  #   bn <- basename(f)
-  #   dt <- Sys.time() %>%
-  #     anytime::iso8601()
-  #   fname <-paste0(bn, timestamp_sep, dt, ".pdf")
-  #   output_path <- file.path(report_dest_folder, fname)
-  #
-  #   # Move any existing files whose base name starts with bn to the nearby folder.
-  #
-  #   # Now make the new report.
-  #   knitr::knit(input = f, output = output_path)
-  #
-  # }
-
-
-  return(TRUE)
-}
+# generate_reports <- function(report_source_files, report_dest_files, archive_reports = TRUE, timestamp_sep = "__") {
+#   # dt <- Sys.time() %>%
+#   #   as.character(tz = "UTC") %>%
+#   #   gsub(pattern = " ", replacement = "T", .) %>%
+#   #   gsub(pattern = ":", replacement = "_", .)
+#   # fname <- paste0(bn, timestamp_sep, dt, ".pdf")
+#
+#
+#   # for (f in report_source_files) {
+#   #   # Figure out the file name of the output file
+#   #   bn <- basename(f)
+#   #   dt <- Sys.time() %>%
+#   #     anytime::iso8601()
+#   #   fname <-paste0(bn, timestamp_sep, dt, ".pdf")
+#   #   output_path <- file.path(report_dest_folder, fname)
+#   #
+#   #   # Move any existing files whose base name starts with bn to the nearby folder.
+#   #
+#   #   # Now make the new report.
+#   #   knitr::knit(input = f, output = output_path)
+#   #
+#   # }
+#
+#
+#   return(TRUE)
+# }
 
 
 

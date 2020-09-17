@@ -28,6 +28,8 @@ eta_fu_plots_df(
 \item{year}{See \code{IEATools::iea_cols}. Passed to \code{alloc_graph()}.}
 
 \item{.values, machine, eu_product}{See \code{IEATools::template_cols}. Passed to \code{eta_fu_graph()}.}
+
+\item{machine_eu_product}{The name of a combined \code{machine} and \code{eu_product} column.}
 }
 \value{
 A data frame containing a list column of \code{ggplot2} allocation graphs.
@@ -39,7 +41,7 @@ The graphs are stored in a list column named \code{plots}.
 \details{
 By default, the completed eta_fu tables data frame is read from a \code{drake} cache.
 
-The data frame is grouped by \code{country}, \code{machine}, and \code{eu_product } and nested prior to making the graphs,
+The data frame is grouped by \code{country}, \code{machine}, and \code{eu_product} and nested prior to making the graphs,
 meaning that one allocation graph is constructed for each combination of country, machine, and eu_product.
 }
 \examples{
@@ -63,5 +65,4 @@ alloc_table <- tibble::tribble(~Country, ~Year, ~Ef.product, ~Destination,
                                "ZAF", 2020, "Gasoline", "Transport",
                                0.7, "Trucks", "MD")
 alloc_plots_df(alloc_table, c("GHA", "ZAF"))
-
 }

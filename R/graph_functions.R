@@ -160,7 +160,6 @@ alloc_plots_df <- function(.df,
 #'   alloc_graph(country = "Example", ef_product = "Petrol", destination = "Transport")
 eta_fu_graph <- function(.df,
                          countries,
-                         plots = "Plots",
                          country = IEATools::iea_cols$country,
                          year = IEATools::iea_cols$year,
                          .values = IEATools::template_cols$.values,
@@ -206,7 +205,7 @@ eta_fu_graph <- function(.df,
 #'
 #' By default, the completed eta_fu tables data frame is read from a `drake` cache.
 #'
-#' The data frame is grouped by `country`, `machine`, and `eu_product ` and nested prior to making the graphs,
+#' The data frame is grouped by `country`, `machine`, and `eu_product` and nested prior to making the graphs,
 #' meaning that one allocation graph is constructed for each combination of country, machine, and eu_product.
 #'
 #' @param .df The completed allocation tables data frame. Default is `drake::readd(SEAPSUTWorkflow::target_names$CompletedEfficiencyTables, path = cache_path, character_only = TRUE)`.
@@ -215,6 +214,7 @@ eta_fu_graph <- function(.df,
 #' @param country See `IEATools::iea_cols`.
 #' @param year See `IEATools::iea_cols`. Passed to `alloc_graph()`.
 #' @param .values,machine,eu_product See `IEATools::template_cols`. Passed to `eta_fu_graph()`.
+#' @param machine_eu_product The name of a combined `machine` and `eu_product` column.
 #'
 #' @return A data frame containing a list column of `ggplot2` allocation graphs.
 #'
@@ -243,7 +243,6 @@ eta_fu_graph <- function(.df,
 #'                                "ZAF", 2020, "Gasoline", "Transport",
 #'                                0.7, "Trucks", "MD")
 #' alloc_plots_df(alloc_table, c("GHA", "ZAF"))
-#'
 eta_fu_plots_df <- function(.df,
                             countries,
                             plots = "Plots", # CHANGED TO CAP

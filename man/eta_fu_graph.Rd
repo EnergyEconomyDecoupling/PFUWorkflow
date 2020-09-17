@@ -7,7 +7,6 @@
 eta_fu_graph(
   .df,
   countries,
-  plots = "Plots",
   country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year,
   .values = IEATools::template_cols$.values,
