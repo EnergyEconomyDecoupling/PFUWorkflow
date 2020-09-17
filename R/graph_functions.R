@@ -170,13 +170,11 @@ eta_fu_graph <- function(.df,
   the_machine <- .df[[machine]] %>%
     unique()
   assertthat::assert_that(length(the_machine) == 1,
-                          msg = paste0("Found more than 1 machine in eta_fu_graph(). The machines are ",
-                                      the_machine, "."))
+                          msg = "Found more than 1 machine in eta_fu_graph().")
   the_eu_product <- .df[[eu_product]] %>%
     unique()
   assertthat::assert_that(length(the_eu_product) == 1,
-                          msg = paste0("Found more than 1 eu_product in eta_fu_graph(). The eu_products are ",
-                                       the_eu_product, "."))
+                          msg = "Found more than 1 eu_product in eta_fu_graph().")
 
   .df %>%
     dplyr::mutate(
