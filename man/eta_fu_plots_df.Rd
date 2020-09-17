@@ -13,7 +13,7 @@ eta_fu_plots_df(
   .values = IEATools::template_cols$.values,
   machine = IEATools::template_cols$machine,
   eu_product = IEATools::template_cols$eu_product,
-  machine_eu_product = machine_eu_product
+  machine_eu_product = paste0(machine, "_", eu_product)
 )
 }
 \arguments{
@@ -23,8 +23,7 @@ eta_fu_plots_df(
 
 \item{plots}{The name of the output column containing allocation graphs. Default is "plots".}
 
-\item{country}{See \code{IEATools::iea_cols}.
-#@param ef_product,destination See \code{IEATools::template_cols}.}
+\item{country}{See \code{IEATools::iea_cols}.}
 
 \item{year}{See \code{IEATools::iea_cols}. Passed to \code{alloc_graph()}.}
 
@@ -64,4 +63,5 @@ alloc_table <- tibble::tribble(~Country, ~Year, ~Ef.product, ~Destination,
                                "ZAF", 2020, "Gasoline", "Transport",
                                0.7, "Trucks", "MD")
 alloc_plots_df(alloc_table, c("GHA", "ZAF"))
+
 }

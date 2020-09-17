@@ -39,12 +39,14 @@ test_that("alloc_plots_df() works as expected", {
 
 # This tests the function eta_fu_graph()
 test_that("eta_fu_graph() works", {
+
   # Make a simple data frame with the expected structure.
   h <- tibble::tribble(~Country, ~Year, ~.values, ~Machine, ~Eu.product,
                        "ESP", 1967, 0.5, "Cars", "MD",
                        "MEX", 1967, 0.6, "Cars", "MD",
                        "ESP", 2020, 0.7, "Cars", "MD",
                        "MEX", 2020, 0.8, "Cars", "MD") %>%
+
     eta_fu_graph(countries = c("ESP", "MEX"))
 
   expect_true(!is.null(h))
@@ -55,6 +57,7 @@ test_that("eta_fu_graph() works", {
                             "MEX", 1967, 0.6, "Cars", "MD",
                             "ESP", 2020, 0.7, "Cars", "MD",
                             "MEX", 2020, 0.8, "Trucks", "MD")
+
   expect_error(eta_fu_graph(bad_df, countries = c("ESP", "MEX")), regexp = "Found more than 1 machine in eta_fu_graph()")
 })
 
@@ -69,9 +72,10 @@ test_that("eta_fu_plots_df() works as expected", {
                                  "MEX", 1971, 0.4, "Trucks", "MD",
                                  "MEX", 2020, 0.4, "Cars", "MD",
                                  "MEX", 2020, 0.5, "Trucks", "MD")
+
   plots_eta_df <- eta_fu_plots_df(eta_fu_table, countries = c("ESP", "MEX"))
 
   expect_true(!is.null(plots_eta_df))
-  expect_true(inherits(plots_eta_dff$plots[[1]], "ggplot"))
+  expect_true(inherits(plots_eta_df$plots[[1]], "ggplot"))
   expect_true(inherits(plots_eta_df$plots[[2]], "ggplot"))
 })

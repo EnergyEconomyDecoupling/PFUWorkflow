@@ -167,10 +167,12 @@ eta_fu_graph <- function(.df,
                          machine = IEATools::template_cols$machine,
                          eu_product = IEATools::template_cols$eu_product,
                          machine_eu_product = paste0(machine, "_", eu_product)) {
+
   the_machine <- .df[[machine]] %>%
     unique()
   assertthat::assert_that(length(the_machine) == 1,
                           msg = "Found more than 1 machine in eta_fu_graph().")
+
   the_eu_product <- .df[[eu_product]] %>%
     unique()
   assertthat::assert_that(length(the_eu_product) == 1,
@@ -185,9 +187,8 @@ eta_fu_graph <- function(.df,
                                            colour = .data[[country]])) +
     ggplot2::geom_line() +
     ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
-    #ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
+    ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("eta.fu [%]") +
-    # ggplot2::ggtitle(paste0(c(country, ef_product, destination),collapse = "\n")) +
     ggplot2::ggtitle(paste0(c(paste(the_machine, "->", the_eu_product), collapse = "\n"))) +
     MKHthemes::xy_theme() +
     ggplot2::theme(axis.title.x = ggplot2::element_blank(),
@@ -212,7 +213,6 @@ eta_fu_graph <- function(.df,
 #' @param countries The countries for which allocation plots are to be created.
 #' @param plots The name of the output column containing allocation graphs. Default is "plots".
 #' @param country See `IEATools::iea_cols`.
-#' #@param ef_product,destination See `IEATools::template_cols`.
 #' @param year See `IEATools::iea_cols`. Passed to `alloc_graph()`.
 #' @param .values,machine,eu_product See `IEATools::template_cols`. Passed to `eta_fu_graph()`.
 #'
@@ -243,31 +243,31 @@ eta_fu_graph <- function(.df,
 #'                                "ZAF", 2020, "Gasoline", "Transport",
 #'                                0.7, "Trucks", "MD")
 #' alloc_plots_df(alloc_table, c("GHA", "ZAF"))
+#'
 eta_fu_plots_df <- function(.df,
                             countries,
                             plots = "plots",
                             country = IEATools::iea_cols$country,
-                            #ef_product = IEATools::template_cols$ef_product,
-                            #destination = IEATools::template_cols$destination,
                             year = IEATools::iea_cols$year,
                             .values = IEATools::template_cols$.values,
                             machine = IEATools::template_cols$machine,
                             eu_product = IEATools::template_cols$eu_product,
-                            machine_eu_product = machine_eu_product) {
+                            machine_eu_product = paste0(machine, "_", eu_product)) {
 
   .df %>%
     dplyr::filter(.data[[country]] %in% countries) %>%
-    dplyr::group_by(.data[[country]],
-                    .data[[eu_product]],
-                    .data[[machine]]) %>%
-                    #.data[[machine_eu_product]]) %>%
+    dplyr::group_by(#.data[[country]])
+                    #.data[[eu_product]],
+                    #.data[[machine]]),
+                    .data[[machine_eu_product]])%>%
     tidyr::nest() %>%
     dplyr::mutate(
       "{plots}" := purrr::map(data, eta_fu_graph,
                               country = .data[[country]],
                               year = year,
                               .values = .values,
-                              machine = machine, #.data[[machine]],
-                              eu_product = eu_product) #.data[[eu_product]])
+                              machine_eu_product = .data[[machine_eu_product]])
+                              # machine = .data[[machine]],
+                              # eu_product = .data[[eu_product
     )
 }
