@@ -1,6 +1,8 @@
 * New functions `eta_fu_graph()` and `eta_fu_plots_df()`
   which make efficiency graphs for later use in reports and other
   visualization.
+* New functions `alloc_graph()` and `alloc_plots_df()`
+  which make allocation graphs for later use in reports.
 
 
 # SEAPSUTWorkflow 0.1.6 (2020-08-26)
