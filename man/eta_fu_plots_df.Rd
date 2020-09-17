@@ -12,7 +12,8 @@ eta_fu_plots_df(
   year = IEATools::iea_cols$year,
   .values = IEATools::template_cols$.values,
   machine = IEATools::template_cols$machine,
-  eu_product = IEATools::template_cols$eu_product
+  eu_product = IEATools::template_cols$eu_product,
+  machine_eu_product = machine_eu_product
 )
 }
 \arguments{
