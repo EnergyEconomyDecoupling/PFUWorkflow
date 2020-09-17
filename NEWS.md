@@ -1,3 +1,5 @@
+# SEAPSUTWorkflow 0.1.9 (2020-09-17)
+
 * New functions `eta_fu_graph()` and `eta_fu_plots_df()`
   which make efficiency graphs for later use in reports and other
   visualization.
