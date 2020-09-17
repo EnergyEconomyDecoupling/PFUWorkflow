@@ -64,18 +64,18 @@ test_that("eta_fu_graph() works", {
 
 test_that("eta_fu_plots_df() works as expected", {
   eta_fu_table <- tibble::tribble(~Country, ~Year, ~.values, ~Machine, ~Eu.product,
-                                 "ESP", 1971, 0.4, "Cars", "MD",
-                                 "ESP", 1971, 0.5, "Trucks", "MD",
-                                 "ESP", 2020, 0.6, "Cars", "MD",
-                                 "ESP", 2020, 0.7, "Trucks", "MD",
-                                 "MEX", 1971, 0.3, "Cars", "MD",
-                                 "MEX", 1971, 0.4, "Trucks", "MD",
-                                 "MEX", 2020, 0.4, "Cars", "MD",
-                                 "MEX", 2020, 0.5, "Trucks", "MD")
+                                  "ESP", 1971, 0.4, "Cars", "MD",
+                                  "ESP", 1971, 0.5, "Trucks", "MD",
+                                  "ESP", 2020, 0.6, "Cars", "MD",
+                                  "ESP", 2020, 0.7, "Trucks", "MD",
+                                  "MEX", 1971, 0.3, "Cars", "MD",
+                                  "MEX", 1971, 0.4, "Trucks", "MD",
+                                  "MEX", 2020, 0.4, "Cars", "MD",
+                                  "MEX", 2020, 0.5, "Trucks", "MD")
 
   plots_eta_df <- eta_fu_plots_df(eta_fu_table, countries = c("ESP", "MEX"))
 
   expect_true(!is.null(plots_eta_df))
-  expect_true(inherits(plots_eta_df$plots[[1]], "ggplot"))
-  expect_true(inherits(plots_eta_df$plots[[2]], "ggplot"))
+  expect_true(inherits(plots_eta_df$Plots[[1]], "ggplot"))
+  expect_true(inherits(plots_eta_df$Plots[[2]], "ggplot"))
 })
