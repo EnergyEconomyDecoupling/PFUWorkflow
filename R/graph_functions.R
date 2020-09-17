@@ -246,18 +246,19 @@ eta_fu_graph <- function(.df,
 #'
 eta_fu_plots_df <- function(.df,
                             countries,
-                            plots = "plots",
+                            plots = "Plots", # CHANGED TO CAP
                             country = IEATools::iea_cols$country,
                             year = IEATools::iea_cols$year,
                             .values = IEATools::template_cols$.values,
                             machine = IEATools::template_cols$machine,
-                            eu_product = IEATools::template_cols$eu_product,
-                            machine_eu_product = paste0(machine, "_", eu_product)) {
+                            eu_product = IEATools::template_cols$eu_product
+                           # machine_eu_product = paste0(machine, "_", eu_product)
+                            ) {
 
   .df %>%
 
-    dplyr::mutate(
-      "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])) %>%
+    # dplyr::mutate(
+    #   "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])) %>%
 
     dplyr::filter(.data[[country]] %in% countries) %>%
 
@@ -273,8 +274,9 @@ eta_fu_plots_df <- function(.df,
                               country = .data[[country]],
                               year = year,
                               .values = .values,
-                              machine_eu_product = .data[[machine_eu_product]])
-                              # machine = .data[[machine]],
-                              # eu_product = .data[[eu_product
+                              #machine_eu_product = .data[[machine_eu_product]],
+                              machine = .data[[machine]],
+                              eu_product = .data[[eu_product]]
+      )
     )
 }

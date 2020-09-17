@@ -7,13 +7,12 @@
 eta_fu_plots_df(
   .df,
   countries,
-  plots = "plots",
+  plots = "Plots",
   country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year,
   .values = IEATools::template_cols$.values,
   machine = IEATools::template_cols$machine,
-  eu_product = IEATools::template_cols$eu_product,
-  machine_eu_product = paste0(machine, "_", eu_product)
+  eu_product = IEATools::template_cols$eu_product
 )
 }
 \arguments{
