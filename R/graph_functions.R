@@ -255,11 +255,18 @@ eta_fu_plots_df <- function(.df,
                             machine_eu_product = paste0(machine, "_", eu_product)) {
 
   .df %>%
+
+    dplyr::mutate(
+      "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])) %>%
+
     dplyr::filter(.data[[country]] %in% countries) %>%
-    dplyr::group_by(#.data[[country]])
-                    #.data[[eu_product]],
-                    #.data[[machine]]),
-                    .data[[machine_eu_product]])%>%
+
+    #dplyr::group_by(.data[[machine_eu_product]]) %>%
+
+    dplyr::group_by(.data[[country]],
+                    .data[[eu_product]],
+                    .data[[machine]]) %>%
+
     tidyr::nest() %>%
     dplyr::mutate(
       "{plots}" := purrr::map(data, eta_fu_graph,
