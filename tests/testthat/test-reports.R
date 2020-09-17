@@ -20,8 +20,6 @@
 #
 #
 # })
-#
-#
 # test_that("report_dest_paths() works as expected", {
 #   rsps <- report_source_paths()
 #   out_paths <- report_dest_paths(report_source_files = rsps, report_dest_folder = "dest_folder")
@@ -35,6 +33,28 @@
 #   out_paths_base <- basename(out_paths) %>%
 #     tools::file_path_sans_ext()
 #   expect_equal(out_paths_base, rsps_base)
+# })
+
+
+# test_that("generate_reports() works as intended", {
+#
+#   # This is a bogus test for the time being.
+#   # Replace with something better when the code is written.
+#   expect_true(generate_reports())
+# })
+
+
+
+
+# tryCatch({
+#
+#   report_folder <- tempdir(check = TRUE)
+#   # Now try to generate reports.
+#   expect_true(generate_reports(report_source_files = paths, report_dest_folder = report_folder))
+#
+# },
+# finally = {
+#   unlink(report_folder)
 # })
 #
 #
