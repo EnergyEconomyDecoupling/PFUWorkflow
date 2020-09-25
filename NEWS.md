@@ -1,3 +1,5 @@
+# SEAPSUTWorkflow 0.1.10 (2020-09-25)
+
 * Added working final-to-useful efficiency (eta.fu) report.
 
 # SEAPSUTWorkflow 0.1.9 (2020-09-17)
