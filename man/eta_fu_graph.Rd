@@ -23,7 +23,7 @@ eta_fu_graph(
 
 \item{country, year}{See \code{IEATools::iea_cols}.}
 
-\item{.values, machine, eu_product}{See \code{IEATools::template_cols}.}
+\item{.values, machine, quantity, eu_product}{See \code{IEATools::template_cols}.}
 
 \item{machine_eu_product}{The name of a combined \code{machine} and \code{eu_product} column.}
 }

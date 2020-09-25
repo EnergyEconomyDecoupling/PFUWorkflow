@@ -182,7 +182,7 @@ alloc_plots_df <- function(.df,
 #' @param .df A data frame comprised of completed final to useful efficiency values - eta.fu
 #' @param countries The countries for which efficiency plots are to be created.
 #' @param country,year See `IEATools::iea_cols`.
-#' @param .values,machine,eu_product See `IEATools::template_cols`.
+#' @param .values,machine,quantity,eu_product See `IEATools::template_cols`.
 #' @param machine_eu_product The name of a combined `machine` and `eu_product` column.
 #'
 #' @return A `ggplot2` graph object
@@ -222,7 +222,7 @@ eta_fu_graph <- function(.df,
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
     ) %>%
-    dplyr::filter(Quantity == "eta.fu") %>%
+    dplyr::filter(quantity == "eta.fu") %>%
     ggplot2::ggplot() +
     ggplot2::geom_line(mapping = ggplot2::aes(x = .data[[year]],
                                               y = .data[[.values]],
