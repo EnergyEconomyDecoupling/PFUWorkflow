@@ -201,6 +201,7 @@ alloc_plots_df <- function(.df,
 eta_fu_graph <- function(.df,
                          countries,
                          country = IEATools::iea_cols$country,
+                         quantity = IEATools::template_cols$quantity,
                          year = IEATools::iea_cols$year,
                          .values = IEATools::template_cols$.values,
                          machine = IEATools::template_cols$machine,
@@ -221,10 +222,11 @@ eta_fu_graph <- function(.df,
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
     ) %>%
+    dplyr::filter(Quantity == "eta.fu") %>%
     ggplot2::ggplot() +
     ggplot2::geom_line(mapping = ggplot2::aes(x = .data[[year]],
                                               y = .data[[.values]],
-                                              colour = .data[[country]])) +
+                                              color = .data[[country]])) +
     ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
     ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("eta.fu [%]") +
