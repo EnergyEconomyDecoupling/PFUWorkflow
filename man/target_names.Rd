@@ -5,7 +5,7 @@
 \alias{target_names}
 \title{Drake cache target names}
 \format{
-A string list with 24 entries.
+A string list with 25 entries.
 \describe{
 \item{countries}{The string name of the countries target in the drake cache, giving the countries to be analyzed.}
 \item{alloc_and_eff_couns}{The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.}
@@ -27,7 +27,8 @@ A string list with 24 entries.
 \item{ExemplarLists}{A data frame of lists of exemplar countries for each country in \code{countries}, and maybe more.}
 \item{CompletedAllocationTables}{A data frame of completed final-to-useful allocation tables.}
 \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}
-\item{AllocationGraphs}{A data frame containing allocation graphs.}
+\item{AllocationGraphs}{A data frame containing final-to-useful  allocation graphs.}
+\item{EfficiencyGraphs}{A data frame containing final-to-useful efficiency graphs.}
 \item{report_source_paths}{A string vector containing paths to report files. These strings provide a detailed view of all the reports that \code{drake} will generate and should be all report files in \code{report_source_folders}.}
 \item{reports_complete}{A boolean indicating success (\code{TRUE}) or failure (\code{FALSE}) of report generation.}
 }
