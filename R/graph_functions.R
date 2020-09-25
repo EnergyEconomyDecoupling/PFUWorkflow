@@ -182,7 +182,7 @@ alloc_plots_df <- function(.df,
 #' @param .df A data frame comprised of completed final to useful efficiency values - eta.fu
 #' @param countries The countries for which efficiency plots are to be created.
 #' @param country,year See `IEATools::iea_cols`.
-#' @param .values,machine,eu_product See `IEATools::template_cols`.
+#' @param .values,machine,quantity,eu_product See `IEATools::template_cols`.
 #' @param machine_eu_product The name of a combined `machine` and `eu_product` column.
 #'
 #' @return A `ggplot2` graph object
@@ -201,6 +201,7 @@ alloc_plots_df <- function(.df,
 eta_fu_graph <- function(.df,
                          countries,
                          country = IEATools::iea_cols$country,
+                         quantity = IEATools::template_cols$quantity,
                          year = IEATools::iea_cols$year,
                          .values = IEATools::template_cols$.values,
                          machine = IEATools::template_cols$machine,
@@ -221,10 +222,11 @@ eta_fu_graph <- function(.df,
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
     ) %>%
-    ggplot2::ggplot(mapping = ggplot2::aes(x = .data[[year]],
-                                           y = .data[[.values]],
-                                           colour = .data[[country]])) +
-    ggplot2::geom_line() +
+    dplyr::filter(quantity == "eta.fu") %>%
+    ggplot2::ggplot() +
+    ggplot2::geom_line(mapping = ggplot2::aes(x = .data[[year]],
+                                              y = .data[[.values]],
+                                              color = .data[[country]])) +
     ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
     ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("eta.fu [%]") +

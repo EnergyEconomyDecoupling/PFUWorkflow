@@ -49,37 +49,53 @@ test_that("alloc_plots_df() works as expected", {
 test_that("eta_fu_graph() works", {
 
   # Make a simple data frame with the expected structure.
-  h <- tibble::tribble(~Country, ~Year, ~.values, ~Machine, ~Eu.product,
-                       "ESP", 1967, 0.5, "Cars", "MD",
-                       "MEX", 1967, 0.6, "Cars", "MD",
-                       "ESP", 2020, 0.7, "Cars", "MD",
-                       "MEX", 2020, 0.8, "Cars", "MD") %>%
+  h <- tibble::tribble(~Country, ~Year, ~Quantity, ~.values, ~Machine, ~Eu.product,
+                       "ESP", 1967, "eta.fu", 0.5, "Cars", "MD",
+                       "MEX", 1967, "eta.fu", 0.6, "Cars", "MD",
+                       "ESP", 2020, "eta.fu", 0.7, "Cars", "MD",
+                       "MEX", 2020, "eta.fu", 0.8, "Cars", "MD",
+                       "ESP", 1967, "phi.fu", 0.5, "Cars", "MD",
+                       "MEX", 1967, "phi.fu", 0.6, "Cars", "MD",
+                       "ESP", 2020, "phi.fu", 0.7, "Cars", "MD",
+                       "MEX", 2020, "phi.fu", 0.8, "Cars", "MD") %>%
 
     eta_fu_graph(countries = c("ESP", "MEX"))
 
   expect_true(!is.null(h))
   expect_true(inherits(h, "ggplot"))
 
-  bad_df <- tibble::tribble(~Country, ~Year, ~.values, ~Machine, ~Eu.product,
-                            "ESP", 1967, 0.5, "Cars", "MD",
-                            "MEX", 1967, 0.6, "Cars", "MD",
-                            "ESP", 2020, 0.7, "Cars", "MD",
-                            "MEX", 2020, 0.8, "Trucks", "MD")
+  bad_df <- tibble::tribble(~Country, ~Year, ~Quantity, ~.values, ~Machine, ~Eu.product,
+                            "ESP", 1967, "eta.fu", 0.5, "Cars", "MD",
+                            "MEX", 1967, "eta.fu", 0.6, "Cars", "MD",
+                            "ESP", 2020, "eta.fu", 0.7, "Cars", "MD",
+                            "MEX", 2020, "eta.fu", 0.8, "Trucks", "MD",
+                            "ESP", 1967, "phi.fu", 1.0, "Cars", "MD",
+                            "MEX", 1967, "phi.fu", 1.0, "Cars", "MD",
+                            "ESP", 2020, "phi.fu", 1.0, "Cars", "MD",
+                            "MEX", 2020, "phi.fu", 1.0, "Trucks", "MD")
 
   expect_error(eta_fu_graph(bad_df, countries = c("ESP", "MEX")), regexp = "Found more than 1 machine in eta_fu_graph()")
 })
 
 
 test_that("eta_fu_plots_df() works as expected", {
-  eta_fu_table <- tibble::tribble(~Country, ~Year, ~.values, ~Machine, ~Eu.product,
-                                  "ESP", 1971, 0.4, "Cars", "MD",
-                                  "ESP", 1971, 0.5, "Trucks", "MD",
-                                  "ESP", 2020, 0.6, "Cars", "MD",
-                                  "ESP", 2020, 0.7, "Trucks", "MD",
-                                  "MEX", 1971, 0.3, "Cars", "MD",
-                                  "MEX", 1971, 0.4, "Trucks", "MD",
-                                  "MEX", 2020, 0.4, "Cars", "MD",
-                                  "MEX", 2020, 0.5, "Trucks", "MD")
+  eta_fu_table <- tibble::tribble(~Country, ~Year, ~Quantity, ~.values, ~Machine, ~Eu.product,
+                                  "ESP", 1971, "eta.fu", 0.4, "Cars", "MD",
+                                  "ESP", 1971, "eta.fu", 0.5, "Trucks", "MD",
+                                  "ESP", 2020, "eta.fu", 0.6, "Cars", "MD",
+                                  "ESP", 2020, "eta.fu", 0.7, "Trucks", "MD",
+                                  "ESP", 1971, "phi.fu", 1.0, "Cars", "MD",
+                                  "ESP", 1971, "phi.fu", 1.0, "Trucks", "MD",
+                                  "ESP", 2020, "phi.fu", 1.0, "Cars", "MD",
+                                  "ESP", 2020, "phi.fu", 1.0, "Trucks", "MD",
+                                  "MEX", 1971, "eta.fu", 0.3, "Cars", "MD",
+                                  "MEX", 1971, "eta.fu", 0.4, "Trucks", "MD",
+                                  "MEX", 2020, "eta.fu", 0.4, "Cars", "MD",
+                                  "MEX", 2020, "eta.fu", 0.5, "Trucks", "MD",
+                                  "MEX", 1971, "phi.fu", 1.0, "Cars", "MD",
+                                  "MEX", 1971, "phi.fu", 1.0, "Trucks", "MD",
+                                  "MEX", 2020, "phi.fu", 1.0, "Cars", "MD",
+                                  "MEX", 2020, "phi.fu", 1.0, "Trucks", "MD")
 
   plots_eta_df <- eta_fu_plots_df(eta_fu_table, countries = c("ESP", "MEX"))
 
