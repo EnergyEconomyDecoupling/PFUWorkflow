@@ -8,6 +8,7 @@ eta_fu_graph(
   .df,
   countries,
   country = IEATools::iea_cols$country,
+  quantity = IEATools::template_cols$quantity,
   year = IEATools::iea_cols$year,
   .values = IEATools::template_cols$.values,
   machine = IEATools::template_cols$machine,
