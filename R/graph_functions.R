@@ -221,10 +221,10 @@ eta_fu_graph <- function(.df,
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
     ) %>%
-    ggplot2::ggplot(mapping = ggplot2::aes(x = .data[[year]],
-                                           y = .data[[.values]],
-                                           colour = .data[[country]])) +
-    ggplot2::geom_line() +
+    ggplot2::ggplot() +
+    ggplot2::geom_line(mapping = ggplot2::aes(x = .data[[year]],
+                                              y = .data[[.values]],
+                                              colour = .data[[country]])) +
     ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
     ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("eta.fu [%]") +
