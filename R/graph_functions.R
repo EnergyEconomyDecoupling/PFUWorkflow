@@ -222,7 +222,7 @@ eta_fu_graph <- function(.df,
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
     ) %>%
-    dplyr::filter(quantity == "eta.fu") %>%
+    dplyr::filter(Quantity == "eta.fu") %>%
     ggplot2::ggplot() +
     ggplot2::geom_line(mapping = ggplot2::aes(x = .data[[year]],
                                               y = .data[[.values]],
