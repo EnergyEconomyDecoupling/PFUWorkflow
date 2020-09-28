@@ -1,3 +1,7 @@
+# SEAPSUTWorkflow 0.1.11 (2020-09-28)
+
+* Hotfix: fixed eta_fu_graph function
+
 # SEAPSUTWorkflow 0.1.10 (2020-09-25)
 
 * Added working final-to-useful efficiency (eta.fu) report.
