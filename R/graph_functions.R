@@ -208,6 +208,10 @@ eta_fu_graph <- function(.df,
                          eu_product = IEATools::template_cols$eu_product,
                          machine_eu_product = paste0(machine, "_", eu_product)) {
 
+  .df <- .df %>%
+    dplyr::filter(Quantity == "eta.fu", Machine != "Non-energy use") %>%
+    dplyr::filter(Year < 2010)
+
   the_machine <- .df[[machine]] %>%
     unique()
   assertthat::assert_that(length(the_machine) == 1,
@@ -222,7 +226,6 @@ eta_fu_graph <- function(.df,
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
     ) %>%
-    dplyr::filter(Quantity == "eta.fu") %>%
     ggplot2::ggplot() +
     ggplot2::geom_line(mapping = ggplot2::aes(x = .data[[year]],
                                               y = .data[[.values]],
@@ -297,6 +300,7 @@ eta_fu_plots_df <- function(.df,
 
   .df %>%
     dplyr::filter(.data[[country]] %in% countries) %>%
+    dplyr::filter(Quantity == "eta.fu", Machine != "Non-energy use") %>%
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
     ) %>%
