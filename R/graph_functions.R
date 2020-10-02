@@ -177,7 +177,7 @@ alloc_plots_df <- function(.df,
 #'
 #' This function is called repeatedly from `eta_fu_plots_df()`.
 #'
-#' `country`, `machine`, and `destination` form the title of the graph.
+#' `machine`, and `destination` form the title of the graph.
 #'
 #' @param .df A data frame comprised of completed final to useful efficiency values - eta.fu
 #' @param countries The countries for which efficiency plots are to be created.
@@ -250,18 +250,18 @@ eta_fu_graph <- function(.df,
 #'
 #' By default, the completed eta_fu tables data frame is read from a `drake` cache.
 #'
-#' The data frame is grouped by `country`, `machine`, and `eu_product` and nested prior to making the graphs,
-#' meaning that one allocation graph is constructed for each combination of country, machine, and eu_product.
+#' The data frame is grouped by `machine`, and `eu_product` and nested prior to making the graphs,
+#' meaning that one final-to useful efficiency graph is constructed for each combination of machine, and eu_product.
 #'
-#' @param .df The completed allocation tables data frame. Default is `drake::readd(SEAPSUTWorkflow::target_names$CompletedEfficiencyTables, path = cache_path, character_only = TRUE)`.
-#' @param countries The countries for which allocation plots are to be created.
-#' @param plots The name of the output column containing allocation graphs. Default is "plots".
+#' @param .df The completed final-to useful efficiency tables data frame. Which contains both eta.fu and phi.u values. Default is `drake::readd(SEAPSUTWorkflow::target_names$CompletedEfficiencyTables, path = cache_path, character_only = TRUE)`.
+#' @param countries The countries for which final-to useful efficiency plots are to be created.
+#' @param plots The name of the output column containing final-to useful efficiency graphs. Default is "plots".
 #' @param country See `IEATools::iea_cols`.
 #' @param year See `IEATools::iea_cols`. Passed to `alloc_graph()`.
 #' @param .values,machine,eu_product See `IEATools::template_cols`. Passed to `eta_fu_graph()`.
 #' @param machine_eu_product The name of a combined `machine` and `eu_product` column.
 #'
-#' @return A data frame containing a list column of `ggplot2` allocation graphs.
+#' @return A data frame containing a list column of `ggplot2` final-to useful efficiency graphs.
 #'
 #' @importFrom utils data
 #'
@@ -308,5 +308,148 @@ eta_fu_plots_df <- function(.df,
     tidyr::nest() %>%
     dplyr::mutate(
       "{plots}" := purrr::map(data, eta_fu_graph)
+    )
+}
+
+####################################################################################################################################
+
+#' Generate an phi_u graph
+#'
+#' Creates an phi_u graph from a completed eta_fu table,
+#' created by the `assemble_eta_fu_tables()` function.
+#'
+#' This function is called repeatedly from `phi_u_plots_df()`.
+#'
+#' `machine`, and `destination` form the title of the graph.
+#'
+#' @param .df A data frame comprised of completed exergy-to-energy ratio values
+#' @param countries The countries for which efficiency plots are to be created.
+#' @param country,year See `IEATools::iea_cols`.
+#' @param .values,machine,quantity,eu_product See `IEATools::template_cols`.
+#' @param machine_eu_product The name of a combined `machine` and `eu_product` column.
+#'
+#' @return A `ggplot2` graph object
+#'
+#' @export
+#'
+#' @examples
+#' library(ggplot2)
+#' # Make a simple data frame with the expected structure.
+#' tibble::tribble(~Year, ~.values, ~Machine, ~Eu.product,
+#'                 1967, 0.5, "Cars", "MD",
+#'                 1967, 0.5, "Industry static engines", "MD",
+#'                 2020, 0.8, "Cars", "MD",
+#'                 2020, 0.2, "Industry static engines", "MD") %>%
+#'   alloc_graph(country = "Example", ef_product = "Petrol", destination = "Transport")
+phi_u_graph <- function(.df,
+                         countries,
+                         country = IEATools::iea_cols$country,
+                         quantity = IEATools::template_cols$quantity,
+                         year = IEATools::iea_cols$year,
+                         .values = IEATools::template_cols$.values,
+                         machine = IEATools::template_cols$machine,
+                         eu_product = IEATools::template_cols$eu_product,
+                         machine_eu_product = paste0(machine, "_", eu_product)) {
+
+  .df <- .df %>%
+    dplyr::filter(Quantity == "phi.u", Machine != "Non-energy use") %>%
+    dplyr::filter(Year < 2010)
+
+  the_machine <- .df[[machine]] %>%
+    unique()
+  assertthat::assert_that(length(the_machine) == 1,
+                          msg = "Found more than 1 machine in phi_u_graph().")
+
+  the_eu_product <- .df[[eu_product]] %>%
+    unique()
+  assertthat::assert_that(length(the_eu_product) == 1,
+                          msg = "Found more than 1 eu_product in phi_u_graph().")
+
+  .df %>%
+    dplyr::mutate(
+      "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
+    ) %>%
+    ggplot2::ggplot() +
+    ggplot2::geom_line(mapping = ggplot2::aes(x = .data[[year]],
+                                              y = .data[[.values]],
+                                              color = .data[[country]])) +
+    ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
+    ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
+    ggplot2::ylab("eta.fu [%]") +
+    ggplot2::ggtitle(paste0(c(paste(the_machine, "->", the_eu_product), collapse = "\n"))) +
+    MKHthemes::xy_theme() +
+    ggplot2::theme(axis.title.x = ggplot2::element_blank(),
+                   legend.title = ggplot2::element_blank(),
+                   plot.title   = ggplot2::element_text(colour = "gray50", size = 10),
+                   legend.text  = ggplot2::element_text(size = 10))
+
+}
+
+
+#' Create phi_u graphs in a data frame
+#'
+#' This function adds a column of `ggplot2` graphs to a completed phi_u tables data frame.
+#' The graphs are stored in a list column named `plots`.
+#'
+#' By default, the completed phi_u tables data frame is read from a `drake` cache.
+#'
+#' The data frame is grouped by `machine`, and `eu_product` and nested prior to making the graphs,
+#' meaning that one exergy-to-energy ratio graph is constructed for each combination of machine, and eu_product.
+#'
+#' @param .df The completed final-to useful efficiency tables data frame. Which contains both eta.fu and phi.u values. Default is `drake::readd(SEAPSUTWorkflow::target_names$CompletedEfficiencyTables, path = cache_path, character_only = TRUE)`.
+#' @param countries The countries for which exergy-to-energy ratio plots are to be created.
+#' @param plots The name of the output column containing exergy-to-energy ratio graph. Default is "plots".
+#' @param country See `IEATools::iea_cols`.
+#' @param year See `IEATools::iea_cols`. Passed to `alloc_graph()`.
+#' @param .values,machine,eu_product See `IEATools::template_cols`. Passed to `eta_fu_graph()`.
+#' @param machine_eu_product The name of a combined `machine` and `eu_product` column.
+#'
+#' @return A data frame containing a list column of `ggplot2` exergy-to-energy ratio graphs.
+#'
+#' @importFrom utils data
+#'
+#' @export
+#'
+#' @examples
+#' # Make a simple data frame with the expected structure.
+#' alloc_table <- tibble::tribble(~Country, ~Year, ~Ef.product, ~Destination,
+#'                                ~.values, ~Machine, ~Eu.product,
+#'                                "GHA", 1971, "Gasoline", "Transport",
+#'                                0.5, "Cars", "MD",
+#'                                "GHA", 1971, "Gasoline", "Transport",
+#'                                0.5, "Trucks", "MD",
+#'                                "GHA", 2020, "Gasoline", "Transport",
+#'                                0.2, "Cars", "MD",
+#'                                "GHA", 2020, "Gasoline", "Transport",
+#'                                0.8, "Trucks", "MD",
+#'                                "ZAF", 1971, "Gasoline", "Transport",
+#'                                0.5, "Cars", "MD",
+#'                                "ZAF", 1971, "Gasoline", "Transport",
+#'                                0.5, "Trucks", "MD",
+#'                                "ZAF", 2020, "Gasoline", "Transport",
+#'                                0.3, "Cars", "MD",
+#'                                "ZAF", 2020, "Gasoline", "Transport",
+#'                                0.7, "Trucks", "MD")
+#' alloc_plots_df(alloc_table, c("GHA", "ZAF"))
+phi_u_plots_df <- function(.df,
+                            countries,
+                            plots = "Plots", # CHANGED TO CAP
+                            country = IEATools::iea_cols$country,
+                            year = IEATools::iea_cols$year,
+                            .values = IEATools::template_cols$.values,
+                            machine = IEATools::template_cols$machine,
+                            eu_product = IEATools::template_cols$eu_product,
+                            machine_eu_product = paste0(machine, "_", eu_product)) {
+
+  .df %>%
+    dplyr::filter(.data[[country]] %in% countries) %>%
+    dplyr::filter(Quantity == "phi.u", Machine != "Non-energy use") %>%
+    dplyr::mutate(
+      "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
+    ) %>%
+    dplyr::group_by(.data[[machine_eu_product]]) %>%
+    tidyr::nest() %>%
+    dplyr::mutate(
+      "{plots}" := purrr::map(data, phi_u_graph)
     )
 }

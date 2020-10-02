@@ -135,3 +135,96 @@ test_that("eta_fu_plots_df() works as expected", {
   expect_true(inherits(plots_eta_df$Plots[[1]], "ggplot"))
   expect_true(inherits(plots_eta_df$Plots[[2]], "ggplot"))
 })
+
+###########################################################################################################
+
+# This tests the function phi_u_graph()
+test_that("phi_u_graph() works", {
+
+  # Make a simple data frame with the expected structure.
+  g <- tibble::tribble(~Country, ~Year, ~Quantity, ~.values, ~Machine, ~Eu.product,
+                       "ESP", 1967, "eta.fu", 0.5, "Cars", "MD",
+                       "MEX", 1967, "eta.fu", 0.6, "Cars", "MD",
+                       "ESP", 2020, "eta.fu", 0.7, "Cars", "MD",
+                       "MEX", 2020, "eta.fu", 0.8, "Cars", "MD",
+                       "ESP", 1967, "phi.u", 0.5, "Cars", "MD",
+                       "MEX", 1967, "phi.u", 0.6, "Cars", "MD",
+                       "ESP", 2020, "phi.u", 0.7, "Cars", "MD",
+                       "MEX", 2020, "phi.u", 0.8, "Cars", "MD",
+                       "ESP", 1967, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                       "MEX", 1967, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                       "ESP", 2020, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                       "MEX", 2020, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                       "ESP", 1967, "phi.u", 1.0, "Non-energy use", "Natural gas",
+                       "MEX", 1967, "phi.u", 1.0, "Non-energy use", "Natural gas",
+                       "ESP", 2020, "phi.u", 1.0, "Non-energy use", "Natural gas",
+                       "MEX", 2020, "phi.u", 1.0, "Non-energy use", "Natural gas") %>%
+
+    phi_u_graph(countries = c("ESP", "MEX"))
+
+  expect_true(!is.null(g))
+  expect_true(inherits(g, "ggplot"))
+
+  bad_phi_df <- tibble::tribble(~Country, ~Year, ~Quantity, ~.values, ~Machine, ~Eu.product,
+                            "ESP", 1967, "eta.fu", 0.5, "Cars", "MD",
+                            "MEX", 1967, "eta.fu", 0.6, "Cars", "MD",
+                            "ESP", 2020, "eta.fu", 0.7, "Cars", "MD",
+                            "MEX", 1990, "eta.fu", 0.8, "Trucks", "MD",
+                            "ESP", 1967, "phi.u", 1.0, "Cars", "MD",
+                            "MEX", 1967, "phi.u", 1.0, "Cars", "MD",
+                            "ESP", 2020, "phi.u", 1.0, "Cars", "MD",
+                            "MEX", 1990, "phi.u", 1.0, "Trucks", "MD",
+                            "ESP", 1967, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                            "MEX", 1967, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                            "ESP", 2020, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                            "MEX", 2020, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                            "ESP", 1967, "phi.u", 1.0, "Non-energy use", "Natural gas",
+                            "MEX", 1967, "phi.u", 1.0, "Non-energy use", "Natural gas",
+                            "ESP", 2020, "phi.u", 1.0, "Non-energy use", "Natural gas",
+                            "MEX", 2020, "phi.u", 1.0, "Non-energy use", "Natural gas")
+
+  expect_error(phi_u_graph(bad_phi_df, countries = c("ESP", "MEX")), regexp = "Found more than 1 machine in phi_u_graph()")
+})
+
+
+test_that("phi_u_plots_df() works as expected", {
+  phi_u_table <- tibble::tribble(~Country, ~Year, ~Quantity, ~.values, ~Machine, ~Eu.product,
+                                  "ESP", 1971, "eta.fu", 0.4, "Cars", "MD",
+                                  "ESP", 1971, "eta.fu", 0.5, "Trucks", "MD",
+                                  "ESP", 2020, "eta.fu", 0.6, "Cars", "MD",
+                                  "ESP", 2020, "eta.fu", 0.7, "Trucks", "MD",
+                                  "ESP", 1971, "phi.u", 1.0, "Cars", "MD",
+                                  "ESP", 1971, "phi.u", 1.0, "Trucks", "MD",
+                                  "ESP", 2020, "phi.u", 1.0, "Cars", "MD",
+                                  "ESP", 2020, "phi.u", 1.0, "Trucks", "MD",
+                                  "MEX", 1971, "eta.fu", 0.3, "Cars", "MD",
+                                  "MEX", 1971, "eta.fu", 0.4, "Trucks", "MD",
+                                  "MEX", 2020, "eta.fu", 0.4, "Cars", "MD",
+                                  "MEX", 2020, "eta.fu", 0.5, "Trucks", "MD",
+                                  "MEX", 1971, "phi.u", 1.0, "Cars", "MD",
+                                  "MEX", 1971, "phi.u", 1.0, "Trucks", "MD",
+                                  "MEX", 2020, "phi.u", 1.0, "Cars", "MD",
+                                  "MEX", 2020, "phi.u", 1.0, "Trucks", "MD",
+                                  "ESP", 1971, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                                  "ESP", 1971, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                                  "ESP", 2020, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                                  "ESP", 2020, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                                  "ESP", 1971, "phi.u", 1.0, "Non-energy use", "Natural gas",
+                                  "ESP", 1971, "phi.u", 1.0, "Non-energy use", "Natural gas",
+                                  "ESP", 2020, "phi.u", 1.0, "Non-energy use", "Natural gas",
+                                  "ESP", 2020, "phi.u", 1.0, "Non-energy use", "Natural gas",
+                                  "MEX", 1971, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                                  "MEX", 1971, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                                  "MEX", 2020, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                                  "MEX", 2020, "eta.fu", 0.0001, "Non-energy use", "Natural gas",
+                                  "MEX", 1971, "phi.u", 1.0, "Non-energy use", "Natural gas",
+                                  "MEX", 1971, "phi.u", 1.0, "Non-energy use", "Natural gas",
+                                  "MEX", 2020, "phi.u", 1.0, "Non-energy use", "Natural gas",
+                                  "MEX", 2020, "phi.u", 1.0, "Non-energy use", "Natural gas")
+
+  plots_phi_df <- phi_u_plots_df(phi_u_table, countries = c("ESP", "MEX"))
+
+  expect_true(!is.null(plots_phi_df))
+  expect_true(inherits(plots_phi_df$Plots[[1]], "ggplot"))
+  expect_true(inherits(plots_phi_df$Plots[[2]], "ggplot"))
+})
