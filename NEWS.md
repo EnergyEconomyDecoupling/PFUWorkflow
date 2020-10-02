@@ -1,3 +1,5 @@
+* Added working exergy-to-energy ratio (phi.u) scripts for graphs and reports.
+
 # SEAPSUTWorkflow 0.1.11 (2020-09-28)
 
 * Hotfix: fixed eta_fu_graph function
