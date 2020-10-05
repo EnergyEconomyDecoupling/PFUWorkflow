@@ -33,6 +33,7 @@ target_names <- list(countries = "countries",
                      CompletedEfficiencyTables = "CompletedEfficiencyTables",
                      AllocationGraphs = "AllocationGraphs",
                      EfficiencyGraphs = "EfficiencyGraphs",
+                     ExergyEnergyGraphs = "ExergyEnergyGraphs",
                      reports_dest_folder = "reports_dest_folder",
                      reports_complete = "reports_complete")
 

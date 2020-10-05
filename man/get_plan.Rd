@@ -78,6 +78,9 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{CompletedAllocationTables} : A data frame containing completed final-to-useful allocation tables.
 \item \code{IncompleteEfficiencyTables}: A data frame containing final-to-useful efficiency tables.
 \item \code{CompletedEfficiencyTables}: A data frame containing completed final-to-useful efficiency tables.
+\item \code{AllocationGraphs} : A data frame containing allocation plots.
+\item \code{EfficiencyGraphs} : A data frame containing final-to-useful efficiency plots.
+\item \code{ExergyEnergyGraphs} : A data frame containing exergy-to-energy ratio plots.
 \item \code{report_source_paths}: A string vector of paths to sources for reports.
 \item \code{report_dest_paths}: A string for the path to a folder into which reports will written.
 \item \code{reports_complete}: A boolean that tells whether reports were written successfully.

@@ -27,6 +27,9 @@
 #' * `CompletedAllocationTables` : A data frame containing completed final-to-useful allocation tables.
 #' * `IncompleteEfficiencyTables`: A data frame containing final-to-useful efficiency tables.
 #' * `CompletedEfficiencyTables`: A data frame containing completed final-to-useful efficiency tables.
+#' * `AllocationGraphs` : A data frame containing allocation plots.
+#' * `EfficiencyGraphs` : A data frame containing final-to-useful efficiency plots.
+#' * `ExergyEnergyGraphs` : A data frame containing exergy-to-energy ratio plots.
 #' * `report_source_paths`: A string vector of paths to sources for reports.
 #' * `report_dest_paths`: A string for the path to a folder into which reports will written.
 #' * `reports_complete`: A boolean that tells whether reports were written successfully.
@@ -227,11 +230,15 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # Build Allocation Graphs
     AllocationGraphs = drake::target(alloc_plots_df(CompletedAllocationTables, countries = countries),
                                      dynamic = map(countries)),
-    # Allocation_Report =
 
     # Build Efficiency Graphs
-    EfficiencyGraphs = drake::target(eta_fu_plots_df(CompletedEfficiencyTables, countries = countries))
-                       #,dynamic = map(machine & eu_product)) # How to map by
+    EfficiencyGraphs = drake::target(eta_fu_plots_df(CompletedEfficiencyTables, countries = countries)),
+
+    # Build Exergy-to-energy ratio graphs
+    ExergyEnergyGraphs = drake::target(phi_u_plots_df(CompletedEfficiencyTables, countries = countries))
+
+
+
 
     # reports_source_paths = drake::target(drake::file_in(report_source_paths(report_source_folders = report_source_folders))),
     # reports_dest_path = drake::target(drake::file_out(report_dest_paths(report_source_paths))),
