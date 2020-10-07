@@ -216,6 +216,8 @@ nonstat_alloc_graph  <- function(.df,
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])) %>%
 
+    # dplyr::filter(Year < 2010) %>%
+
     ggplot2::ggplot() +
     ggplot2::geom_area(mapping = ggplot2::aes(x = .data[[year]],
                                               y = .data[[.values]],
@@ -298,7 +300,13 @@ nonstat_alloc_plots_df <- function(.df,
   .df %>%
     dplyr::filter(.data[[country]] %in% countries) %>%
 
-    dplyr::group_by(.data[[country]], .data[[ef_product]], .data[[destination]], .data[[machine]], .data[[eu_product]], .data[[quantity]]) %>%
+    dplyr::group_by(.data[[country]],
+                    .data[[ef_product]],
+                    .data[[destination]],
+                    .data[[machine]],
+                    .data[[eu_product]],
+                    .data[[quantity]],
+                    .data[[c_source]]) %>%
 
     dplyr::filter(length(unique(.values)) > 1) %>%
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/graph_functions.R
 \name{nonstat_alloc_graph}
 \alias{nonstat_alloc_graph}
-\title{Generate an allocation graph which contains non-stationary allocations data only ### CHECK TEXT ZM}
+\title{Generate an allocation graph which contains non-stationary allocations data only}
 \usage{
 nonstat_alloc_graph(
   .df,

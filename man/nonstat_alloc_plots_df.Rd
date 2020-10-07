@@ -2,7 +2,7 @@
 % Please edit documentation in R/graph_functions.R
 \name{nonstat_alloc_plots_df}
 \alias{nonstat_alloc_plots_df}
-\title{Create allocation graphs in a data frame}
+\title{Create non-stationary allocation graphs in a data frame}
 \usage{
 nonstat_alloc_plots_df(
   .df,
@@ -38,7 +38,7 @@ nonstat_alloc_plots_df(
 \item{.values, machine, eu_product}{See \code{IEATools::template_cols}. Passed to \code{alloc_graph()}.}
 }
 \value{
-A data frame containing a list column of \code{ggplot2} allocation graphs.
+A data frame containing a list column of \code{ggplot2} non-stationary allocation graphs.
 }
 \description{
 This function adds a column of \code{ggplot2} graphs to a completed allocation tables data frame.

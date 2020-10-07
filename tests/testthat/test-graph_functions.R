@@ -43,6 +43,113 @@ test_that("alloc_plots_df() works as expected", {
   expect_true(inherits(plots_df$Plots[[2]], "ggplot"))
 })
 
+#####################################################################################################################
+
+# This tests the function nonstat_alloc_graph()
+test_that("nonstat_alloc_graph() works", {
+  # Make a simple data frame with the expected structure.
+  i <- tibble::tribble(~Year, ~.values, ~Machine, ~Eu.product,
+                       1967, 0.5, "Cars", "MD",
+                       1967, 0.5, "Industry static engines", "MD",
+                       2020, 0.8, "Cars", "MD",
+                       2020, 0.2, "Industry static engines", "MD") %>%
+    nonstat_alloc_graph(country = "Example", ef_product = "Petrol", destination = "Transport")
+
+  expect_true(!is.null(i))
+  expect_true(inherits(i, "ggplot"))
+})
+
+
+test_that("nonstat_alloc_plots_df() works as expected", {
+  non_stat_alloc_table  <- tibble::tribble(~Country, ~Method, ~Energy.type, ~Year, ~Ef.product, ~Destination,
+                                                ~.values, ~Machine, ~Quantity, ~Eu.product, ~C.source,
+                                                # Non-stationary data
+                                                "GHA", "PCM", "E", 1971, "Gasoline", "Transport",
+                                                0.5, "Cars", "C_1 [%]", "MD", "World",
+                                                "GHA", "PCM", "E", 1971, "Gasoline", "Transport",
+                                                0.5, "Trucks", "C_2 [%]", "MD", "World",
+                                                "GHA", "PCM", "E", 2009, "Gasoline", "Transport",
+                                                0.2, "Cars", "C_1 [%]", "MD", "World",
+                                                "GHA", "PCM", "E", 2009, "Gasoline", "Transport",
+                                                0.8, "Trucks", "C_2 [%]", "MD", "World",
+
+                                                "ZAF", "PCM", "E", 1971, "Gasoline", "Transport",
+                                                0.5, "Cars", "C_1 [%]", "MD", "World",
+                                                "ZAF", "PCM", "E", 1971, "Gasoline", "Transport",
+                                                0.5, "Trucks", "C_2 [%]", "MD", "World",
+                                                "ZAF", "PCM", "E", 2009, "Gasoline", "Transport",
+                                                0.3, "Cars", "C_1 [%]", "MD", "World",
+                                                "ZAF", "PCM", "E", 2009, "Gasoline", "Transport",
+                                                0.7, "Trucks", "C_2 [%]", "MD", "World",
+
+                                                # Stationary data (should be excluded by nonstat_alloc_plots_df())
+                                                "GHA", "PCM", "E", 1971, "Diesel", "Transport",
+                                                0.5, "Cars", "C_1 [%]", "MD", "World",
+                                                "GHA", "PCM", "E", 1971, "Diesel", "Transport",
+                                                0.5, "Trucks", "C_2 [%]", "MD", "World",
+                                                "GHA", "PCM", "E", 2009, "Diesel", "Transport",
+                                                0.5, "Cars", "C_1 [%]", "MD", "World",
+                                                "GHA", "PCM", "E", 2009, "Diesel", "Transport",
+                                                0.5, "Trucks", "C_2 [%]", "MD", "World",
+
+                                                "ZAF", "PCM", "E", 1971, "Diesel", "Transport",
+                                                0.3, "Cars", "C_1 [%]", "MD", "World",
+                                                "ZAF", "PCM", "E", 1971, "Diesel", "Transport",
+                                                0.7, "Trucks", "C_2 [%]", "MD", "World",
+                                                "ZAF", "PCM", "E", 2009, "Diesel", "Transport",
+                                                0.3, "Cars", "C_1 [%]", "MD", "World",
+                                                "ZAF", "PCM", "E", 2009, "Diesel", "Transport",
+                                                0.7, "Trucks", "C_2 [%]", "MD", "World",
+
+                                                # Stationary data with different 2015 and 2020 c_source (ESP).
+                                                # Should be excluded by nonstat_alloc_plots_df() as .values are static
+                                                # even though they are different to .values in 1971 and 2009 with
+                                                # c_source = World
+                                                "GHA", "PCM", "E", 1971, "LPG", "Transport",
+                                                0.5, "Cars", "C_1 [%]", "MD", "World",
+                                                "GHA", "PCM", "E", 1971, "LPG", "Transport",
+                                                0.5, "Trucks", "C_2 [%]", "MD", "World",
+                                                "GHA", "PCM", "E", 2009, "LPG", "Transport",
+                                                0.5, "Cars", "C_1 [%]", "MD", "World",
+                                                "GHA", "PCM", "E", 2009, "LPG", "Transport",
+                                                0.5, "Trucks", "C_2 [%]", "MD", "World",
+
+                                                "GHA", "PCM", "E", 2015, "LPG", "Transport",
+                                                0.4, "Cars", "C_1 [%]", "MD", "ESP",
+                                                "GHA", "PCM", "E", 2015, "LPG", "Transport",
+                                                0.6, "Trucks", "C_2 [%]", "MD", "ESP",
+                                                "GHA", "PCM", "E", 2020, "LPG", "Transport",
+                                                0.4, "Cars", "C_1 [%]", "MD", "ESP",
+                                                "GHA", "PCM", "E", 2020, "LPG", "Transport",
+                                                0.6, "Trucks", "C_2 [%]", "MD", "ESP",
+
+                                                "ZAF", "PCM", "E", 1971, "LPG", "Transport",
+                                                0.3, "Cars", "C_1 [%]", "MD", "World",
+                                                "ZAF", "PCM", "E", 1971, "LPG", "Transport",
+                                                0.7, "Trucks", "C_2 [%]", "MD", "World",
+                                                "ZAF", "PCM", "E", 2009, "LPG", "Transport",
+                                                0.3, "Cars", "C_1 [%]", "MD", "World",
+                                                "ZAF", "PCM", "E", 2009, "LPG", "Transport",
+                                                0.7, "Trucks", "C_2 [%]", "MD", "World",
+
+                                                "ZAF", "PCM", "E", 1971, "LPG", "Transport",
+                                                0.2, "Cars", "C_1 [%]", "MD", "ESP",
+                                                "ZAF", "PCM", "E", 1971, "LPG", "Transport",
+                                                0.8, "Trucks", "C_2 [%]", "MD", "ESP",
+                                                "ZAF", "PCM", "E", 2009, "LPG", "Transport",
+                                                0.2, "Cars", "C_1 [%]", "MD", "ESP",
+                                                "ZAF", "PCM", "E", 2009, "LPG", "Transport",
+                                                0.8, "Trucks", "C_2 [%]", "MD", "ESP"
+                                                )
+
+  plots_df <- nonstat_alloc_plots_df(non_stat_alloc_table, countries = c("GHA", "ZAF"))
+
+  expect_true(!is.null(plots_df))
+  expect_true(unique(plots_df$Ef.product) == "Gasoline")
+  expect_true(inherits(plots_df$Plots[[1]], "ggplot"))
+  expect_true(inherits(plots_df$Plots[[2]], "ggplot"))
+})
+
 ###########################################################################################################
 
 # This tests the function eta_fu_graph()
