@@ -1,6 +1,10 @@
-* Added script to parse temperature data from CEDA into a data frame
+* New functions `nonstat_alloc_graph()` and `nonstat_alloc_plots_df()`
+  which make final-to-useful allocations graphs for only non-stationary allocations 
+  data, and for later use in reports and other visualization.
 
-* Added working exergy-to-energy ratio (phi.u) scripts for graphs and reports.
+* New functions `phi_u_graph()` and `phi_u_plots_df()`
+  which make exergy-to-energy ratio graphs for use in reports and other
+  visualization.
 
 # SEAPSUTWorkflow 0.1.11 (2020-09-28)
 
