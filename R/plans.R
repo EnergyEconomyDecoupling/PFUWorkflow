@@ -28,6 +28,7 @@
 #' * `IncompleteEfficiencyTables`: A data frame containing final-to-useful efficiency tables.
 #' * `CompletedEfficiencyTables`: A data frame containing completed final-to-useful efficiency tables.
 #' * `AllocationGraphs` : A data frame containing allocation plots.
+#' * `NonStationaryAllocationGraphs` : A data frame containing allocation plots for non-stationary data only.
 #' * `EfficiencyGraphs` : A data frame containing final-to-useful efficiency plots.
 #' * `ExergyEnergyGraphs` : A data frame containing exergy-to-energy ratio plots.
 #' * `report_source_paths`: A string vector of paths to sources for reports.
@@ -229,6 +230,10 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # Build Allocation Graphs
     AllocationGraphs = drake::target(alloc_plots_df(CompletedAllocationTables, countries = countries),
+                                     dynamic = map(countries)),
+
+    # Build Non-Stationary Allocation Graphs
+    NonStationaryAllocationGraphs = drake::target(nonstat_alloc_plots_df(CompletedAllocationTables, countries = countries),
                                      dynamic = map(countries)),
 
     # Build Efficiency Graphs

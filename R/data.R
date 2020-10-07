@@ -28,6 +28,7 @@
 #' \item{CompletedAllocationTables}{A data frame of completed final-to-useful allocation tables.}
 #' \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}
 #' \item{AllocationGraphs}{A data frame containing final-to-useful allocation graphs.}
+#' \item{NonStationaryAllocationGraphs}{A data frame containing final-to-useful allocation graphs, for non-stationary data only.}
 #' \item{EfficiencyGraphs}{A data frame containing final-to-useful efficiency graphs.}
 #' \item{ExergyEnergyGraphs}{A data frame containing exergy-to-energy ratio graphs.}
 #' \item{report_source_paths}{A string vector containing paths to report files. These strings provide a detailed view of all the reports that `drake` will generate and should be all report files in `report_source_folders`.}
