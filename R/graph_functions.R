@@ -41,10 +41,12 @@ alloc_graph <- function(.df,
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
     ) %>%
-    ggplot2::ggplot(mapping = ggplot2::aes(x = .data[[year]],
-                                           y = .data[[.values]],
-                                           fill = .data[[machine_eu_product]])) +
-    ggplot2::geom_area() +
+    ggplot2::ggplot() +
+    ggplot2::geom_area(mapping = ggplot2::aes(x = .data[[year]],
+                                              y = .data[[.values]],
+                                              group = .data[[machine_eu_product]],
+                                              fill = .data[[machine_eu_product]]),
+                       position = "fill") +
     ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
     ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("Allocation [-]") +
@@ -202,10 +204,9 @@ alloc_plots_df <- function(.df,
 #'   alloc_graph(country = "Example", ef_product = "Petrol", destination = "Transport")
 
 nonstat_alloc_graph  <- function(.df,
-                                 country, #= IEATools::iea_cols$country,
-                                 ef_product, # = IEATools::template_cols$ef_product,
-                                 destination,#  = IEATools::template_cols$destination,
-                                 #quantity = IEATools::template_cols$quantity,
+                                 country,
+                                 ef_product,
+                                 destination,
                                  year = IEATools::iea_cols$year,
                                  .values = IEATools::template_cols$.values,
                                  machine = IEATools::template_cols$machine,
@@ -215,14 +216,15 @@ nonstat_alloc_graph  <- function(.df,
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])) %>%
 
-    ggplot2::ggplot(mapping = ggplot2::aes(x = .data[[year]],
-                                           y = .data[[.values]],
-                                           fill = .data[[machine_eu_product]])) +
-    ggplot2::geom_area() +
+    ggplot2::ggplot() +
+    ggplot2::geom_area(mapping = ggplot2::aes(x = .data[[year]],
+                                              y = .data[[.values]],
+                                              group = .data[[machine_eu_product]],
+                                              fill = .data[[machine_eu_product]]),
+                       position = "fill") +
     ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
     ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("Allocation [-]") +
-    # ggplot2::ggtitle(paste0(c(country, ef_product, destination),collapse = "\n")) +
     ggplot2::ggtitle(paste0(c(country,
                               paste(ef_product, "->", destination)),collapse = "\n")) +
     MKHthemes::xy_theme() +
@@ -295,8 +297,6 @@ nonstat_alloc_plots_df <- function(.df,
 
   .df %>%
     dplyr::filter(.data[[country]] %in% countries) %>%
-
-   # dplyr::group_by(country, ef_product, destination, machine, eu_product, quantity) %>%
 
     dplyr::group_by(.data[[country]], .data[[ef_product]], .data[[destination]], .data[[machine]], .data[[eu_product]], .data[[quantity]]) %>%
 
@@ -415,7 +415,8 @@ eta_fu_graph <- function(.df,
                                               y = .data[[.values]],
                                               color = .data[[country]])) +
     ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
-    ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
+    ggplot2::ylim(0, NA) +
+    #ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
     ggplot2::ylab("eta.fu [%]") +
     ggplot2::ggtitle(paste0(c(paste(the_machine, "->", the_eu_product), collapse = "\n"))) +
     MKHthemes::xy_theme() +
@@ -558,8 +559,9 @@ phi_u_graph <- function(.df,
                                               y = .data[[.values]],
                                               color = .data[[country]])) +
     ggplot2::scale_x_continuous(limits = c(1960, 2020), breaks = seq(1960, 2020, by = 10)) +
-    ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
-    ggplot2::ylab("eta.fu [%]") +
+    ggplot2::ylim(0, NA) +
+    #ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.2)) +
+    ggplot2::ylab("phi.u [%]") +
     ggplot2::ggtitle(paste0(c(paste(the_machine, "->", the_eu_product), collapse = "\n"))) +
     MKHthemes::xy_theme() +
     ggplot2::theme(axis.title.x = ggplot2::element_blank(),
