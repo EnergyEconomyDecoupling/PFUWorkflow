@@ -172,7 +172,7 @@ alloc_plots_df <- function(.df,
 
 ####################################################################################################################################
 
-#' Generate an allocation graph which contains non-stationary allocations data only ### CHECK TEXT ZM
+#' Generate an allocation graph which contains non-stationary allocations data only
 #'
 #' Creates an allocation graph from a completed allocation table,
 #' mostly likely created by the `assemble_fu_allocation_tables()` function.
@@ -235,7 +235,7 @@ nonstat_alloc_graph  <- function(.df,
 }
 
 
-#' Create allocation graphs in a data frame
+#' Create non-stationary allocation graphs in a data frame
 #'
 #' This function adds a column of `ggplot2` graphs to a completed allocation tables data frame.
 #' The graphs are stored in a list column named `plots`.
@@ -254,7 +254,7 @@ nonstat_alloc_graph  <- function(.df,
 #' @param year See `IEATools::iea_cols`. Passed to `alloc_graph()`.
 #' @param .values,machine,eu_product See `IEATools::template_cols`. Passed to `alloc_graph()`.
 #'
-#' @return A data frame containing a list column of `ggplot2` allocation graphs.
+#' @return A data frame containing a list column of `ggplot2` non-stationary allocation graphs.
 #'
 #' @importFrom utils data
 #'
