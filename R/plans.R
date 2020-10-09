@@ -211,6 +211,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (10) Extend to useful stage
 
+    WithCmats = drake::target(add_C_mats(completed_allocation_tables = CompletedAllocationTables),
+                              dynamic = map(countries)),
 
     # (11) Add other methods
 
