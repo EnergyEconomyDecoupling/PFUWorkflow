@@ -400,9 +400,9 @@ eta_fu_graph <- function(.df,
                          eu_product = IEATools::template_cols$eu_product,
                          machine_eu_product = paste0(machine, "_", eu_product)) {
 
-  .df <- .df %>%
-    dplyr::filter(Quantity == "eta.fu", Machine != "Non-energy use") %>%
-    dplyr::filter(Year < 2010)
+  .df %>%
+    dplyr::filter(.data[[quantity]] == "eta.fu") %>%
+    dplyr::filter(.data[[year]] < 2010)
 
   the_machine <- .df[[machine]] %>%
     unique()
@@ -493,7 +493,7 @@ eta_fu_plots_df <- function(.df,
 
   .df %>%
     dplyr::filter(.data[[country]] %in% countries) %>%
-    dplyr::filter(Quantity == "eta.fu", Machine != "Non-energy use") %>%
+    dplyr::filter(.data[[machine]] != "Non-energy use") %>%
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
     ) %>%
@@ -544,9 +544,9 @@ phi_u_graph <- function(.df,
                          eu_product = IEATools::template_cols$eu_product,
                          machine_eu_product = paste0(machine, "_", eu_product)) {
 
-  .df <- .df %>%
-    dplyr::filter(Quantity == "phi.u", Machine != "Non-energy use") %>%
-    dplyr::filter(Year < 2010)
+  .df %>%
+    dplyr::filter(.data[[quantity]] == "phi.u") %>%
+    dplyr::filter(.data[[year]] < 2010)
 
   the_machine <- .df[[machine]] %>%
     unique()
@@ -629,7 +629,6 @@ phi_u_plots_df <- function(.df,
                             countries,
                             plots = "Plots", # CHANGED TO CAP
                             country = IEATools::iea_cols$country,
-                            quantity = IEATools::template_cols$quantity,
                             year = IEATools::iea_cols$year,
                             .values = IEATools::template_cols$.values,
                             machine = IEATools::template_cols$machine,
@@ -638,7 +637,7 @@ phi_u_plots_df <- function(.df,
 
   .df %>%
     dplyr::filter(.data[[country]] %in% countries) %>%
-    dplyr::filter(Quantity == "phi.u", Machine != "Non-energy use") %>%
+    dplyr::filter(.data[[machine]] != "Non-energy use") %>%
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
     ) %>%
