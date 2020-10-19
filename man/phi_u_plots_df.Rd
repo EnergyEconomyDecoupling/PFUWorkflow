@@ -9,7 +9,6 @@ phi_u_plots_df(
   countries,
   plots = "Plots",
   country = IEATools::iea_cols$country,
-  quantity = IEATools::template_cols$quantity,
   year = IEATools::iea_cols$year,
   .values = IEATools::template_cols$.values,
   machine = IEATools::template_cols$machine,
