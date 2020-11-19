@@ -5,7 +5,7 @@
 \alias{target_names}
 \title{Drake cache target names}
 \format{
-A string list with 27 entries.
+A string list with 28 entries.
 \describe{
 \item{countries}{The string name of the countries target in the drake cache, giving the countries to be analyzed.}
 \item{alloc_and_eff_couns}{The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.}
