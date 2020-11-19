@@ -216,7 +216,10 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                            countries = countries),
                               dynamic = map(countries)),
 
-    # WithEtaPhivecs <-
+    WithEtaPhivecs = drake::target(WithCmats %>%
+                                     add_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
+                                                           countries = countries),
+                                   dynamic = map(countries)),
 
     # (11) Add other methods
 

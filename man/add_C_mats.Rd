@@ -19,7 +19,8 @@ add_C_mats(
 \arguments{
 \item{psut_final}{a data frame containing PSUT matrices with final energy as the last stage.}
 
-\item{completed_allocation_tables}{the completed allocation tables from which allocation (\code{C}) matrices should be created.}
+\item{completed_allocation_tables}{the completed allocation tables from which allocation (\code{C}) matrices should be created.
+This data frame is most likely to be the \code{CompletedAllocationTables} target.}
 
 \item{countries}{the countries for which C matrices should be formed}
 
@@ -31,6 +32,6 @@ add_C_mats(
 A data frame with \code{C_Y} and \code{C_EIOU} columns containing allocation matrices.
 }
 \description{
-This function adds allocation (\code{C}) matrices to the previously-created
+This function adds allocation matrices (\code{C_Y} and \code{C_EIOU}) to the previously-created
 \code{CompletedAllocationTables} target.
 }
