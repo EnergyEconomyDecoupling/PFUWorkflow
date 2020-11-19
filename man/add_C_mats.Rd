@@ -5,7 +5,6 @@
 \title{Add allocation matrices to a data frame}
 \usage{
 add_C_mats(
-  psut_final,
   completed_allocation_tables,
   countries,
   country = IEATools::iea_cols$country,
@@ -17,8 +16,6 @@ add_C_mats(
 )
 }
 \arguments{
-\item{psut_final}{a data frame containing PSUT matrices with final energy as the last stage.}
-
 \item{completed_allocation_tables}{the completed allocation tables from which allocation (\code{C}) matrices should be created.
 This data frame is most likely to be the \code{CompletedAllocationTables} target.}
 
@@ -27,6 +24,8 @@ This data frame is most likely to be the \code{CompletedAllocationTables} target
 \item{country, year}{See \code{IEATools::ieacols}.}
 
 \item{.values, c_source, C_Y, C_EIOU}{See \code{IEATools::template_cols}.}
+
+\item{psut_final}{a data frame containing PSUT matrices with final energy as the last stage.}
 }
 \value{
 A data frame with \code{C_Y} and \code{C_EIOU} columns containing allocation matrices.

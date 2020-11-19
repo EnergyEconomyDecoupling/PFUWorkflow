@@ -6,7 +6,6 @@
 to a data frame.}
 \usage{
 add_eta_fu_phi_u_vecs(
-  with_C_mats,
   completed_efficiency_tables,
   countries,
   country = IEATools::iea_cols$country,

@@ -13,8 +13,7 @@
 #' @return A data frame with `C_Y` and `C_EIOU` columns containing allocation matrices.
 #'
 #' @export
-add_C_mats <- function(psut_final,
-                       completed_allocation_tables,
+add_C_mats <- function(completed_allocation_tables,
                        countries,
                        country = IEATools::iea_cols$country,
                        year = IEATools::iea_cols$year,
@@ -35,14 +34,6 @@ add_C_mats <- function(psut_final,
   # Use the IEATools::form_C_mats() function for this task.
   # The function accepts a tidy data frame in addition to wide-by-year data frames.
   C_mats <- IEATools::form_C_mats(tables, matvals = .values)
-  meta_cols <- C_mats %>%
-    IEATools::meta_cols(years_to_keep = year,
-                        not_meta = c(C_Y, C_EIOU),
-                        return_names = TRUE)
-
-  psut_final %>%
-    dplyr::filter(.data[[country]] %in% countries) %>%
-    dplyr::left_join(C_mats, by = meta_cols)
 }
 
 
@@ -59,8 +50,7 @@ add_C_mats <- function(psut_final,
 #' @return A data frame with `eta_fu` and `phi_u` vectors added as columns.
 #'
 #' @export
-add_eta_fu_phi_u_vecs <- function(with_C_mats,
-                                  completed_efficiency_tables,
+add_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
                                   countries,
                                   country = IEATools::iea_cols$country,
                                   year = IEATools::iea_cols$year,
@@ -82,13 +72,6 @@ add_eta_fu_phi_u_vecs <- function(with_C_mats,
   # Use the IEATools::completed_efficiency_tablesform_eta_fu_phi_u_vecs() function for this task.
   # The function accepts a tidy data frame in addition to wide-by-year data frames.
   eta_fu_phi_u_vecs <- IEATools::form_eta_fu_phi_u_vecs(tables, matvals = .values)
-  meta_cols <- eta_fu_phi_u_vecs %>%
-    IEATools::meta_cols(years_to_keep = year,
-                        not_meta = c(eta_fu, phi_u),
-                        return_names = TRUE)
-  with_C_mats %>%
-    dplyr::filter(.data[[country]] %in% countries) %>%
-    dplyr::left_join(eta_fu_phi_u_vecs, by = meta_cols)
 }
 
 

@@ -211,15 +211,13 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (10) Extend to useful stage
 
-    WithCmats = drake::target(PSUT_final %>%
-                                add_C_mats(completed_allocation_tables = CompletedAllocationTables,
-                                           countries = countries),
-                              dynamic = map(countries)),
+    Cmats = drake::target(add_C_mats(completed_allocation_tables = CompletedAllocationTables,
+                                     countries = countries),
+                          dynamic = map(countries)),
 
-    WithEtaPhivecs = drake::target(WithCmats %>%
-                                     add_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
-                                                           countries = countries),
-                                   dynamic = map(countries)),
+    EtaPhivecs = drake::target(add_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
+                                                     countries = countries),
+                               dynamic = map(countries)),
 
     # (11) Add other methods
 
