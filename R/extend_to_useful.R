@@ -3,7 +3,7 @@
 #' This function adds allocation (`C`) matrices to the previously-created
 #' `CompletedAllocationTables` target.
 #'
-#' @param completed_allocaiton_tables
+#' @param completed_allocation_tables
 #'
 #' @return A data frame with a `C` column containing allocation matrices.
 #'
