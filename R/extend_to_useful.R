@@ -77,9 +77,6 @@ add_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
 }
 
 
-
-
-
 #' Move the last stage of the energy conversion chain from final stage to useful stage
 #'
 #' Extends the energy conversion chain from a final energy last stage to useful energy last stage.
