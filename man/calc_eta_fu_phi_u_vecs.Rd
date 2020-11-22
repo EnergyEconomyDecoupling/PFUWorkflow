@@ -10,6 +10,7 @@ calc_eta_fu_phi_u_vecs(
   countries,
   country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year,
+  c_source = IEATools::template_cols$c_source,
   eta_fu_phi_u_source = IEATools::template_cols$eta_fu_phi_u_source,
   .values = IEATools::template_cols$.values,
   eta_fu = IEATools::template_cols$eta_fu,
@@ -25,7 +26,7 @@ This data frame is most likely to be the \code{CompletedEfficiencyTables} target
 
 \item{country, year}{See \code{IEATools::ieacols}.}
 
-\item{eta_fu_phi_u_source, .values, eta_fu, phi_u}{See \code{IEATools::template_cols}.}
+\item{c_source, eta_fu_phi_u_source, .values, eta_fu, phi_u}{See \code{IEATools::template_cols}.}
 }
 \value{
 A data frame with \code{eta_fu} and \code{phi_u} vectors added as columns.
