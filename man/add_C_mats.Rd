@@ -9,23 +9,21 @@ add_C_mats(
   countries,
   country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year,
-  .values = IEATools::template_cols$.values,
   c_source = IEATools::template_cols$c_source,
+  .values = IEATools::template_cols$.values,
   C_Y = IEATools::template_cols$C_Y,
   C_EIOU = IEATools::template_cols$C_eiou
 )
 }
 \arguments{
-\item{completed_allocation_tables}{the completed allocation tables from which allocation (\code{C}) matrices should be created.
+\item{completed_allocation_tables}{The completed allocation tables from which allocation (\code{C}) matrices should be created.
 This data frame is most likely to be the \code{CompletedAllocationTables} target.}
 
-\item{countries}{the countries for which C matrices should be formed}
+\item{countries}{The countries for which \code{C} matrices should be formed}
 
 \item{country, year}{See \code{IEATools::ieacols}.}
 
-\item{.values, c_source, C_Y, C_EIOU}{See \code{IEATools::template_cols}.}
-
-\item{psut_final}{a data frame containing PSUT matrices with final energy as the last stage.}
+\item{c_source, .values, C_Y, C_EIOU}{See \code{IEATools::template_cols}.}
 }
 \value{
 A data frame with \code{C_Y} and \code{C_EIOU} columns containing allocation matrices.

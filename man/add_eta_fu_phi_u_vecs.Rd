@@ -17,7 +17,15 @@ add_eta_fu_phi_u_vecs(
 )
 }
 \arguments{
-\item{countries}{}
+\item{completed_efficiency_tables}{The completed efficiency tables from which allocation (\code{eta_fu}) vectors
+and exergy-to-energy ratio vectors (\code{phi_u}) should be created.
+This data frame is most likely to be the \code{CompletedEfficiencyTables} target.}
+
+\item{countries}{The countries for which \code{eta_fu} and \code{phi_u} vectors should be formed.}
+
+\item{country, year}{See \code{IEATools::ieacols}.}
+
+\item{eta_fu_phi_u_source, .values, eta_fu, phi_u}{See \code{IEATools::template_cols}.}
 }
 \value{
 A data frame with \code{eta_fu} and \code{phi_u} vectors added as columns.

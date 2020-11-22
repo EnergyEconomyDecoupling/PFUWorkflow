@@ -3,12 +3,11 @@
 #' This function adds allocation matrices (`C_Y` and `C_EIOU`) to the previously-created
 #' `CompletedAllocationTables` target.
 #'
-#' @param psut_final a data frame containing PSUT matrices with final energy as the last stage.
-#' @param completed_allocation_tables the completed allocation tables from which allocation (`C`) matrices should be created.
+#' @param completed_allocation_tables The completed allocation tables from which allocation (`C`) matrices should be created.
 #'                                    This data frame is most likely to be the `CompletedAllocationTables` target.
-#' @param countries the countries for which C matrices should be formed
+#' @param countries The countries for which `C` matrices should be formed
 #' @param country,year See `IEATools::ieacols`.
-#' @param .values,c_source,C_Y,C_EIOU See `IEATools::template_cols`.
+#' @param c_source,.values,C_Y,C_EIOU See `IEATools::template_cols`.
 #'
 #' @return A data frame with `C_Y` and `C_EIOU` columns containing allocation matrices.
 #'
@@ -17,8 +16,8 @@ add_C_mats <- function(completed_allocation_tables,
                        countries,
                        country = IEATools::iea_cols$country,
                        year = IEATools::iea_cols$year,
-                       .values = IEATools::template_cols$.values,
                        c_source = IEATools::template_cols$c_source,
+                       .values = IEATools::template_cols$.values,
                        C_Y = IEATools::template_cols$C_Y,
                        C_EIOU  = IEATools::template_cols$C_eiou) {
   tables <- completed_allocation_tables %>%
@@ -43,9 +42,12 @@ add_C_mats <- function(completed_allocation_tables,
 #' This function adds final-to-useful efficiency (`eta`) and
 #' exergy-to-energy ratio vectors to the previously-created `WithCmats` target.#'
 #'
-#' @param with_C_mats
-#' @param completed_efficiency_tables
-#' @param countries
+#' @param completed_efficiency_tables The completed efficiency tables from which allocation (`eta_fu`) vectors
+#'                                    and exergy-to-energy ratio vectors (`phi_u`) should be created.
+#'                                    This data frame is most likely to be the `CompletedEfficiencyTables` target.
+#' @param countries The countries for which `eta_fu` and `phi_u` vectors should be formed.
+#' @param country,year See `IEATools::ieacols`.
+#' @param eta_fu_phi_u_source,.values,eta_fu,phi_u See `IEATools::template_cols`.
 #'
 #' @return A data frame with `eta_fu` and `phi_u` vectors added as columns.
 #'
@@ -72,6 +74,50 @@ add_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
   # Use the IEATools::completed_efficiency_tablesform_eta_fu_phi_u_vecs() function for this task.
   # The function accepts a tidy data frame in addition to wide-by-year data frames.
   eta_fu_phi_u_vecs <- IEATools::form_eta_fu_phi_u_vecs(tables, matvals = .values)
+}
+
+
+
+
+
+#' Move the last stage of the energy conversion chain from final stage to useful stage
+#'
+#' Extends the energy conversion chain from a final energy last stage to useful energy last stage.
+#' The last-stage-useful energy conversion chain PSUT matrices are bound as rows at the bottom
+#' of the `psut_final` data frame,
+#' albeit with "Useful" instead of "Final" in the `Last.stage` column.
+#'
+#' @param psut_final A data frame with rows that describe the energy conversion chain with final energy as the last stage.
+#' @param C_mats A data frame with allocation matrices, probably the Cmats target.
+#' @param eta_phi_vecs A data frame with final-to-useful efficiency and exergy-to-energy ratio vectors.
+#' @param countries The countries to be analyzed.
+#' @param country,year See IEATools::iea_cols.
+#' @param C_Y,C_eiou See IEATools::template_cols.
+#'
+#' @return A data frame with energy conversion chain matrices with last stage as useful energy.
+#'
+#' @export
+move_to_useful <- function(psut_final,
+                           C_mats,
+                           eta_phi_vecs,
+                           countries,
+                           country = IEATools::iea_cols$country,
+                           year = IEATools::iea_cols$year,
+                           C_Y = IEATools::template_cols$C_Y,
+                           C_eiou = IEATools::template_cols$C_eiou) {
+
+  # Calculate metadata columns.
+  m_cols <- C_mats %>%
+    IEATools::meta_cols(return_names = TRUE,
+                        years_to_keep = year,
+                        not_meta = c(C_Y, C_eiou))
+  psut_final %>%
+    dplyr::filter(.data[[country]] %in% countries) %>%
+    # Join the matrices and vectors to the psut_final data frame.
+    dplyr::full_join(C_mats %>% dplyr::filter(.data[[country]] %in% countries), by = m_cols) %>%
+    dplyr::full_join(eta_phi_vecs %>% dplyr::filter(.data[[country]] %in% countries), by = m_cols) %>%
+    # And, finally, extend to the useful stage.
+    IEATools::extend_to_useful()
 }
 
 

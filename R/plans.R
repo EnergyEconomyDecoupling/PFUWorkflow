@@ -219,6 +219,11 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                      countries = countries),
                                dynamic = map(countries)),
 
+    PSUT_useful = drake::target(move_to_useful(psut_final = PSUT_final,
+                                               C_mats = Cmats,
+                                               eta_phi_vecs = EtaPhivecs,
+                                               countries = countries)),
+
     # (11) Add other methods
 
 
