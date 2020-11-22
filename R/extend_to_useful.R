@@ -12,7 +12,7 @@
 #' @return A data frame with `C_Y` and `C_EIOU` columns containing allocation matrices.
 #'
 #' @export
-add_C_mats <- function(completed_allocation_tables,
+calc_C_mats <- function(completed_allocation_tables,
                        countries,
                        country = IEATools::iea_cols$country,
                        year = IEATools::iea_cols$year,
@@ -32,7 +32,7 @@ add_C_mats <- function(completed_allocation_tables,
   # Need to form C matrices from completed_allocation_tables.
   # Use the IEATools::form_C_mats() function for this task.
   # The function accepts a tidy data frame in addition to wide-by-year data frames.
-  C_mats <- IEATools::form_C_mats(tables, matvals = .values)
+  IEATools::form_C_mats(tables, matvals = .values)
 }
 
 
@@ -52,7 +52,7 @@ add_C_mats <- function(completed_allocation_tables,
 #' @return A data frame with `eta_fu` and `phi_u` vectors added as columns.
 #'
 #' @export
-add_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
+calc_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
                                   countries,
                                   country = IEATools::iea_cols$country,
                                   year = IEATools::iea_cols$year,
@@ -73,7 +73,7 @@ add_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
   # Need to form eta_fu and phi_u vectors from completed_efficiency_tables.
   # Use the IEATools::completed_efficiency_tablesform_eta_fu_phi_u_vecs() function for this task.
   # The function accepts a tidy data frame in addition to wide-by-year data frames.
-  eta_fu_phi_u_vecs <- IEATools::form_eta_fu_phi_u_vecs(tables, matvals = .values)
+  IEATools::form_eta_fu_phi_u_vecs(tables, matvals = .values)
 }
 
 

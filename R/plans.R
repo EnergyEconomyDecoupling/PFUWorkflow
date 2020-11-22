@@ -211,18 +211,19 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (10) Extend to useful stage
 
-    Cmats = drake::target(add_C_mats(completed_allocation_tables = CompletedAllocationTables,
-                                     countries = countries),
+    Cmats = drake::target(calc_C_mats(completed_allocation_tables = CompletedAllocationTables,
+                                      countries = countries),
                           dynamic = map(countries)),
 
-    EtaPhivecs = drake::target(add_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
-                                                     countries = countries),
+    EtaPhivecs = drake::target(calc_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
+                                                      countries = countries),
                                dynamic = map(countries)),
 
     PSUT_useful = drake::target(move_to_useful(psut_final = PSUT_final,
                                                C_mats = Cmats,
                                                eta_phi_vecs = EtaPhivecs,
-                                               countries = countries)),
+                                               countries = countries),
+                                dynamic = map(countries)),
 
     # (11) Add other methods
 
@@ -252,7 +253,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     EfficiencyGraphs = drake::target(eta_fu_plots_df(CompletedEfficiencyTables, countries = countries)),
 
     # Build Exergy-to-energy ratio graphs
-    ExergyEnergyGraphs = drake::target(phi_u_plots_df(CompletedEfficiencyTables, countries = countries))
+    # ExergyEnergyGraphs = drake::target(phi_u_plots_df(CompletedEfficiencyTables, countries = countries))
 
 
 
