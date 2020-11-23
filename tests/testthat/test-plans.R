@@ -4,6 +4,7 @@ context("Plan Functions")
 
 test_that("get_plan works", {
   my_plan <- get_plan(iea_data_path = "datapath",
+                      ceda_data_path = "cedapath",
                       exemplar_table_path = "exemplarpath",
                       fu_analysis_folder = "FUpath",
                       reports_source_folders = "reports_source_folders",
@@ -20,6 +21,8 @@ test_that("get_plan works", {
   expect_equal(my_plan[[3, "command"]], list(1999))
 
   expect_equal(my_plan[[4, "command"]], list("datapath"))
+
+  # expect_equal(my_plan[[4, "command"]], list("cedapath"))
 
   expect_equal(my_plan[[5, "command"]], list("exemplarpath"))
 
