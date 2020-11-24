@@ -1,3 +1,4 @@
+* New version of plan that includes extending the PSUT matrices to the useful stage.
 * New functions `nonstat_alloc_graph()` and `nonstat_alloc_plots_df()`
   which make final-to-useful allocations graphs for only non-stationary allocations 
   data, and for later use in reports and other visualization.
