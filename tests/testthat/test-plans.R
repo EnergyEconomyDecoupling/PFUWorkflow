@@ -29,41 +29,44 @@ test_that("get_plan works", {
   expect_equal(my_plan[[7, "target"]], "fu_analysis_folder")
   expect_equal(my_plan[[7, "command"]], list("FUpath"))
 
-  expect_equal(my_plan[[7, "target"]], "reports_source_folders")
-  expect_equal(my_plan[[7, "command"]], list("reports_source_folders"))
+  expect_equal(my_plan[[8, "target"]], "reports_source_folders")
+  expect_equal(my_plan[[8, "command"]], list("reports_source_folders"))
 
-  expect_equal(my_plan[[8, "target"]], "reports_dest_folder")
-  expect_equal(my_plan[[8, "command"]], list("reports_dest_folder"))
+  expect_equal(my_plan[[9, "target"]], "reports_dest_folder")
+  expect_equal(my_plan[[9, "command"]], list("reports_dest_folder"))
 
-  expect_equal(my_plan[[9, "target"]], "AllIEAData")
+  expect_equal(my_plan[[10, "target"]], "AllIEAData")
 
-  expect_equal(my_plan[[10, "target"]], "IEAData")
+  expect_equal(my_plan[[11, "target"]], "IEAData")
 
-  expect_equal(my_plan[[11, "target"]], "balanced_before")
+  expect_equal(my_plan[[12, "target"]], "CEDAData")
 
-  expect_equal(my_plan[[12, "target"]], "BalancedIEAData")
+  expect_equal(my_plan[[13, "target"]], "balanced_before")
 
-  expect_equal(my_plan[[13, "target"]], "balanced_after")
+  expect_equal(my_plan[[14, "target"]], "BalancedIEAData")
 
-  expect_equal(my_plan[[14, "target"]], "OKToProceed")
+  expect_equal(my_plan[[15, "target"]], "balanced_after")
 
-  expect_equal(my_plan[[15, "target"]], "Specified")
+  expect_equal(my_plan[[16, "target"]], "OKToProceed")
 
-  expect_equal(my_plan[[16, "target"]], "PSUT_final")
+  expect_equal(my_plan[[17, "target"]], "Specified")
 
-  expect_equal(my_plan[[17, "target"]], "ExemplarLists")
+  expect_equal(my_plan[[18, "target"]], "PSUT_final")
 
-  expect_equal(my_plan[[18, "target"]], "IncompleteAllocationTables")
-  expect_equal(my_plan[[19, "target"]], "CompletedAllocationTables")
+  expect_equal(my_plan[[19, "target"]], "ExemplarLists")
 
-  expect_equal(my_plan[[20, "target"]], "IncompleteEfficiencyTables")
-  expect_equal(my_plan[[21, "target"]], "CompletedEfficiencyTables")
+  expect_equal(my_plan[[20, "target"]], "IncompleteAllocationTables")
+  expect_equal(my_plan[[21, "target"]], "CompletedAllocationTables")
+
+  expect_equal(my_plan[[22, "target"]], "IncompleteEfficiencyTables")
+  expect_equal(my_plan[[23, "target"]], "CompletedEfficiencyTables")
 
 })
 
 
 test_that("keeping only some rows of a plan works", {
   full_plan <- get_plan(iea_data_path = "datapath",
+                        ceda_data_path = "cedapath",
                         exemplar_table_path = "exemplarpath",
                         fu_analysis_folder = "FUpath",
                         reports_source_folders = "reports_source_path",
@@ -71,13 +74,14 @@ test_that("keeping only some rows of a plan works", {
                         countries = c("GHA", "ZAF"),
                         max_year = 1999)
   short_plan <- get_plan(iea_data_path = "mypath",
-                      exemplar_table_path = "exemplarpath",
-                      fu_analysis_folder = "FUpath",
-                      reports_source_folders = "reports_source_path",
-                      reports_dest_folder = "reports_dest_folder",
-                      countries = c("GHA", "ZAF"),
-                      max_year = 1999,
-                      how_far = "Specified")
+                         ceda_data_path = "cedapath",
+                         exemplar_table_path = "exemplarpath",
+                         fu_analysis_folder = "FUpath",
+                         reports_source_folders = "reports_source_path",
+                         reports_dest_folder = "reports_dest_folder",
+                         countries = c("GHA", "ZAF"),
+                         max_year = 1999,
+                         how_far = "Specified")
 
   expect_lt(nrow(short_plan), nrow(full_plan))
 

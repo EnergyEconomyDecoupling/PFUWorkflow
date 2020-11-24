@@ -144,7 +144,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # (1a) Grab all CEDA data for ALL countries
 
 
-    CEDAData = drake::target(CEDATools::read_cru_cy_files(cru_cy_folder =  ceda_data_path,
+    CEDAData = drake::target(CEDATools::read_cru_cy_files(cru_cy_folder = ceda_data_path,
                                                           cru_cy_metric = "tmp",
                                                           cru_cy_year = 2020)),
 
