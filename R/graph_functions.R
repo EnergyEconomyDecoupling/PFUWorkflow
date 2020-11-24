@@ -400,9 +400,6 @@ eta_fu_graph <- function(.df,
                          eu_product = IEATools::template_cols$eu_product,
                          machine_eu_product = paste0(machine, "_", eu_product)) {
 
-  .df %>%
-    dplyr::filter(.data[[quantity]] == "eta.fu") %>%
-    dplyr::filter(.data[[year]] < 2010)
 
   the_machine <- .df[[machine]] %>%
     unique()
@@ -418,6 +415,8 @@ eta_fu_graph <- function(.df,
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
     ) %>%
+    dplyr::filter(.data[[quantity]] == "eta.fu") %>%
+    dplyr::filter(.data[[year]] < 2010) %>%
     ggplot2::ggplot() +
     ggplot2::geom_line(mapping = ggplot2::aes(x = .data[[year]],
                                               y = .data[[.values]],
@@ -544,9 +543,6 @@ phi_u_graph <- function(.df,
                          eu_product = IEATools::template_cols$eu_product,
                          machine_eu_product = paste0(machine, "_", eu_product)) {
 
-  .df %>%
-    dplyr::filter(.data[[quantity]] == "phi.u") %>%
-    dplyr::filter(.data[[year]] < 2010)
 
   the_machine <- .df[[machine]] %>%
     unique()
@@ -562,6 +558,8 @@ phi_u_graph <- function(.df,
     dplyr::mutate(
       "{machine_eu_product}" := paste(.data[[machine]], "->", .data[[eu_product]])
     ) %>%
+    dplyr::filter(.data[[quantity]] == "phi.u") %>%
+    dplyr::filter(.data[[year]] < 2010) %>%
     ggplot2::ggplot() +
     ggplot2::geom_line(mapping = ggplot2::aes(x = .data[[year]],
                                               y = .data[[.values]],
