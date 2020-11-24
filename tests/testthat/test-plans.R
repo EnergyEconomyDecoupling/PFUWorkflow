@@ -22,12 +22,12 @@ test_that("get_plan works", {
 
   expect_equal(my_plan[[4, "command"]], list("datapath"))
 
-  # expect_equal(my_plan[[4, "command"]], list("cedapath"))
+  expect_equal(my_plan[[5, "command"]], list("cedapath"))
 
-  expect_equal(my_plan[[5, "command"]], list("exemplarpath"))
+  expect_equal(my_plan[[6, "command"]], list("exemplarpath"))
 
-  expect_equal(my_plan[[6, "target"]], "fu_analysis_folder")
-  expect_equal(my_plan[[6, "command"]], list("FUpath"))
+  expect_equal(my_plan[[7, "target"]], "fu_analysis_folder")
+  expect_equal(my_plan[[7, "command"]], list("FUpath"))
 
   expect_equal(my_plan[[7, "target"]], "reports_source_folders")
   expect_equal(my_plan[[7, "command"]], list("reports_source_folders"))
