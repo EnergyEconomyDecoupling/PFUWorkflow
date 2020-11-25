@@ -143,10 +143,10 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (1a) Grab all CEDA data for ALL countries
 
+    CEDAData = drake::target(CEDATools::create_agg_cru_cy_df(agg_cru_cy_folder = ceda_data_path,
+                                                             agg_cru_cy_metric = c("tmp", "tmn", "tmx"),
+                                                             agg_cru_cy_year = 2020)),
 
-    CEDAData = drake::target(CEDATools::read_cru_cy_files(cru_cy_folder = ceda_data_path,
-                                                          cru_cy_metric = "tmp",
-                                                          cru_cy_year = 2020)),
 
     # (2) Balance all final energy data.
 
