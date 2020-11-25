@@ -4,7 +4,7 @@ context("Plan Functions")
 
 test_that("get_plan works", {
   my_plan <- get_plan(iea_data_path = "datapath",
-                      ceda_data_path = "cedapath",
+                      ceda_data_folder = "cedapath",
                       exemplar_table_path = "exemplarpath",
                       fu_analysis_folder = "FUpath",
                       reports_source_folders = "reports_source_folders",
@@ -73,7 +73,7 @@ test_that("get_plan works", {
 
 test_that("keeping only some rows of a plan works", {
   full_plan <- get_plan(iea_data_path = "datapath",
-                        ceda_data_path = "cedapath",
+                        ceda_data_folder = "cedapath",
                         exemplar_table_path = "exemplarpath",
                         fu_analysis_folder = "FUpath",
                         reports_source_folders = "reports_source_path",
@@ -81,7 +81,7 @@ test_that("keeping only some rows of a plan works", {
                         countries = c("GHA", "ZAF"),
                         max_year = 1999)
   short_plan <- get_plan(iea_data_path = "mypath",
-                         ceda_data_path = "cedapath",
+                         ceda_data_folder = "cedapath",
                          exemplar_table_path = "exemplarpath",
                          fu_analysis_folder = "FUpath",
                          reports_source_folders = "reports_source_path",

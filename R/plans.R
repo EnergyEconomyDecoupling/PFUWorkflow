@@ -11,7 +11,7 @@
 #' * `alloc_and_eff_couns`: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of `countries` and `additional_exemplar_countries`, with duplicates removed.
 #' * `max_year`: The maximum year to be analyzed, supplied in the `max_year` argument.
 #' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
-#' * `ceda_data_path`: The path to the CEDA data, supplied in the `ceda_data_path` argument.
+#' * `ceda_data_folder`: The path to the CEDA data, supplied in the `ceda_data_folder` argument.
 #' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.
 #' * `fu_analysis_folder`: The path to the final-to-useful analysis folder, supplied in the `fu_analysis_folder` argument.
 #' * `report_output_folder`: The path to a report output folder, supplied in the `report_output_folder` argument.
@@ -68,7 +68,7 @@
 #' @param how_far A string indicating the last target to include in the plan that is returned.
 #'                Default is "all_targets" to indicate all targets of the plan should be returned.
 #' @param iea_data_path The path to IEA extended energy balance data in .csv format.
-#' @param ceda_data_path The path to the CEDA data in text file, .per, format.
+#' @param ceda_data_folder The path to the CEDA data in text file, .per, format.
 #' @param exemplar_table_path The path to an exemplar table.
 #' @param fu_analysis_folder The path to a folder containing final-to-useful analyses.
 #'                           Sub-folders named with 3-letter country abbreviations are assumed.
@@ -98,7 +98,7 @@
 #'          reports_dest_folder = "reports_dest_folder")
 get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
-                     iea_data_path, ceda_data_path, exemplar_table_path,
+                     iea_data_path, ceda_data_folder, exemplar_table_path,
                      fu_analysis_folder, reports_source_folders, reports_dest_folder) {
 
   # Get around some warnings.
@@ -128,7 +128,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     alloc_and_eff_couns = unique(c(countries, !!additional_exemplar_countries)),
     max_year = !!max_year,
     iea_data_path = !!iea_data_path,
-    ceda_data_path = !!ceda_data_path,
+    ceda_data_folder = !!ceda_data_folder,
     exemplar_table_path = !!exemplar_table_path,
     fu_analysis_folder = !!fu_analysis_folder,
     reports_source_folders = !!reports_source_folders,
@@ -143,7 +143,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (1a) Grab all CEDA data for ALL countries
 
-    CEDAData = drake::target(CEDATools::create_agg_cru_cy_df(agg_cru_cy_folder = ceda_data_path,
+    CEDAData = drake::target(CEDATools::create_agg_cru_cy_df(agg_cru_cy_folder = ceda_data_folder,
                                                              agg_cru_cy_metric = c("tmp", "tmn", "tmx"),
                                                              agg_cru_cy_year = 2020)),
 
