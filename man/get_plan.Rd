@@ -114,7 +114,7 @@ Note that some targets can be read using \code{readd_by_country()}, including:
 get_plan(countries = c("GHA", "ZAF"),
          max_year = 1999,
          iea_data_path = "iea_path",
-         ceda_data_path = "ceda_path",
+         ceda_data_folder = "ceda_path",
          exemplar_table_path = "exemplar_path",
          fu_analysis_folder = "fu_folder",
          reports_source_folders = "reports_source_folders",

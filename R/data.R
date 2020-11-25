@@ -11,7 +11,7 @@
 #' \item{alloc_and_eff_couns}{The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.}
 #' \item{max_year}{The integer representing the maximum year to be analyzed.}
 #' \item{iea_data_path}{A string representing the path to the file containing IEA extended energy balance data.}
-#' \item{ceda_data_path}{A string representing the path to the file containing CEDA data.}
+#' \item{ceda_data_folder}{A string representing the path to the file containing CEDA data.}
 #' \item{exemplar_table_path}{A string representing the path to the exemplar table.}
 #' \item{fu_analysis_folder}{A string representing the folder containing final-to-useful analyses for various countries.}
 #' \item{report_source_folders}{A string vector representing folders containing reports to be run as the last step of the workflow.}
