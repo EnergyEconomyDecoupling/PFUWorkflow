@@ -42,5 +42,4 @@ test_that("extend_to_useful() works as expected", {
   finally = {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
   })
-
 })
