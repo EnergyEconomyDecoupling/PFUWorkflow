@@ -10,6 +10,7 @@ get_plan(
   max_year,
   how_far = "all_targets",
   iea_data_path,
+  ceda_data_folder,
   exemplar_table_path,
   fu_analysis_folder,
   reports_source_folders,
@@ -35,6 +36,8 @@ Default is \code{NULL}, indicating no additional exemplars.}
 Default is "all_targets" to indicate all targets of the plan should be returned.}
 
 \item{iea_data_path}{The path to IEA extended energy balance data in .csv format.}
+
+\item{ceda_data_folder}{The path to the CEDA data in text file, .per, format.}
 
 \item{exemplar_table_path}{The path to an exemplar table.}
 
@@ -62,11 +65,13 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{alloc_and_eff_couns}: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of \code{countries} and \code{additional_exemplar_countries}, with duplicates removed.
 \item \code{max_year}: The maximum year to be analyzed, supplied in the \code{max_year} argument.
 \item \code{iea_data_path}: The path to IEA extended energy balance data, supplied in the \code{iea_data_path} argument.
+\item \code{ceda_data_folder}: The path to the CEDA data, supplied in the \code{ceda_data_folder} argument.
 \item \code{exemplar_table_path}: The path to an exemplar table, supplied in the \code{exemplar_table_path} argument.
 \item \code{fu_analysis_folder}: The path to the final-to-useful analysis folder, supplied in the \code{fu_analysis_folder} argument.
 \item \code{report_output_folder}: The path to a report output folder, supplied in the \code{report_output_folder} argument.
 \item \code{AllIEAData}: A data frame with all IEA extended energy balance data read from \code{iea_data_path}.
 \item \code{IEAData}: A version of the \code{AllIEAData} data frame containing data for only those countries specified in \code{countries}.
+\item \code{CEDAData}: A data frame containing temperature data supplied through \code{CEDATools::read_cru_cy_files}.
 \item \code{balanced_before}: A boolean that tells where the data were balanced as received, usually a vector of \code{FALSE}, one for each country.
 \item \code{BalancedIEAData}: A data frame containing balanced IEA extended energy balance data.
 \item \code{balanced_after}: A boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of \code{TRUE}, one for each country.
@@ -109,6 +114,7 @@ Note that some targets can be read using \code{readd_by_country()}, including:
 get_plan(countries = c("GHA", "ZAF"),
          max_year = 1999,
          iea_data_path = "iea_path",
+         ceda_data_folder = "ceda_path",
          exemplar_table_path = "exemplar_path",
          fu_analysis_folder = "fu_folder",
          reports_source_folders = "reports_source_folders",
