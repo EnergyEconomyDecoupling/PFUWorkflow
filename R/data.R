@@ -18,7 +18,7 @@
 #' \item{report_dest_folder}{A string representing the folder containing reports from the workflow.}
 #' \item{AllIEAData}{The name of a data frame containing all IEA data read from `iea_data_path`.}
 #' \item{IEAData}{A filtered version of `AllIEAData` containing information for only `countries`.}
-#' \item{CEDAData}{The name of the data frame containing all CEDA temperature data read from `ceda_data_path`.}
+#' \item{CEDAData}{The name of the data frame containing all CEDA temperature data read from `ceda_data_folder`.}
 #' \item{balanced_before}{A boolean indicating whether the `IEAData` are balanced before any further analysis. They usually are not, so this value is typically `FALSE`.}
 #' \item{BalancedIEAData}{A balanced version of `IEAData`.}
 #' \item{balanced_after}{Same as `balanced_before`, only for after balancing. This should be `TRUE`.}
@@ -34,6 +34,7 @@
 #' \item{EfficiencyGraphs}{A data frame containing final-to-useful efficiency graphs.}
 #' \item{ExergyEnergyGraphs}{A data frame containing exergy-to-energy ratio graphs.}
 #' \item{report_source_paths}{A string vector containing paths to report files. These strings provide a detailed view of all the reports that `drake` will generate and should be all report files in `report_source_folders`.}
+#' \item{report_dest_paths}{A string for the path to a folder into which reports will written.}
 #' \item{reports_complete}{A boolean indicating success (`TRUE`) or failure (`FALSE`) of report generation.}
 #' }
 #'
