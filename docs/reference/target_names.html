@@ -122,22 +122,24 @@ Items in the list provide default values for function arguments
 throughout the <code>SEAPSUTWorkflow</code> package.</p>
     </div>
 
-    <pre class="usage"><span class='kw'>target_names</span></pre>
+    <pre class="usage"><span class='va'>target_names</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A string list with 25 entries.</p><dl>
+    <p>A string list with 32 entries.</p><dl>
 <dt>countries</dt><dd><p>The string name of the countries target in the drake cache, giving the countries to be analyzed.</p></dd>
 <dt>alloc_and_eff_couns</dt><dd><p>The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.</p></dd>
 <dt>max_year</dt><dd><p>The integer representing the maximum year to be analyzed.</p></dd>
 <dt>iea_data_path</dt><dd><p>A string representing the path to the file containing IEA extended energy balance data.</p></dd>
+<dt>ceda_data_folder</dt><dd><p>A string representing the path to the file containing CEDA data.</p></dd>
 <dt>exemplar_table_path</dt><dd><p>A string representing the path to the exemplar table.</p></dd>
 <dt>fu_analysis_folder</dt><dd><p>A string representing the folder containing final-to-useful analyses for various countries.</p></dd>
 <dt>report_source_folders</dt><dd><p>A string vector representing folders containing reports to be run as the last step of the workflow.</p></dd>
 <dt>report_dest_folder</dt><dd><p>A string representing the folder containing reports from the workflow.</p></dd>
 <dt>AllIEAData</dt><dd><p>The name of a data frame containing all IEA data read from <code>iea_data_path</code>.</p></dd>
 <dt>IEAData</dt><dd><p>A filtered version of <code>AllIEAData</code> containing information for only <code>countries</code>.</p></dd>
+<dt>CEDAData</dt><dd><p>The name of the data frame containing all CEDA temperature data read from <code>ceda_data_folder</code>.</p></dd>
 <dt>balanced_before</dt><dd><p>A boolean indicating whether the <code>IEAData</code> are balanced before any further analysis. They usually are not, so this value is typically <code>FALSE</code>.</p></dd>
 <dt>BalancedIEAData</dt><dd><p>A balanced version of <code>IEAData</code>.</p></dd>
 <dt>balanced_after</dt><dd><p>Same as <code>balanced_before</code>, only for after balancing. This should be <code>TRUE</code>.</p></dd>
@@ -148,16 +150,19 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 <dt>ExemplarLists</dt><dd><p>A data frame of lists of exemplar countries for each country in <code>countries</code>, and maybe more.</p></dd>
 <dt>CompletedAllocationTables</dt><dd><p>A data frame of completed final-to-useful allocation tables.</p></dd>
 <dt>CompletedEfficiencyTables</dt><dd><p>A data frame of completed final-to-useful efficiency tables.</p></dd>
-<dt>AllocationGraphs</dt><dd><p>A data frame containing final-to-useful  allocation graphs.</p></dd>
+<dt>AllocationGraphs</dt><dd><p>A data frame containing final-to-useful allocation graphs.</p></dd>
+<dt>NonStationaryAllocationGraphs</dt><dd><p>A data frame containing final-to-useful allocation graphs, for non-stationary data only.</p></dd>
 <dt>EfficiencyGraphs</dt><dd><p>A data frame containing final-to-useful efficiency graphs.</p></dd>
+<dt>ExergyEnergyGraphs</dt><dd><p>A data frame containing exergy-to-energy ratio graphs.</p></dd>
 <dt>report_source_paths</dt><dd><p>A string vector containing paths to report files. These strings provide a detailed view of all the reports that <code>drake</code> will generate and should be all report files in <code>report_source_folders</code>.</p></dd>
+<dt>report_dest_paths</dt><dd><p>A string for the path to a folder into which reports will written.</p></dd>
 <dt>reports_complete</dt><dd><p>A boolean indicating success (<code>TRUE</code>) or failure (<code>FALSE</code>) of report generation.</p></dd>
 
 </dl>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>target_names</span>
+    <pre class="examples"><div class='input'><span class='va'>target_names</span>
 </div><div class='output co'>#&gt; $countries
 #&gt; [1] "countries"
 #&gt; 
@@ -169,6 +174,9 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 #&gt; 
 #&gt; $iea_data_path
 #&gt; [1] "iea_data_path"
+#&gt; 
+#&gt; $ceda_data_folder
+#&gt; [1] "ceda_data_folder"
 #&gt; 
 #&gt; $exemplar_table_path
 #&gt; [1] "exemplar_table_path"
@@ -187,6 +195,9 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 #&gt; 
 #&gt; $IEAData
 #&gt; [1] "IEAData"
+#&gt; 
+#&gt; $CEDAData
+#&gt; [1] "CEDAData"
 #&gt; 
 #&gt; $balanced_before
 #&gt; [1] "balanced_before"
@@ -221,11 +232,26 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 #&gt; $CompletedEfficiencyTables
 #&gt; [1] "CompletedEfficiencyTables"
 #&gt; 
+#&gt; $Cmats
+#&gt; [1] "Cmats"
+#&gt; 
+#&gt; $EtaPhivecs
+#&gt; [1] "EtaPhivecs"
+#&gt; 
+#&gt; $PSUT_useful
+#&gt; [1] "PSUT_useful"
+#&gt; 
 #&gt; $AllocationGraphs
 #&gt; [1] "AllocationGraphs"
 #&gt; 
+#&gt; $NonStationaryAllocationGraphs
+#&gt; [1] "NonStationaryAllocationGraphs"
+#&gt; 
 #&gt; $EfficiencyGraphs
 #&gt; [1] "EfficiencyGraphs"
+#&gt; 
+#&gt; $ExergyEnergyGraphs
+#&gt; [1] "ExergyEnergyGraphs"
 #&gt; 
 #&gt; $reports_dest_folder
 #&gt; [1] "reports_dest_folder"

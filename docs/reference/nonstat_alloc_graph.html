@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate an allocation graph — alloc_graph • SEAPSUTWorkflow</title>
+<title>Generate an allocation graph which contains non-stationary allocations data only — nonstat_alloc_graph • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Generate an allocation graph — alloc_graph" />
+<meta property="og:title" content="Generate an allocation graph which contains non-stationary allocations data only — nonstat_alloc_graph" />
 <meta property="og:description" content="Creates an allocation graph from a completed allocation table,
 mostly likely created by the assemble_fu_allocation_tables() function." />
 
@@ -110,9 +110,9 @@ mostly likely created by the assemble_fu_allocation_tables() function." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate an allocation graph</h1>
+    <h1>Generate an allocation graph which contains non-stationary allocations data only</h1>
     
-    <div class="hidden name"><code>alloc_graph.Rd</code></div>
+    <div class="hidden name"><code>nonstat_alloc_graph.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -120,7 +120,7 @@ mostly likely created by the assemble_fu_allocation_tables() function." />
 mostly likely created by the <code><a href='assemble_fu_allocation_tables.html'>assemble_fu_allocation_tables()</a></code> function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>alloc_graph</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>nonstat_alloc_graph</span><span class='op'>(</span>
   <span class='va'>.df</span>,
   <span class='va'>country</span>,
   <span class='va'>ef_product</span>,
@@ -170,7 +170,7 @@ mostly likely created by the <code><a href='assemble_fu_allocation_tables.html'>
     <p>A <code>ggplot2</code> graph object</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is called repeatedly from <code><a href='alloc_plots_df.html'>alloc_plots_df()</a></code>.</p>
+    <p>This function is called repeatedly from <code><a href='nonstat_alloc_plots_df.html'>nonstat_alloc_plots_df()</a></code>.</p>
 <p><code>country</code>, <code>ef_product</code>, and <code>destination</code> form the title of the graph.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -181,8 +181,8 @@ mostly likely created by the <code><a href='assemble_fu_allocation_tables.html'>
                 <span class='fl'>1967</span>, <span class='fl'>0.5</span>, <span class='st'>"Industry static engines"</span>, <span class='st'>"MD"</span>,
                 <span class='fl'>2020</span>, <span class='fl'>0.8</span>, <span class='st'>"Cars"</span>, <span class='st'>"MD"</span>,
                 <span class='fl'>2020</span>, <span class='fl'>0.2</span>, <span class='st'>"Industry static engines"</span>, <span class='st'>"MD"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>alloc_graph</span><span class='op'>(</span>country <span class='op'>=</span> <span class='st'>"Example"</span>, ef_product <span class='op'>=</span> <span class='st'>"Petrol"</span>, destination <span class='op'>=</span> <span class='st'>"Transport"</span><span class='op'>)</span>
-</div><div class='img'><img src='alloc_graph-1.png' alt='' width='700' height='433' /></div></pre>
+  <span class='fu'><a href='alloc_graph.html'>alloc_graph</a></span><span class='op'>(</span>country <span class='op'>=</span> <span class='st'>"Example"</span>, ef_product <span class='op'>=</span> <span class='st'>"Petrol"</span>, destination <span class='op'>=</span> <span class='st'>"Transport"</span><span class='op'>)</span>
+</div><div class='img'><img src='nonstat_alloc_graph-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

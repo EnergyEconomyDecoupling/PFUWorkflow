@@ -130,19 +130,19 @@ This function uses an exemplar table
 to create exemplar lists.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>exemplar_lists</span>(
-  <span class='kw'>exemplar_table</span>,
-  countries = <span class='kw'>NULL</span>,
-  prev_names = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>prev_names</span>,
-  exemplar_country = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>exemplar_country</span>,
-  exemplars = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>exemplars</span>,
-  row_code = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>row_code</span>,
-  world = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>world</span>,
-  country = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>country</span>,
-  year = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>year</span>,
-  year_temp = <span class='st'>".year_temp"</span>,
-  prev_names_list = <span class='st'>".prev_names_list"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>exemplar_lists</span><span class='op'>(</span>
+  <span class='va'>exemplar_table</span>,
+  countries <span class='op'>=</span> <span class='cn'>NULL</span>,
+  prev_names <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>prev_names</span>,
+  exemplar_country <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>exemplar_country</span>,
+  exemplars <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>exemplars</span>,
+  row_code <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>row_code</span>,
+  world <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>world</span>,
+  country <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>country</span>,
+  year <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>year</span>,
+  year_temp <span class='op'>=</span> <span class='st'>".year_temp"</span>,
+  prev_names_list <span class='op'>=</span> <span class='st'>".prev_names_list"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,29 +193,29 @@ when searching for missing allocations and efficiencies.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Use an exemplar table that is part of this package.</span>
-<span class='kw'>el</span> <span class='op'>&lt;-</span> <span class='fu'>exemplar_lists</span>(<span class='fu'><a href='load_exemplar_table.html'>load_exemplar_table</a></span>()) <span class='op'>%&gt;%</span>
+<span class='va'>el</span> <span class='op'>&lt;-</span> <span class='fu'>exemplar_lists</span><span class='op'>(</span><span class='fu'><a href='load_exemplar_table.html'>load_exemplar_table</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
 <span class='co'># Montenegro is a particularly interesting case, as it had many name changes.</span>
 <span class='co'># Look at the first year, the last year as Yugoslavia, the first year as Serbia,</span>
 <span class='co'># and today.</span>
-  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>.data</span>[[<span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>country</span>]] <span class='op'>==</span> <span class='st'>"MNE"</span>,
-                <span class='kw'>.data</span>[[<span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>year</span>]] <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1971</span>, <span class='fl'>1989</span>, <span class='fl'>1990</span>, <span class='fl'>2017</span>))
-<span class='kw'>el</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 3</span><span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>.data</span><span class='op'>[[</span><span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>country</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>==</span> <span class='st'>"MNE"</span>,
+                <span class='va'>.data</span><span class='op'>[[</span><span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>year</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1971</span>, <span class='fl'>1989</span>, <span class='fl'>1990</span>, <span class='fl'>2017</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>el</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span><span>
 #&gt;   Country  Year Exemplars
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>   
-#&gt; </span><span style='color: #555555;'>1</span><span> MNE      </span><span style='text-decoration: underline;'>1</span><span>971 </span><span style='color: #555555;'>&lt;chr [4]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> MNE      </span><span style='text-decoration: underline;'>1</span><span>989 </span><span style='color: #555555;'>&lt;chr [4]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> MNE      </span><span style='text-decoration: underline;'>1</span><span>990 </span><span style='color: #555555;'>&lt;chr [5]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> MNE      </span><span style='text-decoration: underline;'>2</span><span>017 </span><span style='color: #555555;'>&lt;chr [5]&gt;</span><span></div><div class='input'><span class='kw'>el</span>[[<span class='fl'>1</span>, <span class='st'>"Exemplars"</span>]]
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> MNE      </span><span style='text-decoration: underline;'>1</span><span>971 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> MNE      </span><span style='text-decoration: underline;'>1</span><span>989 </span><span style='color: #949494;'>&lt;chr [4]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> MNE      </span><span style='text-decoration: underline;'>1</span><span>990 </span><span style='color: #949494;'>&lt;chr [5]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> MNE      </span><span style='text-decoration: underline;'>2</span><span>017 </span><span style='color: #949494;'>&lt;chr [5]&gt;</span><span></div><div class='input'><span class='va'>el</span><span class='op'>[[</span><span class='fl'>1</span>, <span class='st'>"Exemplars"</span><span class='op'>]</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; [[1]]
 #&gt; [1] "YGS"   "ESP"   "RoEUR" "World"
-#&gt; </div><div class='input'><span class='kw'>el</span>[[<span class='fl'>2</span>, <span class='st'>"Exemplars"</span>]]
+#&gt; </div><div class='input'><span class='va'>el</span><span class='op'>[[</span><span class='fl'>2</span>, <span class='st'>"Exemplars"</span><span class='op'>]</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; [[1]]
 #&gt; [1] "YGS"   "ESP"   "RoEUR" "World"
-#&gt; </div><div class='input'><span class='kw'>el</span>[[<span class='fl'>3</span>, <span class='st'>"Exemplars"</span>]]
+#&gt; </div><div class='input'><span class='va'>el</span><span class='op'>[[</span><span class='fl'>3</span>, <span class='st'>"Exemplars"</span><span class='op'>]</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; [[1]]
 #&gt; [1] "SRB"   "YGS"   "ESP"   "RoEUR" "World"
-#&gt; </div><div class='input'><span class='kw'>el</span>[[<span class='fl'>4</span>, <span class='st'>"Exemplars"</span>]]
+#&gt; </div><div class='input'><span class='va'>el</span><span class='op'>[[</span><span class='fl'>4</span>, <span class='st'>"Exemplars"</span><span class='op'>]</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; [[1]]
 #&gt; [1] "SRB"   "YGS"   "ESP"   "RoEUR" "World"
 #&gt; </div></span></pre>
