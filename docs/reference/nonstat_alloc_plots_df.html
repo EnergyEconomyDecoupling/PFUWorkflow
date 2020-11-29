@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create allocation graphs in a data frame — alloc_plots_df • SEAPSUTWorkflow</title>
+<title>Create non-stationary allocation graphs in a data frame — nonstat_alloc_plots_df • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Create allocation graphs in a data frame — alloc_plots_df" />
+<meta property="og:title" content="Create non-stationary allocation graphs in a data frame — nonstat_alloc_plots_df" />
 <meta property="og:description" content="This function adds a column of ggplot2 graphs to a completed allocation tables data frame.
 The graphs are stored in a list column named plots." />
 
@@ -110,9 +110,9 @@ The graphs are stored in a list column named plots." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create allocation graphs in a data frame</h1>
+    <h1>Create non-stationary allocation graphs in a data frame</h1>
     
-    <div class="hidden name"><code>alloc_plots_df.Rd</code></div>
+    <div class="hidden name"><code>nonstat_alloc_plots_df.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -120,7 +120,7 @@ The graphs are stored in a list column named plots." />
 The graphs are stored in a list column named <code>plots</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>alloc_plots_df</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>nonstat_alloc_plots_df</span><span class='op'>(</span>
   <span class='va'>.df</span>,
   <span class='va'>countries</span>,
   data_col <span class='op'>=</span> <span class='st'>"Data"</span>,
@@ -175,7 +175,7 @@ The graphs are stored in a list column named <code>plots</code>.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame containing a list column of <code>ggplot2</code> allocation graphs.</p>
+    <p>A data frame containing a list column of <code>ggplot2</code> non-stationary allocation graphs.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The data frame is grouped by all variables needed to create the allocation graph, specifically
@@ -203,7 +203,7 @@ meaning that one allocation graph is constructed for each combination of those v
                                <span class='fl'>0.3</span>, <span class='st'>"Cars"</span>, <span class='st'>"C_1 [%]"</span>, <span class='st'>"MD"</span>, <span class='st'>"World"</span>,
                                <span class='st'>"ZAF"</span>, <span class='st'>"PCM"</span>, <span class='st'>"E"</span>, <span class='fl'>2020</span>, <span class='st'>"Gasoline"</span>, <span class='st'>"Transport"</span>,
                                <span class='fl'>0.7</span>, <span class='st'>"Trucks"</span>, <span class='st'>"C_2 [%]"</span>, <span class='st'>"MD"</span>, <span class='st'>"World"</span><span class='op'>)</span>
-<span class='fu'>alloc_plots_df</span><span class='op'>(</span><span class='va'>alloc_table</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='alloc_plots_df.html'>alloc_plots_df</a></span><span class='op'>(</span><span class='va'>alloc_table</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 7</span><span>
 #&gt; </span><span style='color: #949494;'># Groups:   Country, Method, Energy.type, Ef.product, Destination [2]</span><span>
 #&gt;   Country Method Energy.type Ef.product Destination Data             Plots 

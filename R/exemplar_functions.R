@@ -193,64 +193,6 @@ exemplar_lists <- function(exemplar_table,
     )
 
   return(out)
-
-  #
-  # The following commented code actually works.
-  # But the approach above is MUCH faster.
-  # The commented code below can be deleted after, say, August 2020.
-  # ---MKH
-  #
-
-  # # Figure out all previous names for each country.
-  # # These combinations are stored as a nested data frame inside pntable.
-  # pntable <- exemplar_table %>%
-  #   dplyr::select(country, year, prev_names) %>%
-  #   tidyr::nest("{prev_names}" := c(year, prev_names))
-  #
-  # # First step: join the previous names to each country and year
-  # with_prev_names_list <- dplyr::left_join(year_country, pntable, by = country) %>%
-  #   # Now trim the data frame of previous names by the year of interest in the outer data frame.
-  #   # This operation (probably the filtering) is really slow. Maybe a better way to do it?
-  #   # Perhaps use a rowwise approach?
-  #   dplyr::mutate(
-  #     "{prev_names_list}" := Map(f = function(yr, prevn) {
-  #       temp <- prevn %>%
-  #         dplyr::filter(.data[[year]] <= yr) %>%
-  #         # column 2 is the column with tables of previous names
-  #         magrittr::extract2(2) %>%
-  #         as.list() %>%
-  #         # We want to keep only the previous names that are different from the others
-  #         unique() %>%
-  #         # Reverse, because the order now is oldest to most-recent previous name.
-  #         # We want to go most-recent to oldest previous name.
-  #         rev()
-  #       # Remove the first element of the list,
-  #       # because it is always the current country name, and
-  #       # return it
-  #       temp[-1]
-  #     }, yr = .data[[year]], prevn = .data[[prev_names]])
-  #   ) %>%
-  #   # We can eliminate the column that doesn't contain the list.
-  #   dplyr::select(!prev_names)
-  #
-  # outgoing <- exemplar_table %>%
-  #   dplyr::select(!prev_names) %>%
-  #   # Join this new data frame with the incoming one.
-  #   dplyr::left_join(with_prev_names_list, by = c(country, year)) %>%
-  #   # Build our list of exemplar countries,
-  #   # starting with the previous names, followed by the assigned exemplar country,
-  #   # this country's code for the rest of the world, and
-  #   # the world region.
-  #   dplyr::mutate(
-  #     "{exemplars}" := Map(f = function(p_names, exemp, restofworldcode) {
-  #       c(p_names, exemp, restofworldcode, world) %>%
-  #         unlist(recursive = TRUE, use.names = FALSE)
-  #     },
-  #     p_names = .data[[prev_names_list]],
-  #     exemp = .data[[exemplar_country]],
-  #     restofworldcode = .data[[row_code]])
-  #   )
-
 }
 
 
