@@ -69,8 +69,7 @@ read_all_eta_files <- function(eta_fin_paths) {
     raw_etas <- raw_etas %>%
       tidyr::pivot_longer(cols = tidyselect::all_of(year_columns),
                           names_to = "Year",
-                          values_to = "Value") %>%
-      dplyr::filter(Metric %in% c("Eta.fu", "Phi.u"))
+                          values_to = "Value")
     # Sets column classes
     raw_etas$Country <- as.character(raw_etas$Country)
     raw_etas$Machine <- as.character(raw_etas$Machine)
@@ -79,8 +78,11 @@ read_all_eta_files <- function(eta_fin_paths) {
     raw_etas$Year <- as.numeric(raw_etas$Year)
     raw_etas$Value <- as.numeric(raw_etas$Value)
 
-    # Binds values from individual excel FIN_ETA sheet into etas tibble
-    etas <- etas %>% dplyr::bind_rows(raw_etas)
+    # Binds values from individual excel FIN_ETA sheet into etas tibble, and
+    # filters for only "Eta.fu" and "Phi.u" values
+    etas <- etas %>%
+      dplyr::bind_rows(raw_etas) %>%
+      dplyr::filter(Metric %in% c("Eta.fu", "Phi.u"))
 
   }
 

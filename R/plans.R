@@ -155,7 +155,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # (1c) Grab Machine data for ALL countries
 
     AllMachineData = drake::target(read_all_eta_files(eta_fin_paths = get_eta_filepaths())),
-    MachineData = drake::target(AllMachineData %>% dplyr::filter(Country %in% countries)),
+    MachineData = drake::target(AllMachineData), # Need to check with Matt how to filter out/extract for countries in countries.
 
 
 
