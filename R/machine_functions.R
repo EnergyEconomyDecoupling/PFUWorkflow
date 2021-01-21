@@ -1,9 +1,9 @@
-#' Title
-#' "Country"    "Machine"    "Eu.product" "Metric"     "Year"       "Value"
-#' @return
+#' Get all filepaths to machine excel files which contain a FIN_ETA sheet
+#'
+#' @return A list of the file paths to machine excel files containing
+#'         FIN_ETA frontsheets, and therefore usable data.
 #' @export
 #'
-#' @examples
 get_eta_filepaths <- function() {
 
   # Estalishes name of the frontsheet of each machines excel workbook
@@ -39,12 +39,17 @@ get_eta_filepaths <- function() {
 
 
 
-#' Title
+#' Create a data frame containing machine Eta.fu and Phi.u values.
 #'
-#' @return
+#' @param eta_fin_paths A list of the file paths to machine excel files containing
+#'                      FIN_ETA frontsheets, and therefore usable data.
+#'                      Created by calling the `get_eta_filepaths` function.
+#'
+#' @return A data frame containing all Eta.fu and Phi.u values present
+#'         in all Machine excel files, with the following column names:
+#'         "Country", "Machine", "Eu.product", "Metric", "Year", "Value".
 #' @export
 #'
-#' @examples
 read_all_eta_files <- function(eta_fin_paths) {
 
   # Creates empty tibble to store etas data in
