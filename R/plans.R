@@ -18,6 +18,8 @@
 #' * `AllIEAData`: A data frame with all IEA extended energy balance data read from `iea_data_path`.
 #' * `IEAData`: A version of the `AllIEAData` data frame containing data for only those countries specified in `countries`.
 #' * `CEDAData`: A data frame containing temperature data supplied through `CEDATools::read_cru_cy_files`.
+#' * `AllMachineData`: A data frame containing Eta.fu and Phi.u values read through functions in `machine_functions.R`.
+#' * `MachineData`: A version of the `AllMachineData` data frame containing data for only those countries specified in `countries`.
 #' * `balanced_before`: A boolean that tells where the data were balanced as received, usually a vector of `FALSE`, one for each country.
 #' * `BalancedIEAData`: A data frame containing balanced IEA extended energy balance data.
 #' * `balanced_after`: A boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of `TRUE`, one for each country.
@@ -107,6 +109,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   AllIEAData <- NULL
   IEAData <- NULL
   CEDAData <- NULL
+  AllMachineData <- NULL
+  MachineData <- NULL
   BalancedIEAData <- NULL
   balanced_after <- NULL
   Specified <- NULL
@@ -143,11 +147,16 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                               extract_country_data(countries = alloc_and_eff_couns, max_year = max_year),
                             dynamic = map(alloc_and_eff_couns)),
 
-    # (1a) Grab all CEDA data for ALL countries
+    # (1b) Grab all CEDA data for ALL countries
 
     CEDAData = drake::target(CEDATools::create_agg_cru_cy_df(agg_cru_cy_folder = ceda_data_folder,
                                                              agg_cru_cy_metric = c("tmp", "tmn", "tmx"),
                                                              agg_cru_cy_year = 2020)),
+    # (1c) Grab Machine data for ALL countries
+
+    AllMachineData = drake::target(read_all_eta_files(eta_fin_paths = get_eta_filepaths())),
+    MachineData = drake::target(AllMachineData %>% dplyr::filter(Country %in% countries)),
+
 
 
     # (2) Balance all final energy data.
@@ -188,14 +197,14 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                     load_exemplar_table(countries = alloc_and_eff_couns,
                                                         max_year = max_year) %>%
                                     exemplar_lists(alloc_and_eff_couns),
-                                  dynamic = map(alloc_and_eff_couns)),
+                                    dynamic = map(alloc_and_eff_couns)),
 
     # (6) Load incomplete FU allocation tables
 
     IncompleteAllocationTables = drake::target(fu_analysis_folder %>%
                                                  load_fu_allocation_tables(specified_iea_data = Specified,
                                                                            countries = alloc_and_eff_couns),
-                                               dynamic = map(alloc_and_eff_couns)),
+                                                 dynamic = map(alloc_and_eff_couns)),
 
     # (7) Complete FU allocation tables
 
