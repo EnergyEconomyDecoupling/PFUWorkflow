@@ -1,22 +1,32 @@
+#' Gives a file path to a sample machine excel workbook
+#'
+#' @return a path to a sample machine excel workbook bundled with this package
+#'
+#' @export
+#'
+#' @examples
+#' sample_machine_workbook_path()
+sample_machine_workbook_path <- function() {
+  file.path("extdata", "Machine_Example", "Machine_Example.xlsx") %>%
+    system.file(package = "SEAPSUTWorkflow")
+}
+
+
 #' Get all filepaths to machine excel files which contain a FIN_ETA sheet
+#'
+#' @param filepath A file path to the folder containing all machine folders.
 #'
 #' @return A list of the file paths to machine excel files containing
 #'         FIN_ETA frontsheets, and therefore usable data.
 #' @export
 #'
-get_eta_filepaths <- function() {
+get_eta_filepaths <- function(filepath) {
 
   # Estalishes name of the frontsheet of each machines excel workbook
   eta_sheet <- "FIN_ETA"
 
-  # Gets project path
-  project_path <- PFUSetup::get_abs_paths()$project_path
-
-  # Gets path to machine data
-  machine_path <- file.path(project_path, "Data", "Machines - Data")
-
   # Lists path to each machine folder
-  machine_paths <- list.dirs(path = machine_path, recursive = FALSE)
+  machine_paths <- list.dirs(path = filepath, recursive = FALSE)
 
   # Lists each machine excel file in machine_paths
   machine_filepaths <- list.files(machine_paths, recursive = FALSE, full.names = TRUE, pattern = ".xlsx") %>%
@@ -35,6 +45,7 @@ get_eta_filepaths <- function() {
       next
     }
   }
+  return(eta_fin_paths)
 }
 
 
@@ -53,7 +64,7 @@ get_eta_filepaths <- function() {
 read_all_eta_files <- function(eta_fin_paths) {
 
   # Creates empty tibble to store etas data in
-  etas <- tibble::as_tibble()
+  etas <- tibble::tibble()
 
   # Loops through each country in eta_fin_paths to add Eta.fu and Phi.u values
   # to etas tibble
@@ -78,13 +89,13 @@ read_all_eta_files <- function(eta_fin_paths) {
     raw_etas$Year <- as.numeric(raw_etas$Year)
     raw_etas$Value <- as.numeric(raw_etas$Value)
 
-    # Binds values from individual excel FIN_ETA sheet into etas tibble, and
-    # filters for only "Eta.fu" and "Phi.u" values
+    # Binds values from individual excel FIN_ETA sheet into etas tibble.
     etas <- etas %>%
-      dplyr::bind_rows(raw_etas) %>%
-      dplyr::filter(Metric %in% c("Eta.fu", "Phi.u"))
+      dplyr::bind_rows(raw_etas)
 
   }
+
+  return(etas)
 
 }
 

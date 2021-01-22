@@ -4,7 +4,10 @@
 \alias{get_eta_filepaths}
 \title{Get all filepaths to machine excel files which contain a FIN_ETA sheet}
 \usage{
-get_eta_filepaths()
+get_eta_filepaths(filepath)
+}
+\arguments{
+\item{filepath}{A file path to the folder containing all machine folders.}
 }
 \value{
 A list of the file paths to machine excel files containing

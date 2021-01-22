@@ -11,6 +11,7 @@ get_plan(
   how_far = "all_targets",
   iea_data_path,
   ceda_data_folder,
+  machine_data_path,
   exemplar_table_path,
   fu_analysis_folder,
   reports_source_folders,
@@ -39,6 +40,8 @@ Default is "all_targets" to indicate all targets of the plan should be returned.
 
 \item{ceda_data_folder}{The path to the CEDA data in text file, .per, format.}
 
+\item{machine_data_path}{The path to the machine data in .xlsx format.}
+
 \item{exemplar_table_path}{The path to an exemplar table.}
 
 \item{fu_analysis_folder}{The path to a folder containing final-to-useful analyses.
@@ -66,6 +69,7 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{max_year}: The maximum year to be analyzed, supplied in the \code{max_year} argument.
 \item \code{iea_data_path}: The path to IEA extended energy balance data, supplied in the \code{iea_data_path} argument.
 \item \code{ceda_data_folder}: The path to the CEDA data, supplied in the \code{ceda_data_folder} argument.
+\item \code{machine_data_path}: The path to the machine data excel files, supplied in the \code{machine_data_path} argument.
 \item \code{exemplar_table_path}: The path to an exemplar table, supplied in the \code{exemplar_table_path} argument.
 \item \code{fu_analysis_folder}: The path to the final-to-useful analysis folder, supplied in the \code{fu_analysis_folder} argument.
 \item \code{report_output_folder}: The path to a report output folder, supplied in the \code{report_output_folder} argument.
@@ -117,6 +121,7 @@ get_plan(countries = c("GHA", "ZAF"),
          max_year = 1999,
          iea_data_path = "iea_path",
          ceda_data_folder = "ceda_path",
+         machine_data_path = "machine_path",
          exemplar_table_path = "exemplar_path",
          fu_analysis_folder = "fu_folder",
          reports_source_folders = "reports_source_folders",
