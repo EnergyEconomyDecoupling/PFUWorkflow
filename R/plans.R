@@ -11,11 +11,15 @@
 #' * `alloc_and_eff_couns`: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of `countries` and `additional_exemplar_countries`, with duplicates removed.
 #' * `max_year`: The maximum year to be analyzed, supplied in the `max_year` argument.
 #' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
+#' * `ceda_data_folder`: The path to the CEDA data, supplied in the `ceda_data_folder` argument.
+#' * `machine_data_path`: The path to the machine data excel files, supplied in the `machine_data_path` argument.
 #' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.
 #' * `fu_analysis_folder`: The path to the final-to-useful analysis folder, supplied in the `fu_analysis_folder` argument.
 #' * `report_output_folder`: The path to a report output folder, supplied in the `report_output_folder` argument.
 #' * `AllIEAData`: A data frame with all IEA extended energy balance data read from `iea_data_path`.
 #' * `IEAData`: A version of the `AllIEAData` data frame containing data for only those countries specified in `countries`.
+#' * `CEDAData`: A data frame containing temperature data supplied through `CEDATools::read_cru_cy_files`.
+#' * `AllMachineData`: A data frame containing Eta.fu and Phi.u values read through functions in `machine_functions.R`.
 #' * `balanced_before`: A boolean that tells where the data were balanced as received, usually a vector of `FALSE`, one for each country.
 #' * `BalancedIEAData`: A data frame containing balanced IEA extended energy balance data.
 #' * `balanced_after`: A boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of `TRUE`, one for each country.
@@ -27,6 +31,10 @@
 #' * `CompletedAllocationTables` : A data frame containing completed final-to-useful allocation tables.
 #' * `IncompleteEfficiencyTables`: A data frame containing final-to-useful efficiency tables.
 #' * `CompletedEfficiencyTables`: A data frame containing completed final-to-useful efficiency tables.
+#' * `AllocationGraphs` : A data frame containing allocation plots.
+#' * `NonStationaryAllocationGraphs` : A data frame containing allocation plots for non-stationary data only.
+#' * `EfficiencyGraphs` : A data frame containing final-to-useful efficiency plots.
+#' * `ExergyEnergyGraphs` : A data frame containing exergy-to-energy ratio plots.
 #' * `report_source_paths`: A string vector of paths to sources for reports.
 #' * `report_dest_paths`: A string for the path to a folder into which reports will written.
 #' * `reports_complete`: A boolean that tells whether reports were written successfully.
@@ -62,6 +70,8 @@
 #' @param how_far A string indicating the last target to include in the plan that is returned.
 #'                Default is "all_targets" to indicate all targets of the plan should be returned.
 #' @param iea_data_path The path to IEA extended energy balance data in .csv format.
+#' @param ceda_data_folder The path to the CEDA data in text file, .per, format.
+#' @param machine_data_path The path to the machine data in .xlsx format.
 #' @param exemplar_table_path The path to an exemplar table.
 #' @param fu_analysis_folder The path to a folder containing final-to-useful analyses.
 #'                           Sub-folders named with 3-letter country abbreviations are assumed.
@@ -84,20 +94,26 @@
 #' get_plan(countries = c("GHA", "ZAF"),
 #'          max_year = 1999,
 #'          iea_data_path = "iea_path",
+#'          ceda_data_folder = "ceda_path",
+#'          machine_data_path = "machine_path",
 #'          exemplar_table_path = "exemplar_path",
 #'          fu_analysis_folder = "fu_folder",
 #'          reports_source_folders = "reports_source_folders",
 #'          reports_dest_folder = "reports_dest_folder")
 get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
-                     iea_data_path, exemplar_table_path, fu_analysis_folder,
-                     reports_source_folders, reports_dest_folder) {
+                     iea_data_path, ceda_data_folder,
+                     machine_data_path, exemplar_table_path,
+                     fu_analysis_folder, reports_source_folders, reports_dest_folder) {
 
-  # Get around some warnings.
+  # Get around warnings of type "no visible binding for global variable".
   alloc_and_eff_couns <- NULL
   map <- NULL
   AllIEAData <- NULL
   IEAData <- NULL
+  CEDAData <- NULL
+  AllMachineData <- NULL
+  MachineData <- NULL
   BalancedIEAData <- NULL
   balanced_after <- NULL
   Specified <- NULL
@@ -107,6 +123,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   ExemplarLists <- NULL
   CompletedAllocationTables <- NULL
   CompletedEfficiencyTables <- NULL
+  Cmats <- NULL
+  EtaPhivecs <- NULL
 
   p <- drake::drake_plan(
 
@@ -119,17 +137,30 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     alloc_and_eff_couns = unique(c(countries, !!additional_exemplar_countries)),
     max_year = !!max_year,
     iea_data_path = !!iea_data_path,
+    ceda_data_folder = !!ceda_data_folder,
+    machine_data_path = !!machine_data_path,
     exemplar_table_path = !!exemplar_table_path,
     fu_analysis_folder = !!fu_analysis_folder,
     reports_source_folders = !!reports_source_folders,
     reports_dest_folder = !!reports_dest_folder,
 
-    # (1) Grab all IEA data for ALL countries
+    # (1a) Grab all IEA data for ALL countries
 
     AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(),
     IEAData = drake::target(AllIEAData %>%
                               extract_country_data(countries = alloc_and_eff_couns, max_year = max_year),
                             dynamic = map(alloc_and_eff_couns)),
+
+    # (1b) Grab all CEDA data for ALL countries
+
+    CEDAData = drake::target(CEDATools::create_agg_cru_cy_df(agg_cru_cy_folder = ceda_data_folder,
+                                                             agg_cru_cy_metric = c("tmp", "tmn", "tmx"),
+                                                             agg_cru_cy_year = 2020)),
+    # (1c) Grab Machine data for ALL countries
+
+    AllMachineData = drake::target(read_all_eta_files(eta_fin_paths = get_eta_filepaths(machine_data_path))),
+
+
 
     # (2) Balance all final energy data.
 
@@ -169,14 +200,14 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                     load_exemplar_table(countries = alloc_and_eff_couns,
                                                         max_year = max_year) %>%
                                     exemplar_lists(alloc_and_eff_couns),
-                                  dynamic = map(alloc_and_eff_couns)),
+                                    dynamic = map(alloc_and_eff_couns)),
 
     # (6) Load incomplete FU allocation tables
 
     IncompleteAllocationTables = drake::target(fu_analysis_folder %>%
                                                  load_fu_allocation_tables(specified_iea_data = Specified,
                                                                            countries = alloc_and_eff_couns),
-                                               dynamic = map(alloc_and_eff_couns)),
+                                                 dynamic = map(alloc_and_eff_couns)),
 
     # (7) Complete FU allocation tables
 
@@ -207,6 +238,19 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (10) Extend to useful stage
 
+    Cmats = drake::target(calc_C_mats(completed_allocation_tables = CompletedAllocationTables,
+                                      countries = countries),
+                          dynamic = map(countries)),
+
+    EtaPhivecs = drake::target(calc_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
+                                                      countries = countries),
+                               dynamic = map(countries)),
+
+    PSUT_useful = drake::target(move_to_useful(psut_final = PSUT_final,
+                                               C_mats = Cmats,
+                                               eta_phi_vecs = EtaPhivecs,
+                                               countries = countries),
+                                dynamic = map(countries)),
 
     # (11) Add other methods
 
@@ -227,11 +271,19 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # Build Allocation Graphs
     AllocationGraphs = drake::target(alloc_plots_df(CompletedAllocationTables, countries = countries),
                                      dynamic = map(countries)),
-    # Allocation_Report =
+
+    # Build Non-Stationary Allocation Graphs
+    NonStationaryAllocationGraphs = drake::target(nonstat_alloc_plots_df(CompletedAllocationTables, countries = countries),
+                                     dynamic = map(countries)),
 
     # Build Efficiency Graphs
-    EfficiencyGraphs = drake::target(eta_fu_plots_df(CompletedEfficiencyTables, countries = countries))
-                       #,dynamic = map(machine & eu_product)) # How to map by
+    EfficiencyGraphs = drake::target(eta_fu_plots_df(CompletedEfficiencyTables, countries = countries)),
+
+    # Build Exergy-to-energy ratio graphs
+    # ExergyEnergyGraphs = drake::target(phi_u_plots_df(CompletedEfficiencyTables, countries = countries))
+
+
+
 
     # reports_source_paths = drake::target(drake::file_in(report_source_paths(report_source_folders = report_source_folders))),
     # reports_dest_path = drake::target(drake::file_out(report_dest_paths(report_source_paths))),

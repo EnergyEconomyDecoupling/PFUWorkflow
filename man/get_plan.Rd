@@ -10,6 +10,8 @@ get_plan(
   max_year,
   how_far = "all_targets",
   iea_data_path,
+  ceda_data_folder,
+  machine_data_path,
   exemplar_table_path,
   fu_analysis_folder,
   reports_source_folders,
@@ -35,6 +37,10 @@ Default is \code{NULL}, indicating no additional exemplars.}
 Default is "all_targets" to indicate all targets of the plan should be returned.}
 
 \item{iea_data_path}{The path to IEA extended energy balance data in .csv format.}
+
+\item{ceda_data_folder}{The path to the CEDA data in text file, .per, format.}
+
+\item{machine_data_path}{The path to the machine data in .xlsx format.}
 
 \item{exemplar_table_path}{The path to an exemplar table.}
 
@@ -62,11 +68,15 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{alloc_and_eff_couns}: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of \code{countries} and \code{additional_exemplar_countries}, with duplicates removed.
 \item \code{max_year}: The maximum year to be analyzed, supplied in the \code{max_year} argument.
 \item \code{iea_data_path}: The path to IEA extended energy balance data, supplied in the \code{iea_data_path} argument.
+\item \code{ceda_data_folder}: The path to the CEDA data, supplied in the \code{ceda_data_folder} argument.
+\item \code{machine_data_path}: The path to the machine data excel files, supplied in the \code{machine_data_path} argument.
 \item \code{exemplar_table_path}: The path to an exemplar table, supplied in the \code{exemplar_table_path} argument.
 \item \code{fu_analysis_folder}: The path to the final-to-useful analysis folder, supplied in the \code{fu_analysis_folder} argument.
 \item \code{report_output_folder}: The path to a report output folder, supplied in the \code{report_output_folder} argument.
 \item \code{AllIEAData}: A data frame with all IEA extended energy balance data read from \code{iea_data_path}.
 \item \code{IEAData}: A version of the \code{AllIEAData} data frame containing data for only those countries specified in \code{countries}.
+\item \code{CEDAData}: A data frame containing temperature data supplied through \code{CEDATools::read_cru_cy_files}.
+\item \code{AllMachineData}: A data frame containing Eta.fu and Phi.u values read through functions in \code{machine_functions.R}.
 \item \code{balanced_before}: A boolean that tells where the data were balanced as received, usually a vector of \code{FALSE}, one for each country.
 \item \code{BalancedIEAData}: A data frame containing balanced IEA extended energy balance data.
 \item \code{balanced_after}: A boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of \code{TRUE}, one for each country.
@@ -78,6 +88,10 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{CompletedAllocationTables} : A data frame containing completed final-to-useful allocation tables.
 \item \code{IncompleteEfficiencyTables}: A data frame containing final-to-useful efficiency tables.
 \item \code{CompletedEfficiencyTables}: A data frame containing completed final-to-useful efficiency tables.
+\item \code{AllocationGraphs} : A data frame containing allocation plots.
+\item \code{NonStationaryAllocationGraphs} : A data frame containing allocation plots for non-stationary data only.
+\item \code{EfficiencyGraphs} : A data frame containing final-to-useful efficiency plots.
+\item \code{ExergyEnergyGraphs} : A data frame containing exergy-to-energy ratio plots.
 \item \code{report_source_paths}: A string vector of paths to sources for reports.
 \item \code{report_dest_paths}: A string for the path to a folder into which reports will written.
 \item \code{reports_complete}: A boolean that tells whether reports were written successfully.
@@ -105,6 +119,8 @@ Note that some targets can be read using \code{readd_by_country()}, including:
 get_plan(countries = c("GHA", "ZAF"),
          max_year = 1999,
          iea_data_path = "iea_path",
+         ceda_data_folder = "ceda_path",
+         machine_data_path = "machine_path",
          exemplar_table_path = "exemplar_path",
          fu_analysis_folder = "fu_folder",
          reports_source_folders = "reports_source_folders",

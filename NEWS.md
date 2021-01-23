@@ -1,10 +1,35 @@
+# SEAPSUTWorkflow 0.2.0 (2021-01-23)
+
+* New tests for new features.
+    * Now up to 216 tests, all passing.
+    * Test coverage remains at 100%.
+
+* New target "AllMachineData" which consists of a tidy data 
+  frames containing information obtained by calling functions in 
+  machine_functions.R.
+
+* New set of functions in machine_functions.R (`get_eta_filepaths()` and 
+  `read_all_eta_files`) which read in data from a specified file path and create 
+  a tidy data frame containing Eta.fu, Phi.u, and any additional metrics supplied.
+
+* New version of plan that includes extending the PSUT matrices to the useful stage.
+* New functions `nonstat_alloc_graph()` and `nonstat_alloc_plots_df()`
+  which make final-to-useful allocations graphs for only non-stationary allocations 
+  data, and for later use in reports and other visualization.
+* New functions `phi_u_graph()` and `phi_u_plots_df()`
+  which make exergy-to-energy ratio graphs for use in reports and other
+  visualization.
+
+
 # SEAPSUTWorkflow 0.1.11 (2020-09-28)
 
 * Hotfix: fixed eta_fu_graph function
 
+
 # SEAPSUTWorkflow 0.1.10 (2020-09-25)
 
 * Added working final-to-useful efficiency (eta.fu) report.
+
 
 # SEAPSUTWorkflow 0.1.9 (2020-09-17)
 

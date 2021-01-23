@@ -17,11 +17,11 @@ eta_fu_plots_df(
 )
 }
 \arguments{
-\item{.df}{The completed allocation tables data frame. Default is \code{drake::readd(SEAPSUTWorkflow::target_names$CompletedEfficiencyTables, path = cache_path, character_only = TRUE)}.}
+\item{.df}{The completed final-to useful efficiency tables data frame. Which contains both eta.fu and phi.u values. Default is \code{drake::readd(SEAPSUTWorkflow::target_names$CompletedEfficiencyTables, path = cache_path, character_only = TRUE)}.}
 
-\item{countries}{The countries for which allocation plots are to be created.}
+\item{countries}{The countries for which final-to useful efficiency plots are to be created.}
 
-\item{plots}{The name of the output column containing allocation graphs. Default is "plots".}
+\item{plots}{The name of the output column containing final-to useful efficiency graphs. Default is "plots".}
 
 \item{country}{See \code{IEATools::iea_cols}.}
 
@@ -32,7 +32,7 @@ eta_fu_plots_df(
 \item{machine_eu_product}{The name of a combined \code{machine} and \code{eu_product} column.}
 }
 \value{
-A data frame containing a list column of \code{ggplot2} allocation graphs.
+A data frame containing a list column of \code{ggplot2} final-to useful efficiency graphs.
 }
 \description{
 This function adds a column of \code{ggplot2} graphs to a completed eta_fu tables data frame.
@@ -41,8 +41,8 @@ The graphs are stored in a list column named \code{plots}.
 \details{
 By default, the completed eta_fu tables data frame is read from a \code{drake} cache.
 
-The data frame is grouped by \code{country}, \code{machine}, and \code{eu_product} and nested prior to making the graphs,
-meaning that one allocation graph is constructed for each combination of country, machine, and eu_product.
+The data frame is grouped by \code{machine}, and \code{eu_product} and nested prior to making the graphs,
+meaning that one final-to useful efficiency graph is constructed for each combination of machine, and eu_product.
 }
 \examples{
 # Make a simple data frame with the expected structure.

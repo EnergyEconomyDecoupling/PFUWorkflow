@@ -73,7 +73,7 @@ given a set of incomplete allocation tables." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -120,20 +120,20 @@ given a set of incomplete allocation tables." />
 given a set of incomplete allocation tables.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>assemble_fu_allocation_tables</span>(
-  <span class='kw'>incomplete_allocation_tables</span>,
-  <span class='kw'>exemplar_lists</span>,
-  <span class='kw'>specified_iea_data</span>,
-  <span class='kw'>countries</span>,
-  max_year = <span class='kw'>NULL</span>,
-  country = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>country</span>,
-  year = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>year</span>,
-  exemplars = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>exemplars</span>,
-  exemplar_tables = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>exemplar_tables</span>,
-  iea_data = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>iea_data</span>,
-  incomplete_alloc_tables = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>incomplete_alloc_table</span>,
-  complete_alloc_tables = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='kw'>complete_alloc_table</span>
-)</pre>
+    <pre class="usage"><span class='fu'>assemble_fu_allocation_tables</span><span class='op'>(</span>
+  <span class='va'>incomplete_allocation_tables</span>,
+  <span class='va'>exemplar_lists</span>,
+  <span class='va'>specified_iea_data</span>,
+  <span class='va'>countries</span>,
+  max_year <span class='op'>=</span> <span class='cn'>NULL</span>,
+  country <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>country</span>,
+  year <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>year</span>,
+  exemplars <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>exemplars</span>,
+  exemplar_tables <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>exemplar_tables</span>,
+  iea_data <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>iea_data</span>,
+  incomplete_alloc_tables <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>incomplete_alloc_table</span>,
+  complete_alloc_tables <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>complete_alloc_table</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,22 +184,22 @@ See examples for how to construct <code>exemplar_lists</code>.</p>
     <pre class="examples"><div class='input'><span class='co'># Load final-to-useful allocation tables, but eliminate one category of consumption,</span>
 <span class='co'># Residential consumption of Primary solid biofuels,</span>
 <span class='co'># which will be filled by the exemplar for GHA, ZAF.</span>
-<span class='kw'>incomplete_fu_allocation_tables</span> <span class='op'>&lt;-</span> <span class='kw'>IEATools</span>::<span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/load_fu_allocation_data.html'>load_fu_allocation_data</a></span>() <span class='op'>%&gt;%</span>
-  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='op'>!</span> (<span class='kw'>Country</span> <span class='op'>==</span> <span class='st'>"GHA"</span> <span class='op'>&amp;</span> <span class='kw'>Ef.product</span> <span class='op'>==</span> <span class='st'>"Primary solid biofuels"</span> <span class='op'>&amp;</span>
-    <span class='kw'>Destination</span> <span class='op'>==</span> <span class='st'>"Residential"</span>))
+<span class='va'>incomplete_fu_allocation_tables</span> <span class='op'>&lt;-</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/load_fu_allocation_data.html'>load_fu_allocation_data</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span> <span class='op'>(</span><span class='va'>Country</span> <span class='op'>==</span> <span class='st'>"GHA"</span> <span class='op'>&amp;</span> <span class='va'>Ef.product</span> <span class='op'>==</span> <span class='st'>"Primary solid biofuels"</span> <span class='op'>&amp;</span>
+    <span class='va'>Destination</span> <span class='op'>==</span> <span class='st'>"Residential"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># Show that those rows are gone.</span>
-<span class='kw'>incomplete_fu_allocation_tables</span> <span class='op'>%&gt;%</span>
-  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Country</span> <span class='op'>==</span> <span class='st'>"GHA"</span> <span class='op'>&amp;</span> <span class='kw'>Ef.product</span> <span class='op'>==</span> <span class='st'>"Primary solid biofuels"</span> <span class='op'>&amp;</span>
-    <span class='kw'>Destination</span> <span class='op'>==</span> <span class='st'>"Residential"</span>)
+<span class='va'>incomplete_fu_allocation_tables</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Country</span> <span class='op'>==</span> <span class='st'>"GHA"</span> <span class='op'>&amp;</span> <span class='va'>Ef.product</span> <span class='op'>==</span> <span class='st'>"Primary solid biofuels"</span> <span class='op'>&amp;</span>
+    <span class='va'>Destination</span> <span class='op'>==</span> <span class='st'>"Residential"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] Country                Method                 Energy.type           
 #&gt;  [4] Last.stage             Ledger.side            Flow.aggregation.point
 #&gt;  [7] Unit                   Ef.product             Machine               
 #&gt; [10] Eu.product             Destination            Quantity              
 #&gt; [13] Maximum.values         1971                   2000                  
 #&gt; &lt;0 rows&gt; (or 0-length row.names)</div><div class='input'><span class='co'># But the missing rows of GHA are present in allocation data for ZAF.</span>
-<span class='kw'>incomplete_fu_allocation_tables</span> <span class='op'>%&gt;%</span>
-  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Country</span> <span class='op'>==</span> <span class='st'>"ZAF"</span> <span class='op'>&amp;</span> <span class='kw'>Ef.product</span> <span class='op'>==</span> <span class='st'>"Primary solid biofuels"</span> <span class='op'>&amp;</span>
-    <span class='kw'>Destination</span> <span class='op'>==</span> <span class='st'>"Residential"</span>)
+<span class='va'>incomplete_fu_allocation_tables</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Country</span> <span class='op'>==</span> <span class='st'>"ZAF"</span> <span class='op'>&amp;</span> <span class='va'>Ef.product</span> <span class='op'>==</span> <span class='st'>"Primary solid biofuels"</span> <span class='op'>&amp;</span>
+    <span class='va'>Destination</span> <span class='op'>==</span> <span class='st'>"Residential"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   Country Method Energy.type Last.stage Ledger.side Flow.aggregation.point Unit
 #&gt; 1     ZAF    PCM           E      Final Consumption                  Other ktoe
 #&gt; 2     ZAF    PCM           E      Final Consumption                  Other ktoe
@@ -218,28 +218,28 @@ See examples for how to construct <code>exemplar_lists</code>.</p>
 #&gt; 3             NA    0.5000000    0.5000000
 #&gt; 4             NA    0.5000000    0.5000000
 #&gt; 5             NA           NA           NA</div><div class='input'><span class='co'># Set up exemplar list</span>
-<span class='kw'>el</span> <span class='op'>&lt;-</span> <span class='kw'>tibble</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
-  <span class='op'>~</span><span class='kw'>Country</span>, <span class='op'>~</span><span class='kw'>Year</span>, <span class='op'>~</span><span class='kw'>Exemplars</span>,
-  <span class='st'>"GHA"</span>, <span class='fl'>1971</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ZAF"</span>),
-  <span class='st'>"GHA"</span>, <span class='fl'>2000</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ZAF"</span>))
-<span class='kw'>el</span>
+<span class='va'>el</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
+  <span class='op'>~</span><span class='va'>Country</span>, <span class='op'>~</span><span class='va'>Year</span>, <span class='op'>~</span><span class='va'>Exemplars</span>,
+  <span class='st'>"GHA"</span>, <span class='fl'>1971</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ZAF"</span><span class='op'>)</span>,
+  <span class='st'>"GHA"</span>, <span class='fl'>2000</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ZAF"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>el</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 3</span><span>
 #&gt;   Country  Year Exemplars
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
 #&gt; </span><span style='color: #555555;'>1</span><span> GHA      </span><span style='text-decoration: underline;'>1</span><span>971 ZAF      
 #&gt; </span><span style='color: #555555;'>2</span><span> GHA      </span><span style='text-decoration: underline;'>2</span><span>000 ZAF      </div><div class='input'><span class='co'># Load IEA data</span>
-<span class='kw'>iea_data</span> <span class='op'>&lt;-</span> <span class='kw'>IEATools</span>::<span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/load_tidy_iea_df.html'>load_tidy_iea_df</a></span>() <span class='op'>%&gt;%</span>
-  <span class='kw'>IEATools</span>::<span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/specify_all.html'>specify_all</a></span>()
+<span class='va'>iea_data</span> <span class='op'>&lt;-</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/load_tidy_iea_df.html'>load_tidy_iea_df</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>IEATools</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/specify_all.html'>specify_all</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='co'># Assemble complete allocation tables</span>
-<span class='kw'>completed</span> <span class='op'>&lt;-</span> <span class='fu'>assemble_fu_allocation_tables</span>(incomplete_allocation_tables =
-                                             <span class='kw'>incomplete_fu_allocation_tables</span>,
-                                           exemplar_lists = <span class='kw'>el</span>,
-                                           specified_iea_data = <span class='kw'>iea_data</span>,
-                                           countries = <span class='st'>"GHA"</span>)
+<span class='va'>completed</span> <span class='op'>&lt;-</span> <span class='fu'>assemble_fu_allocation_tables</span><span class='op'>(</span>incomplete_allocation_tables <span class='op'>=</span>
+                                             <span class='va'>incomplete_fu_allocation_tables</span>,
+                                           exemplar_lists <span class='op'>=</span> <span class='va'>el</span>,
+                                           specified_iea_data <span class='op'>=</span> <span class='va'>iea_data</span>,
+                                           countries <span class='op'>=</span> <span class='st'>"GHA"</span><span class='op'>)</span>
 <span class='co'># Missing data for GHA has been picked up from ZAF.</span>
-<span class='kw'>completed</span> <span class='op'>%&gt;%</span>
-  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Country</span> <span class='op'>==</span> <span class='st'>"GHA"</span> <span class='op'>&amp;</span> <span class='kw'>Ef.product</span> <span class='op'>==</span> <span class='st'>"Primary solid biofuels"</span> <span class='op'>&amp;</span>
-    <span class='kw'>Destination</span> <span class='op'>==</span> <span class='st'>"Residential"</span>)
+<span class='va'>completed</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Country</span> <span class='op'>==</span> <span class='st'>"GHA"</span> <span class='op'>&amp;</span> <span class='va'>Ef.product</span> <span class='op'>==</span> <span class='st'>"Primary solid biofuels"</span> <span class='op'>&amp;</span>
+    <span class='va'>Destination</span> <span class='op'>==</span> <span class='st'>"Residential"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 15</span><span>
 #&gt;   Country Method Energy.type Last.stage Ledger.side Flow.aggregatio~ Unit 
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>

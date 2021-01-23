@@ -37,7 +37,7 @@ created by the \code{assemble_eta_fu_tables()} function.
 \details{
 This function is called repeatedly from \code{eta_fu_plots_df()}.
 
-\code{country}, \code{machine}, and \code{destination} form the title of the graph.
+\code{machine}, and \code{destination} form the title of the graph.
 }
 \examples{
 library(ggplot2)

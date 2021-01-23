@@ -73,7 +73,7 @@ created by the assemble_eta_fu_tables() function." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -120,17 +120,17 @@ created by the assemble_eta_fu_tables() function." />
 created by the <code><a href='assemble_eta_fu_tables.html'>assemble_eta_fu_tables()</a></code> function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>eta_fu_graph</span>(
-  <span class='kw'>.df</span>,
-  <span class='kw'>countries</span>,
-  country = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>country</span>,
-  quantity = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='kw'>quantity</span>,
-  year = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>year</span>,
-  .values = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='kw'>.values</span>,
-  machine = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='kw'>machine</span>,
-  eu_product = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='kw'>eu_product</span>,
-  machine_eu_product = <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='kw'>machine</span>, <span class='st'>"_"</span>, <span class='kw'>eu_product</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>eta_fu_graph</span><span class='op'>(</span>
+  <span class='va'>.df</span>,
+  <span class='va'>countries</span>,
+  country <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>country</span>,
+  quantity <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>quantity</span>,
+  year <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>year</span>,
+  .values <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>.values</span>,
+  machine <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>machine</span>,
+  eu_product <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>eu_product</span>,
+  machine_eu_product <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>machine</span>, <span class='st'>"_"</span>, <span class='va'>eu_product</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,17 +163,17 @@ created by the <code><a href='assemble_eta_fu_tables.html'>assemble_eta_fu_table
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function is called repeatedly from <code><a href='eta_fu_plots_df.html'>eta_fu_plots_df()</a></code>.</p>
-<p><code>country</code>, <code>machine</code>, and <code>destination</code> form the title of the graph.</p>
+<p><code>machine</code>, and <code>destination</code> form the title of the graph.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
 <span class='co'># Make a simple data frame with the expected structure.</span>
-<span class='kw'>tibble</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(<span class='op'>~</span><span class='kw'>Year</span>, <span class='op'>~</span><span class='kw'>.values</span>, <span class='op'>~</span><span class='kw'>Machine</span>, <span class='op'>~</span><span class='kw'>Eu.product</span>,
+<span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>Year</span>, <span class='op'>~</span><span class='va'>.values</span>, <span class='op'>~</span><span class='va'>Machine</span>, <span class='op'>~</span><span class='va'>Eu.product</span>,
                 <span class='fl'>1967</span>, <span class='fl'>0.5</span>, <span class='st'>"Cars"</span>, <span class='st'>"MD"</span>,
                 <span class='fl'>1967</span>, <span class='fl'>0.5</span>, <span class='st'>"Industry static engines"</span>, <span class='st'>"MD"</span>,
                 <span class='fl'>2020</span>, <span class='fl'>0.8</span>, <span class='st'>"Cars"</span>, <span class='st'>"MD"</span>,
-                <span class='fl'>2020</span>, <span class='fl'>0.2</span>, <span class='st'>"Industry static engines"</span>, <span class='st'>"MD"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='alloc_graph.html'>alloc_graph</a></span>(country = <span class='st'>"Example"</span>, ef_product = <span class='st'>"Petrol"</span>, destination = <span class='st'>"Transport"</span>)
+                <span class='fl'>2020</span>, <span class='fl'>0.2</span>, <span class='st'>"Industry static engines"</span>, <span class='st'>"MD"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='alloc_graph.html'>alloc_graph</a></span><span class='op'>(</span>country <span class='op'>=</span> <span class='st'>"Example"</span>, ef_product <span class='op'>=</span> <span class='st'>"Petrol"</span>, destination <span class='op'>=</span> <span class='st'>"Transport"</span><span class='op'>)</span>
 </div><div class='img'><img src='eta_fu_graph-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -76,7 +76,7 @@ path information stored in the drake cache." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -126,25 +126,25 @@ allowing the caller to specify only output_path to override all of the
 path information stored in the drake cache.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generate_eta_fu_template</span>(
-  <span class='kw'>country</span>,
-  country_col = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='kw'>country</span>,
-  cache_path = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='cache_info.html'>cache_info</a></span><span class='op'>$</span><span class='kw'>cache_path</span>,
-  fu_analysis_path_target = <span class='kw'>SEAPSUTWorkflow</span>::<span class='kw'><a href='target_names.html'>target_names</a></span><span class='op'>$</span><span class='kw'>fu_analysis_folder</span>,
-  fu_allocation_table_file_name = <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='kw'>country</span>,
-    <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/fu_analysis_file_info.html'>fu_analysis_file_info</a></span><span class='op'>$</span><span class='kw'>fu_analysis_file_suffix</span>),
-  ext = <span class='st'>".xlsx"</span>,
-  fu_allocation_table_path = <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>drake</span>::<span class='fu'><a href='https://docs.ropensci.org/drake/reference/readd.html'>readd</a></span>(<span class='kw'>fu_analysis_path_target</span>,
-    character_only = <span class='fl'>TRUE</span>, path = <span class='kw'>cache_path</span>), <span class='kw'>country</span>) <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='dir_create_pipe.html'>dir_create_pipe</a></span>(showWarnings = <span class='fl'>FALSE</span>, recursive = <span class='fl'>TRUE</span>) <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>fu_allocation_table_file_name</span>),
-  fu_allocation_tab_name = <span class='kw'>IEATools</span>::<span class='kw'><a href='https://rdrr.io/pkg/IEATools/man/fu_analysis_file_info.html'>fu_analysis_file_info</a></span><span class='op'>$</span><span class='kw'>fu_allocation_tab_name</span>,
-  eta_fu_template_file_name = <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='kw'>country</span>, <span class='st'>" FU etas Template"</span>),
-  output_path = <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>drake</span>::<span class='fu'><a href='https://docs.ropensci.org/drake/reference/readd.html'>readd</a></span>(<span class='kw'>fu_analysis_path_target</span>, character_only = <span class='fl'>TRUE</span>,
-    path = <span class='kw'>cache_path</span>), <span class='kw'>country</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='dir_create_pipe.html'>dir_create_pipe</a></span>(showWarnings = <span class='fl'>FALSE</span>, recursive =
-    <span class='fl'>TRUE</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='kw'>eta_fu_template_file_name</span>, <span class='kw'>ext</span>)),
-  overwrite = <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>generate_eta_fu_template</span><span class='op'>(</span>
+  <span class='va'>country</span>,
+  country_col <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>country</span>,
+  cache_path <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='cache_info.html'>cache_info</a></span><span class='op'>$</span><span class='va'>cache_path</span>,
+  fu_analysis_path_target <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='target_names.html'>target_names</a></span><span class='op'>$</span><span class='va'>fu_analysis_folder</span>,
+  fu_allocation_table_file_name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>country</span>,
+    <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/fu_analysis_file_info.html'>fu_analysis_file_info</a></span><span class='op'>$</span><span class='va'>fu_analysis_file_suffix</span><span class='op'>)</span>,
+  ext <span class='op'>=</span> <span class='st'>".xlsx"</span>,
+  fu_allocation_table_path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'>drake</span><span class='fu'>::</span><span class='fu'><a href='https://docs.ropensci.org/drake/reference/readd.html'>readd</a></span><span class='op'>(</span><span class='va'>fu_analysis_path_target</span>,
+    character_only <span class='op'>=</span> <span class='cn'>TRUE</span>, path <span class='op'>=</span> <span class='va'>cache_path</span><span class='op'>)</span>, <span class='va'>country</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='dir_create_pipe.html'>dir_create_pipe</a></span><span class='op'>(</span>showWarnings <span class='op'>=</span> <span class='cn'>FALSE</span>, recursive <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>fu_allocation_table_file_name</span><span class='op'>)</span>,
+  fu_allocation_tab_name <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/fu_analysis_file_info.html'>fu_analysis_file_info</a></span><span class='op'>$</span><span class='va'>fu_allocation_tab_name</span>,
+  eta_fu_template_file_name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>country</span>, <span class='st'>" FU etas Template"</span><span class='op'>)</span>,
+  output_path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'>drake</span><span class='fu'>::</span><span class='fu'><a href='https://docs.ropensci.org/drake/reference/readd.html'>readd</a></span><span class='op'>(</span><span class='va'>fu_analysis_path_target</span>, character_only <span class='op'>=</span> <span class='cn'>TRUE</span>,
+    path <span class='op'>=</span> <span class='va'>cache_path</span><span class='op'>)</span>, <span class='va'>country</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='dir_create_pipe.html'>dir_create_pipe</a></span><span class='op'>(</span>showWarnings <span class='op'>=</span> <span class='cn'>FALSE</span>, recursive <span class='op'>=</span>
+    <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>eta_fu_template_file_name</span>, <span class='va'>ext</span><span class='op'>)</span><span class='op'>)</span>,
+  overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
