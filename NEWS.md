@@ -1,5 +1,9 @@
 # SEAPSUTWorkflow 0.2.0 (2021-01-23)
 
+* New tests for new features.
+    * Now up to 216 tests, all passing.
+    * Test coverage remains at 100%.
+
 * New target "AllMachineData" which consists of a tidy data 
   frames containing information obtained by calling functions in 
   machine_functions.R.

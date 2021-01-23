@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Move the last stage of the energy conversion chain from final stage to useful stage — move_to_useful • SEAPSUTWorkflow</title>
+<title>Gives a file path to a sample machine excel workbook — sample_machine_workbook_path • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,8 @@
 
 
 
-<meta property="og:title" content="Move the last stage of the energy conversion chain from final stage to useful stage — move_to_useful" />
-<meta property="og:description" content="Extends the energy conversion chain from a final energy last stage to useful energy last stage.
-The last-stage-useful energy conversion chain PSUT matrices are bound as rows at the bottom
-of the psut_final data frame,
-albeit with &quot;Useful&quot; instead of &quot;Final&quot; in the Last.stage column." />
+<meta property="og:title" content="Gives a file path to a sample machine excel workbook — sample_machine_workbook_path" />
+<meta property="og:description" content="Gives a file path to a sample machine excel workbook" />
 
 
 
@@ -112,62 +109,25 @@ albeit with &quot;Useful&quot; instead of &quot;Final&quot; in the Last.stage co
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Move the last stage of the energy conversion chain from final stage to useful stage</h1>
+    <h1>Gives a file path to a sample machine excel workbook</h1>
     
-    <div class="hidden name"><code>move_to_useful.Rd</code></div>
+    <div class="hidden name"><code>sample_machine_workbook_path.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Extends the energy conversion chain from a final energy last stage to useful energy last stage.
-The last-stage-useful energy conversion chain PSUT matrices are bound as rows at the bottom
-of the <code>psut_final</code> data frame,
-albeit with "Useful" instead of "Final" in the <code>Last.stage</code> column.</p>
+    <p>Gives a file path to a sample machine excel workbook</p>
     </div>
 
-    <pre class="usage"><span class='fu'>move_to_useful</span><span class='op'>(</span>
-  <span class='va'>psut_final</span>,
-  <span class='va'>C_mats</span>,
-  <span class='va'>eta_phi_vecs</span>,
-  <span class='va'>countries</span>,
-  country <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>country</span>,
-  year <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>year</span>,
-  C_Y <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>C_Y</span>,
-  C_eiou <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>C_eiou</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sample_machine_workbook_path</span><span class='op'>(</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>psut_final</th>
-      <td><p>A data frame with rows that describe the energy conversion chain with final energy as the last stage.</p></td>
-    </tr>
-    <tr>
-      <th>C_mats</th>
-      <td><p>A data frame with allocation matrices, probably the Cmats target.</p></td>
-    </tr>
-    <tr>
-      <th>eta_phi_vecs</th>
-      <td><p>A data frame with final-to-useful efficiency and exergy-to-energy ratio vectors.</p></td>
-    </tr>
-    <tr>
-      <th>countries</th>
-      <td><p>The countries to be analyzed.</p></td>
-    </tr>
-    <tr>
-      <th>country, year</th>
-      <td><p>See IEATools::iea_cols.</p></td>
-    </tr>
-    <tr>
-      <th>C_Y, C_eiou</th>
-      <td><p>See IEATools::template_cols.</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with energy conversion chain matrices with last stage as useful energy.</p>
+    <p>a path to a sample machine excel workbook bundled with this package</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>sample_machine_workbook_path</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "C:/Users/earzm/Documents/Github/SEAPSUTWorkflow/inst/extdata/Machine_Example/Machine_Example.xlsx"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
