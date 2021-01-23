@@ -20,7 +20,6 @@
 #' * `IEAData`: A version of the `AllIEAData` data frame containing data for only those countries specified in `countries`.
 #' * `CEDAData`: A data frame containing temperature data supplied through `CEDATools::read_cru_cy_files`.
 #' * `AllMachineData`: A data frame containing Eta.fu and Phi.u values read through functions in `machine_functions.R`.
-#' * `MachineData`: A version of the `AllMachineData` data frame containing data for only those countries specified in `countries`.
 #' * `balanced_before`: A boolean that tells where the data were balanced as received, usually a vector of `FALSE`, one for each country.
 #' * `BalancedIEAData`: A data frame containing balanced IEA extended energy balance data.
 #' * `balanced_after`: A boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of `TRUE`, one for each country.
@@ -160,7 +159,6 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # (1c) Grab Machine data for ALL countries
 
     AllMachineData = drake::target(read_all_eta_files(eta_fin_paths = get_eta_filepaths(machine_data_path))),
-    MachineData = drake::target(AllMachineData), # Need to check with Matt how to filter out/extract for countries in countries.
 
 
 

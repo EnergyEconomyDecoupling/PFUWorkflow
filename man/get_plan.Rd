@@ -77,7 +77,6 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{IEAData}: A version of the \code{AllIEAData} data frame containing data for only those countries specified in \code{countries}.
 \item \code{CEDAData}: A data frame containing temperature data supplied through \code{CEDATools::read_cru_cy_files}.
 \item \code{AllMachineData}: A data frame containing Eta.fu and Phi.u values read through functions in \code{machine_functions.R}.
-\item \code{MachineData}: A version of the \code{AllMachineData} data frame containing data for only those countries specified in \code{countries}.
 \item \code{balanced_before}: A boolean that tells where the data were balanced as received, usually a vector of \code{FALSE}, one for each country.
 \item \code{BalancedIEAData}: A data frame containing balanced IEA extended energy balance data.
 \item \code{balanced_after}: A boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of \code{TRUE}, one for each country.

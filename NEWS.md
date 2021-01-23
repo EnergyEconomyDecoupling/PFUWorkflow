@@ -1,4 +1,4 @@
-* New targets "AllMachineData" and "MachineData", which consist of tidy data 
+* New target "AllMachineData" which consists of a tidy data 
   frames containing information obtained by calling functions in 
   machine_functions.R.
 

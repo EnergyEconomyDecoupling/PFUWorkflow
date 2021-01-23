@@ -49,9 +49,6 @@ test_that("get_plan works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AllMachineData")
 
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "MachineData")
-  # expect_equal(my_plan[[rn, "command"]], list("AllMachineData"))
-
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "balanced_before")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "BalancedIEAData")

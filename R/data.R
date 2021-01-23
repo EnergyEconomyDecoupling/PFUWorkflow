@@ -21,7 +21,6 @@
 #' \item{IEAData}{A filtered version of `AllIEAData` containing information for only `countries`.}
 #' \item{CEDAData}{The name of the data frame containing all CEDA temperature data read from `ceda_data_folder`.}
 #' \item{AllMachineData}{A data frame containing Eta.fu and Phi.u values read through functions in `machine_functions.R`.}
-#' \item{MachineData}{A version of the `AllMachineData` data frame containing data for only those countries specified in `countries`.}
 #' \item{balanced_before}{A boolean indicating whether the `IEAData` are balanced before any further analysis. They usually are not, so this value is typically `FALSE`.}
 #' \item{BalancedIEAData}{A balanced version of `IEAData`.}
 #' \item{balanced_after}{Same as `balanced_before`, only for after balancing. This should be `TRUE`.}
