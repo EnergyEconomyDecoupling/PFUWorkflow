@@ -75,7 +75,7 @@ which the maximum year to be analyzed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -131,6 +131,7 @@ which the maximum year to be analyzed.</p>
   how_far <span class='op'>=</span> <span class='st'>"all_targets"</span>,
   <span class='va'>iea_data_path</span>,
   <span class='va'>ceda_data_folder</span>,
+  <span class='va'>machine_data_path</span>,
   <span class='va'>exemplar_table_path</span>,
   <span class='va'>fu_analysis_folder</span>,
   <span class='va'>reports_source_folders</span>,
@@ -174,6 +175,10 @@ Default is "all_targets" to indicate all targets of the plan should be returned.
       <td><p>The path to the CEDA data in text file, .per, format.</p></td>
     </tr>
     <tr>
+      <th>machine_data_path</th>
+      <td><p>The path to the machine data in .xlsx format.</p></td>
+    </tr>
+    <tr>
       <th>exemplar_table_path</th>
       <td><p>The path to an exemplar table.</p></td>
     </tr>
@@ -204,12 +209,14 @@ Sub-folders named with 3-letter country abbreviations are assumed.</p></td>
 <li><p><code>max_year</code>: The maximum year to be analyzed, supplied in the <code>max_year</code> argument.</p></li>
 <li><p><code>iea_data_path</code>: The path to IEA extended energy balance data, supplied in the <code>iea_data_path</code> argument.</p></li>
 <li><p><code>ceda_data_folder</code>: The path to the CEDA data, supplied in the <code>ceda_data_folder</code> argument.</p></li>
+<li><p><code>machine_data_path</code>: The path to the machine data excel files, supplied in the <code>machine_data_path</code> argument.</p></li>
 <li><p><code>exemplar_table_path</code>: The path to an exemplar table, supplied in the <code>exemplar_table_path</code> argument.</p></li>
 <li><p><code>fu_analysis_folder</code>: The path to the final-to-useful analysis folder, supplied in the <code>fu_analysis_folder</code> argument.</p></li>
 <li><p><code>report_output_folder</code>: The path to a report output folder, supplied in the <code>report_output_folder</code> argument.</p></li>
 <li><p><code>AllIEAData</code>: A data frame with all IEA extended energy balance data read from <code>iea_data_path</code>.</p></li>
 <li><p><code>IEAData</code>: A version of the <code>AllIEAData</code> data frame containing data for only those countries specified in <code>countries</code>.</p></li>
 <li><p><code>CEDAData</code>: A data frame containing temperature data supplied through <code><a href='https://rdrr.io/pkg/CEDATools/man/read_cru_cy_files.html'>CEDATools::read_cru_cy_files</a></code>.</p></li>
+<li><p><code>AllMachineData</code>: A data frame containing Eta.fu and Phi.u values read through functions in <code>machine_functions.R</code>.</p></li>
 <li><p><code>balanced_before</code>: A boolean that tells where the data were balanced as received, usually a vector of <code>FALSE</code>, one for each country.</p></li>
 <li><p><code>BalancedIEAData</code>: A data frame containing balanced IEA extended energy balance data.</p></li>
 <li><p><code>balanced_after</code>: A boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of <code>TRUE</code>, one for each country.</p></li>
@@ -262,24 +269,25 @@ Results can be recovered with
          max_year <span class='op'>=</span> <span class='fl'>1999</span>,
          iea_data_path <span class='op'>=</span> <span class='st'>"iea_path"</span>,
          ceda_data_folder <span class='op'>=</span> <span class='st'>"ceda_path"</span>,
+         machine_data_path <span class='op'>=</span> <span class='st'>"machine_path"</span>,
          exemplar_table_path <span class='op'>=</span> <span class='st'>"exemplar_path"</span>,
          fu_analysis_folder <span class='op'>=</span> <span class='st'>"fu_folder"</span>,
          reports_source_folders <span class='op'>=</span> <span class='st'>"reports_source_folders"</span>,
          reports_dest_folder <span class='op'>=</span> <span class='st'>"reports_dest_folder"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 29 x 3</span><span>
-#&gt;    target                 command                                      dynamic  
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;expr_lst&gt;</span><span>                                   </span><span style='color: #949494;font-style: italic;'>&lt;expr_ls&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> countries              c(c("GHA", "ZAF"))                         … NA       
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> alloc_and_eff_couns    unique(c(countries, NULL))                 … NA       
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> max_year               1999                                       … NA       
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> iea_data_path          "iea_path"                                 … NA       
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> ceda_data_folder       "ceda_path"                                … NA       
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> exemplar_table_path    "exemplar_path"                            … NA       
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> fu_analysis_folder     "fu_folder"                                … NA       
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> reports_source_folders "reports_source_folders"                   … NA       
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> reports_dest_folder    "reports_dest_folder"                      … NA       
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> AllIEAData             iea_data_path %&gt;% IEATools::load_tidy_iea_d… NA       
-#&gt; </span><span style='color: #949494;'># … with 19 more rows</span><span></div></span></pre>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 31 x 3</span><span>
+#&gt;    target                 command                    dynamic   
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #555555;font-style: italic;'>&lt;expr_lst&gt;</span><span>                 </span><span style='color: #555555;font-style: italic;'>&lt;expr_lst&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> countries              c(c("GHA", "ZAF"))         NA        
+#&gt; </span><span style='color: #555555;'> 2</span><span> alloc_and_eff_couns    unique(c(countries, NULL)) NA        
+#&gt; </span><span style='color: #555555;'> 3</span><span> max_year               1999                       NA        
+#&gt; </span><span style='color: #555555;'> 4</span><span> iea_data_path          "iea_path"                 NA        
+#&gt; </span><span style='color: #555555;'> 5</span><span> ceda_data_folder       "ceda_path"                NA        
+#&gt; </span><span style='color: #555555;'> 6</span><span> machine_data_path      "machine_path"             NA        
+#&gt; </span><span style='color: #555555;'> 7</span><span> exemplar_table_path    "exemplar_path"            NA        
+#&gt; </span><span style='color: #555555;'> 8</span><span> fu_analysis_folder     "fu_folder"                NA        
+#&gt; </span><span style='color: #555555;'> 9</span><span> reports_source_folders "reports_source_folders"   NA        
+#&gt; </span><span style='color: #555555;'>10</span><span> reports_dest_folder    "reports_dest_folder"      NA        
+#&gt; </span><span style='color: #555555;'># ... with 21 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
