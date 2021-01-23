@@ -42,6 +42,7 @@ plan <- SEAPSUTWorkflow::get_plan(countries = c("GHA", "ZAF"),
                                   max_year = 2017,
                                   iea_data_path = "<<IEA extended energy balance path>>", 
                                   ceda_data_folder = "<<CEDA temperature data path>>",
+                                  machine_data_path = "<<Machine data path>>",
                                   exemplar_table_path = "<<exemplar table path>>", 
                                   fu_analysis_folder = "<<FU analysis folder>>", 
                                   reports_source_folders = "<<Reports source folders>>",
@@ -55,6 +56,7 @@ where
 * `<<IEA extended energy balance path>>` is the path to a `.csv` file that contains
 [IEA](https://www.iea.org) [extended energy balance data](http://data.iea.org),
 * `<<CEDA temperature data path>>` is the path to CEDA cru_cy temperature data downloaded through `CEDATools`,
+* `<<Machine data path>>` is the path to the Machine data excel files containing Eta.fu, Phi.u, and other data.
 * `<<exemplar table path>>` is the path to an exemplar table (see below), 
 * `<<FU analysis folder>>` is the path to a folder containing final-to-useful analyses, 
 * `<<Reports source folders>>` is a vector of paths to folders containing report sources (usually `.Rmd` and `.Rnw` files), and

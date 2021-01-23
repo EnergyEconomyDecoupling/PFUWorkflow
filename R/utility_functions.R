@@ -83,6 +83,7 @@ dir_create_pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode =
 #' @param how_far The last target to include in the drake plan. Default is "all_targets"
 #' @param iea_data_path The path to IEA data. Default is `IEATools::sample_iea_data_path()`.
 #' @param ceda_data_folder The path to CEDA data. Default is `CEDATools::ceda_data_folder()`.
+#' @param `machine_data_path`: The path to the machine data excel files, supplied in the `machine_data_path` argument.
 #' @param fu_analysis_folder The path to the final-to-useful analysis folder. Default is `tempdir()`.
 #' @param reports_output_folder The path into which reports will be written. Default is `tempdir()`.
 #' @param exemplar_folder The path to a temporary folder to contain an exemplar table. Default is `tempdir()`.
@@ -102,6 +103,7 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                how_far = "all_targets",
                                iea_data_path = IEATools::sample_iea_data_path(),
                                ceda_data_folder = CEDATools::sample_ceda_data_folder(),
+                               machine_data_path = sample_machine_workbook_path(),
                                fu_analysis_folder = tempdir(),
                                reports_source_folders = system.file("reports", package = "SEAPSUTWorkflow"),
                                reports_output_folder = tempdir(),
@@ -120,6 +122,7 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                    how_far = how_far,
                    iea_data_path = file.path(fu_analysis_folder, "IEAData.csv"),
                    ceda_data_folder = ceda_data_folder,
+                   machine_data_path = machine_data_path,
                    exemplar_table_path = file.path(exemplar_folder, "Exemplar_Table.xlsx"),
                    fu_analysis_folder = fu_analysis_folder,
                    reports_source_folders = reports_source_folders,

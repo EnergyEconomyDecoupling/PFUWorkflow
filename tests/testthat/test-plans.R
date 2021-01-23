@@ -5,6 +5,7 @@ context("Plan Functions")
 test_that("get_plan works", {
   my_plan <- get_plan(iea_data_path = "datapath",
                       ceda_data_folder = "cedapath",
+                      machine_data_path = "machinepath",
                       exemplar_table_path = "exemplarpath",
                       fu_analysis_folder = "FUpath",
                       reports_source_folders = "reports_source_folders",
@@ -27,10 +28,12 @@ test_that("get_plan works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("cedapath"))
 
+  expect_equal(my_plan[[rn <- rn + 1, "command"]], list("machinepath"))
+
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("exemplarpath"))
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "fu_analysis_folder")
-  expect_equal(my_plan[[7, "command"]], list("FUpath"))
+  expect_equal(my_plan[[rn, "command"]], list("FUpath"))
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "reports_source_folders")
   expect_equal(my_plan[[rn, "command"]], list("reports_source_folders"))
@@ -43,6 +46,8 @@ test_that("get_plan works", {
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "IEAData")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "CEDAData")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "AllMachineData")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "balanced_before")
 
@@ -77,6 +82,7 @@ test_that("get_plan works", {
 test_that("keeping only some rows of a plan works", {
   full_plan <- get_plan(iea_data_path = "datapath",
                         ceda_data_folder = "cedapath",
+                        machine_data_path = "machinepath",
                         exemplar_table_path = "exemplarpath",
                         fu_analysis_folder = "FUpath",
                         reports_source_folders = "reports_source_path",
@@ -85,6 +91,7 @@ test_that("keeping only some rows of a plan works", {
                         max_year = 1999)
   short_plan <- get_plan(iea_data_path = "mypath",
                          ceda_data_folder = "cedapath",
+                         machine_data_path = "machinepath",
                          exemplar_table_path = "exemplarpath",
                          fu_analysis_folder = "FUpath",
                          reports_source_folders = "reports_source_path",

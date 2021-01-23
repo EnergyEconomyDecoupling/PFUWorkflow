@@ -12,6 +12,7 @@
 #' \item{max_year}{The integer representing the maximum year to be analyzed.}
 #' \item{iea_data_path}{A string representing the path to the file containing IEA extended energy balance data.}
 #' \item{ceda_data_folder}{A string representing the path to the file containing CEDA data.}
+#' \item{machine_data_path}{A string representing the path to the folder containing machine data excel files.}
 #' \item{exemplar_table_path}{A string representing the path to the exemplar table.}
 #' \item{fu_analysis_folder}{A string representing the folder containing final-to-useful analyses for various countries.}
 #' \item{report_source_folders}{A string vector representing folders containing reports to be run as the last step of the workflow.}
@@ -19,6 +20,7 @@
 #' \item{AllIEAData}{The name of a data frame containing all IEA data read from `iea_data_path`.}
 #' \item{IEAData}{A filtered version of `AllIEAData` containing information for only `countries`.}
 #' \item{CEDAData}{The name of the data frame containing all CEDA temperature data read from `ceda_data_folder`.}
+#' \item{AllMachineData}{A data frame containing Eta.fu and Phi.u values read through functions in `machine_functions.R`.}
 #' \item{balanced_before}{A boolean indicating whether the `IEAData` are balanced before any further analysis. They usually are not, so this value is typically `FALSE`.}
 #' \item{BalancedIEAData}{A balanced version of `IEAData`.}
 #' \item{balanced_after}{Same as `balanced_before`, only for after balancing. This should be `TRUE`.}
