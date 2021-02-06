@@ -68,4 +68,37 @@ create_p_industry_prefixes <- function() {
 }
 
 
+#' Calculate final demand of final and useful energy
+#'
+#' This function is applied to a data frame which contains the following columns:
+#' Year, Method, Energy.type, Stage, Country, r_EIOU, U, Y.
+#' Where r_EIOU, U, and Y are nested matrices.
+#'
+#' @param PSUT_DF
+#'
+#' @return A data frame containing final and useful demand by total, by product,
+#'         and by sector.
+#' @export
+#'
+#' @examples
+calculate_final_demand <- function(PSUT_DF) {
+
+  fd_sector_list <- create_fd_sectors_list(fd_sectors = create_fd_sectors(), PSUT_DF = PSUT_DF)
+
+  PSUT_DF <- PSUT_DF %>%
+    dplyr::mutate(fd_sectors = fd_sector_list)
+
+  fd_total <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF, fd_sectors = "fd_sectors", by = "Total")
+
+  fd_product <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF, fd_sectors = "fd_sectors", by = "Product")
+
+  fd_sector <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF, fd_sectors = "fd_sectors", by = "Sector")
+
+  # Binds data frames containing final demand by total, product and sector into
+  # a single data frame
+
+
+
+}
+
 
