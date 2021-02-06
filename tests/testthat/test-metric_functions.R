@@ -32,3 +32,19 @@ test_that("create_fd_sectors_list() works as expected", {
   testthat::expect_equal(length(fd_sectors_list), 4)
 
 })
+
+test_that("create_p_industry_prefixes() works as expected", {
+
+  p_industry_prefixes <- create_p_industry_prefixes()
+
+  p_industry_prefixes_chr <- p_industry_prefixes %>% unlist()
+
+  testthat::expect_type(p_industry_prefixes, "list")
+  testthat::expect_equal(p_industry_prefixes_chr, c("Resources", "Production",
+                                                    "Imports", "Exports",
+                                                    "International marine bunkers",
+                                                    "International aviation bunkers",
+                                                    "Stock changes"))
+
+})
+
