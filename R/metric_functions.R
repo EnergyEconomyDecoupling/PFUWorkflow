@@ -68,24 +68,4 @@ create_p_industry_prefixes <- function() {
 }
 
 
-#' Create a list of vectors containing primary industry names
-#'
-#' @param p_industry_prefixes A list of Primary industry prefixes, usually
-#'                            created by `create_p_industry_prefixes`
-#' @param PSUT_DF A data frame containing at least an R PSUT matrix from which
-#'                Primary industry names may be obtained
-#'
-#' @return A list of vectors containing the primary industries associated with
-#'         each of the R matrices present in `PSUT_DF`
-#'
-#' @export
-#'
-#' @examples
-create_p_industries <- function(p_industry_prefixes, PSUT_DF) {
-
-  p_industries <- Recca::find_p_industry_names(p_industry_prefixes = p_industry_prefixes)
-
-}
-
-
 
