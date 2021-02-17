@@ -67,10 +67,141 @@ create_p_industry_prefixes <- function() {
 
 }
 
-
-#' Calculate final demand of final and useful energy
+#' Calculate total primary energy
 #'
-#' This function is applied to a data frame which contains the following columns:
+#' This function is applied to a data frame which must contain the following columns:
+#' Year, Method, Energy.type, Stage, Country, R, r_EIOU, U, V, Y.
+#' Where R, r_EIOU, U, V, and Y are nested matrices.
+#'
+#' @param PSUT_DF
+#'
+#' @return
+#' @export
+#'
+#' @examples
+calculate_p_ex_total <- function(PSUT_DF) {
+
+  # Adds primary industry name prefixes to DF and creates a complete list of
+  # primary industries
+  PSUT_DF_p <- PSUT_DF %>%
+    dplyr::mutate(p_industry_prefixes = create_p_industry_prefixes()) %>%
+    Recca::find_p_industry_names() %>%
+    dplyr::relocate(p_industries_complete, .after = p_industry_prefixes)
+
+  # Call Recca::primary_aggregates() to obtain the IEA version of aggregate primary energy
+  # from the R, V, and Y matrices (which includes imported final energy, effect of bunkers),
+  p_total <- Recca::primary_aggregates(.sutdata = PSUT_DF_p,
+                                        p_industries = "p_industries_complete",
+                                        by = "Total") %>%
+    dplyr::select(Country, Method, Energy.type, Last.stage, Year, EX.p) %>%
+    magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage", "Year", "EX")) %>%
+    dplyr::mutate(Stage = str_replace(Stage, "Final", "Primary")) %>%
+    dplyr::mutate(Gross.Net = "Gross") %>%
+    dplyr::relocate(Gross.Net, .after = "Stage") %>%
+    dplyr::mutate(Product = "Total", .after = "Gross.Net") %>%
+    dplyr::mutate(Sector = "Total", .after = "Product")
+
+  p_total$EX <- as.numeric(p_total$EX)
+
+  return(p_total)
+
+}
+
+
+#' Calculate total primary energy by product
+#'
+#' This function is applied to a data frame which must contain the following columns:
+#' Year, Method, Energy.type, Stage, Country, R, r_EIOU, U, V, Y.
+#' Where R, r_EIOU, U, V, and Y are nested matrices.
+#'
+#' @param PSUT_DF
+#'
+#' @return
+#' @export
+#'
+#' @examples
+calculate_p_ex_product <- function(PSUT_DF) {
+
+  # Adds primary industry name prefixes to DF and creates a complete list of
+  # primary industries
+  PSUT_DF_p <- PSUT_DF %>%
+    dplyr::mutate(p_industry_prefixes = create_p_industry_prefixes()) %>%
+    Recca::find_p_industry_names() %>%
+    dplyr::relocate(p_industries_complete, .after = p_industry_prefixes)
+
+  # Call Recca::primary_aggregates() to obtain the IEA version of aggregate primary energy
+  # from the R, V, and Y matrices (which includes imported final energy, effect of bunkers),
+  p_product <- Recca::primary_aggregates(.sutdata = PSUT_DF_p,
+                                         p_industries = "p_industries_complete",
+                                         by = "Product") %>%
+    dplyr::select(Country, Method, Energy.type, Last.stage, Year, EX.p) %>%
+    magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage", "Year", "EX")) %>%
+    dplyr::mutate(Stage = str_replace(Stage, "Final", "Primary")) %>%
+    dplyr::mutate(Gross.Net = "Gross") %>%
+    dplyr::relocate(Gross.Net, .after = "Stage")
+
+  p_product_expanded <- p_product %>%
+    matsindf::expand_to_tidy(matrix.names = "EX",
+                             matvals = "EX",
+                             rownames = "Product",
+                             colnames = "colnames") %>%
+    dplyr::select(-matrix.names, -colname, -rowtype, -Energy)
+
+
+
+  #### Not working yet ####
+
+  return(p_product)
+
+}
+
+#' Calculate total primary energy by flow
+#'
+#' This function is applied to a data frame which must contain the following columns:
+#' Year, Method, Energy.type, Stage, Country, R, r_EIOU, U, V, Y.
+#' Where R, r_EIOU, U, V, and Y are nested matrices.
+#'
+#' @param PSUT_DF
+#'
+#' @return
+#' @export
+#'
+#' @examples
+calculate_p_ex_flow <- function(PSUT_DF) {
+
+  # Adds primary industry name prefixes to DF and creates a complete list of
+  # primary industries
+  PSUT_DF_p <- PSUT_DF %>%
+    dplyr::mutate(p_industry_prefixes = create_p_industry_prefixes()) %>%
+    Recca::find_p_industry_names() %>%
+    dplyr::relocate(p_industries_complete, .after = p_industry_prefixes)
+
+  # Call Recca::primary_aggregates() to obtain the IEA version of aggregate primary energy
+  # from the R, V, and Y matrices (which includes imported final energy, effect of bunkers),
+  p_flow <- Recca::primary_aggregates(.sutdata = PSUT_DF_p,
+                                      p_industries = "p_industries_complete",
+                                      by = "Flow") %>%
+    dplyr::select(Country, Method, Energy.type, Last.stage, Year, EX.p) %>%
+    magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage", "Year", "EX")) %>%
+    dplyr::mutate(Stage = str_replace(Stage, "Final", "Primary")) %>%
+    dplyr::mutate(Gross.Net = "Gross") %>%
+    dplyr::relocate(Gross.Net, .after = "Stage")
+
+  p_flow_expanded <- p_flow %>%
+    matsindf::expand_to_tidy(matvals = "EX",
+                             colnames = "Flow") %>%
+    dplyr::select(-rownames) %>%
+    dplyr::relocate(Flow, .before = "Year") %>%
+    dplyr::mutate(Product = "Total", .after = "Gross.Net")
+
+
+  return(p_flow_expanded)
+
+}
+
+#' Calculate total final demand of final and useful energy
+#'
+#' This function is applied to a data frame which must contain the following columns:
 #' Year, Method, Energy.type, Stage, Country, r_EIOU, U, Y.
 #' Where r_EIOU, U, and Y are nested matrices.
 #'
@@ -81,24 +212,66 @@ create_p_industry_prefixes <- function() {
 #' @export
 #'
 #' @examples
-calculate_final_demand <- function(PSUT_DF) {
+calculate_fu_ex_total <- function(PSUT_DF) {
 
   fd_sector_list <- create_fd_sectors_list(fd_sectors = create_fd_sectors(), PSUT_DF = PSUT_DF)
 
-  PSUT_DF <- PSUT_DF %>%
+  PSUT_DF_fu <- PSUT_DF %>%
     dplyr::mutate(fd_sectors = fd_sector_list)
 
-  fd_total <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF, fd_sectors = "fd_sectors", by = "Total")
+  fu_total <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF_fu, fd_sectors = "fd_sectors", by = "Total") %>%
+    dplyr::select(Country, Method, Energy.type, Last.stage, Year, EX.d_net, EX.d_gross) %>%
+    magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage", "Year", "EX.d_net", "EX.d_gross")) %>%
+    tidyr::pivot_longer(cols = EX.d_net:EX.d_gross,
+                        names_to = "Gross.Net",
+                        values_to = "EX") %>%
+    dplyr::mutate(Gross.Net = stringr::str_replace(Gross.Net, "EX.d_net", "Net")) %>%
+    dplyr::mutate(Gross.Net = stringr::str_replace(Gross.Net, "EX.d_gross", "Gross")) %>%
+    dplyr::relocate(Gross.Net, .after = "Stage") %>%
+    dplyr::mutate(Product = "Total", .after = "Gross.Net") %>%
+    dplyr::mutate(Sector = "Total", .after = "Product")
 
-  fd_product <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF, fd_sectors = "fd_sectors", by = "Product")
+  fu_total$EX <- as.numeric(fu_total$EX)
 
-  fd_sector <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF, fd_sectors = "fd_sectors", by = "Sector")
-
-  # Binds data frames containing final demand by total, product and sector into
-  # a single data frame
-
-
+  return(fu_total)
 
 }
 
+
+#' Create a data frame containing all aggregate energy/exergy data
+#'
+#'
+#'
+#' @param PSUT_DF
+#'
+#' @return
+#' @export
+#'
+#' @examples
+calculate_all_ex_data <- function(PSUT_DF) {
+
+  fu_total <- calculate_fu_ex_total(PSUT_DF = PSUT_DF)
+
+  p_total <- calculate_p_ex_total(PSUT_DF = PSUT_DF)
+
+  p_flow <- calculate_p_ex_flow(PSUT_DF = PSUT_DF) %>%
+    # Change name from Flow to sector so data frames can be bound
+    magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
+                             "Gross.Net", "Product", "Sector", "Year", "EX"))
+
+  # Add data by product here
+
+  # Add data by group here
+
+  # Bind all data together
+  all_data <- fu_total %>%
+    rbind(p_total) %>%
+    rbind(p_flow)
+
+  all_data$EX <- as.numeric(all_data$EX)
+
+  return(all_data)
+
+
+}
 
