@@ -141,10 +141,11 @@ calculate_p_ex_product <- function(PSUT_DF) {
     dplyr::relocate(Gross.Net, .after = "Stage")
 
   p_product_expanded <- p_product %>%
-    matsindf::expand_to_tidy(matrix.names = "EX",
+    matsindf::expand_to_tidy(# matnames = "matrix.names", # Need to change expand to tidy
                              matvals = "EX",
-                             rownames = "Product",
-                             colnames = "colnames") %>%
+                             rownames = "Product"
+                             # colnames = "Value"
+                             ) %>%
     dplyr::select(-matrix.names, -colname, -rowtype, -Energy)
 
 
@@ -207,8 +208,7 @@ calculate_p_ex_flow <- function(PSUT_DF) {
 #'
 #' @param PSUT_DF
 #'
-#' @return A data frame containing final and useful demand by total, by product,
-#'         and by sector.
+#' @return A data frame containing final and useful demand by total
 #' @export
 #'
 #' @examples
@@ -232,6 +232,45 @@ calculate_fu_ex_total <- function(PSUT_DF) {
     dplyr::mutate(Sector = "Total", .after = "Product")
 
   fu_total$EX <- as.numeric(fu_total$EX)
+
+  return(fu_total)
+
+}
+
+#' Calculate total final demand of final and useful energy by sector
+#'
+#' This function is applied to a data frame which must contain the following columns:
+#' Year, Method, Energy.type, Stage, Country, r_EIOU, U, Y.
+#' Where r_EIOU, U, and Y are nested matrices.
+#'
+#' @param PSUT_DF
+#'
+#' @return A data frame containing final and useful demand by total, by product
+#' @export
+#'
+#' @examples
+calculate_fu_ex_product <- function(PSUT_DF) {
+
+  fd_sector_list <- create_fd_sectors_list(fd_sectors = create_fd_sectors(), PSUT_DF = PSUT_DF)
+
+  PSUT_DF_fu <- PSUT_DF %>%
+    dplyr::mutate(fd_sectors = fd_sector_list)
+
+  fu_product <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF_fu, fd_sectors = "fd_sectors", by = "Product")
+
+  # %>%
+  #   dplyr::select(Country, Method, Energy.type, Last.stage, Year, EX.d_net, EX.d_gross) %>%
+  #   magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage", "Year", "EX.d_net", "EX.d_gross")) %>%
+  #   tidyr::pivot_longer(cols = EX.d_net:EX.d_gross,
+  #                       names_to = "Gross.Net",
+  #                       values_to = "EX") %>%
+  #   dplyr::mutate(Gross.Net = stringr::str_replace(Gross.Net, "EX.d_net", "Net")) %>%
+  #   dplyr::mutate(Gross.Net = stringr::str_replace(Gross.Net, "EX.d_gross", "Gross")) %>%
+  #   dplyr::relocate(Gross.Net, .after = "Stage") %>%
+  #   dplyr::mutate(Product = "Total", .after = "Gross.Net") %>%
+  #   dplyr::mutate(Sector = "Total", .after = "Product")
+  #
+  # fu_total$EX <- as.numeric(fu_total$EX)
 
   return(fu_total)
 

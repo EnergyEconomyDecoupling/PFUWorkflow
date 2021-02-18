@@ -72,9 +72,9 @@ Y_GBR_1961 <- matrix(data = as.vector(c(9, 7, 11,
                                      c("Construction", "Domestic aviation", "Iron and steel")))
 
 # Create use (U) matrices
-U_ESP_1960 <- matrix(data = as.vector(c(7, 3, 19,
-                                        6, 8, 10,
-                                        8, 19, 4)),
+U_ESP_1960 <- matrix(data = as.vector(c(7, 3, 19, # Adjust these values
+                                        1, 8, 10,
+                                        0, 0, 4)),
                      nrow = 3, ncol = 3,
                      dimnames = list(c("Coke oven coke", "Electricity", "Coke oven gas"),
                                      c("Blast furnaces", "Coal mines", "Coke ovens")))
@@ -105,29 +105,29 @@ V_ESP_1960 <- matrix(data = as.vector(c(7, 0, 0,
                                         0, 8, 0,
                                         0, 2, 4)),
                      nrow = 3, ncol = 3,
-                     dimnames = list(c("Imports [of Aviation gasoline]", "Blast furnaces", "Diesel trains -> MD"),
-                                     c("Aviation gasoline", "Blast furnace gas", "MD [from Diesel trains]")))
+                     dimnames = list(c("Imports [of Aviation gasoline]", "Blast furnaces", "Imports [of Hard Coal (if no detail)]"),
+                                     c("Aviation gasoline", "Blast furnace gas", "Hard Coal (if no detail)")))
 
 V_ESP_1961 <- matrix(data = as.vector(c(8, 0, 0,
                                         0, 10, 0,
                                         0, 14, 12)),
                      nrow = 3, ncol = 3,
-                     dimnames = list(c("Imports [of Aviation gasoline]", "Blast furnaces", "Diesel trains -> MD"),
-                                     c("Aviation gasoline", "Blast furnace gas", "MD [from Diesel trains]")))
+                     dimnames = list(c("Imports [of Aviation gasoline]", "Blast furnaces", "Imports [of Hard Coal (if no detail)]"),
+                                     c("Aviation gasoline", "Blast furnace gas", "Hard Coal (if no detail)")))
 
 V_GBR_1960 <- matrix(data = as.vector(c(7, 0, 0,
                                         0, 10, 0,
                                         0, 20, 5)),
                      nrow = 3, ncol = 3,
-                     dimnames = list(c("Imports [of Aviation gasoline]", "Blast furnaces", "Diesel trains -> MD"),
-                                     c("Aviation gasoline", "Blast furnace gas", "MD [from Diesel trains]")))
+                     dimnames = list(c("Imports [of Aviation gasoline]", "Blast furnaces", "Imports [of Hard Coal (if no detail)]"),
+                                     c("Aviation gasoline", "Blast furnace gas", "Hard Coal (if no detail)")))
 
 V_GBR_1961 <- matrix(data = as.vector(c(9, 0, 0,
                                         0, 5, 0,
                                         0, 18, 2)),
                      nrow = 3, ncol = 3,
-                     dimnames = list(c("Imports [of Aviation gasoline]", "Blast furnaces", "Diesel trains -> MD"),
-                                     c("Aviation gasoline", "Blast furnace gas", "MD [from Diesel trains]")))
+                     dimnames = list(c("Imports [of Aviation gasoline]", "Blast furnaces", "Imports [of Hard Coal (if no detail)]"),
+                                     c("Aviation gasoline", "Blast furnace gas", "Hard Coal (if no detail)")))
 
 # Create example r_EIOU matrices
 r_EIOU_ESP_1960 <- matrix(data = as.vector(c(1, 0, 0,
