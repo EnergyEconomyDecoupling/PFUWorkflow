@@ -100,6 +100,35 @@ U_GBR_1961 <- matrix(data = as.vector(c(9, 7, 11,
                      dimnames = list(c("Coke oven coke", "Electricity", "Coke oven gas"),
                                      c("Blast furnaces", "Coal mines", "Coke ovens")))
 
+# Create use in EIOU (U_EIOU) matrices
+U_EIOU_ESP_1960 <- matrix(data = as.vector(c(4, 3, 0,
+                                             0, 10, 0,
+                                             0, 0, 4)),
+                     nrow = 3, ncol = 3,
+                     dimnames = list(c("Electricity", "Gas coke", "Patent fuel"),
+                                     c("Coal mines", "Gas works", "Patent fuel plants")))
+
+U_EIOU_ESP_1961 <- matrix(data = as.vector(c(5, 4, 0,
+                                             0, 11, 0,
+                                             0, 0, 5)),
+                          nrow = 3, ncol = 3,
+                          dimnames = list(c("Electricity", "Gas coke", "Patent fuel"),
+                                          c("Coal mines", "Gas works", "Patent fuel plants")))
+
+U_EIOU_GBR_1960 <- matrix(data = as.vector(c(6, 5, 0,
+                                             0, 12, 0,
+                                             0, 0, 6)),
+                          nrow = 3, ncol = 3,
+                          dimnames = list(c("Electricity", "Gas coke", "Patent fuel"),
+                                          c("Coal mines", "Gas works", "Patent fuel plants")))
+
+U_EIOU_GBR_1961 <- matrix(data = as.vector(c(7, 3, 0,
+                                             0, 13, 0,
+                                             0, 0, 7)),
+                          nrow = 3, ncol = 3,
+                          dimnames = list(c("Electricity", "Gas coke", "Patent fuel"),
+                                          c("Coal mines", "Gas works", "Patent fuel plants")))
+
 # Create make (V) matrices
 V_ESP_1960 <- matrix(data = as.vector(c(7, 0, 0,
                                         0, 8, 0,
@@ -165,9 +194,10 @@ r_EIOU_GBR_1961 <- matrix(data = as.vector(c(1, 0, 0,
 R <- list(R_ESP_1960, R_ESP_1961, R_GBR_1960, R_GBR_1961)
 Y <- list(Y_ESP_1960, Y_ESP_1961, Y_GBR_1960, Y_GBR_1961)
 U <- list(U_ESP_1960, U_ESP_1961, U_GBR_1960, U_GBR_1961)
+U_EIOU <- list(U_EIOU_ESP_1960, U_EIOU_ESP_1961, U_EIOU_GBR_1960, U_EIOU_GBR_1961)
 V <- list(V_ESP_1960, V_ESP_1961, V_GBR_1960, V_GBR_1961)
 r_EIOU <- list(r_EIOU_ESP_1960, r_EIOU_ESP_1961, r_EIOU_GBR_1960, r_EIOU_GBR_1961)
-PSUT_DF <- tibble::tibble(PSUT_DF_shell, R, r_EIOU, U, V, Y)
+PSUT_DF <- tibble::tibble(PSUT_DF_shell, R, r_EIOU, U_EIOU, U, V, Y)
 
 
 
@@ -240,7 +270,7 @@ test_that("calculate_all_ex_data() works as expected", {
   all_data <- PSUT_DF %>% calculate_all_ex_data()
 
   # testthat::expect_type(all_data, "data.frame")
-  testthat::expect_equal(colnames(p_total), c("Country", "Method", "Energy.type",
+  testthat::expect_equal(colnames(all_data), c("Country", "Method", "Energy.type",
                                               "Stage", "Gross.Net", "Product",
                                               "Sector", "Year", "EX"))
   testthat::expect_equal(unique(all_data$Stage), c("Final", "Primary"))
