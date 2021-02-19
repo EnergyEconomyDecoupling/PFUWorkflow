@@ -31,6 +31,10 @@
 #' * `CompletedAllocationTables` : A data frame containing completed final-to-useful allocation tables.
 #' * `IncompleteEfficiencyTables`: A data frame containing final-to-useful efficiency tables.
 #' * `CompletedEfficiencyTables`: A data frame containing completed final-to-useful efficiency tables.
+#' * `Cmats` : A data frame containing `CompletedAllocationTables` in matrix form.
+#' * `EtaPhivecs` : A data frame containing final-to-useful effciency and exergy-to-energy ratio vectors.
+#' * `PSUT_useful` : A data frame containing PSUT matrices up to the useful stage.
+#' * `AggregateExergyEnergyData` : A data frame containing aggregate energy and exergy values by total, product, flow, and sector.
 #' * `AllocationGraphs` : A data frame containing allocation plots.
 #' * `NonStationaryAllocationGraphs` : A data frame containing allocation plots for non-stationary data only.
 #' * `EfficiencyGraphs` : A data frame containing final-to-useful efficiency plots.
@@ -124,6 +128,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   CompletedEfficiencyTables <- NULL
   Cmats <- NULL
   EtaPhivecs <- NULL
+  AggregateExergyEnergyData <- NULL
 
   p <- drake::drake_plan(
 
@@ -251,14 +256,18 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                countries = countries),
                                 dynamic = map(countries)),
 
-    # (11) Add other methods
+    # (-) Add other methods
 
 
 
-    # (12) Add exergy quantifications of energy
+    # (-) Add exergy quantifications of energy
 
 
-    # (13) Off to the races!  Do other calculations
+    # (-) Off to the races!  Do other calculations:
+
+    # (11) Aggregate primary, final, and useful energy/exergy by total, product, flow, and sector
+
+    AggregateExergyEnergyData = drake::target(calculate_all_ex_data(PSUT_DF = PSUT_useful)),
 
 
 

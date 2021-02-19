@@ -73,6 +73,8 @@ test_that("get_plan works", {
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "EtaPhivecs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "PSUT_useful")
 
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregateExergyEnergyData")
+
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AllocationGraphs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "NonStationaryAllocationGraphs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "EfficiencyGraphs")

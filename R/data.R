@@ -31,6 +31,10 @@
 #' \item{ExemplarLists}{A data frame of lists of exemplar countries for each country in `countries`, and maybe more.}
 #' \item{CompletedAllocationTables}{A data frame of completed final-to-useful allocation tables.}
 #' \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}
+#' \item{Cmats}{A data frame containing `CompletedAllocationTables` in matrix form.}
+#' \item{EtaPhivecs}{A data frame containing final-to-useful effciency and exergy-to-energy ratio vectors.}
+#' \item{PSUT_useful}{A data frame containing PSUT matrices up to the useful stage.}
+#' \item{AggregateExergyEnergyData}{ A data frame containing aggregate energy and exergy values by total, product, flow, and sector.}
 #' \item{AllocationGraphs}{A data frame containing final-to-useful allocation graphs.}
 #' \item{NonStationaryAllocationGraphs}{A data frame containing final-to-useful allocation graphs, for non-stationary data only.}
 #' \item{EfficiencyGraphs}{A data frame containing final-to-useful efficiency graphs.}
