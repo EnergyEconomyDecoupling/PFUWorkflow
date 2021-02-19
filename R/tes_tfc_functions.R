@@ -44,9 +44,9 @@ create_fd_sectors <- function() {
 #' @export
 #'
 #' @examples
-create_fd_sectors_list <- function(fd_sectors, PSUT_DF) {
+create_fd_sectors_list <- function(fd_sectors, .sutdata) {
 
-  rep(x = list(c(fd_sectors)), times = nrow(PSUT_DF))
+  rep(x = list(c(fd_sectors)), times = nrow(.sutdata))
 
 }
 
@@ -66,17 +66,17 @@ create_p_industry_prefixes <- function() {
 #' Calculate total primary energy
 #'
 #'
-#' @param PSUT_DF
+#' @param .sutdata
 #'
 #' @return
 #' @export
 #'
 #' @examples
-calculate_p_ex_total <- function(PSUT_DF) {
+calculate_p_ex_total <- function(.sutdata) {
 
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
-  PSUT_DF_p <- PSUT_DF %>%
+  PSUT_DF_p <- .sutdata %>%
     dplyr::mutate(p_industry_prefixes = create_p_industry_prefixes()) %>%
     Recca::find_p_industry_names() %>%
     dplyr::relocate(p_industries_complete, .after = p_industry_prefixes)
@@ -113,17 +113,17 @@ calculate_p_ex_total <- function(PSUT_DF) {
 #' Calculate total primary energy by product
 #'
 #'
-#' @param PSUT_DF
+#' @param .sutdata
 #'
 #' @return
 #' @export
 #'
 #' @examples
-calculate_p_ex_product <- function(PSUT_DF) {
+calculate_p_ex_product <- function(.sutdata) {
 
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
-  PSUT_DF_p <- PSUT_DF %>%
+  PSUT_DF_p <- .sutdata %>%
     dplyr::mutate(p_industry_prefixes = create_p_industry_prefixes()) %>%
     Recca::find_p_industry_names() %>%
     dplyr::relocate(p_industries_complete, .after = p_industry_prefixes)
@@ -162,17 +162,17 @@ calculate_p_ex_product <- function(PSUT_DF) {
 #' Calculate total primary energy by flow
 #'
 #'
-#' @param PSUT_DF
+#' @param .sutdata
 #'
 #' @return
 #' @export
 #'
 #' @examples
-calculate_p_ex_flow <- function(PSUT_DF) {
+calculate_p_ex_flow <- function(.sutdata) {
 
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
-  PSUT_DF_p <- PSUT_DF %>%
+  PSUT_DF_p <- .sutdata %>%
     dplyr::mutate(p_industry_prefixes = create_p_industry_prefixes()) %>%
     Recca::find_p_industry_names() %>%
     dplyr::relocate(p_industries_complete, .after = p_industry_prefixes)
@@ -211,19 +211,19 @@ calculate_p_ex_flow <- function(PSUT_DF) {
 #' Calculate total final demand of final and useful energy
 #'
 #'
-#' @param PSUT_DF
+#' @param .sutdata
 #'
 #' @return A data frame containing final and useful demand by total
 #' @export
 #'
 #' @examples
-calculate_fu_ex_total <- function(PSUT_DF) {
+calculate_fu_ex_total <- function(.sutdata) {
 
   # Creates a list of final demand sectors
-  fd_sector_list <- create_fd_sectors_list(fd_sectors = create_fd_sectors(), PSUT_DF = PSUT_DF)
+  fd_sector_list <- create_fd_sectors_list(fd_sectors = create_fd_sectors(), PSUT_DF = .sutdata)
 
   # Adds a column which each observation containing the list of final demand sectors
-  PSUT_DF_fu <- PSUT_DF %>%
+  PSUT_DF_fu <- .sutdata %>%
     dplyr::mutate(fd_sectors = fd_sector_list)
 
   # Calculates final demand by total
@@ -252,19 +252,19 @@ calculate_fu_ex_total <- function(PSUT_DF) {
 
 #' Calculate total final demand of final and useful energy by product
 #'
-#' @param PSUT_DF
+#' @param .sutdata
 #'
 #' @return A data frame containing final and useful demand by total, by product
 #' @export
 #'
 #' @examples
-calculate_fu_ex_product <- function(PSUT_DF) {
+calculate_fu_ex_product <- function(.sutdata) {
 
   # Creates a list of final demand sectors
-  fd_sector_list <- create_fd_sectors_list(fd_sectors = create_fd_sectors(), PSUT_DF = PSUT_DF)
+  fd_sector_list <- create_fd_sectors_list(fd_sectors = create_fd_sectors(), PSUT_DF = .sutdata)
 
   # Adds a column which each observation containing the list of final demand sectors
-  PSUT_DF_fu <- PSUT_DF %>%
+  PSUT_DF_fu <- .sutdata %>%
     dplyr::mutate(fd_sectors = fd_sector_list)
 
   # Calculates final demand by _product
@@ -299,19 +299,19 @@ calculate_fu_ex_product <- function(PSUT_DF) {
 
 #' Calculate total final demand of final and useful energy by sector
 #'
-#' @param PSUT_DF
+#' @param .sutdata
 #'
 #' @return A data frame containing final and useful demand by total, by product
 #' @export
 #'
 #' @examples
-calculate_fu_ex_sector <- function(PSUT_DF) {
+calculate_fu_ex_sector <- function(.sutdata) {
 
   # Creates a list of final demand sectors
-  fd_sector_list <- create_fd_sectors_list(fd_sectors = create_fd_sectors(), PSUT_DF = PSUT_DF)
+  fd_sector_list <- create_fd_sectors_list(fd_sectors = create_fd_sectors(), PSUT_DF = .sutdata)
 
   # Adds a column which each observation containing the list of final demand sectors
-  PSUT_DF_fu <- PSUT_DF %>%
+  PSUT_DF_fu <- .sutdata %>%
     dplyr::mutate(fd_sectors = fd_sector_list)
 
   # Calculates final demand by _product
@@ -347,17 +347,17 @@ calculate_fu_ex_sector <- function(PSUT_DF) {
 
 #' Create a data frame containing all aggregate energy/exergy data
 #'
-#' @param PSUT_DF
+#' @param .sutdata
 #'
 #' @return A data frame containing energy/exergy values aggregated by total,
 #'         sector and product at each stage of the energy conversion chain.
 #' @export
 #'
 #' @examples
-calculate_all_ex_data <- function(PSUT_DF) {
+calculate_all_ex_data <- function(.sutdata) {
 
   # Calculates total final demand of energy/exergy
-  fu_total <- calculate_fu_ex_total(PSUT_DF = PSUT_DF) %>%
+  fu_total <- calculate_fu_ex_total(PSUT_DF = .sutdata) %>%
     # Change name from Flow to Flow.Sector so data frames can be bound
     magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
                              "Gross.Net", "Product", "Flow.Sector",

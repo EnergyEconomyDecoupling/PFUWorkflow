@@ -10,7 +10,7 @@ library(dplyr)
 library(magrittr)
 
 # Create test data using Recca example matrices
-PSUT_DF <- Recca::UKEnergy2000mats %>%
+.sutdata <- Recca::UKEnergy2000mats %>%
   tidyr::pivot_wider(id_cols = Country:Last.stage,
                      names_from = "matrix.name",
                      values_from = "matrix") %>%
@@ -27,7 +27,7 @@ test_that("create_fd_sectors() works as expected", {
 
 test_that("create_fd_sectors_list() works as expected", {
 
-  fd_sectors_list <- PSUT_DF %>% create_fd_sectors_list(fd_sectors = create_fd_sectors())
+  fd_sectors_list <- .sutdata %>% create_fd_sectors_list(fd_sectors = create_fd_sectors())
 
   testthat::expect_type(fd_sectors_list, "list")
   testthat::expect_equal(length(fd_sectors_list), 4)
@@ -50,7 +50,7 @@ test_that("create_p_industry_prefixes() works as expected", {
 
 test_that("calculate_fu_ex_total() works as expected", {
 
-  fu_total <- PSUT_DF %>% calculate_fu_ex_total()
+  fu_total <- .sutdata %>% calculate_fu_ex_total()
 
   testthat::expect_type(fu_total, "list")
   testthat::expect_equal(colnames(fu_total), c("Country", "Method", "Energy.type",
@@ -60,7 +60,7 @@ test_that("calculate_fu_ex_total() works as expected", {
 
 test_that("calculate_fu_ex_sector() works as expected", {
 
-  fu_sector <- PSUT_DF %>% calculate_fu_ex_sector()
+  fu_sector <- .sutdata %>% calculate_fu_ex_sector()
 
   testthat::expect_type(fu_sector, "list")
   testthat::expect_equal(colnames(fu_sector), c("Country", "Method", "Energy.type",
@@ -72,7 +72,7 @@ test_that("calculate_fu_ex_sector() works as expected", {
 
 test_that("calculate_fu_ex_product() works as expected", {
 
-  fu_product <- PSUT_DF %>% calculate_fu_ex_product()
+  fu_product <- .sutdata %>% calculate_fu_ex_product()
 
   testthat::expect_type(fu_product, "list")
   testthat::expect_equal(colnames(fu_product), c("Country", "Method", "Energy.type",
@@ -84,7 +84,7 @@ test_that("calculate_fu_ex_product() works as expected", {
 
 test_that("calculate_p_ex_total() works as expected", {
 
-  p_total <- PSUT_DF %>% calculate_p_ex_total()
+  p_total <- .sutdata %>% calculate_p_ex_total()
 
   testthat::expect_type(p_total, "list")
   testthat::expect_equal(colnames(p_total), c("Country", "Method", "Energy.type",
@@ -95,7 +95,7 @@ test_that("calculate_p_ex_total() works as expected", {
 
 test_that("calculate_p_ex_flow() works as expected", {
 
-  p_flow <- PSUT_DF %>% calculate_p_ex_flow()
+  p_flow <- .sutdata %>% calculate_p_ex_flow()
 
   testthat::expect_type(p_flow, "list")
   testthat::expect_equal(colnames(p_flow), c("Country", "Method", "Energy.type",
@@ -107,7 +107,7 @@ test_that("calculate_p_ex_flow() works as expected", {
 
 test_that("calculate_p_ex_product() works as expected", {
 
-  p_product <- PSUT_DF %>% calculate_p_ex_product()
+  p_product <- .sutdata %>% calculate_p_ex_product()
 
   testthat::expect_type(p_product, "list")
   testthat::expect_equal(colnames(p_product), c("Country", "Method", "Energy.type",
@@ -119,7 +119,7 @@ test_that("calculate_p_ex_product() works as expected", {
 
 test_that("calculate_all_ex_data() works as expected", {
 
-  all_data <- PSUT_DF %>% calculate_all_ex_data()
+  all_data <- .sutdata %>% calculate_all_ex_data()
 
   testthat::expect_equal(colnames(all_data), c("Country", "Method", "Energy.type",
                                               "Stage", "Gross.Net", "Product",
