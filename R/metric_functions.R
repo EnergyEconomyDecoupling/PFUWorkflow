@@ -2,8 +2,8 @@
 # and calculate the following metrics:
 # Final demand sectors
 # Primary industries
-# Total energy supply (TES) of primary energy
-# Total final consumption (TFC) of final and useful energy
+# Total energy supply (TES) of primary energy/exergy
+# Total final consumption (TFC) of final and useful energy/exergy
 # Primary-Final, Final-Useful, and Primary-Final efficiencies
 
 # Loads required packages
