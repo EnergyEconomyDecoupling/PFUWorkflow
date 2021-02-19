@@ -1,5 +1,5 @@
 ###########################################################
-context("Metric Functions")
+context("TES and TFC Functions")
 ###########################################################
 
 # Load required packages
