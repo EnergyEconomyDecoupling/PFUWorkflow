@@ -103,7 +103,8 @@ calculate_p_ex_total <- function(PSUT_DF) {
     dplyr::mutate(Stage = "Primary", .after = "Energy.type") %>%
     dplyr::mutate(Gross.Net = "Gross", .after = "Stage") %>%
     dplyr::mutate(Product = "Total", .after = "Gross.Net") %>%
-    dplyr::mutate(Flow = "Total", .after = "Product")
+    dplyr::mutate(Flow = "Total", .after = "Product") %>%
+    dplyr::mutate(Grouping = "Total", .after = "Flow")
 
   # Sets EX column type to numeric
   p_total$EX <- as.numeric(p_total$EX)
@@ -155,7 +156,8 @@ calculate_p_ex_product <- function(PSUT_DF) {
     dplyr::mutate(Stage = "Primary", .after = "Energy.type") %>%
     dplyr::mutate(Gross.Net = "Gross", .after = "Stage") %>%
     dplyr::mutate(Flow = "Total", .before = "Year") %>%
-    dplyr::relocate(Product, .after = "Gross.Net")
+    dplyr::relocate(Product, .after = "Gross.Net") %>%
+    dplyr::mutate(Grouping = "Product", .after = "Flow")
 
   return(p_product_expanded)
 
@@ -203,7 +205,8 @@ calculate_p_ex_flow <- function(PSUT_DF) {
     dplyr::mutate(Stage = "Primary", .after = "Energy.type") %>%
     dplyr::mutate(Gross.Net = "Gross", .after = "Stage") %>%
     dplyr::mutate(Product = "Total", .after = "Gross.Net") %>%
-    dplyr::relocate(Flow, .after = "Product")
+    dplyr::relocate(Flow, .after = "Product") %>%
+    dplyr::mutate(Grouping = "Flow", .after = "Flow")
 
   return(p_flow_expanded)
 
@@ -241,7 +244,8 @@ calculate_fu_ex_total <- function(PSUT_DF) {
   # Add additional metadata columns
   fu_total <- fu_total %>%
     dplyr::mutate(Product = "Total", .after = "Gross.Net") %>%
-    dplyr::mutate(Sector = "Total", .after = "Product")
+    dplyr::mutate(Sector = "Total", .after = "Product") %>%
+    dplyr::mutate(Grouping = "Total", .after = "Sector")
 
   # Sets EX column type to numeric
   fu_total$EX <- as.numeric(fu_total$EX)
@@ -287,7 +291,8 @@ calculate_fu_ex_product <- function(PSUT_DF) {
   # Add additional metadata columns
   fu_product_expanded <- fu_product_expanded %>%
     dplyr::relocate(Product, .after = "Gross.Net") %>%
-    dplyr::mutate(Sector = "Total", .after = "Product")
+    dplyr::mutate(Sector = "Total", .after = "Product") %>%
+    dplyr::mutate(Grouping = "Product", .after = "Sector")
 
   # Sets EX column type to numeric
   fu_product_expanded$EX <- as.numeric(fu_product_expanded$EX)
@@ -333,7 +338,8 @@ calculate_fu_ex_sector <- function(PSUT_DF) {
   # Add additional metadata columns
   fu_sector_expanded <- fu_sector_expanded %>%
     dplyr::relocate(Sector, .after = "Gross.Net") %>%
-    dplyr::mutate(Product = "Total", .after = "Gross.Net")
+    dplyr::mutate(Product = "Total", .after = "Gross.Net") %>%
+    dplyr::mutate(Grouping = "Sector", .after = "Sector")
 
   # Sets EX column type to numeric
   fu_sector_expanded$EX <- as.numeric(fu_sector_expanded$EX)
@@ -355,29 +361,44 @@ calculate_fu_ex_sector <- function(PSUT_DF) {
 calculate_all_ex_data <- function(PSUT_DF) {
 
   # Calculates total final demand of energy/exergy
-  fu_total <- calculate_fu_ex_total(PSUT_DF = PSUT_DF)
+  fu_total <- calculate_fu_ex_total(PSUT_DF = PSUT_DF) %>%
+    # Change name from Flow to Flow.Sector so data frames can be bound
+    magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
+                             "Gross.Net", "Product", "Flow.Sector",
+                             "Grouping", "Year", "EX"))
 
   # Calculates final demand of energy/exergy by sector
-  fu_sector <- calculate_fu_ex_sector(PSUT_DF = PSUT_DF)
+  fu_sector <- calculate_fu_ex_sector(PSUT_DF = PSUT_DF) %>%
+    # Change name from Flow to Flow.Sector so data frames can be bound
+    magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
+                             "Gross.Net", "Product", "Flow.Sector",
+                             "Grouping", "Year", "EX"))
 
   # Calculates final demand of energy/exergy by product
-  fu_product <- calculate_fu_ex_product(PSUT_DF = PSUT_DF)
+  fu_product <- calculate_fu_ex_product(PSUT_DF = PSUT_DF) %>%
+    # Change name from Flow to Flow.Sector so data frames can be bound
+    magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
+                             "Gross.Net", "Product", "Flow.Sector",
+                             "Grouping", "Year", "EX"))
 
   # Calculates total primary energy/exergy
   p_total <- calculate_p_ex_total(PSUT_DF = PSUT_DF) %>%
-    # Change name from Flow to sector so data frames can be bound
+    # Change name from Flow to Flow.Sector so data frames can be bound
     magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
-                             "Gross.Net", "Product", "Sector", "Year", "EX"))
+                             "Gross.Net", "Product", "Flow.Sector",
+                             "Grouping", "Year", "EX"))
   # Calculates primary energy/exergy by flow
   p_flow <- calculate_p_ex_flow(PSUT_DF = PSUT_DF) %>%
-    # Change name from Flow to sector so data frames can be bound
+    # Change name from Flow to Flow.Sector so data frames can be bound
     magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
-                             "Gross.Net", "Product", "Sector", "Year", "EX"))
+                             "Gross.Net", "Product", "Flow.Sector",
+                             "Grouping", "Year", "EX"))
   # Calculates primary energy/exergy by product
   p_product <- calculate_p_ex_product(PSUT_DF = PSUT_DF) %>%
-    # Change name from Flow to sector so data frames can be bound
+    # Change name from Flow to Flow.Sector so data frames can be bound
     magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
-                             "Gross.Net", "Product", "Sector", "Year", "EX"))
+                             "Gross.Net", "Product", "Flow.Sector",
+                             "Grouping", "Year", "EX"))
 
   # Bind all data together
   all_data <- fu_total %>%

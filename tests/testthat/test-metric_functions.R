@@ -53,7 +53,7 @@ test_that("calculate_fu_ex_total() works as expected", {
   testthat::expect_type(fu_total, "list")
   testthat::expect_equal(colnames(fu_total), c("Country", "Method", "Energy.type",
                                                "Stage", "Gross.Net", "Product",
-                                               "Sector", "Year", "EX"))
+                                               "Sector", "Grouping", "Year", "EX"))
 })
 
 test_that("calculate_fu_ex_sector() works as expected", {
@@ -63,7 +63,7 @@ test_that("calculate_fu_ex_sector() works as expected", {
   testthat::expect_type(fu_sector, "list")
   testthat::expect_equal(colnames(fu_sector), c("Country", "Method", "Energy.type",
                                              "Stage", "Gross.Net", "Product",
-                                             "Sector", "Year", "EX"))
+                                             "Sector", "Grouping", "Year", "EX"))
   testthat::expect_true(length(unique(fu_sector$Sector)) > 1)
 
 })
@@ -75,7 +75,7 @@ test_that("calculate_fu_ex_product() works as expected", {
   testthat::expect_type(fu_product, "list")
   testthat::expect_equal(colnames(fu_product), c("Country", "Method", "Energy.type",
                                                  "Stage", "Gross.Net", "Product",
-                                                 "Sector", "Year", "EX"))
+                                                 "Sector", "Grouping", "Year", "EX"))
   testthat::expect_true(length(unique(fu_product$Product)) > 1)
 
 })
@@ -87,7 +87,7 @@ test_that("calculate_p_ex_total() works as expected", {
   testthat::expect_type(p_total, "list")
   testthat::expect_equal(colnames(p_total), c("Country", "Method", "Energy.type",
                                               "Stage", "Gross.Net", "Product",
-                                              "Flow", "Year", "EX"))
+                                              "Flow", "Grouping", "Year", "EX"))
 
 })
 
@@ -98,7 +98,7 @@ test_that("calculate_p_ex_flow() works as expected", {
   testthat::expect_type(p_flow, "list")
   testthat::expect_equal(colnames(p_flow), c("Country", "Method", "Energy.type",
                                              "Stage", "Gross.Net", "Product",
-                                             "Flow", "Year", "EX"))
+                                             "Flow", "Grouping", "Year", "EX"))
   testthat::expect_true(length(unique(p_flow$Flow)) > 1)
 
 })
@@ -110,7 +110,7 @@ test_that("calculate_p_ex_product() works as expected", {
   testthat::expect_type(p_product, "list")
   testthat::expect_equal(colnames(p_product), c("Country", "Method", "Energy.type",
                                                 "Stage", "Gross.Net", "Product",
-                                                "Flow", "Year", "EX"))
+                                                "Flow", "Grouping", "Year", "EX"))
   testthat::expect_true(length(unique(p_product$Product)) > 1)
 
 })
@@ -121,7 +121,7 @@ test_that("calculate_all_ex_data() works as expected", {
 
   testthat::expect_equal(colnames(all_data), c("Country", "Method", "Energy.type",
                                               "Stage", "Gross.Net", "Product",
-                                              "Sector", "Year", "EX"))
+                                              "Flow.Sector", "Grouping", "Year", "EX"))
   # testthat::expect_equal(unique(all_data$Stage), c("Final", "Primary"))
   testthat::expect_equal(unique(all_data$Gross.Net), c("Net", "Gross"))
 
