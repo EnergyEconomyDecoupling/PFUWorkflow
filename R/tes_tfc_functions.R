@@ -6,13 +6,6 @@
 # Total final consumption (TFC) of final and useful energy/exergy
 # Primary-Final, Final-Useful, and Primary-Final efficiencies
 
-# Loads required packages
-library(matsbyname)
-library(matsindf)
-library(tidyverse)
-library(IEATools)
-library(Recca)
-
 
 #' Create a vector of final demand sectors
 #'

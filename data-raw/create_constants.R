@@ -5,7 +5,6 @@
 library(magrittr)
 library(IEATools)
 
-
 #
 # Names of targets
 #
