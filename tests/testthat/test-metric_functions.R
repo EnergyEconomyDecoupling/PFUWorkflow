@@ -122,7 +122,9 @@ test_that("calculate_all_ex_data() works as expected", {
   testthat::expect_equal(colnames(all_data), c("Country", "Method", "Energy.type",
                                               "Stage", "Gross.Net", "Product",
                                               "Flow.Sector", "Grouping", "Year", "EX"))
-  # testthat::expect_equal(unique(all_data$Stage), c("Final", "Primary"))
+  testthat::expect_equal(unique(all_data$Energy.type), c("E", "X"))
+  testthat::expect_equal(unique(all_data$Stage), c("Final", "Services", "Useful", "Primary"))
+  testthat::expect_equal(unique(all_data$Grouping), c("Total", "Sector", "Product", "Flow"))
   testthat::expect_equal(unique(all_data$Gross.Net), c("Net", "Gross"))
 
 })
