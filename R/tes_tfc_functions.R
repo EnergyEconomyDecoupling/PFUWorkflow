@@ -6,6 +6,9 @@
 # Total final consumption (TFC) of final and useful energy/exergy
 # Primary-Final, Final-Useful, and Primary-Final efficiencies
 
+# Must load matsbyname in this function file as Recca::finaldemand_aggregates depends on matsbyname functions
+# but incuding matsbyname in imports is not enough to load the functions in matsbyname required.
+library(matsbyname)
 
 #' Create a vector of final demand sectors
 #'

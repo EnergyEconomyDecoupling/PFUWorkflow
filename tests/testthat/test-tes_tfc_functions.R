@@ -6,6 +6,8 @@ context("TES and TFC Functions")
 library(testthat)
 library(Recca)
 library(tidyr)
+library(dplyr)
+library(magrittr)
 
 # Create test data using Recca example matrices
 PSUT_DF <- Recca::UKEnergy2000mats %>%
