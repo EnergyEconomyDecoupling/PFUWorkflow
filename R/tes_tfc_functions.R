@@ -10,28 +10,6 @@
 # but incuding matsbyname in imports is not enough to load the functions in matsbyname required.
 library(matsbyname)
 
-#' Create a vector of final demand sectors
-#'
-#' @return A vector of final demand sectors
-#' @export
-#'
-#' @examples
-create_fd_sectors <- function() {
-
-  fd_sectors <- c(IEATools::industry_flows,
-                  IEATools::transport_flows,
-                  IEATools::other_flows,
-                  IEATools::non_energy_flows) %>%
-    as.character()
-
-  # fd_sectors <- c(IEATools::industry_net_flows,
-  #                 IEATools::transport_domestic_flows,
-  #                 IEATools::other_flows,
-  #                 IEATools::non_energy_flows) %>%
-  #   as.character()
-
-}
-
 
 #' Create a list containing final demand sectors equal to the length of a dataframe
 #'
@@ -51,33 +29,23 @@ create_fd_sectors_list <- function(fd_sectors, .sutdata) {
 }
 
 
-#' Create a list of primary industry prefixes
-#'
-#' @return A list of primary industry prefixes
-#' @export
-#'
-#' @examples
-create_p_industry_prefixes <- function() {
-
-  p_industry_prefixes = list(as.character(IEATools::tpes_flows))
-
-}
 
 #' Calculate total primary energy
 #'
 #'
 #' @param .sutdata
+#' @param p_industry_prefixes
 #'
 #' @return
 #' @export
 #'
 #' @examples
-calculate_p_ex_total <- function(.sutdata) {
+calculate_p_ex_total <- function(.sutdata, p_industry_prefixes) {
 
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
   PSUT_DF_p <- .sutdata %>%
-    dplyr::mutate(p_industry_prefixes = create_p_industry_prefixes()) %>%
+    dplyr::mutate(p_industry_prefixes = p_industry_prefixes) %>%
     Recca::find_p_industry_names() %>%
     dplyr::relocate(p_industries_complete, .after = p_industry_prefixes)
 
@@ -114,17 +82,18 @@ calculate_p_ex_total <- function(.sutdata) {
 #'
 #'
 #' @param .sutdata
+#' @param p_industry_prefixes
 #'
 #' @return
 #' @export
 #'
 #' @examples
-calculate_p_ex_product <- function(.sutdata) {
+calculate_p_ex_product <- function(.sutdata, p_industry_prefixes) {
 
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
   PSUT_DF_p <- .sutdata %>%
-    dplyr::mutate(p_industry_prefixes = create_p_industry_prefixes()) %>%
+    dplyr::mutate(p_industry_prefixes = p_industry_prefixes) %>%
     Recca::find_p_industry_names() %>%
     dplyr::relocate(p_industries_complete, .after = p_industry_prefixes)
 
@@ -163,17 +132,18 @@ calculate_p_ex_product <- function(.sutdata) {
 #'
 #'
 #' @param .sutdata
+#' @param p_industry_prefixes
 #'
 #' @return
 #' @export
 #'
 #' @examples
-calculate_p_ex_flow <- function(.sutdata) {
+calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes) {
 
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
   PSUT_DF_p <- .sutdata %>%
-    dplyr::mutate(p_industry_prefixes = create_p_industry_prefixes()) %>%
+    dplyr::mutate(p_industry_prefixes = p_industry_prefixes) %>%
     Recca::find_p_industry_names() %>%
     dplyr::relocate(p_industries_complete, .after = p_industry_prefixes)
 
@@ -212,15 +182,16 @@ calculate_p_ex_flow <- function(.sutdata) {
 #'
 #'
 #' @param .sutdata
+#' @param fd_sectors
 #'
 #' @return A data frame containing final and useful demand by total
 #' @export
 #'
 #' @examples
-calculate_fu_ex_total <- function(.sutdata) {
+calculate_fu_ex_total <- function(.sutdata, fd_sectors) {
 
   # Creates a list of final demand sectors
-  fd_sector_list <- create_fd_sectors_list(fd_sectors = create_fd_sectors(), PSUT_DF = .sutdata)
+  fd_sector_list <- create_fd_sectors_list(fd_sectors = fd_sectors, .sutdata = .sutdata)
 
   # Adds a column which each observation containing the list of final demand sectors
   PSUT_DF_fu <- .sutdata %>%
@@ -253,15 +224,16 @@ calculate_fu_ex_total <- function(.sutdata) {
 #' Calculate total final demand of final and useful energy by product
 #'
 #' @param .sutdata
+#' @param fd_sectors
 #'
 #' @return A data frame containing final and useful demand by total, by product
 #' @export
 #'
 #' @examples
-calculate_fu_ex_product <- function(.sutdata) {
+calculate_fu_ex_product <- function(.sutdata, fd_sectors) {
 
   # Creates a list of final demand sectors
-  fd_sector_list <- create_fd_sectors_list(fd_sectors = create_fd_sectors(), PSUT_DF = .sutdata)
+  fd_sector_list <- create_fd_sectors_list(fd_sectors = fd_sectors, .sutdata = .sutdata)
 
   # Adds a column which each observation containing the list of final demand sectors
   PSUT_DF_fu <- .sutdata %>%
@@ -300,15 +272,16 @@ calculate_fu_ex_product <- function(.sutdata) {
 #' Calculate total final demand of final and useful energy by sector
 #'
 #' @param .sutdata
+#' @param fd_sectors
 #'
 #' @return A data frame containing final and useful demand by total, by product
 #' @export
 #'
 #' @examples
-calculate_fu_ex_sector <- function(.sutdata) {
+calculate_fu_ex_sector <- function(.sutdata, fd_sectors) {
 
   # Creates a list of final demand sectors
-  fd_sector_list <- create_fd_sectors_list(fd_sectors = create_fd_sectors(), PSUT_DF = .sutdata)
+  fd_sector_list <- create_fd_sectors_list(fd_sectors = fd_sectors, .sutdata = .sutdata)
 
   # Adds a column which each observation containing the list of final demand sectors
   PSUT_DF_fu <- .sutdata %>%
@@ -348,49 +321,51 @@ calculate_fu_ex_sector <- function(.sutdata) {
 #' Create a data frame containing all aggregate energy/exergy data
 #'
 #' @param .sutdata
+#' @param fd_sectors
+#' @param p_industry_prefixes
 #'
 #' @return A data frame containing energy/exergy values aggregated by total,
 #'         sector and product at each stage of the energy conversion chain.
 #' @export
 #'
 #' @examples
-calculate_all_ex_data <- function(.sutdata) {
+calculate_all_ex_data <- function(.sutdata, fd_sectors, p_industry_prefixes) {
 
   # Calculates total final demand of energy/exergy
-  fu_total <- calculate_fu_ex_total(PSUT_DF = .sutdata) %>%
+  fu_total <- calculate_fu_ex_total(.sutdata = .sutdata, fd_sectors = fd_sectors) %>%
     # Change name from Flow to Flow.Sector so data frames can be bound
     magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
                              "Gross.Net", "Product", "Flow.Sector",
                              "Grouping", "Year", "EX"))
 
   # Calculates final demand of energy/exergy by sector
-  fu_sector <- calculate_fu_ex_sector(PSUT_DF = PSUT_DF) %>%
+  fu_sector <- calculate_fu_ex_sector(.sutdata = .sutdata, fd_sectors = fd_sectors) %>%
     # Change name from Flow to Flow.Sector so data frames can be bound
     magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
                              "Gross.Net", "Product", "Flow.Sector",
                              "Grouping", "Year", "EX"))
 
   # Calculates final demand of energy/exergy by product
-  fu_product <- calculate_fu_ex_product(PSUT_DF = PSUT_DF) %>%
+  fu_product <- calculate_fu_ex_product(.sutdata = .sutdata, fd_sectors = fd_sectors) %>%
     # Change name from Flow to Flow.Sector so data frames can be bound
     magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
                              "Gross.Net", "Product", "Flow.Sector",
                              "Grouping", "Year", "EX"))
 
   # Calculates total primary energy/exergy
-  p_total <- calculate_p_ex_total(PSUT_DF = PSUT_DF) %>%
+  p_total <- calculate_p_ex_total(.sutdata = .sutdata, p_industry_prefixes = p_industry_prefixes) %>%
     # Change name from Flow to Flow.Sector so data frames can be bound
     magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
                              "Gross.Net", "Product", "Flow.Sector",
                              "Grouping", "Year", "EX"))
   # Calculates primary energy/exergy by flow
-  p_flow <- calculate_p_ex_flow(PSUT_DF = PSUT_DF) %>%
+  p_flow <- calculate_p_ex_flow(.sutdata = .sutdata, p_industry_prefixes = p_industry_prefixes) %>%
     # Change name from Flow to Flow.Sector so data frames can be bound
     magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
                              "Gross.Net", "Product", "Flow.Sector",
                              "Grouping", "Year", "EX"))
   # Calculates primary energy/exergy by product
-  p_product <- calculate_p_ex_product(PSUT_DF = PSUT_DF) %>%
+  p_product <- calculate_p_ex_product(.sutdata = .sutdata, p_industry_prefixes = p_industry_prefixes) %>%
     # Change name from Flow to Flow.Sector so data frames can be bound
     magrittr::set_colnames(c("Country", "Method", "Energy.type", "Stage",
                              "Gross.Net", "Product", "Flow.Sector",
