@@ -268,10 +268,10 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # (11) Aggregate primary, final, and useful energy/exergy by total, product, flow, and sector
 
     AggregateExergyEnergyData = drake::target(calculate_all_ex_data(.sutdata = PSUT_useful,
-                                                                    fd_sectors = c(IEATools::industry_flows, # Includes "Coal mines" and "Oil and gas extraction"
-                                                                                   IEATools::transport_flows, # Includes "World aviation bunkers" and "World marine bunkers"
-                                                                                   IEATools::other_flows,
-                                                                                   IEATools::non_energy_flows),
+                                                                    fd_sectors = unlist(c(IEATools::industry_flows, # Includes "Coal mines" and "Oil and gas extraction"
+                                                                                          IEATools::transport_flows, # Includes "World aviation bunkers" and "World marine bunkers"
+                                                                                          IEATools::other_flows,
+                                                                                          IEATools::non_energy_flows)),
                                                                     p_industry_prefixes = c("Resources",
                                                                                             "Production",
                                                                                             "Imports",
