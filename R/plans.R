@@ -267,7 +267,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (11) Aggregate primary, final, and useful energy/exergy by total, product, flow, and sector
 
-    AggregateExergyEnergyData = drake::target(calculate_all_ex_data(PSUT_DF = PSUT_useful)),
+    AggregateExergyEnergyData = drake::target(calculate_all_ex_data(.sutdata = PSUT_useful)),
 
 
 
