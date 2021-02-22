@@ -58,7 +58,7 @@ get_all_pwt_data <- function(countries) {
 get_L_K_GDP_data <- function(.df) {
 
   # Selects columns
-  L_K_GDP_data <- pwt10_data %>%
+  L_K_GDP_data <- .df %>%
     dplyr::select(isocode, year, rgdpe, rgdpo, rgdpna, emp, avh, hc, rnna, rkna)
 
   # Renames columns
