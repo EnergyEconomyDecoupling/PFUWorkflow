@@ -2,16 +2,26 @@
 % Please edit documentation in R/tes_tfc_functions.R
 \name{calculate_fu_ex_product}
 \alias{calculate_fu_ex_product}
-\title{Calculate total final demand of final and useful energy by product}
+\title{Calculate total final consumption of final and useful energy by product}
 \usage{
-calculate_fu_ex_product(PSUT_DF)
+calculate_fu_ex_product(.sutdata, fd_sectors)
 }
 \arguments{
-\item{PSUT_DF}{}
+\item{.sutdata}{A data frame containing Physical Supply-Use Table (PSUT)
+matrices with associated final demand sector names}
+
+\item{fd_sectors}{A character vector of final demand sectors.}
 }
 \value{
-A data frame containing final and useful demand by total, by product
+A data frame containing total final and useful consumption by product
 }
 \description{
-Calculate total final demand of final and useful energy by product
+Calculate the total final consumption (TFC) at the final and useful stages
+(along with any additional stages) by product.
+This function first uses the uses \code{create_fd_sectors_list()} function,
+with a user-supplied set of final demand sectors \code{fd_sectors}
+to identify the final demand sectors desired for analysis.
+The \code{Recca::finaldemand_aggregates()} function is then applied to \code{.sutdata}
+data frame by product, to calculate the total final consumption across
+all of the sectors supplied in \code{fd_sectors} for each product.
 }

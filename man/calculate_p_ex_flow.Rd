@@ -4,14 +4,31 @@
 \alias{calculate_p_ex_flow}
 \title{Calculate total primary energy by flow}
 \usage{
-calculate_p_ex_flow(PSUT_DF)
+calculate_p_ex_flow(.sutdata, p_industry_prefixes)
 }
 \arguments{
-\item{PSUT_DF}{}
+\item{.sutdata}{A data frame containing Physical Supply-Use Table (PSUT)
+matrices.}
+
+\item{p_industry_prefixes}{A character vector of primary energy industry prefixes.
+Usually "Resources", "Production", "Imports", and "Stock changes".}
 }
 \value{
-
+A data frame containing total energy supply data by primary energy flow
 }
 \description{
-Calculate total primary energy by flow
+Calculate the total energy supply (TES) in primary energy terms by flow. This metric
+was formerly called the total primary energy supply (TPES).
+This function first uses the uses \code{Recca::find_p_industry_names()} function,
+with a user-supplied set of primary industry prefixes \code{p_industry_prefixes}
+to identify the primary industries desired for analysis.
+The \code{Recca::primary_aggregates()} function is then applied to \code{.sutdata}
+data frame by flow, to calculate the total energy supply across all products
+for each flow.
+}
+\examples{
+library(Recca)
+total_energy_supply <- calculate_p_ex_flow(.sutdata = Recca::UKEnergy2000mats,
+p_industry_prefixes = c("Resources", "Imports"))
+
 }

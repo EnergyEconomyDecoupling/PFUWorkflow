@@ -2,20 +2,27 @@
 % Please edit documentation in R/tes_tfc_functions.R
 \name{create_fd_sectors_list}
 \alias{create_fd_sectors_list}
-\title{Create a list containing final demand sectors equal to the length of a dataframe}
+\title{Create a list containing final demand sectors}
 \usage{
-create_fd_sectors_list(fd_sectors, PSUT_DF)
+create_fd_sectors_list(fd_sectors, .sutdata)
 }
 \arguments{
-\item{fd_sectors}{A vector of final demand sectors, usually produced by
-\code{create_fd_sectors}}
+\item{fd_sectors}{A character vector of final demand sectors.}
 
-\item{PSUT_DF}{A data frame containing PSUT matrices that require associated
-final demand sector names}
+\item{.sutdata}{A data frame containing Physical Supply-Use Table (PSUT)
+matrices with associated final demand sector names}
 }
 \value{
 A list the length of a desired data frame containing final demand vectors
 }
 \description{
-Create a list containing final demand sectors equal to the length of a dataframe
+This function creates a list equal to the length of any data frame supplied.
+It is typically used on a data frame containing Physical Supply-Use Tables (PSUT)
+with the associated final demand sectors in the nested \code{Y} and \code{U_EIOU} matrices.
+}
+\examples{
+library(Recca)
+final_demand_sector_list <- create_fd_sectors_list(fd_sectors = c("Residential"),
+.sutdata = Recca::UKEnergy2000mats)
+
 }

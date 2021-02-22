@@ -2,16 +2,32 @@
 % Please edit documentation in R/tes_tfc_functions.R
 \name{calculate_p_ex_total}
 \alias{calculate_p_ex_total}
-\title{Calculate total primary energy}
+\title{Calculate total energy supply}
 \usage{
-calculate_p_ex_total(PSUT_DF)
+calculate_p_ex_total(.sutdata, p_industry_prefixes)
 }
 \arguments{
-\item{PSUT_DF}{}
+\item{.sutdata}{A data frame containing Physical Supply-Use Table (PSUT)
+matrices.}
+
+\item{p_industry_prefixes}{A character vector of primary energy industry prefixes.
+Usually "Resources", "Production", "Imports", and "Stock changes".}
 }
 \value{
-
+A data frame containing total energy supply data
 }
 \description{
-Calculate total primary energy
+Calculate the total energy supply (TES) in primary energy terms. This metric
+was formerly called the total primary energy supply (TPES).
+This function first uses the uses \code{Recca::find_p_industry_names()} function,
+with a user-supplied set of primary industry prefixes \code{p_industry_prefixes}
+to identify the primary industries desired for analysis.
+The \code{Recca::primary_aggregates()} function is then applied to \code{.sutdata}
+data frame by total, to calculate the total energy supply across all products and flows.
+}
+\examples{
+library(Recca)
+total_energy_supply <- calculate_p_ex_total(.sutdata = Recca::UKEnergy2000mats,
+p_industry_prefixes = c("Resources", "Imports"))
+
 }
