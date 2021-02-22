@@ -48,7 +48,7 @@ create_fd_sectors_list <- function(fd_sectors, .sutdata) {
 #' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
 #'                 matrices.
 #' @param p_industry_prefixes A character vector of primary energy industry prefixes.
-#'                            Usually "Resources", "Imports", and "Stock changes".
+#'                            Usually "Resources", "Production", "Imports", and "Stock changes".
 #'
 #' @return A data frame containing total energy supply data
 #' @export
@@ -111,7 +111,7 @@ calculate_p_ex_total <- function(.sutdata, p_industry_prefixes) {
 #' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
 #'                 matrices.
 #' @param p_industry_prefixes A character vector of primary energy industry prefixes.
-#'                            Usually "Resources", "Imports", and "Stock changes".
+#'                            Usually "Resources", "Production", "Imports", and "Stock changes".
 #'
 #' @return A data frame containing total energy supply data by primary energy product
 #' @export
@@ -176,7 +176,7 @@ calculate_p_ex_product <- function(.sutdata, p_industry_prefixes) {
 #' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
 #'                 matrices.
 #' @param p_industry_prefixes A character vector of primary energy industry prefixes.
-#'                            Usually "Resources", "Imports", and "Stock changes".
+#'                            Usually "Resources", "Production", "Imports", and "Stock changes".
 #'
 #' @return A data frame containing total energy supply data by primary energy flow
 #' @export
@@ -427,7 +427,7 @@ calculate_fu_ex_sector <- function(.sutdata, fd_sectors) {
 #'                 matrices with associated final demand sector names
 #' @param fd_sectors A character vector of final demand sectors.
 #' @param p_industry_prefixes A character vector of primary energy industry prefixes.
-#'                            Usually "Resources", "Imports", and "Stock changes".
+#'                            Usually "Resources", "Production", "Imports", and "Stock changes".
 #'
 #' @return A data frame containing energy/exergy values aggregated by total,
 #'         sector and product at each stage of the energy conversion chain.
