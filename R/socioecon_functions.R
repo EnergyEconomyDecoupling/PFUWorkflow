@@ -1,10 +1,8 @@
-countries <- c("USA", "GHA", "HND")
-
-
 #' Get all pwt10 data for a set of countries
 #'
 #' Using the pwt10 package this function creates a data frame containing all the
-#' data Penn World Tables 10 (pwt10) for a set of countries as specified in `countries`.
+#' data Penn World Tables 10 (pwt10) for a set of countries as specified in a string
+#' of 3-letter ISO country codes named `countries`.
 #' Note that some data is not available for some countries (mostly non-OECD).
 #'
 #' @param countries A string of iso 3-letter country codes
@@ -45,7 +43,6 @@ get_all_pwt_data <- function(countries) {
 #' The metrics  L, the total number of hours worked in a given year
 #' and Ladj, the number of hours worked adjusted by the human capital index are
 #' also calculated and added as columns, with avh, hc, and emp being removed after use.
-#'
 #'
 #' Note that some data is not available for some countries (mostly non-OECD),
 #' some of the calculated metrics i.e. Adjusted Labor (L.adj) is also absent.
