@@ -11,35 +11,53 @@
 library(matsbyname)
 
 
-#' Create a list containing final demand sectors equal to the length of a dataframe
+#' Create a list containing final demand sectors
 #'
-#' @param fd_sectors A vector of final demand sectors, usually produced by
-#'                   `create_fd_sectors`
-#' @param PSUT_DF  A data frame containing PSUT matrices that require associated
-#'                 final demand sector names
+#' This function creates a list equal to the length of any data frame supplied.
+#' It is typically used on a data frame containing Physical Supply-Use Tables (PSUT)
+#' with the associated final demand sectors in the nested `Y` and `U_EIOU` matrices.
+#'
+#' @param fd_sectors A character vector of final demand sectors.
+#' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
+#'                 matrices with associated final demand sector names
 #'
 #' @return A list the length of a desired data frame containing final demand vectors
 #' @export
 #'
 #' @examples
+#' library(Recca)
+#' final_demand_sector_list <- create_fd_sectors_list(fd_sectors = c("Residential"),
+#' .sutdata = Recca::UKEnergy2000mats)
+#'
 create_fd_sectors_list <- function(fd_sectors, .sutdata) {
 
   rep(x = list(c(fd_sectors)), times = nrow(.sutdata))
 
 }
 
-
-
-#' Calculate total primary energy
+#' Calculate total energy supply
 #'
+#' Calculate the total energy supply (TES) in primary energy terms. This metric
+#' was formerly called the total primary energy supply (TPES).
+#' This function first uses the uses `Recca::find_p_industry_names()` function,
+#' with a user-supplied set of primary industry prefixes `p_industry_prefixes`
+#' to identify the primary industries desired for analysis.
+#' The `Recca::primary_aggregates()` function is then applied to `.sutdata`
+#' data frame by total, to calculate the total energy supply across all products and flows.
 #'
-#' @param .sutdata
-#' @param p_industry_prefixes
+#' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
+#'                 matrices.
+#' @param p_industry_prefixes A character vector of primary energy industry prefixes.
+#'                            Usually "Resources", "Imports", and "Stock changes".
 #'
-#' @return
+#' @return A data frame containing total energy supply data
 #' @export
 #'
 #' @examples
+#' library(Recca)
+#' total_energy_supply <- calculate_p_ex_total(.sutdata = Recca::UKEnergy2000mats,
+#' p_industry_prefixes = c("Resources", "Imports"))
+#'
 calculate_p_ex_total <- function(.sutdata, p_industry_prefixes) {
 
   # Adds primary industry name prefixes to DF and creates a complete list of
@@ -80,14 +98,29 @@ calculate_p_ex_total <- function(.sutdata, p_industry_prefixes) {
 
 #' Calculate total primary energy by product
 #'
+#' Calculate the total energy supply (TES) in primary energy terms by product. This metric
+#' was formerly called the total primary energy supply (TPES).
+#' This function first uses the uses `Recca::find_p_industry_names()` function,
+#' with a user-supplied set of primary industry prefixes `p_industry_prefixes`
+#' to identify the primary industries desired for analysis.
+#' The `Recca::primary_aggregates()` function is then applied to `.sutdata`
+#' data frame by product, to calculate the total energy supply across all flows
+#' for each product.
 #'
-#' @param .sutdata
-#' @param p_industry_prefixes
 #'
-#' @return
+#' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
+#'                 matrices.
+#' @param p_industry_prefixes A character vector of primary energy industry prefixes.
+#'                            Usually "Resources", "Imports", and "Stock changes".
+#'
+#' @return A data frame containing total energy supply data by primary energy product
 #' @export
 #'
 #' @examples
+#' library(Recca)
+#' total_energy_supply <- calculate_p_ex_product(.sutdata = Recca::UKEnergy2000mats,
+#' p_industry_prefixes = c("Resources", "Imports"))
+#'
 calculate_p_ex_product <- function(.sutdata, p_industry_prefixes) {
 
   # Adds primary industry name prefixes to DF and creates a complete list of
@@ -130,14 +163,29 @@ calculate_p_ex_product <- function(.sutdata, p_industry_prefixes) {
 
 #' Calculate total primary energy by flow
 #'
+#' Calculate the total energy supply (TES) in primary energy terms by flow. This metric
+#' was formerly called the total primary energy supply (TPES).
+#' This function first uses the uses `Recca::find_p_industry_names()` function,
+#' with a user-supplied set of primary industry prefixes `p_industry_prefixes`
+#' to identify the primary industries desired for analysis.
+#' The `Recca::primary_aggregates()` function is then applied to `.sutdata`
+#' data frame by flow, to calculate the total energy supply across all products
+#' for each flow.
 #'
-#' @param .sutdata
-#' @param p_industry_prefixes
 #'
-#' @return
+#' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
+#'                 matrices.
+#' @param p_industry_prefixes A character vector of primary energy industry prefixes.
+#'                            Usually "Resources", "Imports", and "Stock changes".
+#'
+#' @return A data frame containing total energy supply data by primary energy flow
 #' @export
 #'
 #' @examples
+#' library(Recca)
+#' total_energy_supply <- calculate_p_ex_flow(.sutdata = Recca::UKEnergy2000mats,
+#' p_industry_prefixes = c("Resources", "Imports"))
+#'
 calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes) {
 
   # Adds primary industry name prefixes to DF and creates a complete list of
@@ -178,16 +226,29 @@ calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes) {
 
 }
 
-#' Calculate total final demand of final and useful energy
+#' Calculate total final consumption of final and useful energy
+#'
+#' Calculate the total final consumption (TFC) at the final and useful stages
+#' (along with any additional stages).
+#' This function first uses the uses `create_fd_sectors_list()` function,
+#' with a user-supplied set of final demand sectors `fd_sectors`
+#' to identify the final demand sectors desired for analysis.
+#' The `Recca::finaldemand_aggregates()` function is then applied to `.sutdata`
+#' data frame, to calculate the total final consumption across all products and sectors.
 #'
 #'
-#' @param .sutdata
-#' @param fd_sectors
+#' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
+#'                 matrices with associated final demand sector names
+#' @param fd_sectors A character vector of final demand sectors.
 #'
-#' @return A data frame containing final and useful demand by total
+#' @return A data frame containing total final and useful consumption by total
 #' @export
 #'
 #' @examples
+#' library(Recca)
+#' tfc_total <- calculate_fu_ex_total(.sutdata = Recca::UKEnergy2000mats,
+#'                                    fd_sectors = c("Residential))
+#'
 calculate_fu_ex_total <- function(.sutdata, fd_sectors) {
 
   # Creates a list of final demand sectors
@@ -221,15 +282,30 @@ calculate_fu_ex_total <- function(.sutdata, fd_sectors) {
 
 }
 
-#' Calculate total final demand of final and useful energy by product
+#' Calculate total final consumption of final and useful energy by product
 #'
-#' @param .sutdata
-#' @param fd_sectors
+#' Calculate the total final consumption (TFC) at the final and useful stages
+#' (along with any additional stages) by product.
+#' This function first uses the uses `create_fd_sectors_list()` function,
+#' with a user-supplied set of final demand sectors `fd_sectors`
+#' to identify the final demand sectors desired for analysis.
+#' The `Recca::finaldemand_aggregates()` function is then applied to `.sutdata`
+#' data frame by product, to calculate the total final consumption across
+#' all of the sectors supplied in `fd_sectors` for each product.
 #'
-#' @return A data frame containing final and useful demand by total, by product
+#'
+#' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
+#'                 matrices with associated final demand sector names
+#' @param fd_sectors A character vector of final demand sectors.
+#'
+#' @return A data frame containing total final and useful consumption by product
 #' @export
 #'
 #' @examples
+#' library(Recca)
+#' tfc_product <- calculate_fu_ex_product(.sutdata = Recca::UKEnergy2000mats,
+#'                                        fd_sectors = c("Residential))
+#'
 calculate_fu_ex_product <- function(.sutdata, fd_sectors) {
 
   # Creates a list of final demand sectors
@@ -269,15 +345,29 @@ calculate_fu_ex_product <- function(.sutdata, fd_sectors) {
 
 }
 
-#' Calculate total final demand of final and useful energy by sector
+#' Calculate total final consumption of final and useful energy by sector
 #'
-#' @param .sutdata
-#' @param fd_sectors
+#' Calculate the total final consumption (TFC) at the final and useful stages
+#' (along with any additional stages) by sector.
+#' This function first uses the uses `create_fd_sectors_list()` function,
+#' with a user-supplied set of final demand sectors `fd_sectors`
+#' to identify the final demand sectors desired for analysis.
+#' The `Recca::finaldemand_aggregates()` function is then applied to `.sutdata`
+#' data frame by sector, to calculate the total final consumption of all products
+#' in each of the sectors supplied in `fd_sectors`.
 #'
-#' @return A data frame containing final and useful demand by total, by product
+#' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
+#'                 matrices with associated final demand sector names
+#' @param fd_sectors A character vector of final demand sectors.
+#'
+#' @return A data frame containing total final and useful consumption by sector
 #' @export
 #'
 #' @examples
+#' library(Recca)
+#' tfc_sector <- calculate_fu_ex_sector(.sutdata = Recca::UKEnergy2000mats,
+#'                                      fd_sectors = c("Residential))
+#'
 calculate_fu_ex_sector <- function(.sutdata, fd_sectors) {
 
   # Creates a list of final demand sectors
@@ -304,6 +394,11 @@ calculate_fu_ex_sector <- function(.sutdata, fd_sectors) {
                              rownames = "Sector") %>%
     dplyr::select(-colnames, -rowtypes, -coltypes)
 
+  # Asserts that the sectors present in the expanded data is equal to the string
+  # of sectors stipulated in the argument of the function
+  assertthat::assert_that(assertthat::are_equal(unique(fu_sector_expanded$Sector), fd_sectors),
+                          msg = "The final demand sectors returned are not the same as the final demand sectors stipulated in the function argument 'fd_sectors'.")
+
   # Add additional metadata columns
   fu_sector_expanded <- fu_sector_expanded %>%
     dplyr::relocate(Sector, .after = "Gross.Net") %>%
@@ -320,15 +415,30 @@ calculate_fu_ex_sector <- function(.sutdata, fd_sectors) {
 
 #' Create a data frame containing all aggregate energy/exergy data
 #'
-#' @param .sutdata
-#' @param fd_sectors
-#' @param p_industry_prefixes
+#' This functions creates a single data frame containing the total energy by country,
+#' year, method, energy quantification, stage (Primary, Final, Useful....),
+#' and grouping variable (Total, Product, and Flow or Sector) using the functions:
+#' `calculate_fu_ex_total`, `calculate_fu_ex_sector`, `calculate_fu_ex_product`,
+#' `calculate_p_ex_total`, `calculate_p_ex_flow`, `calculate_p_ex_product`,
+#' and binding the outputs of these functions into a single data frame.
+#'
+#'
+#' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
+#'                 matrices with associated final demand sector names
+#' @param fd_sectors A character vector of final demand sectors.
+#' @param p_industry_prefixes A character vector of primary energy industry prefixes.
+#'                            Usually "Resources", "Imports", and "Stock changes".
 #'
 #' @return A data frame containing energy/exergy values aggregated by total,
 #'         sector and product at each stage of the energy conversion chain.
 #' @export
 #'
 #' @examples
+#' library(Recca)
+#' all_data <- calculate_all_ex_data(.sutdata = Recca::UKEnergy2000mats,
+#'                                   fd_sectors = c("Residential"),
+#'                                   p_industry_prefixes = c("Resources"))
+#'
 calculate_all_ex_data <- function(.sutdata, fd_sectors, p_industry_prefixes) {
 
   # Calculates total final demand of energy/exergy
