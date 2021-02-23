@@ -5,7 +5,7 @@
 \alias{target_names}
 \title{Drake cache target names}
 \format{
-A string list with 35 entries.
+A string list with 37 entries.
 \describe{
 \item{countries}{The string name of the countries target in the drake cache, giving the countries to be analyzed.}
 \item{alloc_and_eff_couns}{The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.}
@@ -14,6 +14,8 @@ A string list with 35 entries.
 \item{ceda_data_folder}{A string representing the path to the file containing CEDA data.}
 \item{machine_data_path}{A string representing the path to the folder containing machine data excel files.}
 \item{exemplar_table_path}{A string representing the path to the exemplar table.}
+\item{fd_sectors}{A character vector representing the final demand sectors desired for analysis.}
+\item{p_industry_prefixes}{A character vector representing the prefixes of primary industries desired for analysis.}
 \item{fu_analysis_folder}{A string representing the folder containing final-to-useful analyses for various countries.}
 \item{report_source_folders}{A string vector representing folders containing reports to be run as the last step of the workflow.}
 \item{report_dest_folder}{A string representing the folder containing reports from the workflow.}

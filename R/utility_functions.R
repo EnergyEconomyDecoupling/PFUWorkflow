@@ -85,6 +85,8 @@ dir_create_pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode =
 #' @param ceda_data_folder The path to CEDA data. Default is `CEDATools::ceda_data_folder()`.
 #' @param `machine_data_path`: The path to the machine data excel files, supplied in the `machine_data_path` argument.
 #' @param fu_analysis_folder The path to the final-to-useful analysis folder. Default is `tempdir()`.
+#' @param fd_sectors Example final demand sectors for testing. Default is `c("Residential", "Transport")`.
+#' @param p_industry_prefixes Example primary industry prefixes. Default is `c("Resources")`.
 #' @param reports_output_folder The path into which reports will be written. Default is `tempdir()`.
 #' @param exemplar_folder The path to a temporary folder to contain an exemplar table. Default is `tempdir()`.
 #' @param cache_path The path to the temporary drake cache used for testing. Default is `tempfile("drake_cache_for_testing")`.
@@ -104,6 +106,8 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                iea_data_path = IEATools::sample_iea_data_path(),
                                ceda_data_folder = CEDATools::sample_ceda_data_folder(),
                                machine_data_path = sample_machine_workbook_path(),
+                               fd_sectors = c("Residential", "Transport"),
+                               p_industry_prefixes = c("Resources"),
                                fu_analysis_folder = tempdir(),
                                reports_source_folders = system.file("reports", package = "SEAPSUTWorkflow"),
                                reports_output_folder = tempdir(),
@@ -124,6 +128,8 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                    ceda_data_folder = ceda_data_folder,
                    machine_data_path = machine_data_path,
                    exemplar_table_path = file.path(exemplar_folder, "Exemplar_Table.xlsx"),
+                   fd_sectors = fd_sectors,
+                   p_industry_prefixes = p_industry_prefixes,
                    fu_analysis_folder = fu_analysis_folder,
                    reports_source_folders = reports_source_folders,
                    reports_dest_folder = reports_output_folder)

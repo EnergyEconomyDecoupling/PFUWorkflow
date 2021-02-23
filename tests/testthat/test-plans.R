@@ -7,6 +7,8 @@ test_that("get_plan works", {
                       ceda_data_folder = "cedapath",
                       machine_data_path = "machinepath",
                       exemplar_table_path = "exemplarpath",
+                      fd_sectors = c("Residential", "Transport"),
+                      p_industry_prefixes = c("Resources"),
                       fu_analysis_folder = "FUpath",
                       reports_source_folders = "reports_source_folders",
                       reports_dest_folder = "reports_dest_folder",
@@ -31,6 +33,12 @@ test_that("get_plan works", {
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("machinepath"))
 
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("exemplarpath"))
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "fd_sectors")
+  expect_equal(my_plan[[rn, "command"]], list(c("Residential", "Transport")))
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "p_industry_prefixes")
+  expect_equal(my_plan[[rn, "command"]], list(c("Resources")))
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "fu_analysis_folder")
   expect_equal(my_plan[[rn, "command"]], list("FUpath"))
@@ -86,6 +94,8 @@ test_that("keeping only some rows of a plan works", {
                         ceda_data_folder = "cedapath",
                         machine_data_path = "machinepath",
                         exemplar_table_path = "exemplarpath",
+                        fd_sectors = c("Residential", "Transport"),
+                        p_industry_prefixes = c("Resources"),
                         fu_analysis_folder = "FUpath",
                         reports_source_folders = "reports_source_path",
                         reports_dest_folder = "reports_dest_folder",
@@ -95,6 +105,8 @@ test_that("keeping only some rows of a plan works", {
                          ceda_data_folder = "cedapath",
                          machine_data_path = "machinepath",
                          exemplar_table_path = "exemplarpath",
+                         fd_sectors = c("Residential", "Transport"),
+                         p_industry_prefixes = c("Resources"),
                          fu_analysis_folder = "FUpath",
                          reports_source_folders = "reports_source_path",
                          reports_dest_folder = "reports_dest_folder",
