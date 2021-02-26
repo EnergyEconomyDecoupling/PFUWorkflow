@@ -10,9 +10,9 @@ test_sutdata <- Recca::UKEnergy2000mats %>%
 # Set prefixes to Resources, the only prefix in the R matrices
 p_industry_prefixes <- list("Resources")
 
-# Restrict final demand sectors to just residential, if functions work no
-# transport data should be included in the calculations
-fd_sectors <- c("Residential")
+# Restrict final demand sectors to just "Residential" and "Transport".
+# As Recca::UKEnergy2000mats does not include "Absent_Sector" it should just be ignored
+fd_sectors <- c("Residential", "Transport", "Absent_Sector")
 
 
 # Run tests
@@ -28,7 +28,10 @@ test_that("create_fd_sectors_list() works as expected", {
   testthat::expect_equal(length(fd_sectors_list), 4)
 
   # Check that each entry in fd_sectors_list is composed of just "Residential"
-  testthat::expect_equal(unlist(fd_sectors_list), c("Residential", "Residential", "Residential", "Residential"))
+  testthat::expect_equal(unlist(fd_sectors_list), c("Residential", "Transport", "Absent_Sector",
+                                                    "Residential", "Transport", "Absent_Sector",
+                                                    "Residential", "Transport", "Absent_Sector",
+                                                    "Residential", "Transport", "Absent_Sector"))
 
 })
 
@@ -66,9 +69,9 @@ test_that("calculate_fu_ex_sector() works as expected", {
                                                 "Stage", "Gross.Net", "Product",
                                                 "Sector", "Grouping", "Year", "EX"))
 
-  # Check that the only final demand sector is "Residential" as stipulated in fd_sectors
-  ##### Currently taking each row for Y and U_EIOU matrices for gross final demand only #####
-  testthat::expect_equal(unique(fu_sector$Sector), c("Residential"))
+  # Check that the only final demand sectors are "Residential" and "Transport"
+  # as stipulated in fd_sectors. But not "Absent_Sector" as it does not exist.
+  testthat::expect_equal(unique(fu_sector$Sector), c("Residential", "Transport"))
 
 })
 

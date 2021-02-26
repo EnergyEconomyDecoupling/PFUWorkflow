@@ -394,10 +394,14 @@ calculate_fu_ex_sector <- function(.sutdata, fd_sectors) {
                              rownames = "Sector") %>%
     dplyr::select(-colnames, -rowtypes, -coltypes)
 
-  # Asserts that the sectors present in the expanded data is equal to the string
-  # of sectors stipulated in the argument of the function
-  assertthat::assert_that(assertthat::are_equal(unique(fu_sector_expanded$Sector), fd_sectors),
-                          msg = "The final demand sectors returned are not the same as the final demand sectors stipulated in the function argument 'fd_sectors'.")
+  # Asserts that the length of the character vector containing the sectors present
+  # in the expanded data is less than or equal to the length of fd_sectors.
+  assertthat::assert_that(length(unique(fu_sector_expanded$Sector)) <= length(fd_sectors),
+                          msg = "There are more final demand sectors present than stipulated in fd_sectors")
+
+  # # Asserts that the final demand sectors present in fu_sector_expanded are present in fd_sectors
+  assertthat::assert_that(isTRUE(unique(unique(fu_sector_expanded$Sector) %in% fd_sectors)),
+                          msg = "There are final demand sectors present that were not stipulated in fd_sectors")
 
   # Add additional metadata columns
   fu_sector_expanded <- fu_sector_expanded %>%
