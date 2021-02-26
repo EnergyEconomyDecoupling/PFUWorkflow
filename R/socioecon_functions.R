@@ -50,7 +50,7 @@ get_all_pwt_data <- function(countries) {
 #' Note that some data is not available for some countries (mostly non-OECD),
 #' some of the calculated metrics i.e. Adjusted Labor (L.adj) is also absent.
 #'
-#' @param .df A data frame containing all pwt10 data for atleast one country,
+#' @param .df A data frame containing all pwt10 data for at least one country,
 #'            usually supplied through calling the `get_all_pwt_data` function.
 #'
 #' @return A data frame containing three GDP metrics, Labor, Adjusted Labor,

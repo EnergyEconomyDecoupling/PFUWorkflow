@@ -7,7 +7,7 @@
 get_L_K_GDP_data(.df)
 }
 \arguments{
-\item{.df}{A data frame containing all pwt10 data for atleast one country,
+\item{.df}{A data frame containing all pwt10 data for at least one country,
 usually supplied through calling the \code{get_all_pwt_data} function.}
 }
 \value{

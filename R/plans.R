@@ -34,7 +34,7 @@
 #' * `IncompleteEfficiencyTables`: A data frame containing final-to-useful efficiency tables.
 #' * `CompletedEfficiencyTables`: A data frame containing completed final-to-useful efficiency tables.
 #' * `Cmats` : A data frame containing `CompletedAllocationTables` in matrix form.
-#' * `EtaPhivecs` : A data frame containing final-to-useful effciency and exergy-to-energy ratio vectors.
+#' * `EtaPhivecs` : A data frame containing final-to-useful efficiency and exergy-to-energy ratio vectors.
 #' * `PSUT_useful` : A data frame containing PSUT matrices up to the useful stage.
 #' * `AggregateExergyEnergyData` : A data frame containing aggregate energy and exergy values by total, product, flow, and sector.
 #' * `AllocationGraphs` : A data frame containing allocation plots.

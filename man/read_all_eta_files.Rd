@@ -8,7 +8,7 @@ read_all_eta_files(eta_fin_paths)
 }
 \arguments{
 \item{eta_fin_paths}{A list of the file paths to machine excel files containing
-FIN_ETA frontsheets, and therefore usable data.
+FIN_ETA front sheets, and therefore usable data.
 Created by calling the \code{get_eta_filepaths} function.}
 }
 \value{
