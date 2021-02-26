@@ -18,3 +18,8 @@ data Penn World Tables 10 (pwt10) for a set of countries as specified in a strin
 of 3-letter ISO country codes named \code{countries}.
 Note that some data is not available for some countries (mostly non-OECD).
 }
+\examples{
+countries <- c("GBR")
+all_pwt_data <- get_all_pwt_data(countries = countries)
+
+}

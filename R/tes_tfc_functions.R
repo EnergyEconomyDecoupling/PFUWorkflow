@@ -247,7 +247,7 @@ calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes) {
 #' @examples
 #' library(Recca)
 #' tfc_total <- calculate_fu_ex_total(.sutdata = Recca::UKEnergy2000mats,
-#'                                    fd_sectors = c("Residential))
+#'                                    fd_sectors = c("Residential"))
 #'
 calculate_fu_ex_total <- function(.sutdata, fd_sectors) {
 
@@ -304,7 +304,7 @@ calculate_fu_ex_total <- function(.sutdata, fd_sectors) {
 #' @examples
 #' library(Recca)
 #' tfc_product <- calculate_fu_ex_product(.sutdata = Recca::UKEnergy2000mats,
-#'                                        fd_sectors = c("Residential))
+#'                                        fd_sectors = c("Residential"))
 #'
 calculate_fu_ex_product <- function(.sutdata, fd_sectors) {
 
@@ -366,7 +366,7 @@ calculate_fu_ex_product <- function(.sutdata, fd_sectors) {
 #' @examples
 #' library(Recca)
 #' tfc_sector <- calculate_fu_ex_sector(.sutdata = Recca::UKEnergy2000mats,
-#'                                      fd_sectors = c("Residential))
+#'                                      fd_sectors = c("Residential"))
 #'
 calculate_fu_ex_sector <- function(.sutdata, fd_sectors) {
 

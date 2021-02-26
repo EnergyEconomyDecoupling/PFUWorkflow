@@ -11,6 +11,9 @@
 #' @export
 #'
 #' @examples
+#' countries <- c("GBR")
+#' all_pwt_data <- get_all_pwt_data(countries = countries)
+#'
 get_all_pwt_data <- function(countries) {
 
   # Get all pwt10 data and filter for countries in the string countries
@@ -55,6 +58,10 @@ get_all_pwt_data <- function(countries) {
 #' @export
 #'
 #' @examples
+#' countries <- c("GBR")
+#' L_K_GDP_data <- get_all_pwt_data(countries = countries) %>%
+#'                   get_L_K_GDP_data()
+#'
 get_L_K_GDP_data <- function(.df) {
 
   # Selects columns

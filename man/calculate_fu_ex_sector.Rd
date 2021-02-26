@@ -25,3 +25,9 @@ The \code{Recca::finaldemand_aggregates()} function is then applied to \code{.su
 data frame by sector, to calculate the total final consumption of all products
 in each of the sectors supplied in \code{fd_sectors}.
 }
+\examples{
+library(Recca)
+tfc_sector <- calculate_fu_ex_sector(.sutdata = Recca::UKEnergy2000mats,
+                                     fd_sectors = c("Residential"))
+
+}

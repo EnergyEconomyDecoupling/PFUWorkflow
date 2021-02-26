@@ -24,3 +24,9 @@ to identify the final demand sectors desired for analysis.
 The \code{Recca::finaldemand_aggregates()} function is then applied to \code{.sutdata}
 data frame, to calculate the total final consumption across all products and sectors.
 }
+\examples{
+library(Recca)
+tfc_total <- calculate_fu_ex_total(.sutdata = Recca::UKEnergy2000mats,
+                                   fd_sectors = c("Residential"))
+
+}

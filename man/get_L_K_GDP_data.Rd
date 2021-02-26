@@ -37,3 +37,9 @@ also calculated and added as columns, with avh, hc, and emp being removed after 
 Note that some data is not available for some countries (mostly non-OECD),
 some of the calculated metrics i.e. Adjusted Labor (L.adj) is also absent.
 }
+\examples{
+countries <- c("GBR")
+L_K_GDP_data <- get_all_pwt_data(countries = countries) \%>\%
+                  get_L_K_GDP_data()
+
+}
