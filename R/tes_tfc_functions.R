@@ -60,6 +60,8 @@ create_fd_sectors_list <- function(fd_sectors, .sutdata) {
 #'
 calculate_p_ex_total <- function(.sutdata, p_industry_prefixes) {
 
+  library(matsbyname)
+
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
   PSUT_DF_p <- .sutdata %>%
@@ -122,6 +124,8 @@ calculate_p_ex_total <- function(.sutdata, p_industry_prefixes) {
 #' p_industry_prefixes = c("Resources", "Imports"))
 #'
 calculate_p_ex_product <- function(.sutdata, p_industry_prefixes) {
+
+  library(matsbyname)
 
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
@@ -188,6 +192,8 @@ calculate_p_ex_product <- function(.sutdata, p_industry_prefixes) {
 #'
 calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes) {
 
+  library(matsbyname)
+
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
   PSUT_DF_p <- .sutdata %>%
@@ -251,6 +257,8 @@ calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes) {
 #'
 calculate_fu_ex_total <- function(.sutdata, fd_sectors) {
 
+  library(matsbyname)
+
   # Creates a list of final demand sectors
   fd_sector_list <- create_fd_sectors_list(fd_sectors = fd_sectors, .sutdata = .sutdata)
 
@@ -307,6 +315,8 @@ calculate_fu_ex_total <- function(.sutdata, fd_sectors) {
 #'                                        fd_sectors = c("Residential"))
 #'
 calculate_fu_ex_product <- function(.sutdata, fd_sectors) {
+
+  library(matsbyname)
 
   # Creates a list of final demand sectors
   fd_sector_list <- create_fd_sectors_list(fd_sectors = fd_sectors, .sutdata = .sutdata)
@@ -369,6 +379,8 @@ calculate_fu_ex_product <- function(.sutdata, fd_sectors) {
 #'                                      fd_sectors = c("Residential"))
 #'
 calculate_fu_ex_sector <- function(.sutdata, fd_sectors) {
+
+  library(matsbyname)
 
   # Creates a list of final demand sectors
   fd_sector_list <- create_fd_sectors_list(fd_sectors = fd_sectors, .sutdata = .sutdata)
@@ -444,6 +456,8 @@ calculate_fu_ex_sector <- function(.sutdata, fd_sectors) {
 #'                                   p_industry_prefixes = c("Resources"))
 #'
 calculate_all_ex_data <- function(.sutdata, fd_sectors, p_industry_prefixes) {
+
+  library(matsbyname)
 
   # Calculates total final demand of energy/exergy
   fu_total <- calculate_fu_ex_total(.sutdata = .sutdata, fd_sectors = fd_sectors) %>%
