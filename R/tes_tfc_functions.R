@@ -49,6 +49,7 @@ create_fd_sectors_list <- function(fd_sectors, .sutdata) {
 #'                 matrices.
 #' @param p_industry_prefixes A character vector of primary energy industry prefixes.
 #'                            Usually "Resources", "Production", "Imports", and "Stock changes".
+#' @param country,method See `IEATools::iea_cols`.
 #'
 #' @return A data frame containing total energy supply data
 #' @export
@@ -57,8 +58,9 @@ create_fd_sectors_list <- function(fd_sectors, .sutdata) {
 #' library(Recca)
 #' total_energy_supply <- calculate_p_ex_total(.sutdata = Recca::UKEnergy2000mats,
 #' p_industry_prefixes = c("Resources", "Imports"))
-#'
-calculate_p_ex_total <- function(.sutdata, p_industry_prefixes) {
+calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
+                                 country = IEATools::iea_cols$country,
+                                 method = IEATools::iea_cols$method) {
 
   library(matsbyname)
 
@@ -72,15 +74,15 @@ calculate_p_ex_total <- function(.sutdata, p_industry_prefixes) {
   # Removes duplicate entries. Primary energy/exergy is the same regardless of whether
   # it is at the final, useful, or services stage as it is calculated from the same matrices
   PSUT_DF_p <- PSUT_DF_p %>%
-    dplyr::distinct(Country, Method, Energy.type, Year, .keep_all = TRUE)
+    dplyr::distinct(.data[[country]], method, Energy.type, Year, .keep_all = TRUE)
 
   # Call Recca::primary_aggregates() to obtain the IEA version of aggregate primary energy
   # from the R, V, and Y matrices (which includes imported final energy, effect of bunkers),
   p_total <- Recca::primary_aggregates(.sutdata = PSUT_DF_p,
                                         p_industries = "p_industries_complete",
                                         by = "Total") %>%
-    dplyr::select(Country, Method, Energy.type, Year, EX.p) %>%
-    magrittr::set_colnames(c("Country", "Method", "Energy.type", "Year", "EX"))
+    dplyr::select(.data[[country]], method, Energy.type, Year, EX.p) %>%
+    magrittr::set_colnames(c(country, method, "Energy.type", "Year", "EX"))
 
   # Add additional metadata columns
   p_total <- p_total %>%

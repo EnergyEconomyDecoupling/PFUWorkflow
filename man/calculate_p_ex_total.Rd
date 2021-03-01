@@ -4,7 +4,12 @@
 \alias{calculate_p_ex_total}
 \title{Calculate total energy supply}
 \usage{
-calculate_p_ex_total(.sutdata, p_industry_prefixes)
+calculate_p_ex_total(
+  .sutdata,
+  p_industry_prefixes,
+  country = IEATools::iea_cols$country,
+  method = IEATools::iea_cols$method
+)
 }
 \arguments{
 \item{.sutdata}{A data frame containing Physical Supply-Use Table (PSUT)
@@ -12,6 +17,8 @@ matrices.}
 
 \item{p_industry_prefixes}{A character vector of primary energy industry prefixes.
 Usually "Resources", "Production", "Imports", and "Stock changes".}
+
+\item{country, method}{See \code{IEATools::iea_cols}.}
 }
 \value{
 A data frame containing total energy supply data
@@ -29,5 +36,4 @@ data frame by total, to calculate the total energy supply across all products an
 library(Recca)
 total_energy_supply <- calculate_p_ex_total(.sutdata = Recca::UKEnergy2000mats,
 p_industry_prefixes = c("Resources", "Imports"))
-
 }
