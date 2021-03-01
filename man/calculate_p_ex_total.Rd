@@ -8,7 +8,9 @@ calculate_p_ex_total(
   .sutdata,
   p_industry_prefixes,
   country = IEATools::iea_cols$country,
-  method = IEATools::iea_cols$method
+  method = IEATools::iea_cols$method,
+  stage_colname = "Stage",
+  primary = "Primary"
 )
 }
 \arguments{

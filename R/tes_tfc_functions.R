@@ -87,20 +87,20 @@ calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
     magrittr::set_colnames(c(country, method, "Energy.type", "Year", "EX"))
 
   # Add additional metadata columns
-  # p_total <- p_total %>%
-  #   dplyr::mutate(Stage = "Primary", .after = "Energy.type") %>%
-  #   dplyr::mutate(Gross.Net = "Gross", .after = "Stage") %>%
-  #   dplyr::mutate(Product = "Total", .after = "Gross.Net") %>%
-  #   dplyr::mutate(Flow = "Total", .after = "Product") %>%
-  #   dplyr::mutate(Grouping = "Total", .after = "Flow")
   p_total <- p_total %>%
-    dplyr::mutate(
-      "{stage_colname}" := primary,
-      Gross.Net = "Gross",
-      Product = "Total",
-      Flow = "Total",
-      Grouping = "Total"
-    )
+    dplyr::mutate(Stage = "Primary", .after = "Energy.type") %>%
+    dplyr::mutate(Gross.Net = "Gross", .after = "Stage") %>%
+    dplyr::mutate(Product = "Total", .after = "Gross.Net") %>%
+    dplyr::mutate(Flow = "Total", .after = "Product") %>%
+    dplyr::mutate(Grouping = "Total", .after = "Flow")
+  # p_total <- p_total %>%
+  #   dplyr::mutate(
+  #     "{stage_colname}" := primary,
+  #     Gross.Net = "Gross",
+  #     Product = "Total",
+  #     Flow = "Total",
+  #     Grouping = "Total"
+  #   )
   # Relocate later.
 
   # Sets EX column type to numeric
