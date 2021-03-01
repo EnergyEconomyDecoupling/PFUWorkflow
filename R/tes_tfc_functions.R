@@ -60,7 +60,9 @@ create_fd_sectors_list <- function(fd_sectors, .sutdata) {
 #' p_industry_prefixes = c("Resources", "Imports"))
 calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
                                  country = IEATools::iea_cols$country,
-                                 method = IEATools::iea_cols$method) {
+                                 method = IEATools::iea_cols$method,
+                                 stage_colname = "Stage",
+                                 primary = "Primary") {
 
   library(matsbyname)
 
@@ -74,23 +76,32 @@ calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
   # Removes duplicate entries. Primary energy/exergy is the same regardless of whether
   # it is at the final, useful, or services stage as it is calculated from the same matrices
   PSUT_DF_p <- PSUT_DF_p %>%
-    dplyr::distinct(.data[[country]], method, Energy.type, Year, .keep_all = TRUE)
+    dplyr::distinct(.data[[country]], .data[[method]], Energy.type, Year, .keep_all = TRUE)
 
   # Call Recca::primary_aggregates() to obtain the IEA version of aggregate primary energy
   # from the R, V, and Y matrices (which includes imported final energy, effect of bunkers),
   p_total <- Recca::primary_aggregates(.sutdata = PSUT_DF_p,
                                         p_industries = "p_industries_complete",
                                         by = "Total") %>%
-    dplyr::select(.data[[country]], method, Energy.type, Year, EX.p) %>%
+    dplyr::select(.data[[country]], .data[[method]], Energy.type, Year, EX.p) %>%
     magrittr::set_colnames(c(country, method, "Energy.type", "Year", "EX"))
 
   # Add additional metadata columns
+  # p_total <- p_total %>%
+  #   dplyr::mutate(Stage = "Primary", .after = "Energy.type") %>%
+  #   dplyr::mutate(Gross.Net = "Gross", .after = "Stage") %>%
+  #   dplyr::mutate(Product = "Total", .after = "Gross.Net") %>%
+  #   dplyr::mutate(Flow = "Total", .after = "Product") %>%
+  #   dplyr::mutate(Grouping = "Total", .after = "Flow")
   p_total <- p_total %>%
-    dplyr::mutate(Stage = "Primary", .after = "Energy.type") %>%
-    dplyr::mutate(Gross.Net = "Gross", .after = "Stage") %>%
-    dplyr::mutate(Product = "Total", .after = "Gross.Net") %>%
-    dplyr::mutate(Flow = "Total", .after = "Product") %>%
-    dplyr::mutate(Grouping = "Total", .after = "Flow")
+    dplyr::mutate(
+      "{stage_colname}" := primary,
+      Gross.Net = "Gross",
+      Product = "Total",
+      Flow = "Total",
+      Grouping = "Total"
+    )
+  # Relocate later.
 
   # Sets EX column type to numeric
   p_total$EX <- as.numeric(p_total$EX)
