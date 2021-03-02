@@ -9,8 +9,20 @@ calculate_p_ex_total(
   p_industry_prefixes,
   country = IEATools::iea_cols$country,
   method = IEATools::iea_cols$method,
-  stage_colname = "Stage",
-  primary = "Primary"
+  energy_type = IEATools::iea_cols$energy_type,
+  year = IEATools::iea_cols$year,
+  flow = IEATools::iea_cols$flow,
+  e_product = SEAPSUTWorkflow::sea_cols$e_product,
+  stage_col = SEAPSUTWorkflow::sea_cols$stage_col,
+  gross_net = SEAPSUTWorkflow::sea_cols$gross_net,
+  agg_by = SEAPSUTWorkflow::sea_cols$agg_by,
+  p_ind_comp = SEAPSUTWorkflow::sea_cols$p_ind_comp,
+  p_ind_prefix = SEAPSUTWorkflow::sea_cols$p_ind_prefix,
+  ex = SEAPSUTWorkflow::sea_cols$ex,
+  ex_p = SEAPSUTWorkflow::sea_cols$ex_p,
+  primary = "Primary",
+  all = "All",
+  total = "Total"
 )
 }
 \arguments{
@@ -20,7 +32,11 @@ matrices.}
 \item{p_industry_prefixes}{A character vector of primary energy industry prefixes.
 Usually "Resources", "Production", "Imports", and "Stock changes".}
 
-\item{country, method}{See \code{IEATools::iea_cols}.}
+\item{country, method, energy_type, year, flow}{See \code{IEATools::iea_cols}.}
+
+\item{e_product, stage_col, gross_net, agg_by, p_ind_comp, p_ind_prefix, ex, ex_p}{See \code{SEAPSUTWorkflow::sea_cols}.}
+
+\item{primary}{???}
 }
 \value{
 A data frame containing total energy supply data

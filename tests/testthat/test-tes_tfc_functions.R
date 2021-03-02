@@ -102,8 +102,8 @@ test_that("calculate_p_ex_total() works as expected", {
 
   # Check column names are correct
   testthat::expect_equal(colnames(p_total), c("Country", "Method", "Energy.type",
-                                              "Stage", "Gross.Net", "Product",
-                                              "Flow", "Grouping", "Year", "EX"))
+                                              "Stage", "Gross.Net", "E.product",
+                                              "Flow", "Aggregation.by", "Year", "EX"))
 
   # Check that there are two rows. One for the energy quantification E and one for X
   testthat::expect_equal(nrow(p_total), 2)

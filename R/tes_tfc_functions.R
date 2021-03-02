@@ -49,7 +49,9 @@ create_fd_sectors_list <- function(fd_sectors, .sutdata) {
 #'                 matrices.
 #' @param p_industry_prefixes A character vector of primary energy industry prefixes.
 #'                            Usually "Resources", "Production", "Imports", and "Stock changes".
-#' @param country,method See `IEATools::iea_cols`.
+#' @param country,method,energy_type,year,flow See `IEATools::iea_cols`.
+#' @param e_product,stage_col,gross_net,agg_by,p_ind_comp,p_ind_prefix,ex,ex_p See `SEAPSUTWorkflow::sea_cols`.
+#' @param primary ???
 #'
 #' @return A data frame containing total energy supply data
 #' @export
@@ -61,47 +63,55 @@ create_fd_sectors_list <- function(fd_sectors, .sutdata) {
 calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
                                  country = IEATools::iea_cols$country,
                                  method = IEATools::iea_cols$method,
-                                 stage_colname = "Stage",
-                                 primary = "Primary") {
+                                 energy_type = IEATools::iea_cols$energy_type,
+                                 year = IEATools::iea_cols$year,
+                                 flow = IEATools::iea_cols$flow,
+                                 e_product = SEAPSUTWorkflow::sea_cols$e_product,
+                                 stage_col = SEAPSUTWorkflow::sea_cols$stage_col,
+                                 gross_net = SEAPSUTWorkflow::sea_cols$gross_net,
+                                 agg_by = SEAPSUTWorkflow::sea_cols$agg_by,
+                                 p_ind_comp = SEAPSUTWorkflow::sea_cols$p_ind_comp,
+                                 p_ind_prefix = SEAPSUTWorkflow::sea_cols$p_ind_prefix,
+                                 ex = SEAPSUTWorkflow::sea_cols$ex,
+                                 ex_p = SEAPSUTWorkflow::sea_cols$ex_p,
+                                 primary = "Primary",
+                                 all = "All",
+                                 total = "Total"
+                                 ) {
 
   library(matsbyname)
 
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
   PSUT_DF_p <- .sutdata %>%
-    dplyr::mutate(p_industry_prefixes = p_industry_prefixes) %>%
+    dplyr::mutate("{p_ind_prefix}" := p_industry_prefixes) %>%
     Recca::find_p_industry_names() %>%
-    dplyr::relocate(p_industries_complete, .after = p_industry_prefixes)
+    dplyr::relocate(.data[[p_ind_comp]], .after = p_ind_prefix)
 
-  # Removes duplicate entries. Primary energy/exergy is the same regardless of whether
-  # it is at the final, useful, or services stage as it is calculated from the same matrices
+  # Removes duplicate entries. Primary energy/exergy data stored in R matrices
+  # are the same for each of the final, useful and services stages
   PSUT_DF_p <- PSUT_DF_p %>%
-    dplyr::distinct(.data[[country]], .data[[method]], Energy.type, Year, .keep_all = TRUE)
+    dplyr::distinct(.data[[country]], .data[[method]], .data[[energy_type]], .data[[year]], .keep_all = TRUE)
 
   # Call Recca::primary_aggregates() to obtain the IEA version of aggregate primary energy
   # from the R, V, and Y matrices (which includes imported final energy, effect of bunkers),
   p_total <- Recca::primary_aggregates(.sutdata = PSUT_DF_p,
-                                        p_industries = "p_industries_complete",
-                                        by = "Total") %>%
-    dplyr::select(.data[[country]], .data[[method]], Energy.type, Year, EX.p) %>%
-    magrittr::set_colnames(c(country, method, "Energy.type", "Year", "EX"))
+                                        p_industries = p_ind_comp,
+                                        by = total) %>%
+    dplyr::select(.data[[country]], .data[[method]], .data[[energy_type]], .data[[year]], .data[[ex_p]]) %>%
+    magrittr::set_colnames(c(country, method, energy_type, year, ex))
 
   # Add additional metadata columns
   p_total <- p_total %>%
-    dplyr::mutate(Stage = "Primary", .after = "Energy.type") %>%
-    dplyr::mutate(Gross.Net = "Gross", .after = "Stage") %>%
-    dplyr::mutate(Product = "Total", .after = "Gross.Net") %>%
-    dplyr::mutate(Flow = "Total", .after = "Product") %>%
-    dplyr::mutate(Grouping = "Total", .after = "Flow")
-  # p_total <- p_total %>%
-  #   dplyr::mutate(
-  #     "{stage_colname}" := primary,
-  #     Gross.Net = "Gross",
-  #     Product = "Total",
-  #     Flow = "Total",
-  #     Grouping = "Total"
-  #   )
-  # Relocate later.
+    dplyr::mutate(
+      "{stage_col}" := primary,
+      "{gross_net}" := NA,
+      "{e_product}" := all,
+      "{flow}" := all,
+      "{agg_by}" := total
+    ) %>%
+    dplyr::relocate(year, .after = agg_by) %>%
+    dplyr::relocate(ex, .after = year)
 
   # Sets EX column type to numeric
   p_total$EX <- as.numeric(p_total$EX)
