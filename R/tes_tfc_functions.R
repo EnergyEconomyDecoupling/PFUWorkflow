@@ -108,13 +108,12 @@ calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
       "{gross_net}" := NA,
       "{e_product}" := all,
       "{flow}" := all,
-      "{agg_by}" := total
+      "{agg_by}" := total,
+      # Sets EX column type to numeric
+      "{ex}" := as.numeric(.data[[ex]])
     ) %>%
     dplyr::relocate(year, .after = agg_by) %>%
     dplyr::relocate(ex, .after = year)
-
-  # Sets EX column type to numeric
-  p_total$EX <- as.numeric(p_total$EX)
 
   return(p_total)
 
