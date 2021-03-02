@@ -312,3 +312,14 @@ clean_up_after_testing <- function(testing_setup, cache_path = testing_setup$cac
   temp_cache$destroy()
   return(NULL)
 }
+
+
+#' **** Zeke to document this function. And add functions for get_fd_sectors().
+#'
+#' @return
+#' @export
+#'
+#' @examples
+get_p_industry_prefixes <- function() {
+  IEATools::prim_agg_flows
+}

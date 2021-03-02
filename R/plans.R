@@ -15,7 +15,7 @@
 #' * `machine_data_path`: The path to the machine data excel files, supplied in the `machine_data_path` argument.
 #' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.
 #' * `fd_sectors`: A character vector of final demand sectors, supplied in the `fd_sectors` argument.
-#' * `p_industry_prefixes`: A character vector of primary industry prefixes, supplied in the `p_industry_prefixes` argument.
+#' * `p_industry_prefixes`: A character vector of primary industry prefixes, created by `get_p_industry_prefixes()`.
 #' * `fu_analysis_folder`: The path to the final-to-useful analysis folder, supplied in the `fu_analysis_folder` argument.
 #' * `report_output_folder`: The path to a report output folder, supplied in the `report_output_folder` argument.
 #' * `AllIEAData`: A data frame with all IEA extended energy balance data read from `iea_data_path`.
@@ -79,9 +79,6 @@
 #' @param ceda_data_folder The path to the CEDA data in text file, .per, format.
 #' @param machine_data_path The path to the machine data in .xlsx format.
 #' @param exemplar_table_path The path to an exemplar table.
-#' @param fd_sectors A character vector of final demand sectors
-#' @param p_industry_prefixes A character vector of primary industry prefixes used to
-#'                            identify all primary industries containing those prefixes.
 #' @param fu_analysis_folder The path to a folder containing final-to-useful analyses.
 #'                           Sub-folders named with 3-letter country abbreviations are assumed.
 #' @param reports_source_folders A string vector containing paths to folders of report sources, usually
@@ -106,8 +103,6 @@
 #'          ceda_data_folder = "ceda_path",
 #'          machine_data_path = "machine_path",
 #'          exemplar_table_path = "exemplar_path",
-#'          fd_sectors = "fd_sectors",
-#'          p_industry_prefixes = "p_industry_prefixes",
 #'          fu_analysis_folder = "fu_folder",
 #'          reports_source_folders = "reports_source_folders",
 #'          reports_dest_folder = "reports_dest_folder")
@@ -115,7 +110,6 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
                      iea_data_path, ceda_data_folder,
                      machine_data_path, exemplar_table_path,
-                     fd_sectors, p_industry_prefixes,
                      fu_analysis_folder,
                      reports_source_folders, reports_dest_folder) {
 
@@ -153,8 +147,6 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     ceda_data_folder = !!ceda_data_folder,
     machine_data_path = !!machine_data_path,
     exemplar_table_path = !!exemplar_table_path,
-    fd_sectors = c(!!fd_sectors),
-    p_industry_prefixes = c(!!p_industry_prefixes),
     fu_analysis_folder = !!fu_analysis_folder,
     reports_source_folders = !!reports_source_folders,
     reports_dest_folder = !!reports_dest_folder,
