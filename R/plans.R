@@ -14,8 +14,6 @@
 #' * `ceda_data_folder`: The path to the CEDA data, supplied in the `ceda_data_folder` argument.
 #' * `machine_data_path`: The path to the machine data excel files, supplied in the `machine_data_path` argument.
 #' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.
-#' * `fd_sectors`: A character vector of final demand sectors, supplied in the `fd_sectors` argument.
-#' * `p_industry_prefixes`: A character vector of primary industry prefixes, created by `get_p_industry_prefixes()`.
 #' * `fu_analysis_folder`: The path to the final-to-useful analysis folder, supplied in the `fu_analysis_folder` argument.
 #' * `report_output_folder`: The path to a report output folder, supplied in the `report_output_folder` argument.
 #' * `AllIEAData`: A data frame with all IEA extended energy balance data read from `iea_data_path`.
@@ -36,6 +34,8 @@
 #' * `Cmats` : A data frame containing `CompletedAllocationTables` in matrix form.
 #' * `EtaPhivecs` : A data frame containing final-to-useful efficiency and exergy-to-energy ratio vectors.
 #' * `PSUT_useful` : A data frame containing PSUT matrices up to the useful stage.
+#' * `FinalDemandSectors`: A list of final demand sectors, supplied through the `get_fd_sectors` function.
+#' * `PrimaryIndustryPrefixes`: A string vector of primary industry prefixes, supplied through the `get_p_industry_prefixes` function.
 #' * `AggregateExergyEnergyData` : A data frame containing aggregate energy and exergy values by total, product, flow, and sector.
 #' * `AllocationGraphs` : A data frame containing allocation plots.
 #' * `NonStationaryAllocationGraphs` : A data frame containing allocation plots for non-stationary data only.
@@ -262,19 +262,34 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # (-) Add other methods
 
 
-
     # (-) Add exergy quantifications of energy
 
 
     # (-) Off to the races!  Do other calculations:
 
-    # (11) Aggregate primary, final, and useful energy/exergy by total, product, flow, and sector
+
+
+    # (11) Final demand sectors
+
+    FinalDemandSectors = drake::target(get_fd_sectors()),
+
+
+    # (12) Primary industry prefixes
+
+    PrimaryIndustryPrefixes = drake::target(get_p_industry_prefixes()),
+
+
+    # (13) Aggregate primary, final, and useful energy/exergy by total, product, flow, and sector !!!Replace with 13a, and 13b!!!
 
     AggregateExergyEnergyData = drake::target(calculate_all_ex_data(.sutdata = PSUT_useful,
-                                                                    fd_sectors = fd_sectors,
-                                                                    p_industry_prefixes = p_industry_prefixes)),
+                                                                    fd_sectors = FinalDemandSectors,
+                                                                    p_industry_prefixes = PrimaryIndustryPrefixes)),
+
+    # (13a) Aggregate of primary energy/exergy by total (total energy supply (TES)), product, and flow
 
 
+
+    # (13b) Aggregate final and useful energy/exergy by total (total final consumption (TFC)), product, and sector
 
 
 

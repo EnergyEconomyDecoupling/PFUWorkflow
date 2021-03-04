@@ -1,7 +1,5 @@
 # This script contains functions which establish the following constants,
-# and calculate the following metrics:
-# Final demand sectors
-# Primary industries
+# and calculate the:
 # Total energy supply (TES) of primary energy/exergy
 # Total final consumption (TFC) of final and useful energy/exergy
 # Primary-Final, Final-Useful, and Primary-Final efficiencies
@@ -10,30 +8,6 @@
 # but incuding matsbyname in imports is not enough to load the functions in matsbyname required.
 library(matsbyname)
 
-
-#' Create a list containing final demand sectors
-#'
-#' This function creates a list equal to the length of any data frame supplied.
-#' It is typically used on a data frame containing Physical Supply-Use Tables (PSUT)
-#' with the associated final demand sectors in the nested `Y` and `U_EIOU` matrices.
-#'
-#' @param fd_sectors A character vector of final demand sectors.
-#' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
-#'                 matrices with associated final demand sector names
-#'
-#' @return A list the length of a desired data frame containing final demand vectors
-#' @export
-#'
-#' @examples
-#' library(Recca)
-#' final_demand_sector_list <- create_fd_sectors_list(fd_sectors = c("Residential"),
-#' .sutdata = Recca::UKEnergy2000mats)
-#'
-create_fd_sectors_list <- function(fd_sectors, .sutdata) {
-
-  rep(x = list(c(fd_sectors)), times = nrow(.sutdata))
-
-}
 
 #' Calculate total energy supply
 #'

@@ -14,8 +14,6 @@
 #' \item{ceda_data_folder}{A string representing the path to the file containing CEDA data.}
 #' \item{machine_data_path}{A string representing the path to the folder containing machine data excel files.}
 #' \item{exemplar_table_path}{A string representing the path to the exemplar table.}
-#' \item{fd_sectors}{A character vector representing the final demand sectors desired for analysis.}
-#' \item{p_industry_prefixes}{A character vector representing the prefixes of primary industries desired for analysis.}
 #' \item{fu_analysis_folder}{A string representing the folder containing final-to-useful analyses for various countries.}
 #' \item{report_source_folders}{A string vector representing folders containing reports to be run as the last step of the workflow.}
 #' \item{report_dest_folder}{A string representing the folder containing reports from the workflow.}
@@ -36,6 +34,8 @@
 #' \item{Cmats}{A data frame containing `CompletedAllocationTables` in matrix form.}
 #' \item{EtaPhivecs}{A data frame containing final-to-useful efficiency and exergy-to-energy ratio vectors.}
 #' \item{PSUT_useful}{A data frame containing PSUT matrices up to the useful stage.}
+#' \item{FinalDemandSectors}{A list containing  the final demand sectors desired for analysis.}
+#' \item{PrimaryIndustryPrefixes}{A list containing the prefixes of primary industries desired for analysis.}
 #' \item{AggregateExergyEnergyData}{ A data frame containing aggregate energy and exergy values by total, product, flow, and sector.}
 #' \item{AllocationGraphs}{A data frame containing final-to-useful allocation graphs.}
 #' \item{NonStationaryAllocationGraphs}{A data frame containing final-to-useful allocation graphs, for non-stationary data only.}

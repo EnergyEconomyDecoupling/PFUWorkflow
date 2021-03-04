@@ -13,8 +13,6 @@ get_plan(
   ceda_data_folder,
   machine_data_path,
   exemplar_table_path,
-  fd_sectors,
-  p_industry_prefixes,
   fu_analysis_folder,
   reports_source_folders,
   reports_dest_folder
@@ -46,11 +44,6 @@ Default is "all_targets" to indicate all targets of the plan should be returned.
 
 \item{exemplar_table_path}{The path to an exemplar table.}
 
-\item{fd_sectors}{A character vector of final demand sectors}
-
-\item{p_industry_prefixes}{A character vector of primary industry prefixes used to
-identify all primary industries containing those prefixes.}
-
 \item{fu_analysis_folder}{The path to a folder containing final-to-useful analyses.
 Sub-folders named with 3-letter country abbreviations are assumed.}
 
@@ -78,8 +71,6 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{ceda_data_folder}: The path to the CEDA data, supplied in the \code{ceda_data_folder} argument.
 \item \code{machine_data_path}: The path to the machine data excel files, supplied in the \code{machine_data_path} argument.
 \item \code{exemplar_table_path}: The path to an exemplar table, supplied in the \code{exemplar_table_path} argument.
-\item \code{fd_sectors}: A character vector of final demand sectors, supplied in the \code{fd_sectors} argument.
-\item \code{p_industry_prefixes}: A character vector of primary industry prefixes, supplied in the \code{p_industry_prefixes} argument.
 \item \code{fu_analysis_folder}: The path to the final-to-useful analysis folder, supplied in the \code{fu_analysis_folder} argument.
 \item \code{report_output_folder}: The path to a report output folder, supplied in the \code{report_output_folder} argument.
 \item \code{AllIEAData}: A data frame with all IEA extended energy balance data read from \code{iea_data_path}.
@@ -100,6 +91,8 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{Cmats} : A data frame containing \code{CompletedAllocationTables} in matrix form.
 \item \code{EtaPhivecs} : A data frame containing final-to-useful efficiency and exergy-to-energy ratio vectors.
 \item \code{PSUT_useful} : A data frame containing PSUT matrices up to the useful stage.
+\item \code{FinalDemandSectors}: A list of final demand sectors, supplied through the \code{get_fd_sectors} function.
+\item \code{PrimaryIndustryPrefixes}: A string vector of primary industry prefixes, supplied through the \code{get_p_industry_prefixes} function.
 \item \code{AggregateExergyEnergyData} : A data frame containing aggregate energy and exergy values by total, product, flow, and sector.
 \item \code{AllocationGraphs} : A data frame containing allocation plots.
 \item \code{NonStationaryAllocationGraphs} : A data frame containing allocation plots for non-stationary data only.
@@ -135,8 +128,6 @@ get_plan(countries = c("GHA", "ZAF"),
          ceda_data_folder = "ceda_path",
          machine_data_path = "machine_path",
          exemplar_table_path = "exemplar_path",
-         fd_sectors = "fd_sectors",
-         p_industry_prefixes = "p_industry_prefixes",
          fu_analysis_folder = "fu_folder",
          reports_source_folders = "reports_source_folders",
          reports_dest_folder = "reports_dest_folder")

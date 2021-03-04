@@ -106,8 +106,6 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                iea_data_path = IEATools::sample_iea_data_path(),
                                ceda_data_folder = CEDATools::sample_ceda_data_folder(),
                                machine_data_path = sample_machine_workbook_path(),
-                               fd_sectors = c("Residential", "Transport"), # "Transport" is not present in the test data, therefore it should be excluded by Recca::finaldemand_aggregates() and not trigger the asserthat statements in calculate_fu_ex_sector()
-                               p_industry_prefixes = c("Resources"),
                                fu_analysis_folder = tempdir(),
                                reports_source_folders = system.file("reports", package = "SEAPSUTWorkflow"),
                                reports_output_folder = tempdir(),
@@ -128,8 +126,6 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                    ceda_data_folder = ceda_data_folder,
                    machine_data_path = machine_data_path,
                    exemplar_table_path = file.path(exemplar_folder, "Exemplar_Table.xlsx"),
-                   fd_sectors = fd_sectors,
-                   p_industry_prefixes = p_industry_prefixes,
                    fu_analysis_folder = fu_analysis_folder,
                    reports_source_folders = reports_source_folders,
                    reports_dest_folder = reports_output_folder)
@@ -314,12 +310,67 @@ clean_up_after_testing <- function(testing_setup, cache_path = testing_setup$cac
 }
 
 
-#' **** Zeke to document this function. And add functions for get_fd_sectors().
+#' Retrieve a list of final demand sectors
 #'
-#' @return
+#' Retrieve a list of final demand sectors for calculation of the total final consumption
+#' of final, useful, or services energy in gross or net terms.
+#'
+#' @return A list of final demand sectors
 #' @export
 #'
 #' @examples
-get_p_industry_prefixes <- function() {
-  IEATools::prim_agg_flows
+#' fd_sectors <- get_fd_sectors()
+#'
+get_fd_sectors <- function(){
+
+  fd_sectors <- IEATools::fd_sectors
+
+  return(fd_sectors)
 }
+
+
+#' Create a list containing final demand sectors
+#'
+#' This function creates a list equal to the length of any data frame supplied.
+#' It is typically used on a data frame containing Physical Supply-Use Tables (PSUT)
+#' with the associated final demand sectors in the nested `Y` and `U_EIOU` matrices.
+#'
+#' @param fd_sectors A character vector of final demand sectors.
+#' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
+#'                 matrices with associated final demand sector names
+#'
+#' @return A list the length of a desired data frame containing final demand vectors
+#' @export
+#'
+#' @examples
+#' library(Recca)
+#' final_demand_sector_list <- create_fd_sectors_list(fd_sectors = c("Residential"),
+#' .sutdata = Recca::UKEnergy2000mats)
+#'
+create_fd_sectors_list <- function(fd_sectors, .sutdata) {
+
+  fd_sectors_list <- rep(x = list(c(fd_sectors)), times = nrow(.sutdata))
+
+  return(fd_sectors_list)
+
+}
+
+
+#' Retrieve primary industry prefixes
+#'
+#' Retrieve primary industry prefixes for use by `Recca::find_p_industry_names`.
+#' Contains "Resources", "Imports", and "Stock changes".
+#'
+#' @return A list of primary industry prefixes
+#' @export
+#'
+#' @examples
+#' p_industry_prefixes <- get_p_industry_prefixes()
+get_p_industry_prefixes <- function() {
+
+  p_industry_prefixes <- IEATools::prim_agg_flows %>% unname() %>% list()
+
+  return(p_industry_prefixes)
+
+}
+

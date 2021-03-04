@@ -16,24 +16,6 @@ fd_sectors <- c("Residential", "Transport", "Absent_Sector")
 
 
 # Run tests
-test_that("create_fd_sectors_list() works as expected", {
-
-  # Create test data
-  fd_sectors_list <- test_sutdata %>% create_fd_sectors_list(fd_sectors = fd_sectors)
-
-  # Check object type is equal to list
-  testthat::expect_type(fd_sectors_list, "list")
-
-  # Check that fd_sectors_list is equal to 4
-  testthat::expect_equal(length(fd_sectors_list), 4)
-
-  # Check that each entry in fd_sectors_list is composed of just "Residential"
-  testthat::expect_equal(unlist(fd_sectors_list), c("Residential", "Transport", "Absent_Sector",
-                                                    "Residential", "Transport", "Absent_Sector",
-                                                    "Residential", "Transport", "Absent_Sector",
-                                                    "Residential", "Transport", "Absent_Sector"))
-
-})
 
 test_that("calculate_fu_ex_total() works as expected", {
 
@@ -150,27 +132,3 @@ test_that("calculate_p_ex_product() works as expected", {
 
 })
 
-test_that("calculate_all_ex_data() works as expected", {
-
-  # Create test data
-  all_data <- calculate_all_ex_data(.sutdata = test_sutdata,
-                                    fd_sectors = fd_sectors,
-                                    p_industry_prefixes = p_industry_prefixes)
-
-  # Check column names are correct
-  testthat::expect_equal(colnames(all_data), c("Country", "Method", "Energy.type",
-                                              "Stage", "Gross.Net", "Product",
-                                              "Flow.Sector", "Grouping", "Year", "EX"))
-  # Check that there are two energy types, E and X
-  testthat::expect_equal(unique(all_data$Energy.type), c("E", "X"))
-
-  # Check that there are four Stages: Final, Services, Useful, Primary
-  testthat::expect_equal(unique(all_data$Stage), c("Final", "Services", "Useful", "Primary"))
-
-  # Check that there are four grouping variables: Total, Sector, Product, and Flow
-  testthat::expect_equal(unique(all_data$Grouping), c("Total", "Sector", "Product", "Flow"))
-
-  # Check that there are two Gross.Net values: Net and Gross
-  testthat::expect_equal(unique(all_data$Gross.Net), c("Net", "Gross"))
-
-})
