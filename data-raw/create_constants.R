@@ -72,9 +72,11 @@ exemplar_names <- list(exemplar_tab_name = "exemplar_table",
                        world = "World")
 usethis::use_data(exemplar_names, overwrite = TRUE)
 
+
 #
 # Give the names of SEAPSUTWorkflow columns, this function compliments "IEATools::iea_cols".
 #
+
 sea_cols <- list(stage_col = "Stage",
                  gross_net = "Gross.Net",
                  e_product = "E.product",
@@ -85,9 +87,9 @@ sea_cols <- list(stage_col = "Stage",
                  ex = "EX",
                  ex_p = "EX.p",
                  ex_net = "Ex.d_net",
-                 ex_gross = "Ex.d_gross"
-                 )
+                 ex_gross = "Ex.d_gross")
 usethis::use_data(sea_cols, overwrite = TRUE)
+
 
 #
 # Cache information.
