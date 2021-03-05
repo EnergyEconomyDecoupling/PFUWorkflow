@@ -334,7 +334,9 @@ calculate_fu_ex_total <- function(.sutdata, fd_sectors,
 
   # Adds a column which each observation containing the list of final demand sectors
   PSUT_DF_fu <- .sutdata %>%
-    dplyr::mutate("{fd_sectors_col}" := fd_sector_list)
+    dplyr::mutate(
+      "{fd_sectors_col}" := fd_sector_list
+    )
 
   # Calculates final demand by total
   fu_total <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF_fu, fd_sectors = fd_sectors_col, by = total) %>%

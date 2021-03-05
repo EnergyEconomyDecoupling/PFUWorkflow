@@ -38,6 +38,7 @@ test_that("calculate_fu_ex_total() works as expected", {
 
 })
 
+
 test_that("calculate_fu_ex_sector() works as expected", {
 
   # Create test data
@@ -57,6 +58,7 @@ test_that("calculate_fu_ex_sector() works as expected", {
 
 })
 
+
 test_that("calculate_fu_ex_product() works as expected", {
 
   # Create test data
@@ -74,6 +76,7 @@ test_that("calculate_fu_ex_product() works as expected", {
 
 })
 
+
 test_that("calculate_p_ex_total() works as expected", {
 
   # Create test data
@@ -90,8 +93,8 @@ test_that("calculate_p_ex_total() works as expected", {
   # Check that there are two rows. One for the energy quantification E and one for X
   testthat::expect_equal(nrow(p_total), 2)
   testthat::expect_equal(unique(p_total$Energy.type), c("E", "X"))
-
 })
+
 
 test_that("calculate_p_ex_flow() works as expected", {
 
@@ -109,8 +112,8 @@ test_that("calculate_p_ex_flow() works as expected", {
   # 1) Resources - Crude, and 2) Resources - NG
   testthat::expect_equal(length(unique(p_flow$Flow)), 2)
   testthat::expect_equal(unique(p_flow$Flow), c("Resources - Crude", "Resources - NG"))
-
 })
+
 
 test_that("calculate_p_ex_product() works as expected", {
 
@@ -129,6 +132,5 @@ test_that("calculate_p_ex_product() works as expected", {
   # 1) Crude, and 2) NG
   testthat::expect_equal(length(unique(p_product$E.product)), 2)
   testthat::expect_equal(unique(p_product$E.product), c("Crude", "NG"))
-
 })
 
