@@ -4,17 +4,46 @@
 \alias{calculate_p_ex_product}
 \title{Calculate total primary energy by product}
 \usage{
-calculate_p_ex_product(.sutdata, p_industry_prefixes)
+calculate_p_ex_product(
+  .sutdata,
+  p_industry_prefixes,
+  country = IEATools::iea_cols$country,
+  method = IEATools::iea_cols$method,
+  energy_type = IEATools::iea_cols$energy_type,
+  year = IEATools::iea_cols$year,
+  flow = IEATools::iea_cols$flow,
+  e_product = SEAPSUTWorkflow::sea_cols$e_product,
+  stage_col = SEAPSUTWorkflow::sea_cols$stage_col,
+  gross_net = SEAPSUTWorkflow::sea_cols$gross_net,
+  agg_by = SEAPSUTWorkflow::sea_cols$agg_by,
+  p_ind_comp = SEAPSUTWorkflow::sea_cols$p_ind_comp,
+  p_ind_prefix = SEAPSUTWorkflow::sea_cols$p_ind_prefix,
+  ex = SEAPSUTWorkflow::sea_cols$ex,
+  ex_p = SEAPSUTWorkflow::sea_cols$ex_p,
+  primary = IEATools::all_stages$primary,
+  all = "All",
+  product = "Product"
+)
 }
 \arguments{
 \item{.sutdata}{A data frame containing Physical Supply-Use Table (PSUT)
 matrices.}
 
 \item{p_industry_prefixes}{A character vector of primary energy industry prefixes.
-Usually "Resources", "Production", "Imports", and "Stock changes".}
+Usually "Resources", "Imports", and "Stock changes".}
+
+\item{country, method, energy_type, year, flow}{See \code{IEATools::iea_cols}.}
+
+\item{e_product, stage_col, gross_net, agg_by, p_ind_comp, p_ind_prefix, ex, ex_p}{See \code{SEAPSUTWorkflow::sea_cols}.}
+
+\item{primary}{The string "Primary", representing the Primary stage of the energy conversion chain, see \code{IEATools::all_stages}.}
+
+\item{all}{The string "All", indicating that one or both of \code{flow} and \code{product} were aggregated.}
+
+\item{product}{The string "Product", indicating that calculate_p_ex_product calls \code{Recca::primary_aggregates} by product.}
 }
 \value{
-A data frame containing total energy supply data by primary energy product
+A data frame containing aggregate primary energy/exergy data by product
 }
 \description{
 Calculate the total energy supply (TES) in primary energy terms by product. This metric
@@ -29,6 +58,6 @@ for each product.
 \examples{
 library(Recca)
 total_energy_supply <- calculate_p_ex_product(.sutdata = Recca::UKEnergy2000mats,
-p_industry_prefixes = c("Resources", "Imports"))
+                                              p_industry_prefixes = c("Resources", "Imports"))
 
 }

@@ -20,7 +20,7 @@ calculate_p_ex_total(
   p_ind_prefix = SEAPSUTWorkflow::sea_cols$p_ind_prefix,
   ex = SEAPSUTWorkflow::sea_cols$ex,
   ex_p = SEAPSUTWorkflow::sea_cols$ex_p,
-  primary = "Primary",
+  primary = IEATools::all_stages$primary,
   all = "All",
   total = "Total"
 )
@@ -30,16 +30,20 @@ calculate_p_ex_total(
 matrices.}
 
 \item{p_industry_prefixes}{A character vector of primary energy industry prefixes.
-Usually "Resources", "Production", "Imports", and "Stock changes".}
+Usually "Resources", "Imports", and "Stock changes".}
 
 \item{country, method, energy_type, year, flow}{See \code{IEATools::iea_cols}.}
 
 \item{e_product, stage_col, gross_net, agg_by, p_ind_comp, p_ind_prefix, ex, ex_p}{See \code{SEAPSUTWorkflow::sea_cols}.}
 
-\item{primary}{???}
+\item{primary}{The string "Primary", representing the Primary stage of the energy conversion chain, see \code{IEATools::all_stages}.}
+
+\item{all}{The string "All", indicating that one or both of \code{flow} and \code{product} were aggregated.}
+
+\item{total}{The string "Total", indicating that calculate_p_ex_total calls \code{Recca::primary_aggregates} by total, i.e. across all products and flows}
 }
 \value{
-A data frame containing total energy supply data
+A data frame containing aggregate primary energy/exergy data by total (total energy supply (TES))
 }
 \description{
 Calculate the total energy supply (TES) in primary energy terms. This metric
@@ -53,5 +57,5 @@ data frame by total, to calculate the total energy supply across all products an
 \examples{
 library(Recca)
 total_energy_supply <- calculate_p_ex_total(.sutdata = Recca::UKEnergy2000mats,
-p_industry_prefixes = c("Resources", "Imports"))
+                                            p_industry_prefixes = c("Resources", "Imports"))
 }

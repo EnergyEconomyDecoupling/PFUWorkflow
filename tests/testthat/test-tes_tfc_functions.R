@@ -27,8 +27,8 @@ test_that("calculate_fu_ex_total() works as expected", {
 
   # Check column names are correct
   testthat::expect_equal(colnames(fu_total), c("Country", "Method", "Energy.type",
-                                               "Stage", "Gross.Net", "Product",
-                                               "Sector", "Grouping", "Year", "EX"))
+                                               "Stage", "Gross.Net", "E.product",
+                                               "Sector", "Aggregation.by", "Year", "EX"))
 
   # Check that there are 8 rows of observations, composed of gross and net values for
   # each of the three stages in E terms, and one stage in X terms
@@ -48,8 +48,8 @@ test_that("calculate_fu_ex_sector() works as expected", {
 
   # Check column names are correct
   testthat::expect_equal(colnames(fu_sector), c("Country", "Method", "Energy.type",
-                                                "Stage", "Gross.Net", "Product",
-                                                "Sector", "Grouping", "Year", "EX"))
+                                                "Stage", "Gross.Net", "E.product",
+                                                "Sector", "Aggregation.by", "Year", "EX"))
 
   # Check that the only final demand sectors are "Residential" and "Transport"
   # as stipulated in fd_sectors. But not "Absent_Sector" as it does not exist.
@@ -67,10 +67,10 @@ test_that("calculate_fu_ex_product() works as expected", {
 
   # Check column names are correct
   testthat::expect_equal(colnames(fu_product), c("Country", "Method", "Energy.type",
-                                                 "Stage", "Gross.Net", "Product",
-                                                 "Sector", "Grouping", "Year", "EX"))
+                                                 "Stage", "Gross.Net", "E.product",
+                                                 "Sector", "Aggregation.by", "Year", "EX"))
   # Check that there is more than one product
-  testthat::expect_true(length(unique(fu_product$Product)) > 1)
+  testthat::expect_true(length(unique(fu_product$E.product)) > 1)
 
 })
 
@@ -103,8 +103,8 @@ test_that("calculate_p_ex_flow() works as expected", {
 
   # Check column names are correct
   testthat::expect_equal(colnames(p_flow), c("Country", "Method", "Energy.type",
-                                             "Stage", "Gross.Net", "Product",
-                                             "Flow", "Grouping", "Year", "EX"))
+                                             "Stage", "Gross.Net", "E.product",
+                                             "Flow", "Aggregation.by", "Year", "EX"))
   # Check that there are two Flows, and that those flows are:
   # 1) Resources - Crude, and 2) Resources - NG
   testthat::expect_equal(length(unique(p_flow$Flow)), 2)
@@ -122,13 +122,13 @@ test_that("calculate_p_ex_product() works as expected", {
 
   # Check column names are correct
   testthat::expect_equal(colnames(p_product), c("Country", "Method", "Energy.type",
-                                                "Stage", "Gross.Net", "Product",
-                                                "Flow", "Grouping", "Year", "EX"))
+                                                "Stage", "Gross.Net", "E.product",
+                                                "Flow", "Aggregation.by", "Year", "EX"))
 
   # Check that there are two products, and that those Products are:
   # 1) Crude, and 2) NG
-  testthat::expect_equal(length(unique(p_product$Product)), 2)
-  testthat::expect_equal(unique(p_product$Product), c("Crude", "NG"))
+  testthat::expect_equal(length(unique(p_product$E.product)), 2)
+  testthat::expect_equal(unique(p_product$E.product), c("Crude", "NG"))
 
 })
 

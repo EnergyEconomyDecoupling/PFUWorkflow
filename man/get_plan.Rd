@@ -93,7 +93,8 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{PSUT_useful} : A data frame containing PSUT matrices up to the useful stage.
 \item \code{FinalDemandSectors}: A list of final demand sectors, supplied through the \code{get_fd_sectors} function.
 \item \code{PrimaryIndustryPrefixes}: A string vector of primary industry prefixes, supplied through the \code{get_p_industry_prefixes} function.
-\item \code{AggregateExergyEnergyData} : A data frame containing aggregate energy and exergy values by total, product, flow, and sector.
+\item \code{AggregatePrimaryData} : A data frame containing aggregate primary energy and exergy values by total, product, and flow.
+\item \code{AggregateFinalUsefulData} : A data frame containing aggregate final and useful energy and exergy values by total, product, and sector.
 \item \code{AllocationGraphs} : A data frame containing allocation plots.
 \item \code{NonStationaryAllocationGraphs} : A data frame containing allocation plots for non-stationary data only.
 \item \code{EfficiencyGraphs} : A data frame containing final-to-useful efficiency plots.

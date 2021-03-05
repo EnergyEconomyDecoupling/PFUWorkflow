@@ -36,7 +36,8 @@
 #' * `PSUT_useful` : A data frame containing PSUT matrices up to the useful stage.
 #' * `FinalDemandSectors`: A list of final demand sectors, supplied through the `get_fd_sectors` function.
 #' * `PrimaryIndustryPrefixes`: A string vector of primary industry prefixes, supplied through the `get_p_industry_prefixes` function.
-#' * `AggregateExergyEnergyData` : A data frame containing aggregate energy and exergy values by total, product, flow, and sector.
+#' * `AggregatePrimaryData` : A data frame containing aggregate primary energy and exergy values by total, product, and flow.
+#' * `AggregateFinalUsefulData` : A data frame containing aggregate final and useful energy and exergy values by total, product, and sector.
 #' * `AllocationGraphs` : A data frame containing allocation plots.
 #' * `NonStationaryAllocationGraphs` : A data frame containing allocation plots for non-stationary data only.
 #' * `EfficiencyGraphs` : A data frame containing final-to-useful efficiency plots.
@@ -131,7 +132,12 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   CompletedEfficiencyTables <- NULL
   Cmats <- NULL
   EtaPhivecs <- NULL
-  AggregateExergyEnergyData <- NULL
+  # Do we need to add:
+  # PSUT_useful
+  # FinalDemandSectors
+  # PrimaryIndustryPrefixes
+  AggregatePrimaryData <- NULL
+  AggregateFinalUsefulData <- NULL
 
   p <- drake::drake_plan(
 
@@ -279,17 +285,18 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     PrimaryIndustryPrefixes = drake::target(get_p_industry_prefixes()),
 
 
-    # (13) Aggregate primary, final, and useful energy/exergy by total, product, flow, and sector !!!Replace with 13a, and 13b!!!
-
-    AggregateExergyEnergyData = drake::target(calculate_all_ex_data(.sutdata = PSUT_useful,
-                                                                    fd_sectors = FinalDemandSectors,
-                                                                    p_industry_prefixes = PrimaryIndustryPrefixes)),
-
     # (13a) Aggregate of primary energy/exergy by total (total energy supply (TES)), product, and flow
+
+    AggregatePrimaryData = drake::target(calculate_primary_ex_data(.sutdata = PSUT_useful,
+                                                                   p_industry_prefixes = PrimaryIndustryPrefixes)),
 
 
 
     # (13b) Aggregate final and useful energy/exergy by total (total final consumption (TFC)), product, and sector
+
+    AggregateFinalUsefulData = drake::target(calculate_finaluseful_ex_data(.sutdata = PSUT_useful,
+                                                                           fd_sectors = FinalDemandSectors)),
+
 
 
 

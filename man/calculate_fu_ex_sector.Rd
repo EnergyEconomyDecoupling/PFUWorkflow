@@ -4,13 +4,45 @@
 \alias{calculate_fu_ex_sector}
 \title{Calculate total final consumption of final and useful energy by sector}
 \usage{
-calculate_fu_ex_sector(.sutdata, fd_sectors)
+calculate_fu_ex_sector(
+  .sutdata,
+  fd_sectors,
+  country = IEATools::iea_cols$country,
+  method = IEATools::iea_cols$method,
+  energy_type = IEATools::iea_cols$energy_type,
+  last_stage = IEATools::iea_cols$last_stage,
+  year = IEATools::iea_cols$year,
+  sector = "Sector",
+  fd_sectors_col = SEAPSUTWorkflow::sea_cols$fd_sectors_col,
+  e_product = SEAPSUTWorkflow::sea_cols$e_product,
+  stage_col = SEAPSUTWorkflow::sea_cols$stage_col,
+  gross_net = SEAPSUTWorkflow::sea_cols$gross_net,
+  agg_by = SEAPSUTWorkflow::sea_cols$agg_by,
+  ex = SEAPSUTWorkflow::sea_cols$ex,
+  ex_net = SEAPSUTWorkflow::sea_cols$ex_net,
+  ex_gross = SEAPSUTWorkflow::sea_cols$ex_gross,
+  net = "Net",
+  gross = "Gross",
+  all = "All"
+)
 }
 \arguments{
 \item{.sutdata}{A data frame containing Physical Supply-Use Table (PSUT)
 matrices with associated final demand sector names}
 
 \item{fd_sectors}{A character vector of final demand sectors.}
+
+\item{country, method, energy_type, last_stage, year, flow}{See \code{IEATools::iea_cols}.}
+
+\item{sector}{The string "Product", indicating that calculate_fu_ex_sector calls \code{Recca::finaldemand_aggregates} by sector.}
+
+\item{e_product, stage_col, gross_net, agg_by, ex, ex_net, ex_gross}{See \code{SEAPSUTWorkflow::sea_cols}.}
+
+\item{net}{The string "Net" indicating that the final demand aggregate values include only non-energy industry own use sectors supplied in \code{fd-sectors}.}
+
+\item{gross}{The string "Gross" indicating that the final demand aggregate value includes all sectors stipulated in supplied in \code{fd_sectors}.}
+
+\item{all}{The string "All", indicating that one or both of \code{flow} and \code{product} were aggregated.}
 }
 \value{
 A data frame containing total final and useful consumption by sector

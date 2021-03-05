@@ -36,7 +36,8 @@
 #' \item{PSUT_useful}{A data frame containing PSUT matrices up to the useful stage.}
 #' \item{FinalDemandSectors}{A list containing  the final demand sectors desired for analysis.}
 #' \item{PrimaryIndustryPrefixes}{A list containing the prefixes of primary industries desired for analysis.}
-#' \item{AggregateExergyEnergyData}{ A data frame containing aggregate energy and exergy values by total, product, flow, and sector.}
+#' \item{AggregatePrimaryData}{A data frame containing aggregate primary energy and exergy values by total, product, and flow.}
+#' \item{AggregateFinalUsefulData}{A data frame containing aggregate final and useful energy and exergy values by total, product, and sector.}
 #' \item{AllocationGraphs}{A data frame containing final-to-useful allocation graphs.}
 #' \item{NonStationaryAllocationGraphs}{A data frame containing final-to-useful allocation graphs, for non-stationary data only.}
 #' \item{EfficiencyGraphs}{A data frame containing final-to-useful efficiency graphs.}
@@ -96,3 +97,29 @@
 #' cache_info
 "cache_info"
 
+#' SEAPSUTWorkflow data frame column names
+#'
+#' A string list containing named names of columns in SEAPSUTWorkflow data frames.
+#' The data frames can be
+#' tidy (with one row for each data point) or
+#' wide (with years spread to the right).
+#' Items in the list act to compliment the column names in `IEATools::iea_cols`.
+#'
+#' @format A string list with `r length(sea_cols)` entries.
+#' \describe{
+#' \item{stage_col}{The name of a metadata column containing the stage of the energy conversion chain, usually "Primary", "Final", or "Useful".}
+#' \item{gross_net}{The name of a metadata column containing information as to whether aggreagted data at the final and useful stage is in "Gross" or "Net" terms, see `Recca::finaldemand_aggregates()` and `Recca::primary_aggregates()`.}
+#' \item{e_product}{The name of a column containing the names of energy products.}
+#' \item{agg_by}{The name of a column containing the variable by which data was aggregated. Usually using `Recca::finaldemand_aggregates()` and `Recca::primary_aggregates()`, and usually one of "Flow", "Sector", "Product", or "Total".}
+#' \item{fd_sectors_col}{The name of a column containing the list of final demand sectors desired for analysis. Usually created by `SEAPSUTWorkflow::get_fd_sectors()` and `SEAPSUTWorkflow::create_fd_sectors_list()`.}
+#' \item{p_ind_comp}{The name of a column containing lists of primary industries desired for analysis. Usually created by using `Recca::find_p_industry_names()`.}
+#' \item{p_ind_prefix}{The name of a column containing the list of primary industry prefixes desired for analysis. Usually supplied to `Recca::find_p_industry_names()` to return `p_ind_comp`.}
+#' \item{ex}{The name of a column containing energy or exergy data.}
+#' \item{ex_p}{The name of a column containing energy or exergy data at the primary stage. Usually produced by `Recca::primary_aggregates()`.}
+#' \item{ex_net}{The name of a column containing energy or exergy data at the final and/or useful stage and in net terms. Usually produced by `Recca::finaldemand_aggregates()`.}
+#' \item{ex_gross}{The name of a column containing energy or exergy data at the final and/or useful stage and in gross terms. Usually produced by `Recca::finaldemand_aggregates()`.}
+#' }
+#'
+#' @examples
+#' sea_cols
+"sea_cols"

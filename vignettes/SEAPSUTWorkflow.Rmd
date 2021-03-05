@@ -44,8 +44,6 @@ plan <- SEAPSUTWorkflow::get_plan(countries = c("GHA", "ZAF"),
                                   ceda_data_folder = "<<CEDA temperature data path>>",
                                   machine_data_path = "<<Machine data path>>",
                                   exemplar_table_path = "<<exemplar table path>>",
-                                  fd_sectors = "<<Final demand sectors>>",
-                                  p_industry_prefixes = "<<Primary industry prefixes>>",
                                   fu_analysis_folder = "<<FU analysis folder>>", 
                                   reports_source_folders = "<<Reports source folders>>",
                                   reports_dest_folder = "<<Reports output folder>>")
@@ -60,8 +58,6 @@ where
 * `<<CEDA temperature data path>>` is the path to CEDA cru_cy temperature data downloaded through `CEDATools`,
 * `<<Machine data path>>` is the path to the Machine data excel files containing Eta.fu, Phi.u, and other data.
 * `<<exemplar table path>>` is the path to an exemplar table (see below),
-* `<<Final demand sectors>>` is a character vector of final demand sectors desired for analysis
-* `<<Primary industry prefixes>>` is a character vector of primary industry prefixes (usually "Resources",    "Imports", and "Stock changes").
 * `<<FU analysis folder>>` is the path to a folder containing final-to-useful analyses, 
 * `<<Reports source folders>>` is a vector of paths to folders containing report sources (usually `.Rmd` and `.Rnw` files), and
 * `<<Reports output folder>>` is the path to a folder for completed reports.
