@@ -368,7 +368,7 @@ create_fd_sectors_list <- function(fd_sectors, .sutdata) {
 #' p_industry_prefixes <- get_p_industry_prefixes()
 get_p_industry_prefixes <- function() {
 
-  p_industry_prefixes <- IEATools::prim_agg_flows %>% unname() %>% list()
+  p_industry_prefixes <- IEATools::prim_agg_flows %>% unname() %>% unlist() %>% list()
 
   return(p_industry_prefixes)
 

@@ -7,7 +7,8 @@
 get_L_K_GDP_data(
   pwt10_data,
   country_colname = IEATools::iea_cols$country,
-  year_colname = SEAPSUTWorkflow::socioecon_cols$year,
+  Year_colname = IEATools::iea_cols$year,
+  year_colname = SEAPSUTWorkflow::socioecon_cols$year_colname,
   isocode_colname = SEAPSUTWorkflow::socioecon_cols$isocode_colname,
   rgdpe_colname = SEAPSUTWorkflow::socioecon_cols$rgdpe_colname,
   rgdpo_colname = SEAPSUTWorkflow::socioecon_cols$rgdpo_colname,
@@ -27,9 +28,9 @@ get_L_K_GDP_data(
 \item{pwt10_data}{A data frame containing all pwt10 data for at least one country,
 usually supplied through calling the \code{get_all_pwt_data} function.}
 
-\item{country_colname, year_colname}{See \code{IEATools::iea_cols}.}
+\item{country_colname, Year_colname}{See \code{IEATools::iea_cols}.}
 
-\item{isocode_colname, rgdpe_colname, rgdpo_colname, rgdpna_colname, emp_colname, avh_colname, hc_colname, rnna_colname, rkna_colname}{See \code{SEAPSUTWorkflow::socioecon_cols}}
+\item{isocode_colname, year_colname, rgdpe_colname, rgdpo_colname, rgdpna_colname, emp_colname, avh_colname, hc_colname, rnna_colname, rkna_colname, K_colname, Kserv_colname, L_colname, Ladj_colname}{See \code{SEAPSUTWorkflow::socioecon_cols}.}
 }
 \value{
 A data frame containing three GDP metrics, Labor, Adjusted Labor,

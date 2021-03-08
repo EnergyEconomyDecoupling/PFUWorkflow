@@ -81,6 +81,8 @@ test_that("get_plan works", {
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregatePrimaryData")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregateFinalUsefulData")
 
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "SocioEconData")
+
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AllocationGraphs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "NonStationaryAllocationGraphs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "EfficiencyGraphs")

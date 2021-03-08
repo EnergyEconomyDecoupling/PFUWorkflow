@@ -264,6 +264,6 @@ test_that("get_p_industry_prefixes() works as expected", {
   testthat::expect_equal(length(p_industry_prefixes), 1)
 
   # Check that each entry in p_industry_prefixes is correct
-  testthat::expect_equal(unlist(unname(p_industry_prefixes)), c("Resources", "Imports", "Stock changes"))
+  testthat::expect_equal(unlist(p_industry_prefixes), c("Resources", "Imports", "Stock changes"))
 
 })

@@ -54,6 +54,10 @@ data frame by total, to calculate the total energy supply across all products an
 }
 \examples{
 library(Recca)
-total_energy_supply <- calculate_p_ex_total(.sutdata = Recca::UKEnergy2000mats,
-                                            p_industry_prefixes = c("Resources", "Imports"))
+total_energy_supply <- Recca::UKEnergy2000mats \%>\%
+                         tidyr::pivot_wider(id_cols = Country:matrix.name,
+                                            names_from = matrix.name,
+                                            values_from = matrix) \%>\%
+                         dplyr::mutate(Method = "PCM") \%>\%
+                         calculate_p_ex_total(p_industry_prefixes = list(c("Resources", "Imports")))
 }

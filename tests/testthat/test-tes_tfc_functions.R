@@ -8,7 +8,7 @@ test_sutdata <- Recca::UKEnergy2000mats %>%
   dplyr::relocate(Year, .after = "Last.stage")
 
 # Set prefixes to Resources, the only prefix in the R matrices
-p_industry_prefixes <- list("Resources")
+p_industry_prefixes <- list(c("Resources"))
 
 # Restrict final demand sectors to just "Residential" and "Transport".
 # As Recca::UKEnergy2000mats does not include "Absent_Sector" it should just be ignored
@@ -133,4 +133,8 @@ test_that("calculate_p_ex_product() works as expected", {
   testthat::expect_equal(length(unique(p_product$E.product)), 2)
   testthat::expect_equal(unique(p_product$E.product), c("Crude", "NG"))
 })
+
+# calculate_finaluseful_ex_data
+
+# calculate_primary_ex_data
 

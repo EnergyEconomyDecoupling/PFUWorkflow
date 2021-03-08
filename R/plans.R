@@ -38,6 +38,7 @@
 #' * `PrimaryIndustryPrefixes`: A string vector of primary industry prefixes, supplied through the `get_p_industry_prefixes` function.
 #' * `AggregatePrimaryData` : A data frame containing aggregate primary energy and exergy values by total, product, and flow.
 #' * `AggregateFinalUsefulData` : A data frame containing aggregate final and useful energy and exergy values by total, product, and sector.
+#' * `SocioEconData` : A data frame containing socioeconomic data, supplied by the `get_L_K_GDP_data` function.
 #' * `AllocationGraphs` : A data frame containing allocation plots.
 #' * `NonStationaryAllocationGraphs` : A data frame containing allocation plots for non-stationary data only.
 #' * `EfficiencyGraphs` : A data frame containing final-to-useful efficiency plots.
@@ -137,6 +138,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   PrimaryIndustryPrefixes <- NULL
   AggregatePrimaryData <- NULL
   AggregateFinalUsefulData <- NULL
+  SocioEconData <- NULL
 
   p <- drake::drake_plan(
 
@@ -295,6 +297,13 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     AggregateFinalUsefulData = drake::target(calculate_finaluseful_ex_data(.sutdata = PSUT_useful,
                                                                            fd_sectors = FinalDemandSectors)),
+
+
+
+    # (14) Socioeconomic Data for selected countries
+
+    SocioEconData = drake::target(get_all_pwt_data(countries = countries) %>%
+                                    get_L_K_GDP_data()),
 
 
 

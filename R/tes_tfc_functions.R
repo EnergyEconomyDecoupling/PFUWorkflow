@@ -33,8 +33,12 @@ library(matsbyname)
 #'
 #' @examples
 #' library(Recca)
-#' total_energy_supply <- calculate_p_ex_total(.sutdata = Recca::UKEnergy2000mats,
-#'                                             p_industry_prefixes = c("Resources", "Imports"))
+#' total_energy_supply <- Recca::UKEnergy2000mats %>%
+#'                          tidyr::pivot_wider(id_cols = Country:matrix.name,
+#'                                             names_from = matrix.name,
+#'                                             values_from = matrix) %>%
+#'                          dplyr::mutate(Method = "PCM") %>%
+#'                          calculate_p_ex_total(p_industry_prefixes = list(c("Resources", "Imports")))
 calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
                                  country_colname = IEATools::iea_cols$country,
                                  method_colname = IEATools::iea_cols$method,
@@ -59,20 +63,21 @@ calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
   PSUT_DF_p <- .sutdata %>%
-    dplyr::mutate("{p_ind_prefix_colname}" := p_industry_prefixes) %>%
+    dplyr::mutate(
+      "{p_ind_prefix_colname}" := p_industry_prefixes
+      ) %>%
     Recca::find_p_industry_names() %>%
-    dplyr::relocate(.data[[p_ind_comp_colname]], .after = .data[[p_ind_prefix_colname]]) #
+    dplyr::relocate(.data[[p_ind_comp_colname]], .after = .data[[p_ind_prefix_colname]]) %>%
 
   # Removes duplicate entries. Primary energy/exergy data stored in R matrices
   # are the same for each of the final, useful and services stages
-  PSUT_DF_p <- PSUT_DF_p %>%
     dplyr::distinct(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .keep_all = TRUE) # Last.stage???
 
   # Call Recca::primary_aggregates() to obtain the IEA version of aggregate primary energy
   # from the R, V, and Y matrices (which includes imported final energy, effect of bunkers),
-  p_total <- Recca::primary_aggregates(.sutdata = PSUT_DF_p,
-                                        p_industries = p_ind_comp_colname,
-                                        by = total_value) %>%
+  p_total <- PSUT_DF_p %>%
+    Recca::primary_aggregates(p_industries = p_ind_comp_colname,
+                              by = total_value) %>%
     dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .data[[ex_p_colname]]) %>%
     magrittr::set_colnames(c(country_colname, method_colname, energy_type_colname, year_colname, ex_colname))
 
@@ -120,8 +125,12 @@ calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
 #'
 #' @examples
 #' library(Recca)
-#' total_energy_supply <- calculate_p_ex_product(.sutdata = Recca::UKEnergy2000mats,
-#'                                               p_industry_prefixes = c("Resources", "Imports"))
+#' total_energy_supply <- Recca::UKEnergy2000mats %>%
+#'                          tidyr::pivot_wider(id_cols = Country:matrix.name,
+#'                                             names_from = matrix.name,
+#'                                             values_from = matrix) %>%
+#'                          dplyr::mutate(Method = "PCM") %>%
+#'                          calculate_p_ex_product(p_industry_prefixes = list(c("Resources", "Imports")))
 #'
 calculate_p_ex_product <- function(.sutdata, p_industry_prefixes,
                                    country_colname = IEATools::iea_cols$country,
@@ -147,20 +156,21 @@ calculate_p_ex_product <- function(.sutdata, p_industry_prefixes,
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
   PSUT_DF_p <- .sutdata %>%
-    dplyr::mutate("{p_ind_prefix_colname}" := p_industry_prefixes) %>%
+    dplyr::mutate(
+      "{p_ind_prefix_colname}" := p_industry_prefixes
+      ) %>%
     Recca::find_p_industry_names() %>%
-    dplyr::relocate(.data[[p_ind_comp_colname]], .after = .data[[p_ind_prefix_colname]])
+    dplyr::relocate(.data[[p_ind_comp_colname]], .after = .data[[p_ind_prefix_colname]]) %>%
 
   # Removes duplicate entries. Primary energy/exergy is the same regardless of whether
   # it is at the final, useful, or services stage as it is calculated from the same matrices
-  PSUT_DF_p <- PSUT_DF_p %>%
     dplyr::distinct(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .keep_all = TRUE)
 
   # Call Recca::primary_aggregates() to obtain the IEA version of aggregate primary energy
   # from the R, V, and Y matrices (which includes imported final energy, effect of bunkers),
-  p_product <- Recca::primary_aggregates(.sutdata = PSUT_DF_p,
-                                         p_industries = p_ind_comp_colname,
-                                         by = product_value) %>%
+  p_product <- PSUT_DF_p %>%
+    Recca::primary_aggregates(p_industries = p_ind_comp_colname,
+                              by = product_value) %>%
     dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .data[[ex_p_colname]]) %>%
     magrittr::set_colnames(c(country_colname, method_colname, energy_type_colname, year_colname, ex_colname))
 
@@ -168,15 +178,17 @@ calculate_p_ex_product <- function(.sutdata, p_industry_prefixes,
   p_product_expanded <- p_product %>%
     matsindf::expand_to_tidy(matvals = ex_colname,
                              rownames = e_product_colname) %>%
-    dplyr::select(-colnames, -rowtypes, -coltypes)
+    dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .data[[e_product_colname]], .data[[ex_colname]])
 
   # Add additional metadata columns
   p_product_expanded <- p_product_expanded %>%
-    dplyr::mutate("{stage_colname}" := primary_value,
-                  "{gross_net_colname}" := NA,
-                  "{flow_colname}" := all_value,
-                  "{agg_by_colname}" := product_value,
-                  "{ex_colname}" := as.numeric(.data[[ex_colname]])) %>%
+    dplyr::mutate(
+      "{stage_colname}" := primary_value,
+      "{gross_net_colname}" := NA,
+      "{flow_colname}" := all_value,
+      "{agg_by_colname}" := product_value,
+      "{ex_colname}" := as.numeric(.data[[ex_colname]])
+      ) %>%
     dplyr::relocate(.data[[e_product_colname]], .after = .data[[gross_net_colname]]) %>%
     dplyr::relocate(.data[[year_colname]], .after = .data[[agg_by_colname]]) %>%
     dplyr::relocate(.data[[ex_colname]], .after = .data[[year_colname]])
@@ -211,8 +223,12 @@ calculate_p_ex_product <- function(.sutdata, p_industry_prefixes,
 #'
 #' @examples
 #' library(Recca)
-#' total_energy_supply <- calculate_p_ex_flow(.sutdata = Recca::UKEnergy2000mats,
-#'                                            p_industry_prefixes = c("Resources", "Imports"))
+#' total_energy_supply <- Recca::UKEnergy2000mats %>%
+#'                          tidyr::pivot_wider(id_cols = Country:matrix.name,
+#'                                             names_from = matrix.name,
+#'                                             values_from = matrix) %>%
+#'                          dplyr::mutate(Method = "PCM") %>%
+#'                          calculate_p_ex_flow(p_industry_prefixes = list(c("Resources", "Imports")))
 #'
 calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes,
                                 country_colname = IEATools::iea_cols$country,
@@ -238,20 +254,21 @@ calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes,
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
   PSUT_DF_p <- .sutdata %>%
-    dplyr::mutate("{p_ind_prefix_colname}" := p_industry_prefixes) %>%
+    dplyr::mutate(
+      "{p_ind_prefix_colname}" := p_industry_prefixes
+      ) %>%
     Recca::find_p_industry_names() %>%
-    dplyr::relocate(.data[[p_ind_comp_colname]], .after = .data[[p_ind_prefix_colname]])
+    dplyr::relocate(.data[[p_ind_comp_colname]], .after = .data[[p_ind_prefix_colname]]) %>%
 
   # Removes duplicate entries. Primary energy/exergy is the same regardless of whether
   # it is at the final, useful, or services stage as it is calculated from the same matrices
-  PSUT_DF_p <- PSUT_DF_p %>%
     dplyr::distinct(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .keep_all = TRUE)
 
   # Call Recca::primary_aggregates() to obtain the IEA version of aggregate primary energy
   # from the R, V, and Y matrices (which includes imported final energy, effect of bunkers),
-  p_flow <- Recca::primary_aggregates(.sutdata = PSUT_DF_p,
-                                      p_industries = p_ind_comp_colname,
-                                      by = flow_colname) %>%
+  p_flow <- PSUT_DF_p %>%
+    Recca::primary_aggregates(p_industries = p_ind_comp_colname,
+                              by = flow_colname) %>%
     dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .data[[ex_p_colname]]) %>%
     magrittr::set_colnames(c(country_colname, method_colname, energy_type_colname, year_colname, ex_colname))
 
@@ -259,15 +276,17 @@ calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes,
   p_flow_expanded <- p_flow %>%
     matsindf::expand_to_tidy(matvals = ex_colname,
                              colnames = flow_colname) %>% # Check
-    dplyr::select(-rownames, -rowtypes, -coltypes)
+    dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .data[[flow_colname]], .data[[ex_colname]])
 
   # Add additional metadata columns
   p_flow_expanded <- p_flow_expanded %>%
-    dplyr::mutate("{stage_colname}" := primary_value,
-                  "{gross_net_colname}" := NA,
-                  "{e_product_colname}" := all_value,
-                  "{agg_by_colname}" := flow_value,
-                  "{ex_colname}" := as.numeric(.data[[ex_colname]])) %>%
+    dplyr::mutate(
+      "{stage_colname}" := primary_value,
+      "{gross_net_colname}" := NA,
+      "{e_product_colname}" := all_value,
+      "{agg_by_colname}" := flow_value,
+      "{ex_colname}" := as.numeric(.data[[ex_colname]])
+      ) %>%
     dplyr::relocate(.data[[flow_colname]], .after = .data[[e_product_colname]]) %>%
     dplyr::relocate(.data[[year_colname]], .after = .data[[agg_by_colname]]) %>%
     dplyr::relocate(.data[[ex_colname]], .after = .data[[year_colname]])
@@ -301,8 +320,12 @@ calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes,
 #'
 #' @examples
 #' library(Recca)
-#' tfc_total <- calculate_fu_ex_total(.sutdata = Recca::UKEnergy2000mats,
-#'                                    fd_sectors = c("Residential"))
+#' tfc_total <- Recca::UKEnergy2000mats %>%
+#'                tidyr::pivot_wider(id_cols = Country:matrix.name,
+#'                                   names_from = matrix.name,
+#'                                   values_from = matrix) %>%
+#'                dplyr::mutate(Method = "PCM") %>%
+#'                calculate_fu_ex_total(fd_sectors = c("Residential"))
 #'
 calculate_fu_ex_total <- function(.sutdata, fd_sectors,
                                   country_colname = IEATools::iea_cols$country,
@@ -337,22 +360,29 @@ calculate_fu_ex_total <- function(.sutdata, fd_sectors,
     )
 
   # Calculates final demand by total
-  fu_total <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF_fu, fd_sectors = fd_sectors_colname, by = total_value) %>%
+  fu_total <- PSUT_DF_fu %>%
+    Recca::finaldemand_aggregates(fd_sectors = fd_sectors_colname, by = total_value) %>%
     dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[last_stage_colname]], .data[[year_colname]], .data[[ex_net_colname]], .data[[ex_gross_colname]]) %>%
     magrittr::set_colnames(c(country_colname, method_colname, energy_type_colname, stage_colname, year_colname, ex_net_colname, ex_gross_colname)) %>%
-    tidyr::pivot_longer(cols = ex_net_colname:ex_gross_colname, # EX.d_net:EX.d_gross # .data[[ex_net:ex_gross]] # .data[[ex_net]]:.data[[ex_gross]]
+    tidyr::pivot_longer(cols = ex_net_colname:ex_gross_colname,
                         names_to = gross_net_colname,
                         values_to = ex_colname) %>%
-    dplyr::mutate("{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_net_colname, net_value)) %>%
-    dplyr::mutate("{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_gross_colname, gross_value)) %>%
+    dplyr::mutate(
+      "{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_net_colname, net_value)
+      ) %>%
+    dplyr::mutate(
+      "{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_gross_colname, gross_value)
+      ) %>%
     dplyr::relocate(.data[[gross_net_colname]], .after = .data[[stage_colname]])
 
   # Add additional metadata columns
   fu_total <- fu_total %>%
-    dplyr::mutate("{e_product_colname}" := all_value,
-                  "{sector_colname}" := all_value,
-                  "{agg_by_colname}" := total_value,
-                  "{ex_colname}" := as.numeric(.data[[ex_colname]])) %>%
+    dplyr::mutate(
+      "{e_product_colname}" := all_value,
+      "{sector_colname}" := all_value,
+      "{agg_by_colname}" := total_value,
+      "{ex_colname}" := as.numeric(.data[[ex_colname]])
+      ) %>%
     dplyr::relocate(.data[[year_colname]], .after = .data[[agg_by_colname]]) %>%
     dplyr::relocate(.data[[ex_colname]], .after = .data[[year_colname]])
 
@@ -386,8 +416,12 @@ calculate_fu_ex_total <- function(.sutdata, fd_sectors,
 #'
 #' @examples
 #' library(Recca)
-#' tfc_product <- calculate_fu_ex_product(.sutdata = Recca::UKEnergy2000mats,
-#'                                        fd_sectors = c("Residential"))
+#' tfc_product <- Recca::UKEnergy2000mats %>%
+#'                  tidyr::pivot_wider(id_cols = Country:matrix.name,
+#'                                     names_from = matrix.name,
+#'                                     values_from = matrix) %>%
+#'                  dplyr::mutate(Method = "PCM") %>%
+#'                  calculate_fu_ex_product(fd_sectors = c("Residential"))
 #'
 calculate_fu_ex_product <- function(.sutdata, fd_sectors,
                                     country_colname = IEATools::iea_cols$country,
@@ -417,30 +451,39 @@ calculate_fu_ex_product <- function(.sutdata, fd_sectors,
 
   # Adds a column which each observation containing the list of final demand sectors
   PSUT_DF_fu <- .sutdata %>%
-    dplyr::mutate("{fd_sectors_colname}" := fd_sector_list)
+    dplyr::mutate(
+      "{fd_sectors_colname}" := fd_sector_list
+      )
 
   # Calculates final demand by _product
-  fu_product <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF_fu, fd_sectors = fd_sectors_colname, by = product_value) %>%
+  fu_product <- PSUT_DF_fu %>%
+    Recca::finaldemand_aggregates(fd_sectors = fd_sectors_colname, by = product_value) %>%
     dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[last_stage_colname]], .data[[year_colname]], .data[[ex_net_colname]], .data[[ex_gross_colname]]) %>%
     magrittr::set_colnames(c(country_colname, method_colname, energy_type_colname, stage_colname, year_colname, ex_net_colname, ex_gross_colname)) %>%
-    tidyr::pivot_longer(cols = ex_net_colname:ex_gross_colname, # EX.d_net:EX.d_gross # .data[[ex_net:ex_gross]] # .data[[ex_net]]:.data[[ex_gross]]
+    tidyr::pivot_longer(cols = ex_net_colname:ex_gross_colname,
                         names_to = gross_net_colname,
                         values_to = ex_colname) %>%
-    dplyr::mutate("{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_net_colname, net_value)) %>%
-    dplyr::mutate("{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_gross_colname, gross_value)) %>%
+    dplyr::mutate(
+      "{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_net_colname, net_value)
+      ) %>%
+    dplyr::mutate(
+      "{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_gross_colname, gross_value)
+      ) %>%
     dplyr::relocate(.data[[gross_net_colname]], .after = .data[[stage_colname]])
 
   # Expands matrices
   fu_product_expanded <- fu_product %>%
     matsindf::expand_to_tidy(matvals = ex_colname,
                              rownames = e_product_colname) %>%
-    dplyr::select(-colnames, -rowtypes, -coltypes)
+    dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[stage_colname]], .data[[gross_net_colname]], .data[[year_colname]], .data[[e_product_colname]], .data[[ex_colname]])
 
   # Add additional metadata columns
   fu_product_expanded <- fu_product_expanded %>%
-    dplyr::mutate("{sector_colname}" := all_value,
-                  "{agg_by_colname}" := product_value,
-                  "{ex_colname}" := as.numeric(.data[[ex_colname]])) %>%
+    dplyr::mutate(
+      "{sector_colname}" := all_value,
+      "{agg_by_colname}" := product_value,
+      "{ex_colname}" := as.numeric(.data[[ex_colname]])
+      ) %>%
     dplyr::relocate(.data[[year_colname]], .after = .data[[agg_by_colname]]) %>%
     dplyr::relocate(.data[[ex_colname]], .after = .data[[year_colname]])
 
@@ -474,8 +517,12 @@ calculate_fu_ex_product <- function(.sutdata, fd_sectors,
 #'
 #' @examples
 #' library(Recca)
-#' tfc_sector <- calculate_fu_ex_sector(.sutdata = Recca::UKEnergy2000mats,
-#'                                      fd_sectors = c("Residential"))
+#' tfc_sector <- Recca::UKEnergy2000mats %>%
+#'                tidyr::pivot_wider(id_cols = Country:matrix.name,
+#'                                   names_from = matrix.name,
+#'                                   values_from = matrix) %>%
+#'                dplyr::mutate(Method = "PCM") %>%
+#'                calculate_fu_ex_sector(fd_sectors = c("Residential"))
 #'
 calculate_fu_ex_sector <- function(.sutdata, fd_sectors,
                                    country_colname = IEATools::iea_cols$country,
@@ -505,24 +552,31 @@ calculate_fu_ex_sector <- function(.sutdata, fd_sectors,
 
   # Adds a column which each observation containing the list of final demand sectors
   PSUT_DF_fu <- .sutdata %>%
-    dplyr::mutate("{fd_sectors_colname}" := fd_sector_list)
+    dplyr::mutate(
+      "{fd_sectors_colname}" := fd_sector_list
+      )
 
   # Calculates final demand by _product
-  fu_sector <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF_fu, fd_sectors = fd_sectors_colname, by = sector_value) %>%
+  fu_sector <- PSUT_DF_fu %>%
+    Recca::finaldemand_aggregates(fd_sectors = fd_sectors_colname, by = sector_value) %>%
     dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[last_stage_colname]], .data[[year_colname]], .data[[ex_net_colname]], .data[[ex_gross_colname]]) %>%
     magrittr::set_colnames(c(country_colname, method_colname, energy_type_colname, stage_colname, year_colname, ex_net_colname, ex_gross_colname)) %>%
-    tidyr::pivot_longer(cols = ex_net_colname:ex_gross_colname, # EX.d_net:EX.d_gross # .data[[ex_net:ex_gross]] # .data[[ex_net]]:.data[[ex_gross]]
+    tidyr::pivot_longer(cols = ex_net_colname:ex_gross_colname,
                         names_to = gross_net_colname,
                         values_to = ex_colname) %>%
-    dplyr::mutate("{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_net_colname, net_value)) %>%
-    dplyr::mutate("{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_gross_colname, gross_value)) %>%
+    dplyr::mutate(
+      "{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_net_colname, net_value)
+      ) %>%
+    dplyr::mutate(
+      "{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_gross_colname, gross_value)
+      ) %>%
     dplyr::relocate(.data[[gross_net_colname]], .after = .data[[stage_colname]])
 
   # Expands matrices
   fu_sector_expanded <- fu_sector %>%
     matsindf::expand_to_tidy(matvals = ex_colname,
                              rownames = sector_colname) %>%
-    dplyr::select(-colnames, -rowtypes, -coltypes)
+    dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[stage_colname]], .data[[gross_net_colname]], .data[[year_colname]], .data[[sector_colname]], .data[[ex_colname]])
 
   # Asserts that the length of the character vector containing the sectors present
   # in the expanded data is less than or equal to the length of fd_sectors.
@@ -535,9 +589,11 @@ calculate_fu_ex_sector <- function(.sutdata, fd_sectors,
 
   # Add additional metadata columns
   fu_sector_expanded <- fu_sector_expanded %>%
-    dplyr::mutate("{e_product_colname}" := all_value,
-                  "{agg_by_colname}" := sector_value,
-                  "{ex_colname}" := as.numeric(.data[[ex_colname]])) %>%
+    dplyr::mutate(
+      "{e_product_colname}" := all_value,
+      "{agg_by_colname}" := sector_value,
+      "{ex_colname}" := as.numeric(.data[[ex_colname]])
+      ) %>%
     dplyr::relocate(.data[[sector_colname]], .after = .data[[e_product_colname]]) %>%
     dplyr::relocate(.data[[year_colname]], .after = .data[[agg_by_colname]]) %>%
     dplyr::relocate(.data[[ex_colname]], .after = .data[[year_colname]])
@@ -567,8 +623,12 @@ calculate_fu_ex_sector <- function(.sutdata, fd_sectors,
 #'
 #' @examples
 #' library(Recca)
-#' primary_data <- calculate_primary_ex_data(.sutdata = Recca::UKEnergy2000mats,
-#'                                           p_industry_prefixes = c("Resources"))
+#' primary_data <- Recca::UKEnergy2000mats %>%
+#'                   tidyr::pivot_wider(id_cols = Country:matrix.name,
+#'                                      names_from = matrix.name,
+#'                                      values_from = matrix) %>%
+#'                   dplyr::mutate(Method = "PCM") %>%
+#'                   calculate_primary_ex_data(p_industry_prefixes = list(c("Resources", "Imports")))
 #'
 calculate_primary_ex_data <- function(.sutdata, p_industry_prefixes) {
 
@@ -615,8 +675,12 @@ calculate_primary_ex_data <- function(.sutdata, p_industry_prefixes) {
 #'
 #' @examples
 #' library(Recca)
-#' finaluseful_data <- calculate_finaluseful_ex_data(.sutdata = Recca::UKEnergy2000mats,
-#'                                                   fd_sectors = c("Residential"))
+#' finaluseful_data <- Recca::UKEnergy2000mats %>%
+#'                       tidyr::pivot_wider(id_cols = Country:matrix.name,
+#'                                          names_from = matrix.name,
+#'                                          values_from = matrix) %>%
+#'                       dplyr::mutate(Method = "PCM") %>%
+#'                       calculate_finaluseful_ex_data(fd_sectors = c("Residential"))
 #'
 calculate_finaluseful_ex_data <- function(.sutdata, fd_sectors) {
 

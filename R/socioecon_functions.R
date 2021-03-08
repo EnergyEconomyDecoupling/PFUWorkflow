@@ -6,6 +6,7 @@
 #' Note that some data is not available for some countries (mostly non-OECD).
 #'
 #' @param countries A string of iso 3-letter country codes
+#' @param isocode_colname See `SEAPSUTWorkflow::socioecon_cols`.
 #'
 #' @return A data frame containing socioeconomic data from pwt10 for a set of countries.
 #' @export
@@ -54,8 +55,8 @@ get_all_pwt_data <- function(countries,
 #'
 #' @param pwt10_data A data frame containing all pwt10 data for at least one country,
 #'                  usually supplied through calling the `get_all_pwt_data` function.
-#' @param isocode_colname,rgdpe_colname,rgdpo_colname,rgdpna_colname,emp_colname,avh_colname,hc_colname,rnna_colname,rkna_colname See `SEAPSUTWorkflow::socioecon_cols`
-#' @param country_colname,year_colname See `IEATools::iea_cols`.
+#' @param isocode_colname,year_colname,rgdpe_colname,rgdpo_colname,rgdpna_colname,emp_colname,avh_colname,hc_colname,rnna_colname,rkna_colname,K_colname,Kserv_colname,L_colname,Ladj_colname See `SEAPSUTWorkflow::socioecon_cols`.
+#' @param country_colname,Year_colname See `IEATools::iea_cols`.
 #'
 #' @return A data frame containing three GDP metrics, Labor, Adjusted Labor,
 #'         Capital, and Capital services.
@@ -68,7 +69,8 @@ get_all_pwt_data <- function(countries,
 #'
 get_L_K_GDP_data <- function(pwt10_data,
                              country_colname = IEATools::iea_cols$country,
-                             year_colname= SEAPSUTWorkflow::socioecon_cols$year,
+                             Year_colname= IEATools::iea_cols$year,
+                             year_colname= SEAPSUTWorkflow::socioecon_cols$year_colname,
                              isocode_colname = SEAPSUTWorkflow::socioecon_cols$isocode_colname,
                              rgdpe_colname = SEAPSUTWorkflow::socioecon_cols$rgdpe_colname,
                              rgdpo_colname = SEAPSUTWorkflow::socioecon_cols$rgdpo_colname,
@@ -92,15 +94,19 @@ get_L_K_GDP_data <- function(pwt10_data,
 
   # Renames columns
   L_K_GDP_data <- L_K_GDP_data %>%
-    magrittr::set_colnames(c(.data[[country_colname]], .data[[year_colname]], .data[[rgdpe_colname]],
-                             .data[[rgdpo_colname]], .data[[rgdpna_colname]], .data[[emp_colname]],
-                             .data[[avh_colname]], .data[[hc_colname]], .data[[K_colname]], .data[[Kserv_colname]]))
+    magrittr::set_colnames(c(country_colname, Year_colname, rgdpe_colname,
+                             rgdpo_colname, rgdpna_colname, emp_colname,
+                             avh_colname, hc_colname, K_colname, Kserv_colname))
 
   # Calculates L, the total number of hours worked in a given year
   # and Ladj, the total number of hours worked adjusted by the human capital index
   L_K_GDP_data <- L_K_GDP_data %>%
-    dplyr::mutate("{L_colname}" := (.data[[emp_colname]] * .data[[avh_colname]] * 1000000), .keep = "unused", .after = .data[[rgdpna_colname]]) %>%
-    dplyr::mutate("{Ladj_colname}" := (.data[[L_colname]] * .data[[hc_colname]]), .after = .data[[L_colname]]) %>%
+    dplyr::mutate(
+      "{L_colname}" := (.data[[emp_colname]] * .data[[avh_colname]] * 1000000), .keep = "unused", .after = .data[[rgdpna_colname]]
+      ) %>%
+    dplyr::mutate(
+      "{Ladj_colname}" := (.data[[L_colname]] * .data[[hc_colname]]), .after = .data[[L_colname]]
+      ) %>%
     dplyr::select(-.data[[hc_colname]])
 
   return(L_K_GDP_data)

@@ -4,10 +4,15 @@
 \alias{get_all_pwt_data}
 \title{Get all pwt10 data for a set of countries}
 \usage{
-get_all_pwt_data(countries)
+get_all_pwt_data(
+  countries,
+  isocode_colname = SEAPSUTWorkflow::socioecon_cols$isocode_colname
+)
 }
 \arguments{
 \item{countries}{A string of iso 3-letter country codes}
+
+\item{isocode_colname}{See \code{SEAPSUTWorkflow::socioecon_cols}.}
 }
 \value{
 A data frame containing socioeconomic data from pwt10 for a set of countries.

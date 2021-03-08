@@ -38,6 +38,7 @@
 #' \item{PrimaryIndustryPrefixes}{A list containing the prefixes of primary industries desired for analysis.}
 #' \item{AggregatePrimaryData}{A data frame containing aggregate primary energy and exergy values by total, product, and flow.}
 #' \item{AggregateFinalUsefulData}{A data frame containing aggregate final and useful energy and exergy values by total, product, and sector.}
+#' \item{SocioEconData}{A data frame containing socioeconomic data, supplied by the `get_L_K_GDP_data` function.}
 #' \item{AllocationGraphs}{A data frame containing final-to-useful allocation graphs.}
 #' \item{NonStationaryAllocationGraphs}{A data frame containing final-to-useful allocation graphs, for non-stationary data only.}
 #' \item{EfficiencyGraphs}{A data frame containing final-to-useful efficiency graphs.}
@@ -108,7 +109,7 @@
 #' @format A string list with `r length(sea_cols)` entries.
 #' \describe{
 #' \item{stage_colname}{The name of a metadata column containing the stage of the energy conversion chain, usually "Primary", "Final", or "Useful".}
-#' \item{gross_net_colname}{The name of a metadata column containing information as to whether aggreagted data at the final and useful stage is in "Gross" or "Net" terms, see `Recca::finaldemand_aggregates()` and `Recca::primary_aggregates()`.}
+#' \item{gross_net_colname}{The name of a metadata column containing information as to whether aggregated data at the final and useful stage is in "Gross" or "Net" terms, see `Recca::finaldemand_aggregates()` and `Recca::primary_aggregates()`.}
 #' \item{e_product}{The name of a metadata column containing the names of energy products.}
 #' \item{sector_colname}{The name of a metadata column containing the names of final demand sectors.}
 #' \item{flow_colname}{The name of a metadata column containing the names of primary flows.}
@@ -167,7 +168,7 @@
 #' @format A string list with `r length(socioecon_cols)` entries.
 #' \describe{
 #' \item{isocode_colname}{The name of a metadata column containing the 3-letter isocodes of countries.}
-#' \item{year_colname}{The name of a metadata column containing values for the year of the observation.}
+#' \item{year_colname}{The name of a metadata column containing values for the year of the observation. Lower case.}
 #' \item{rgdpe_colname}{The name of the column containing data for Expenditure-side real GDP at chained PPPs (in million 2017 USD).}
 #' \item{rgdpo_colname}{The name of the column containing data for Output-side real GDP at chained PPPs (in million 2017 USD).}
 #' \item{rgdpna_colname}{The name of the column containing data for Real GDP at constant 2017 national prices (in million 2017 USD).}

@@ -95,6 +95,7 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{PrimaryIndustryPrefixes}: A string vector of primary industry prefixes, supplied through the \code{get_p_industry_prefixes} function.
 \item \code{AggregatePrimaryData} : A data frame containing aggregate primary energy and exergy values by total, product, and flow.
 \item \code{AggregateFinalUsefulData} : A data frame containing aggregate final and useful energy and exergy values by total, product, and sector.
+\item \code{SocioEconData} : A data frame containing socioeconomic data, supplied by the \code{get_L_K_GDP_data} function.
 \item \code{AllocationGraphs} : A data frame containing allocation plots.
 \item \code{NonStationaryAllocationGraphs} : A data frame containing allocation plots for non-stationary data only.
 \item \code{EfficiencyGraphs} : A data frame containing final-to-useful efficiency plots.

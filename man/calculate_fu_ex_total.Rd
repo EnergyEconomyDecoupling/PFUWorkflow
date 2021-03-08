@@ -55,7 +55,11 @@ data frame, to calculate the total final consumption across all products and sec
 }
 \examples{
 library(Recca)
-tfc_total <- calculate_fu_ex_total(.sutdata = Recca::UKEnergy2000mats,
-                                   fd_sectors = c("Residential"))
+tfc_total <- Recca::UKEnergy2000mats \%>\%
+               tidyr::pivot_wider(id_cols = Country:matrix.name,
+                                  names_from = matrix.name,
+                                  values_from = matrix) \%>\%
+               dplyr::mutate(Method = "PCM") \%>\%
+               calculate_fu_ex_total(fd_sectors = c("Residential"))
 
 }

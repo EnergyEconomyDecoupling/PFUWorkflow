@@ -56,7 +56,11 @@ all of the sectors supplied in \code{fd_sectors} for each product.
 }
 \examples{
 library(Recca)
-tfc_product <- calculate_fu_ex_product(.sutdata = Recca::UKEnergy2000mats,
-                                       fd_sectors = c("Residential"))
+tfc_product <- Recca::UKEnergy2000mats \%>\%
+                 tidyr::pivot_wider(id_cols = Country:matrix.name,
+                                    names_from = matrix.name,
+                                    values_from = matrix) \%>\%
+                 dplyr::mutate(Method = "PCM") \%>\%
+                 calculate_fu_ex_product(fd_sectors = c("Residential"))
 
 }

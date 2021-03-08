@@ -8,7 +8,7 @@
 A string list with 14 entries.
 \describe{
 \item{isocode_colname}{The name of a metadata column containing the 3-letter isocodes of countries.}
-\item{year_colname}{The name of a metadata column containing values for the year of the observation.}
+\item{year_colname}{The name of a metadata column containing values for the year of the observation. Lower case.}
 \item{rgdpe_colname}{The name of the column containing data for Expenditure-side real GDP at chained PPPs (in million 2017 USD).}
 \item{rgdpo_colname}{The name of the column containing data for Output-side real GDP at chained PPPs (in million 2017 USD).}
 \item{rgdpna_colname}{The name of the column containing data for Real GDP at constant 2017 national prices (in million 2017 USD).}
