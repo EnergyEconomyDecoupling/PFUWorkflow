@@ -5,19 +5,21 @@
 \alias{sea_cols}
 \title{SEAPSUTWorkflow data frame column names}
 \format{
-A string list with 11 entries.
+A string list with 13 entries.
 \describe{
-\item{stage_col}{The name of a metadata column containing the stage of the energy conversion chain, usually "Primary", "Final", or "Useful".}
-\item{gross_net}{The name of a metadata column containing information as to whether aggreagted data at the final and useful stage is in "Gross" or "Net" terms, see \code{Recca::finaldemand_aggregates()} and \code{Recca::primary_aggregates()}.}
-\item{e_product}{The name of a column containing the names of energy products.}
-\item{agg_by}{The name of a column containing the variable by which data was aggregated. Usually using \code{Recca::finaldemand_aggregates()} and \code{Recca::primary_aggregates()}, and usually one of "Flow", "Sector", "Product", or "Total".}
-\item{fd_sectors_col}{The name of a column containing the list of final demand sectors desired for analysis. Usually created by \code{SEAPSUTWorkflow::get_fd_sectors()} and \code{SEAPSUTWorkflow::create_fd_sectors_list()}.}
-\item{p_ind_comp}{The name of a column containing lists of primary industries desired for analysis. Usually created by using \code{Recca::find_p_industry_names()}.}
-\item{p_ind_prefix}{The name of a column containing the list of primary industry prefixes desired for analysis. Usually supplied to \code{Recca::find_p_industry_names()} to return \code{p_ind_comp}.}
-\item{ex}{The name of a column containing energy or exergy data.}
-\item{ex_p}{The name of a column containing energy or exergy data at the primary stage. Usually produced by \code{Recca::primary_aggregates()}.}
-\item{ex_net}{The name of a column containing energy or exergy data at the final and/or useful stage and in net terms. Usually produced by \code{Recca::finaldemand_aggregates()}.}
-\item{ex_gross}{The name of a column containing energy or exergy data at the final and/or useful stage and in gross terms. Usually produced by \code{Recca::finaldemand_aggregates()}.}
+\item{stage_colname}{The name of a metadata column containing the stage of the energy conversion chain, usually "Primary", "Final", or "Useful".}
+\item{gross_net_colname}{The name of a metadata column containing information as to whether aggreagted data at the final and useful stage is in "Gross" or "Net" terms, see \code{Recca::finaldemand_aggregates()} and \code{Recca::primary_aggregates()}.}
+\item{e_product}{The name of a metadata column containing the names of energy products.}
+\item{sector_colname}{The name of a metadata column containing the names of final demand sectors.}
+\item{flow_colname}{The name of a metadata column containing the names of primary flows.}
+\item{agg_by_colname}{The name of a column containing the variable by which data was aggregated. Usually using \code{Recca::finaldemand_aggregates()} and \code{Recca::primary_aggregates()}, and usually one of "Flow", "Sector", "Product", or "Total".}
+\item{fd_sectors_colname}{The name of a column containing the list of final demand sectors desired for analysis. Usually created by \code{SEAPSUTWorkflow::get_fd_sectors()} and \code{SEAPSUTWorkflow::create_fd_sectors_list()}.}
+\item{p_ind_comp_colname}{The name of a column containing lists of primary industries desired for analysis. Usually created by using \code{Recca::find_p_industry_names()}.}
+\item{p_ind_prefix_colname}{The name of a column containing the list of primary industry prefixes desired for analysis. Usually supplied to \code{Recca::find_p_industry_names()} to return \code{p_ind_comp}.}
+\item{ex_colname}{The name of a column containing energy or exergy data.}
+\item{ex_p_colname}{The name of a column containing energy or exergy data at the primary stage. Usually produced by \code{Recca::primary_aggregates()}.}
+\item{ex_net_colname}{The name of a column containing energy or exergy data at the final and/or useful stage and in net terms. Usually produced by \code{Recca::finaldemand_aggregates()}.}
+\item{ex_gross_colname}{The name of a column containing energy or exergy data at the final and/or useful stage and in gross terms. Usually produced by \code{Recca::finaldemand_aggregates()}.}
 }
 }
 \usage{

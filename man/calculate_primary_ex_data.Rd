@@ -26,7 +26,7 @@ and binding the outputs of these functions into a single data frame.
 }
 \examples{
 library(Recca)
-all_data <- calculate_primary_ex_data(.sutdata = Recca::UKEnergy2000mats,
-                                      p_industry_prefixes = c("Resources"))
+primary_data <- calculate_primary_ex_data(.sutdata = Recca::UKEnergy2000mats,
+                                          p_industry_prefixes = c("Resources"))
 
 }

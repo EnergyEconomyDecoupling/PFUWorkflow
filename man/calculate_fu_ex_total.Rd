@@ -7,24 +7,24 @@
 calculate_fu_ex_total(
   .sutdata,
   fd_sectors,
-  country = IEATools::iea_cols$country,
-  method = IEATools::iea_cols$method,
-  energy_type = IEATools::iea_cols$energy_type,
-  last_stage = IEATools::iea_cols$last_stage,
-  year = IEATools::iea_cols$year,
-  sector = "Sector",
-  fd_sectors_col = SEAPSUTWorkflow::sea_cols$fd_sectors_col,
-  e_product = SEAPSUTWorkflow::sea_cols$e_product,
-  stage_col = SEAPSUTWorkflow::sea_cols$stage_col,
-  gross_net = SEAPSUTWorkflow::sea_cols$gross_net,
-  agg_by = SEAPSUTWorkflow::sea_cols$agg_by,
-  ex = SEAPSUTWorkflow::sea_cols$ex,
-  ex_net = SEAPSUTWorkflow::sea_cols$ex_net,
-  ex_gross = SEAPSUTWorkflow::sea_cols$ex_gross,
-  net = "Net",
-  gross = "Gross",
-  all = "All",
-  total = "Total"
+  country_colname = IEATools::iea_cols$country,
+  method_colname = IEATools::iea_cols$method,
+  energy_type_colname = IEATools::iea_cols$energy_type,
+  last_stage_colname = IEATools::iea_cols$last_stage,
+  year_colname = IEATools::iea_cols$year,
+  sector_colname = SEAPSUTWorkflow::sea_cols$sector_colname,
+  fd_sectors_colname = SEAPSUTWorkflow::sea_cols$fd_sectors_colname,
+  e_product_colname = SEAPSUTWorkflow::sea_cols$e_product_colname,
+  stage_colname = SEAPSUTWorkflow::sea_cols$stage_colname,
+  gross_net_colname = SEAPSUTWorkflow::sea_cols$gross_net_colname,
+  agg_by_colname = SEAPSUTWorkflow::sea_cols$agg_by_colname,
+  ex_colname = SEAPSUTWorkflow::sea_cols$ex_colname,
+  ex_net_colname = SEAPSUTWorkflow::sea_cols$ex_net_colname,
+  ex_gross_colname = SEAPSUTWorkflow::sea_cols$ex_gross_colname,
+  net_value = SEAPSUTWorkflow::gross_net_metadata$net_value,
+  gross_value = SEAPSUTWorkflow::gross_net_metadata$gross_value,
+  all_value = SEAPSUTWorkflow::agg_metadata$all_value,
+  total_value = SEAPSUTWorkflow::agg_metadata$total_value
 )
 }
 \arguments{
@@ -33,17 +33,13 @@ matrices with associated final demand sector names}
 
 \item{fd_sectors}{A character vector of final demand sectors.}
 
-\item{country, method, energy_type, last_stage, year, flow}{See \code{IEATools::iea_cols}.}
+\item{country_colname, method_colname, energy_type_colname, last_stage_colname, year_colname}{See \code{IEATools::iea_cols}.}
 
-\item{e_product, stage_col, gross_net, agg_by, ex, ex_net, ex_gross}{See \code{SEAPSUTWorkflow::sea_cols}.}
+\item{sector_colname, fd_sectors_colname, e_product_colname, stage_colname, gross_net_colname, agg_by_colname, ex_colname, ex_net_colname, ex_gross_colname}{See \code{SEAPSUTWorkflow::sea_cols}.}
 
-\item{net}{The string "Net" indicating that the final demand aggregate values include only non-energy industry own use sectors supplied in \code{fd-sectors}.}
+\item{net_value, gross_value}{See \code{SEAPSUTWorkflow::gross_net_metadata}.}
 
-\item{gross}{The string "Gross" indicating that the final demand aggregate value includes all sectors stipulated in supplied in \code{fd_sectors}.}
-
-\item{all}{The string "All", indicating that one or both of \code{flow} and \code{product} were aggregated.}
-
-\item{total}{The string "Total", indicating that calculate_fu_ex_total calls \code{Recca::finaldemand_aggregates} by total.}
+\item{all_value, total_value}{See \code{SEAPSUTWorkflow::agg_metadata}.}
 }
 \value{
 A data frame containing aggregate final and useful energy/exergy data by total

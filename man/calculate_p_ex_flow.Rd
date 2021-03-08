@@ -7,21 +7,22 @@
 calculate_p_ex_flow(
   .sutdata,
   p_industry_prefixes,
-  country = IEATools::iea_cols$country,
-  method = IEATools::iea_cols$method,
-  energy_type = IEATools::iea_cols$energy_type,
-  year = IEATools::iea_cols$year,
-  flow = IEATools::iea_cols$flow,
-  e_product = SEAPSUTWorkflow::sea_cols$e_product,
-  stage_col = SEAPSUTWorkflow::sea_cols$stage_col,
-  gross_net = SEAPSUTWorkflow::sea_cols$gross_net,
-  agg_by = SEAPSUTWorkflow::sea_cols$agg_by,
-  p_ind_comp = SEAPSUTWorkflow::sea_cols$p_ind_comp,
-  p_ind_prefix = SEAPSUTWorkflow::sea_cols$p_ind_prefix,
-  ex = SEAPSUTWorkflow::sea_cols$ex,
-  ex_p = SEAPSUTWorkflow::sea_cols$ex_p,
-  primary = IEATools::all_stages$primary,
-  all = "All"
+  country_colname = IEATools::iea_cols$country,
+  method_colname = IEATools::iea_cols$method,
+  energy_type_colname = IEATools::iea_cols$energy_type,
+  year_colname = IEATools::iea_cols$year,
+  flow_colname = SEAPSUTWorkflow::sea_cols$flow_colname,
+  e_product_colname = SEAPSUTWorkflow::sea_cols$e_product_colname,
+  stage_colname = SEAPSUTWorkflow::sea_cols$stage_colname,
+  gross_net_colname = SEAPSUTWorkflow::sea_cols$gross_net_colname,
+  agg_by_colname = SEAPSUTWorkflow::sea_cols$agg_by_colname,
+  p_ind_comp_colname = SEAPSUTWorkflow::sea_cols$p_ind_comp_colname,
+  p_ind_prefix_colname = SEAPSUTWorkflow::sea_cols$p_ind_prefix_colname,
+  ex_colname = SEAPSUTWorkflow::sea_cols$ex_colname,
+  ex_p_colname = SEAPSUTWorkflow::sea_cols$ex_p_colname,
+  primary_value = IEATools::all_stages$primary,
+  all_value = SEAPSUTWorkflow::agg_metadata$all_value,
+  flow_value = SEAPSUTWorkflow::agg_metadata$flow_value
 )
 }
 \arguments{
@@ -31,13 +32,13 @@ matrices.}
 \item{p_industry_prefixes}{A character vector of primary energy industry prefixes.
 Usually "Resources", "Imports", and "Stock changes".}
 
-\item{country, method, energy_type, year, flow}{See \code{IEATools::iea_cols}.}
+\item{country_colname, method_colname, energy_type_colname, year_colname}{See \code{IEATools::iea_cols}.}
 
-\item{e_product, stage_col, gross_net, agg_by, p_ind_comp, p_ind_prefix, ex, ex_p}{See \code{SEAPSUTWorkflow::sea_cols}.}
+\item{flow_colname, e_product_colname, stage_colname, gross_net_colname, agg_by_colname, p_ind_comp_colname, p_ind_prefix_colname, ex_colname, ex_p_colname}{See \code{SEAPSUTWorkflow::sea_cols}.}
 
-\item{primary}{The string "Primary", representing the Primary stage of the energy conversion chain, see \code{IEATools::all_stages}.}
+\item{primary_value}{The string "Primary", representing the Primary stage of the energy conversion chain, see \code{IEATools::all_stages}.}
 
-\item{all}{The string "All", indicating that one or both of \code{flow} and \code{product} were aggregated.}
+\item{all_value, flow_value}{See \code{SEAPSUTWorkflow::agg_metadata}.}
 }
 \value{
 A data frame containing aggregate primary energy/exergy data by flow

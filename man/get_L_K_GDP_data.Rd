@@ -4,18 +4,40 @@
 \alias{get_L_K_GDP_data}
 \title{Create a dataframe containing capital (K), labor (L), and GDP data}
 \usage{
-get_L_K_GDP_data(.df)
+get_L_K_GDP_data(
+  pwt10_data,
+  country_colname = IEATools::iea_cols$country,
+  year_colname = SEAPSUTWorkflow::socioecon_cols$year,
+  isocode_colname = SEAPSUTWorkflow::socioecon_cols$isocode_colname,
+  rgdpe_colname = SEAPSUTWorkflow::socioecon_cols$rgdpe_colname,
+  rgdpo_colname = SEAPSUTWorkflow::socioecon_cols$rgdpo_colname,
+  rgdpna_colname = SEAPSUTWorkflow::socioecon_cols$rgdpna_colname,
+  emp_colname = SEAPSUTWorkflow::socioecon_cols$emp_colname,
+  avh_colname = SEAPSUTWorkflow::socioecon_cols$avh_colname,
+  hc_colname = SEAPSUTWorkflow::socioecon_cols$hc_colname,
+  rnna_colname = SEAPSUTWorkflow::socioecon_cols$rnna_colname,
+  rkna_colname = SEAPSUTWorkflow::socioecon_cols$rkna_colname,
+  K_colname = SEAPSUTWorkflow::socioecon_cols$K_colname,
+  Kserv_colname = SEAPSUTWorkflow::socioecon_cols$Kserv_colname,
+  L_colname = SEAPSUTWorkflow::socioecon_cols$L_colname,
+  Ladj_colname = SEAPSUTWorkflow::socioecon_cols$Ladj_colname
+)
 }
 \arguments{
-\item{.df}{A data frame containing all pwt10 data for at least one country,
+\item{pwt10_data}{A data frame containing all pwt10 data for at least one country,
 usually supplied through calling the \code{get_all_pwt_data} function.}
+
+\item{country_colname, year_colname}{See \code{IEATools::iea_cols}.}
+
+\item{isocode_colname, rgdpe_colname, rgdpo_colname, rgdpna_colname, emp_colname, avh_colname, hc_colname, rnna_colname, rkna_colname}{See \code{SEAPSUTWorkflow::socioecon_cols}}
 }
 \value{
 A data frame containing three GDP metrics, Labor, Adjusted Labor,
 Capital, and Capital services.
 }
 \description{
-This function selects the following columns from a pwt10 data frame,
+This function selects the following columns from a pwt10 data frame produced
+by calling \code{pwt10::pwt10.0},
 with descriptions from pwt10 documentation:
 isocode: 3-letter isocode
 year: Year

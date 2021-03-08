@@ -132,10 +132,9 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   CompletedEfficiencyTables <- NULL
   Cmats <- NULL
   EtaPhivecs <- NULL
-  # Do we need to add:
-  # PSUT_useful
-  # FinalDemandSectors
-  # PrimaryIndustryPrefixes
+  PSUT_useful <- NULL
+  FinalDemandSectors <- NULL
+  PrimaryIndustryPrefixes <- NULL
   AggregatePrimaryData <- NULL
   AggregateFinalUsefulData <- NULL
 

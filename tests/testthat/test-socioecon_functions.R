@@ -17,9 +17,9 @@ test_that("get_L_K_GDP_data() works correctly", {
 
   pwt10_data <- get_all_pwt_data(countries = countries)
 
-  L_K_GDP_data <- get_L_K_GDP_data(.df = pwt10_data)
+  L_K_GDP_data <- get_L_K_GDP_data(pwt10_data = pwt10_data)
 
-  testthat::expect_equal(colnames(L_K_GDP_data), c("Country", "Year", "rgdpe", "rgdpo",
+  testthat::expect_equal(colnames(L_K_GDP_data), c("Country", "year", "rgdpe", "rgdpo",
                                                    "rgdpna", "L", "Ladj", "K", "Kserv"))
 
 })

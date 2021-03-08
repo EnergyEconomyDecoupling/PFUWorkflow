@@ -23,11 +23,10 @@ library(matsbyname)
 #'                 matrices.
 #' @param p_industry_prefixes A character vector of primary energy industry prefixes.
 #'                            Usually "Resources", "Imports", and "Stock changes".
-#' @param country,method,energy_type,year,flow See `IEATools::iea_cols`.
-#' @param e_product,stage_col,gross_net,agg_by,p_ind_comp,p_ind_prefix,ex,ex_p See `SEAPSUTWorkflow::sea_cols`.
-#' @param primary The string "Primary", representing the Primary stage of the energy conversion chain, see `IEATools::all_stages`.
-#' @param all The string "All", indicating that one or both of `flow` and `product` were aggregated.
-#' @param total The string "Total", indicating that calculate_p_ex_total calls `Recca::primary_aggregates` by total, i.e. across all products and flows
+#' @param country_colname,method_colname,energy_type_colname,year_colname See `IEATools::iea_cols`.
+#' @param flow_colname,e_product_colname,stage_colname,gross_net_colname,agg_by_colname,p_ind_comp_colname,p_ind_prefix_colname,ex_colname,ex_p_colname See `SEAPSUTWorkflow::sea_cols`.
+#' @param primary_value The string "Primary", representing the Primary stage of the energy conversion chain, see `IEATools::all_stages`.
+#' @param all_value,total_value See `SEAPSUTWorkflow::agg_metadata`.
 #'
 #' @return A data frame containing aggregate primary energy/exergy data by total (total energy supply (TES))
 #' @export
@@ -37,22 +36,22 @@ library(matsbyname)
 #' total_energy_supply <- calculate_p_ex_total(.sutdata = Recca::UKEnergy2000mats,
 #'                                             p_industry_prefixes = c("Resources", "Imports"))
 calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
-                                 country = IEATools::iea_cols$country,
-                                 method = IEATools::iea_cols$method,
-                                 energy_type = IEATools::iea_cols$energy_type,
-                                 year = IEATools::iea_cols$year,
-                                 flow = IEATools::iea_cols$flow,
-                                 e_product = SEAPSUTWorkflow::sea_cols$e_product,
-                                 stage_col = SEAPSUTWorkflow::sea_cols$stage_col,
-                                 gross_net = SEAPSUTWorkflow::sea_cols$gross_net,
-                                 agg_by = SEAPSUTWorkflow::sea_cols$agg_by,
-                                 p_ind_comp = SEAPSUTWorkflow::sea_cols$p_ind_comp,
-                                 p_ind_prefix = SEAPSUTWorkflow::sea_cols$p_ind_prefix,
-                                 ex = SEAPSUTWorkflow::sea_cols$ex,
-                                 ex_p = SEAPSUTWorkflow::sea_cols$ex_p,
-                                 primary = IEATools::all_stages$primary,
-                                 all = "All",
-                                 total = "Total"
+                                 country_colname = IEATools::iea_cols$country,
+                                 method_colname = IEATools::iea_cols$method,
+                                 energy_type_colname = IEATools::iea_cols$energy_type,
+                                 year_colname = IEATools::iea_cols$year,
+                                 flow_colname = SEAPSUTWorkflow::sea_cols$flow_colname,
+                                 e_product_colname = SEAPSUTWorkflow::sea_cols$e_product_colname,
+                                 stage_colname = SEAPSUTWorkflow::sea_cols$stage_colname,
+                                 gross_net_colname = SEAPSUTWorkflow::sea_cols$gross_net_colname,
+                                 agg_by_colname = SEAPSUTWorkflow::sea_cols$agg_by_colname,
+                                 p_ind_comp_colname = SEAPSUTWorkflow::sea_cols$p_ind_comp_colname,
+                                 p_ind_prefix_colname = SEAPSUTWorkflow::sea_cols$p_ind_prefix_colname,
+                                 ex_colname = SEAPSUTWorkflow::sea_cols$ex_colname,
+                                 ex_p_colname = SEAPSUTWorkflow::sea_cols$ex_p_colname,
+                                 primary_value = IEATools::all_stages$primary,
+                                 all_value = SEAPSUTWorkflow::agg_metadata$all_value,
+                                 total_value = SEAPSUTWorkflow::agg_metadata$total_value
                                  ) {
 
   library(matsbyname)
@@ -60,35 +59,35 @@ calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
   PSUT_DF_p <- .sutdata %>%
-    dplyr::mutate("{p_ind_prefix}" := p_industry_prefixes) %>%
+    dplyr::mutate("{p_ind_prefix_colname}" := p_industry_prefixes) %>%
     Recca::find_p_industry_names() %>%
-    dplyr::relocate(.data[[p_ind_comp]], .after = .data[[p_ind_prefix]]) #
+    dplyr::relocate(.data[[p_ind_comp_colname]], .after = .data[[p_ind_prefix_colname]]) #
 
   # Removes duplicate entries. Primary energy/exergy data stored in R matrices
   # are the same for each of the final, useful and services stages
   PSUT_DF_p <- PSUT_DF_p %>%
-    dplyr::distinct(.data[[country]], .data[[method]], .data[[energy_type]], .data[[year]], .keep_all = TRUE) # Last.stage???
+    dplyr::distinct(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .keep_all = TRUE) # Last.stage???
 
   # Call Recca::primary_aggregates() to obtain the IEA version of aggregate primary energy
   # from the R, V, and Y matrices (which includes imported final energy, effect of bunkers),
   p_total <- Recca::primary_aggregates(.sutdata = PSUT_DF_p,
-                                        p_industries = p_ind_comp,
-                                        by = total) %>%
-    dplyr::select(.data[[country]], .data[[method]], .data[[energy_type]], .data[[year]], .data[[ex_p]]) %>%
-    magrittr::set_colnames(c(country, method, energy_type, year, ex))
+                                        p_industries = p_ind_comp_colname,
+                                        by = total_value) %>%
+    dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .data[[ex_p_colname]]) %>%
+    magrittr::set_colnames(c(country_colname, method_colname, energy_type_colname, year_colname, ex_colname))
 
   # Add additional metadata columns
   p_total <- p_total %>%
     dplyr::mutate(
-      "{stage_col}" := primary,
-      "{gross_net}" := NA,
-      "{e_product}" := all,
-      "{flow}" := all,
-      "{agg_by}" := total,
-      "{ex}" := as.numeric(.data[[ex]])
+      "{stage_colname}" := primary_value,
+      "{gross_net_colname}" := NA,
+      "{e_product_colname}" := all_value,
+      "{flow_colname}" := all_value,
+      "{agg_by_colname}" := total_value,
+      "{ex_colname}" := as.numeric(.data[[ex_colname]])
     ) %>%
-    dplyr::relocate(.data[[year]], .after = .data[[agg_by]]) %>%
-    dplyr::relocate(.data[[ex]], .after = .data[[year]]) ##
+    dplyr::relocate(.data[[year_colname]], .after = .data[[agg_by_colname]]) %>%
+    dplyr::relocate(.data[[ex_colname]], .after = .data[[year_colname]]) ##
 
   return(p_total)
 
@@ -111,11 +110,10 @@ calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
 #'                 matrices.
 #' @param p_industry_prefixes A character vector of primary energy industry prefixes.
 #'                            Usually "Resources", "Imports", and "Stock changes".
-#' @param country,method,energy_type,year,flow See `IEATools::iea_cols`.
-#' @param e_product,stage_col,gross_net,agg_by,p_ind_comp,p_ind_prefix,ex,ex_p See `SEAPSUTWorkflow::sea_cols`.
-#' @param primary The string "Primary", representing the Primary stage of the energy conversion chain, see `IEATools::all_stages`.
-#' @param all The string "All", indicating that one or both of `flow` and `product` were aggregated.
-#' @param product The string "Product", indicating that calculate_p_ex_product calls `Recca::primary_aggregates` by product.
+#' @param country_colname,method_colname,energy_type_colname,year_colname See `IEATools::iea_cols`.
+#' @param flow_colname,e_product_colname,stage_colname,gross_net_colname,agg_by_colname,p_ind_comp_colname,p_ind_prefix_colname,ex_colname,ex_p_colname See `SEAPSUTWorkflow::sea_cols`.
+#' @param primary_value The string "Primary", representing the Primary stage of the energy conversion chain, see `IEATools::all_stages`.
+#' @param all_value,product_value See `SEAPSUTWorkflow::agg_metadata`.
 #'
 #' @return A data frame containing aggregate primary energy/exergy data by product
 #' @export
@@ -126,22 +124,22 @@ calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
 #'                                               p_industry_prefixes = c("Resources", "Imports"))
 #'
 calculate_p_ex_product <- function(.sutdata, p_industry_prefixes,
-                                   country = IEATools::iea_cols$country,
-                                   method = IEATools::iea_cols$method,
-                                   energy_type = IEATools::iea_cols$energy_type,
-                                   year = IEATools::iea_cols$year,
-                                   flow = IEATools::iea_cols$flow,
-                                   e_product = SEAPSUTWorkflow::sea_cols$e_product,
-                                   stage_col = SEAPSUTWorkflow::sea_cols$stage_col,
-                                   gross_net = SEAPSUTWorkflow::sea_cols$gross_net,
-                                   agg_by = SEAPSUTWorkflow::sea_cols$agg_by,
-                                   p_ind_comp = SEAPSUTWorkflow::sea_cols$p_ind_comp,
-                                   p_ind_prefix = SEAPSUTWorkflow::sea_cols$p_ind_prefix,
-                                   ex = SEAPSUTWorkflow::sea_cols$ex,
-                                   ex_p = SEAPSUTWorkflow::sea_cols$ex_p,
-                                   primary = IEATools::all_stages$primary,
-                                   all = "All",
-                                   product = "Product"
+                                   country_colname = IEATools::iea_cols$country,
+                                   method_colname = IEATools::iea_cols$method,
+                                   energy_type_colname = IEATools::iea_cols$energy_type,
+                                   year_colname = IEATools::iea_cols$year,
+                                   flow_colname = SEAPSUTWorkflow::sea_cols$flow_colname,
+                                   e_product_colname = SEAPSUTWorkflow::sea_cols$e_product_colname,
+                                   stage_colname = SEAPSUTWorkflow::sea_cols$stage_colname,
+                                   gross_net_colname = SEAPSUTWorkflow::sea_cols$gross_net_colname,
+                                   agg_by_colname = SEAPSUTWorkflow::sea_cols$agg_by_colname,
+                                   p_ind_comp_colname = SEAPSUTWorkflow::sea_cols$p_ind_comp_colname,
+                                   p_ind_prefix_colname = SEAPSUTWorkflow::sea_cols$p_ind_prefix_colname,
+                                   ex_colname = SEAPSUTWorkflow::sea_cols$ex_colname,
+                                   ex_p_colname = SEAPSUTWorkflow::sea_cols$ex_p_colname,
+                                   primary_value = IEATools::all_stages$primary,
+                                   all_value = SEAPSUTWorkflow::agg_metadata$all_value,
+                                   product_value = SEAPSUTWorkflow::agg_metadata$product_value
 ) {
 
   library(matsbyname)
@@ -149,39 +147,39 @@ calculate_p_ex_product <- function(.sutdata, p_industry_prefixes,
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
   PSUT_DF_p <- .sutdata %>%
-    dplyr::mutate("{p_ind_prefix}" := p_industry_prefixes) %>%
+    dplyr::mutate("{p_ind_prefix_colname}" := p_industry_prefixes) %>%
     Recca::find_p_industry_names() %>%
-    dplyr::relocate(.data[[p_ind_comp]], .after = .data[[p_ind_prefix]])
+    dplyr::relocate(.data[[p_ind_comp_colname]], .after = .data[[p_ind_prefix_colname]])
 
   # Removes duplicate entries. Primary energy/exergy is the same regardless of whether
   # it is at the final, useful, or services stage as it is calculated from the same matrices
   PSUT_DF_p <- PSUT_DF_p %>%
-    dplyr::distinct(.data[[country]], .data[[method]], .data[[energy_type]], .data[[year]], .keep_all = TRUE)
+    dplyr::distinct(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .keep_all = TRUE)
 
   # Call Recca::primary_aggregates() to obtain the IEA version of aggregate primary energy
   # from the R, V, and Y matrices (which includes imported final energy, effect of bunkers),
   p_product <- Recca::primary_aggregates(.sutdata = PSUT_DF_p,
-                                         p_industries = p_ind_comp,
-                                         by = product) %>%
-    dplyr::select(.data[[country]], .data[[method]], .data[[energy_type]], .data[[year]], .data[[ex_p]]) %>%
-    magrittr::set_colnames(c(country, method, energy_type, year, ex))
+                                         p_industries = p_ind_comp_colname,
+                                         by = product_value) %>%
+    dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .data[[ex_p_colname]]) %>%
+    magrittr::set_colnames(c(country_colname, method_colname, energy_type_colname, year_colname, ex_colname))
 
   # Expands matrices
   p_product_expanded <- p_product %>%
-    matsindf::expand_to_tidy(matvals = ex,
-                             rownames = e_product) %>%
+    matsindf::expand_to_tidy(matvals = ex_colname,
+                             rownames = e_product_colname) %>%
     dplyr::select(-colnames, -rowtypes, -coltypes)
 
   # Add additional metadata columns
   p_product_expanded <- p_product_expanded %>%
-    dplyr::mutate("{stage_col}" := primary,
-                  "{gross_net}" := NA,
-                  "{flow}" := all,
-                  "{agg_by}" := product,
-                  "{ex}" := as.numeric(.data[[ex]])) %>%
-    dplyr::relocate(.data[[e_product]], .after = .data[[gross_net]]) %>%
-    dplyr::relocate(.data[[year]], .after = .data[[agg_by]]) %>%
-    dplyr::relocate(.data[[ex]], .after = .data[[year]])
+    dplyr::mutate("{stage_colname}" := primary_value,
+                  "{gross_net_colname}" := NA,
+                  "{flow_colname}" := all_value,
+                  "{agg_by_colname}" := product_value,
+                  "{ex_colname}" := as.numeric(.data[[ex_colname]])) %>%
+    dplyr::relocate(.data[[e_product_colname]], .after = .data[[gross_net_colname]]) %>%
+    dplyr::relocate(.data[[year_colname]], .after = .data[[agg_by_colname]]) %>%
+    dplyr::relocate(.data[[ex_colname]], .after = .data[[year_colname]])
 
   return(p_product_expanded)
 
@@ -203,10 +201,10 @@ calculate_p_ex_product <- function(.sutdata, p_industry_prefixes,
 #'                 matrices.
 #' @param p_industry_prefixes A character vector of primary energy industry prefixes.
 #'                            Usually "Resources", "Imports", and "Stock changes".
-#' @param country,method,energy_type,year,flow See `IEATools::iea_cols`.
-#' @param e_product,stage_col,gross_net,agg_by,p_ind_comp,p_ind_prefix,ex,ex_p See `SEAPSUTWorkflow::sea_cols`.
-#' @param primary The string "Primary", representing the Primary stage of the energy conversion chain, see `IEATools::all_stages`.
-#' @param all The string "All", indicating that one or both of `flow` and `product` were aggregated.
+#' @param country_colname,method_colname,energy_type_colname,year_colname See `IEATools::iea_cols`.
+#' @param flow_colname,e_product_colname,stage_colname,gross_net_colname,agg_by_colname,p_ind_comp_colname,p_ind_prefix_colname,ex_colname,ex_p_colname See `SEAPSUTWorkflow::sea_cols`.
+#' @param primary_value The string "Primary", representing the Primary stage of the energy conversion chain, see `IEATools::all_stages`.
+#' @param all_value,flow_value See `SEAPSUTWorkflow::agg_metadata`.
 #'
 #' @return A data frame containing aggregate primary energy/exergy data by flow
 #' @export
@@ -217,60 +215,62 @@ calculate_p_ex_product <- function(.sutdata, p_industry_prefixes,
 #'                                            p_industry_prefixes = c("Resources", "Imports"))
 #'
 calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes,
-                                country = IEATools::iea_cols$country,
-                                method = IEATools::iea_cols$method,
-                                energy_type = IEATools::iea_cols$energy_type,
-                                year = IEATools::iea_cols$year,
-                                flow = IEATools::iea_cols$flow,
-                                e_product = SEAPSUTWorkflow::sea_cols$e_product,
-                                stage_col = SEAPSUTWorkflow::sea_cols$stage_col,
-                                gross_net = SEAPSUTWorkflow::sea_cols$gross_net,
-                                agg_by = SEAPSUTWorkflow::sea_cols$agg_by,
-                                p_ind_comp = SEAPSUTWorkflow::sea_cols$p_ind_comp,
-                                p_ind_prefix = SEAPSUTWorkflow::sea_cols$p_ind_prefix,
-                                ex = SEAPSUTWorkflow::sea_cols$ex,
-                                ex_p = SEAPSUTWorkflow::sea_cols$ex_p,
-                                primary = IEATools::all_stages$primary,
-                                all = "All") {
+                                country_colname = IEATools::iea_cols$country,
+                                method_colname = IEATools::iea_cols$method,
+                                energy_type_colname = IEATools::iea_cols$energy_type,
+                                year_colname = IEATools::iea_cols$year,
+                                flow_colname = SEAPSUTWorkflow::sea_cols$flow_colname,
+                                e_product_colname = SEAPSUTWorkflow::sea_cols$e_product_colname,
+                                stage_colname = SEAPSUTWorkflow::sea_cols$stage_colname,
+                                gross_net_colname = SEAPSUTWorkflow::sea_cols$gross_net_colname,
+                                agg_by_colname = SEAPSUTWorkflow::sea_cols$agg_by_colname,
+                                p_ind_comp_colname = SEAPSUTWorkflow::sea_cols$p_ind_comp_colname,
+                                p_ind_prefix_colname = SEAPSUTWorkflow::sea_cols$p_ind_prefix_colname,
+                                ex_colname = SEAPSUTWorkflow::sea_cols$ex_colname,
+                                ex_p_colname = SEAPSUTWorkflow::sea_cols$ex_p_colname,
+                                primary_value = IEATools::all_stages$primary,
+                                all_value = SEAPSUTWorkflow::agg_metadata$all_value,
+                                flow_value = SEAPSUTWorkflow::agg_metadata$flow_value
+                                ) {
 
   library(matsbyname)
 
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
   PSUT_DF_p <- .sutdata %>%
-    dplyr::mutate("{p_ind_prefix}" := p_industry_prefixes) %>%
+    dplyr::mutate("{p_ind_prefix_colname}" := p_industry_prefixes) %>%
     Recca::find_p_industry_names() %>%
-    dplyr::relocate(.data[[p_ind_comp]], .after = .data[[p_ind_comp]])
+    dplyr::relocate(.data[[p_ind_comp_colname]], .after = .data[[p_ind_prefix_colname]])
 
   # Removes duplicate entries. Primary energy/exergy is the same regardless of whether
   # it is at the final, useful, or services stage as it is calculated from the same matrices
   PSUT_DF_p <- PSUT_DF_p %>%
-    dplyr::distinct(.data[[country]], .data[[method]], .data[[energy_type]], .data[[year]], .keep_all = TRUE)
+    dplyr::distinct(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .keep_all = TRUE)
 
   # Call Recca::primary_aggregates() to obtain the IEA version of aggregate primary energy
   # from the R, V, and Y matrices (which includes imported final energy, effect of bunkers),
   p_flow <- Recca::primary_aggregates(.sutdata = PSUT_DF_p,
-                                      p_industries = p_ind_comp,
-                                      by = flow) %>%
-    dplyr::select(.data[[country]], .data[[method]], .data[[energy_type]], .data[[year]], .data[[ex_p]]) %>%
-    magrittr::set_colnames(c(country, method, energy_type, year, ex))
+                                      p_industries = p_ind_comp_colname,
+                                      by = flow_colname) %>%
+    dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[year_colname]], .data[[ex_p_colname]]) %>%
+    magrittr::set_colnames(c(country_colname, method_colname, energy_type_colname, year_colname, ex_colname))
 
   # Expands matrices
   p_flow_expanded <- p_flow %>%
-    matsindf::expand_to_tidy(matvals = ex,
-                             colnames = flow) %>%
+    matsindf::expand_to_tidy(matvals = ex_colname,
+                             colnames = flow_colname) %>% # Check
     dplyr::select(-rownames, -rowtypes, -coltypes)
 
   # Add additional metadata columns
   p_flow_expanded <- p_flow_expanded %>%
-    dplyr::mutate("{stage_col}" := primary,
-                  "{gross_net}" := NA,
-                  "{e_product}" := all,
-                  "{agg_by}" := Flow,
-                  "{ex}" := as.numeric(.data[[ex]])) %>%
-    dplyr::relocate(.data[[flow]], .after = .data[[e_product]]) %>%
-    dplyr::relocate(.data[[year]], .after = .data[[agg_by]]) %>%
-    dplyr::relocate(.data[[ex]], .after = .data[[year]])
+    dplyr::mutate("{stage_colname}" := primary_value,
+                  "{gross_net_colname}" := NA,
+                  "{e_product_colname}" := all_value,
+                  "{agg_by_colname}" := flow_value,
+                  "{ex_colname}" := as.numeric(.data[[ex_colname]])) %>%
+    dplyr::relocate(.data[[flow_colname]], .after = .data[[e_product_colname]]) %>%
+    dplyr::relocate(.data[[year_colname]], .after = .data[[agg_by_colname]]) %>%
+    dplyr::relocate(.data[[ex_colname]], .after = .data[[year_colname]])
 
   return(p_flow_expanded)
 
@@ -291,12 +291,10 @@ calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes,
 #'                 matrices with associated final demand sector names
 #' @param fd_sectors A character vector of final demand sectors.
 #'
-#' @param country,method,energy_type,last_stage,year,flow See `IEATools::iea_cols`.
-#' @param e_product,stage_col,gross_net,agg_by,ex,ex_net,ex_gross See `SEAPSUTWorkflow::sea_cols`.
-#' @param net The string "Net" indicating that the final demand aggregate values include only non-energy industry own use sectors supplied in `fd-sectors`.
-#' @param gross The string "Gross" indicating that the final demand aggregate value includes all sectors stipulated in supplied in `fd_sectors`.
-#' @param all The string "All", indicating that one or both of `flow` and `product` were aggregated.
-#' @param total The string "Total", indicating that calculate_fu_ex_total calls `Recca::finaldemand_aggregates` by total.
+#' @param country_colname,method_colname,energy_type_colname,last_stage_colname,year_colname See `IEATools::iea_cols`.
+#' @param sector_colname,fd_sectors_colname,e_product_colname,stage_colname,gross_net_colname,agg_by_colname,ex_colname,ex_net_colname,ex_gross_colname See `SEAPSUTWorkflow::sea_cols`.
+#' @param net_value,gross_value See `SEAPSUTWorkflow::gross_net_metadata`.
+#' @param all_value,total_value See `SEAPSUTWorkflow::agg_metadata`.
 #'
 #' @return A data frame containing aggregate final and useful energy/exergy data by total
 #' @export
@@ -307,24 +305,24 @@ calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes,
 #'                                    fd_sectors = c("Residential"))
 #'
 calculate_fu_ex_total <- function(.sutdata, fd_sectors,
-                                  country = IEATools::iea_cols$country,
-                                  method = IEATools::iea_cols$method,
-                                  energy_type = IEATools::iea_cols$energy_type,
-                                  last_stage = IEATools::iea_cols$last_stage,
-                                  year = IEATools::iea_cols$year,
-                                  sector = "Sector",
-                                  fd_sectors_col = SEAPSUTWorkflow::sea_cols$fd_sectors_col,
-                                  e_product = SEAPSUTWorkflow::sea_cols$e_product,
-                                  stage_col = SEAPSUTWorkflow::sea_cols$stage_col,
-                                  gross_net = SEAPSUTWorkflow::sea_cols$gross_net,
-                                  agg_by = SEAPSUTWorkflow::sea_cols$agg_by,
-                                  ex = SEAPSUTWorkflow::sea_cols$ex,
-                                  ex_net = SEAPSUTWorkflow::sea_cols$ex_net,
-                                  ex_gross = SEAPSUTWorkflow::sea_cols$ex_gross,
-                                  net = "Net",
-                                  gross = "Gross",
-                                  all = "All",
-                                  total = "Total"
+                                  country_colname = IEATools::iea_cols$country,
+                                  method_colname = IEATools::iea_cols$method,
+                                  energy_type_colname = IEATools::iea_cols$energy_type,
+                                  last_stage_colname = IEATools::iea_cols$last_stage,
+                                  year_colname = IEATools::iea_cols$year,
+                                  sector_colname = SEAPSUTWorkflow::sea_cols$sector_colname,
+                                  fd_sectors_colname = SEAPSUTWorkflow::sea_cols$fd_sectors_colname,
+                                  e_product_colname = SEAPSUTWorkflow::sea_cols$e_product_colname,
+                                  stage_colname = SEAPSUTWorkflow::sea_cols$stage_colname,
+                                  gross_net_colname = SEAPSUTWorkflow::sea_cols$gross_net_colname,
+                                  agg_by_colname = SEAPSUTWorkflow::sea_cols$agg_by_colname,
+                                  ex_colname = SEAPSUTWorkflow::sea_cols$ex_colname,
+                                  ex_net_colname = SEAPSUTWorkflow::sea_cols$ex_net_colname,
+                                  ex_gross_colname = SEAPSUTWorkflow::sea_cols$ex_gross_colname,
+                                  net_value = SEAPSUTWorkflow::gross_net_metadata$net_value,
+                                  gross_value = SEAPSUTWorkflow::gross_net_metadata$gross_value,
+                                  all_value = SEAPSUTWorkflow::agg_metadata$all_value,
+                                  total_value = SEAPSUTWorkflow::agg_metadata$total_value
                                   ) {
 
   library(matsbyname)
@@ -335,29 +333,28 @@ calculate_fu_ex_total <- function(.sutdata, fd_sectors,
   # Adds a column which each observation containing the list of final demand sectors
   PSUT_DF_fu <- .sutdata %>%
     dplyr::mutate(
-      "{fd_sectors_col}" := fd_sector_list
+      "{fd_sectors_colname}" := fd_sector_list
     )
 
   # Calculates final demand by total
-  fu_total <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF_fu, fd_sectors = fd_sectors_col, by = total) %>%
-    dplyr::select(.data[[country]], .data[[method]], .data[[energy_type]], .data[[last_stage]], .data[[year]], .data[[ex_net]], .data[[ex_gross]]) %>%
-    magrittr::set_colnames(c(country, method, energy_type, stage, year, ex_net, ex_gross)) %>%
-    tidyr::pivot_longer(cols = ex_net:ex_gross, # EX.d_net:EX.d_gross # .data[[ex_net:ex_gross]] # .data[[ex_net]]:.data[[ex_gross]]
-                        names_to = gross_net,
-                        values_to = ex) %>%
-    dplyr::mutate("{gross_net}" := stringr::str_replace(.data[[gross_net]], ex_net, net)) %>%
-    dplyr::mutate("{gross_net}" := stringr::str_replace(.data[[gross_net]], ex_gross, gross)) %>%
-    dplyr::relocate(.data[[gross_net]], .after = .data[[stage_col]])
+  fu_total <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF_fu, fd_sectors = fd_sectors_colname, by = total_value) %>%
+    dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[last_stage_colname]], .data[[year_colname]], .data[[ex_net_colname]], .data[[ex_gross_colname]]) %>%
+    magrittr::set_colnames(c(country_colname, method_colname, energy_type_colname, stage_colname, year_colname, ex_net_colname, ex_gross_colname)) %>%
+    tidyr::pivot_longer(cols = ex_net_colname:ex_gross_colname, # EX.d_net:EX.d_gross # .data[[ex_net:ex_gross]] # .data[[ex_net]]:.data[[ex_gross]]
+                        names_to = gross_net_colname,
+                        values_to = ex_colname) %>%
+    dplyr::mutate("{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_net_colname, net_value)) %>%
+    dplyr::mutate("{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_gross_colname, gross_value)) %>%
+    dplyr::relocate(.data[[gross_net_colname]], .after = .data[[stage_colname]])
 
   # Add additional metadata columns
   fu_total <- fu_total %>%
-    dplyr::mutate("{e_product}" := all,
-                  "{sector}" := all,
-                  "{agg_by}" := total,
-                  "{ex}" := as.numeric(.data[[ex]]))
-  # %>%
-  #   dplyr::relocate(.data[[year]], .after = .data[[agg_by]]) %>%
-  #   dplyr::relocate(.data[[ex]], .after = .data[[year]])
+    dplyr::mutate("{e_product_colname}" := all_value,
+                  "{sector_colname}" := all_value,
+                  "{agg_by_colname}" := total_value,
+                  "{ex_colname}" := as.numeric(.data[[ex_colname]])) %>%
+    dplyr::relocate(.data[[year_colname]], .after = .data[[agg_by_colname]]) %>%
+    dplyr::relocate(.data[[ex_colname]], .after = .data[[year_colname]])
 
   return(fu_total)
 
@@ -379,12 +376,10 @@ calculate_fu_ex_total <- function(.sutdata, fd_sectors,
 #'                 matrices with associated final demand sector names
 #' @param fd_sectors A character vector of final demand sectors.
 #'
-#' @param country,method,energy_type,last_stage,year,flow See `IEATools::iea_cols`.
-#' @param e_product,stage_col,gross_net,agg_by,ex,ex_net,ex_gross See `SEAPSUTWorkflow::sea_cols`.
-#' @param net The string "Net" indicating that the final demand aggregate values include only non-energy industry own use sectors supplied in `fd-sectors`.
-#' @param gross The string "Gross" indicating that the final demand aggregate value includes all sectors stipulated in supplied in `fd_sectors`.
-#' @param all The string "All", indicating that one or both of `flow` and `product` were aggregated.
-#' @param product The string "Product", indicating that calculate_fu_ex_product calls `Recca::finaldemand_aggregates` by product.
+#' @param country_colname,method_colname,energy_type_colname,last_stage_colname,year_colname See `IEATools::iea_cols`.
+#' @param sector_colname,fd_sectors_colname,e_product_colname,stage_colname,gross_net_colname,agg_by_colname,ex_colname,ex_net_colname,ex_gross_colname See `SEAPSUTWorkflow::sea_cols`.
+#' @param net_value,gross_value See `SEAPSUTWorkflow::gross_net_metadata`.
+#' @param all_value,product_value See `SEAPSUTWorkflow::agg_metadata`.
 #'
 #' @return A data frame containing aggregate final and useful energy/exergy data by product
 #' @export
@@ -395,24 +390,25 @@ calculate_fu_ex_total <- function(.sutdata, fd_sectors,
 #'                                        fd_sectors = c("Residential"))
 #'
 calculate_fu_ex_product <- function(.sutdata, fd_sectors,
-                                    country = IEATools::iea_cols$country,
-                                    method = IEATools::iea_cols$method,
-                                    energy_type = IEATools::iea_cols$energy_type,
-                                    last_stage = IEATools::iea_cols$last_stage,
-                                    year = IEATools::iea_cols$year,
-                                    sector = "Sector",
-                                    fd_sectors_col = SEAPSUTWorkflow::sea_cols$fd_sectors_col,
-                                    e_product = SEAPSUTWorkflow::sea_cols$e_product,
-                                    stage_col = SEAPSUTWorkflow::sea_cols$stage_col,
-                                    gross_net = SEAPSUTWorkflow::sea_cols$gross_net,
-                                    agg_by = SEAPSUTWorkflow::sea_cols$agg_by,
-                                    ex = SEAPSUTWorkflow::sea_cols$ex,
-                                    ex_net = SEAPSUTWorkflow::sea_cols$ex_net,
-                                    ex_gross = SEAPSUTWorkflow::sea_cols$ex_gross,
-                                    net = "Net",
-                                    gross = "Gross",
-                                    all = "All",
-                                    product = "Product") {
+                                    country_colname = IEATools::iea_cols$country,
+                                    method_colname = IEATools::iea_cols$method,
+                                    energy_type_colname = IEATools::iea_cols$energy_type,
+                                    last_stage_colname = IEATools::iea_cols$last_stage,
+                                    year_colname = IEATools::iea_cols$year,
+                                    sector_colname = SEAPSUTWorkflow::sea_cols$sector_colname,
+                                    fd_sectors_colname = SEAPSUTWorkflow::sea_cols$fd_sectors_colname,
+                                    e_product_colname = SEAPSUTWorkflow::sea_cols$e_product_colname,
+                                    stage_colname = SEAPSUTWorkflow::sea_cols$stage_colname,
+                                    gross_net_colname = SEAPSUTWorkflow::sea_cols$gross_net_colname,
+                                    agg_by_colname = SEAPSUTWorkflow::sea_cols$agg_by_colname,
+                                    ex_colname = SEAPSUTWorkflow::sea_cols$ex_colname,
+                                    ex_net_colname = SEAPSUTWorkflow::sea_cols$ex_net_colname,
+                                    ex_gross_colname = SEAPSUTWorkflow::sea_cols$ex_gross_colname,
+                                    net_value = SEAPSUTWorkflow::gross_net_metadata$net_value,
+                                    gross_value = SEAPSUTWorkflow::gross_net_metadata$gross_value,
+                                    all_value = SEAPSUTWorkflow::agg_metadata$all_value,
+                                    product_value = SEAPSUTWorkflow::agg_metadata$product_value
+                                    ) {
 
   library(matsbyname)
 
@@ -421,32 +417,32 @@ calculate_fu_ex_product <- function(.sutdata, fd_sectors,
 
   # Adds a column which each observation containing the list of final demand sectors
   PSUT_DF_fu <- .sutdata %>%
-    dplyr::mutate("{fd_sectors_col}" := fd_sector_list)
+    dplyr::mutate("{fd_sectors_colname}" := fd_sector_list)
 
   # Calculates final demand by _product
-  fu_product <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF_fu, fd_sectors = fd_sectors_col, by = product) %>%
-    dplyr::select(.data[[country]], .data[[method]], .data[[energy_type]], .data[[last_stage]], .data[[year]], .data[[ex_net]], .data[[ex_gross]]) %>%
-    magrittr::set_colnames(c(country, method, energy_type, stage, year, ex_net, ex_gross)) %>%
-    tidyr::pivot_longer(cols = ex_net:ex_gross, # EX.d_net:EX.d_gross # .data[[ex_net:ex_gross]] # .data[[ex_net]]:.data[[ex_gross]]
-                        names_to = gross_net,
-                        values_to = ex) %>%
-    dplyr::mutate("{gross_net}" := stringr::str_replace(.data[[gross_net]], ex_net, net)) %>%
-    dplyr::mutate("{gross_net}" := stringr::str_replace(.data[[gross_net]], ex_gross, gross)) %>%
-    dplyr::relocate(.data[[gross_net]], .after = .data[[stage_col]])
+  fu_product <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF_fu, fd_sectors = fd_sectors_colname, by = product_value) %>%
+    dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[last_stage_colname]], .data[[year_colname]], .data[[ex_net_colname]], .data[[ex_gross_colname]]) %>%
+    magrittr::set_colnames(c(country_colname, method_colname, energy_type_colname, stage_colname, year_colname, ex_net_colname, ex_gross_colname)) %>%
+    tidyr::pivot_longer(cols = ex_net_colname:ex_gross_colname, # EX.d_net:EX.d_gross # .data[[ex_net:ex_gross]] # .data[[ex_net]]:.data[[ex_gross]]
+                        names_to = gross_net_colname,
+                        values_to = ex_colname) %>%
+    dplyr::mutate("{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_net_colname, net_value)) %>%
+    dplyr::mutate("{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_gross_colname, gross_value)) %>%
+    dplyr::relocate(.data[[gross_net_colname]], .after = .data[[stage_colname]])
 
   # Expands matrices
   fu_product_expanded <- fu_product %>%
-    matsindf::expand_to_tidy(matvals = ex,
-                             rownames = e_product) %>%
+    matsindf::expand_to_tidy(matvals = ex_colname,
+                             rownames = e_product_colname) %>%
     dplyr::select(-colnames, -rowtypes, -coltypes)
 
   # Add additional metadata columns
   fu_product_expanded <- fu_product_expanded %>%
-    dplyr::mutate("{sector}" := all,
-                  "{agg_by}" = product,
-                  "{ex}" := as.numeric(.data[[ex]]))
-
-    # dplyr::relocate(.data[[e_product]], .after = .data[[gross_net]])
+    dplyr::mutate("{sector_colname}" := all_value,
+                  "{agg_by_colname}" := product_value,
+                  "{ex_colname}" := as.numeric(.data[[ex_colname]])) %>%
+    dplyr::relocate(.data[[year_colname]], .after = .data[[agg_by_colname]]) %>%
+    dplyr::relocate(.data[[ex_colname]], .after = .data[[year_colname]])
 
 
   return(fu_product_expanded)
@@ -468,12 +464,10 @@ calculate_fu_ex_product <- function(.sutdata, fd_sectors,
 #'                 matrices with associated final demand sector names
 #' @param fd_sectors A character vector of final demand sectors.
 #'
-#' @param country,method,energy_type,last_stage,year,flow See `IEATools::iea_cols`.
-#' @param e_product,stage_col,gross_net,agg_by,ex,ex_net,ex_gross See `SEAPSUTWorkflow::sea_cols`.
-#' @param net The string "Net" indicating that the final demand aggregate values include only non-energy industry own use sectors supplied in `fd-sectors`.
-#' @param gross The string "Gross" indicating that the final demand aggregate value includes all sectors stipulated in supplied in `fd_sectors`.
-#' @param all The string "All", indicating that one or both of `flow` and `product` were aggregated.
-#' @param sector The string "Product", indicating that calculate_fu_ex_sector calls `Recca::finaldemand_aggregates` by sector.
+#' @param country_colname,method_colname,energy_type_colname,last_stage_colname,year_colname See `IEATools::iea_cols`.
+#' @param sector_colname,fd_sectors_colname,e_product_colname,stage_colname,gross_net_colname,agg_by_colname,ex_colname,ex_net_colname,ex_gross_colname See `SEAPSUTWorkflow::sea_cols`.
+#' @param net_value,gross_value See `SEAPSUTWorkflow::gross_net_metadata`.
+#' @param all_value,sector_value See `SEAPSUTWorkflow::agg_metadata`.
 #'
 #' @return A data frame containing total final and useful consumption by sector
 #' @export
@@ -484,23 +478,25 @@ calculate_fu_ex_product <- function(.sutdata, fd_sectors,
 #'                                      fd_sectors = c("Residential"))
 #'
 calculate_fu_ex_sector <- function(.sutdata, fd_sectors,
-                                   country = IEATools::iea_cols$country,
-                                   method = IEATools::iea_cols$method,
-                                   energy_type = IEATools::iea_cols$energy_type,
-                                   last_stage = IEATools::iea_cols$last_stage,
-                                   year = IEATools::iea_cols$year,
-                                   sector = "Sector",
-                                   fd_sectors_col = SEAPSUTWorkflow::sea_cols$fd_sectors_col,
-                                   e_product = SEAPSUTWorkflow::sea_cols$e_product,
-                                   stage_col = SEAPSUTWorkflow::sea_cols$stage_col,
-                                   gross_net = SEAPSUTWorkflow::sea_cols$gross_net,
-                                   agg_by = SEAPSUTWorkflow::sea_cols$agg_by,
-                                   ex = SEAPSUTWorkflow::sea_cols$ex,
-                                   ex_net = SEAPSUTWorkflow::sea_cols$ex_net,
-                                   ex_gross = SEAPSUTWorkflow::sea_cols$ex_gross,
-                                   net = "Net",
-                                   gross = "Gross",
-                                   all = "All") {
+                                   country_colname = IEATools::iea_cols$country,
+                                   method_colname = IEATools::iea_cols$method,
+                                   energy_type_colname = IEATools::iea_cols$energy_type,
+                                   last_stage_colname = IEATools::iea_cols$last_stage,
+                                   year_colname = IEATools::iea_cols$year,
+                                   sector_colname = SEAPSUTWorkflow::sea_cols$sector_colname,
+                                   fd_sectors_colname = SEAPSUTWorkflow::sea_cols$fd_sectors_colname,
+                                   e_product_colname = SEAPSUTWorkflow::sea_cols$e_product_colname,
+                                   stage_colname = SEAPSUTWorkflow::sea_cols$stage_colname,
+                                   gross_net_colname = SEAPSUTWorkflow::sea_cols$gross_net_colname,
+                                   agg_by_colname = SEAPSUTWorkflow::sea_cols$agg_by_colname,
+                                   ex_colname = SEAPSUTWorkflow::sea_cols$ex_colname,
+                                   ex_net_colname = SEAPSUTWorkflow::sea_cols$ex_net_colname,
+                                   ex_gross_colname = SEAPSUTWorkflow::sea_cols$ex_gross_colname,
+                                   net_value = SEAPSUTWorkflow::gross_net_metadata$net_value,
+                                   gross_value = SEAPSUTWorkflow::gross_net_metadata$gross_value,
+                                   all_value = SEAPSUTWorkflow::agg_metadata$all_value,
+                                   sector_value = SEAPSUTWorkflow::agg_metadata$sector_value
+                                   ) {
 
   library(matsbyname)
 
@@ -509,23 +505,23 @@ calculate_fu_ex_sector <- function(.sutdata, fd_sectors,
 
   # Adds a column which each observation containing the list of final demand sectors
   PSUT_DF_fu <- .sutdata %>%
-    dplyr::mutate("{fd_sectors_col}" := fd_sector_list)
+    dplyr::mutate("{fd_sectors_colname}" := fd_sector_list)
 
   # Calculates final demand by _product
-  fu_sector <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF_fu, fd_sectors = fd_sectors_col, by = sector) %>%
-    dplyr::select(.data[[country]], .data[[method]], .data[[energy_type]], .data[[last_stage]], .data[[year]], .data[[ex_net]], .data[[ex_gross]]) %>%
-    magrittr::set_colnames(c(country, method, energy_type, stage, year, ex_net, ex_gross)) %>%
-    tidyr::pivot_longer(cols = ex_net:ex_gross, # EX.d_net:EX.d_gross # .data[[ex_net:ex_gross]] # .data[[ex_net]]:.data[[ex_gross]]
-                        names_to = gross_net,
-                        values_to = ex) %>%
-    dplyr::mutate("{gross_net}" := stringr::str_replace(.data[[gross_net]], ex_net, net)) %>%
-    dplyr::mutate("{gross_net}" := stringr::str_replace(.data[[gross_net]], ex_gross, gross)) %>%
-    dplyr::relocate(.data[[gross_net]], .after = .data[[stage]])
+  fu_sector <- Recca::finaldemand_aggregates(.sutdata = PSUT_DF_fu, fd_sectors = fd_sectors_colname, by = sector_value) %>%
+    dplyr::select(.data[[country_colname]], .data[[method_colname]], .data[[energy_type_colname]], .data[[last_stage_colname]], .data[[year_colname]], .data[[ex_net_colname]], .data[[ex_gross_colname]]) %>%
+    magrittr::set_colnames(c(country_colname, method_colname, energy_type_colname, stage_colname, year_colname, ex_net_colname, ex_gross_colname)) %>%
+    tidyr::pivot_longer(cols = ex_net_colname:ex_gross_colname, # EX.d_net:EX.d_gross # .data[[ex_net:ex_gross]] # .data[[ex_net]]:.data[[ex_gross]]
+                        names_to = gross_net_colname,
+                        values_to = ex_colname) %>%
+    dplyr::mutate("{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_net_colname, net_value)) %>%
+    dplyr::mutate("{gross_net_colname}" := stringr::str_replace(.data[[gross_net_colname]], ex_gross_colname, gross_value)) %>%
+    dplyr::relocate(.data[[gross_net_colname]], .after = .data[[stage_colname]])
 
   # Expands matrices
   fu_sector_expanded <- fu_sector %>%
-    matsindf::expand_to_tidy(matvals = ex,
-                             rownames = sector) %>%
+    matsindf::expand_to_tidy(matvals = ex_colname,
+                             rownames = sector_colname) %>%
     dplyr::select(-colnames, -rowtypes, -coltypes)
 
   # Asserts that the length of the character vector containing the sectors present
@@ -539,12 +535,12 @@ calculate_fu_ex_sector <- function(.sutdata, fd_sectors,
 
   # Add additional metadata columns
   fu_sector_expanded <- fu_sector_expanded %>%
-    dplyr::mutate("{e_product}" := all,
-                  "{agg_by}" := sector,
-                  "{ex}" := as.numeric(.data[[ex]]))
-
-
-    # dplyr::relocate(Sector, .after = "Gross.Net") %>%
+    dplyr::mutate("{e_product_colname}" := all_value,
+                  "{agg_by_colname}" := sector_value,
+                  "{ex_colname}" := as.numeric(.data[[ex_colname]])) %>%
+    dplyr::relocate(.data[[sector_colname]], .after = .data[[e_product_colname]]) %>%
+    dplyr::relocate(.data[[year_colname]], .after = .data[[agg_by_colname]]) %>%
+    dplyr::relocate(.data[[ex_colname]], .after = .data[[year_colname]])
 
   return(fu_sector_expanded)
 
@@ -571,8 +567,8 @@ calculate_fu_ex_sector <- function(.sutdata, fd_sectors,
 #'
 #' @examples
 #' library(Recca)
-#' all_data <- calculate_primary_ex_data(.sutdata = Recca::UKEnergy2000mats,
-#'                                       p_industry_prefixes = c("Resources"))
+#' primary_data <- calculate_primary_ex_data(.sutdata = Recca::UKEnergy2000mats,
+#'                                           p_industry_prefixes = c("Resources"))
 #'
 calculate_primary_ex_data <- function(.sutdata, p_industry_prefixes) {
 
@@ -619,8 +615,8 @@ calculate_primary_ex_data <- function(.sutdata, p_industry_prefixes) {
 #'
 #' @examples
 #' library(Recca)
-#' all_data <- calculate_all_ex_data(.sutdata = Recca::UKEnergy2000mats,
-#'                                   fd_sectors = c("Residential"))
+#' finaluseful_data <- calculate_finaluseful_ex_data(.sutdata = Recca::UKEnergy2000mats,
+#'                                                   fd_sectors = c("Residential"))
 #'
 calculate_finaluseful_ex_data <- function(.sutdata, fd_sectors) {
 

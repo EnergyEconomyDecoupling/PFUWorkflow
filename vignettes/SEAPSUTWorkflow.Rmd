@@ -3,7 +3,7 @@ title: "SEAPSUTWorkflow"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{SEAPSUTWorkflow}
-  %\VignetteEngine{rmarkdown::render}
+  %\VignetteEngine{knit::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
