@@ -14,11 +14,12 @@
 #' countries <- c("GBR")
 #' all_pwt_data <- get_all_pwt_data(countries = countries)
 #'
-get_all_pwt_data <- function(countries) {
+get_all_pwt_data <- function(countries,
+                             isocode_colname = SEAPSUTWorkflow::socioecon_cols$isocode_colname) {
 
   # Get all pwt10 data and filter for countries in the string countries
   pwt10_data <- pwt10::pwt10.0 %>%
-    dplyr::filter(isocode %in% countries)
+    dplyr::filter(.data[[isocode_colname]] %in% countries)
 
   # Remove rownames
   rownames(pwt10_data) <- NULL
