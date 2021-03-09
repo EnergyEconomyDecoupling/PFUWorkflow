@@ -60,6 +60,6 @@ total_energy_supply <- Recca::UKEnergy2000mats \%>\%
                                             names_from = matrix.name,
                                             values_from = matrix) \%>\%
                          dplyr::mutate(Method = "PCM") \%>\%
-                         calculate_p_ex_product(p_industry_prefixes = list(c("Resources", "Imports")))
+     calculate_p_ex_product(p_industry_prefixes = list(c("Resources", "Imports")))
 
 }
