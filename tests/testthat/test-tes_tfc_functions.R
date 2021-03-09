@@ -134,7 +134,69 @@ test_that("calculate_p_ex_product() works as expected", {
   testthat::expect_equal(unique(p_product$E.product), c("Crude", "NG"))
 })
 
-# calculate_finaluseful_ex_data
 
-# calculate_primary_ex_data
+
+test_that("calculate_primary_ex_data() works as expected", {
+
+  # Create test data
+  primary_data <- calculate_primary_ex_data(.sutdata = test_sutdata, p_industry_prefixes = p_industry_prefixes)
+
+  # Check object type is equal to list
+  testthat::expect_type(primary_data, "list")
+
+  # Check column names are correct
+  testthat::expect_equal(colnames(primary_data), c("Country", "Method", "Energy.type",
+                                                   "Stage", "Gross.Net", "E.product",
+                                                   "Flow", "Aggregation.by", "Year", "EX"))
+
+  # Test that the only stage is Primary
+  testthat::expect_equal(unique(primary_data$Stage), c("Primary"))
+
+  # Test that Gross.Net contains only NA values
+  testthat::expect_equal(unique(primary_data$Gross.Net), NA)
+
+  # Check that there are three products, and that those Products are:
+  # 1) All, 2) Crude, and 3) NG
+  testthat::expect_equal(unique(primary_data$E.product), c("All", "Crude", "NG"))
+
+  # Check that there are three flows, and that those flows are:
+  # 1) All, 2) Resources - Crude, and 3) Resources - NG
+  testthat::expect_equal(unique(primary_data$Flow), c("All", "Resources - Crude", "Resources - NG"))
+
+  # Check that there are three Aggregation.by values, and that those flows are:
+  # 1) Total,
+  testthat::expect_equal(unique(primary_data$Aggregation.by), c("Total", "Flow", "Product"))
+
+})
+
+
+test_that("calculate_finaluseful_ex_data() works as expected", {
+
+  # Create test data
+  finaluseful_data <- calculate_finaluseful_ex_data(.sutdata = test_sutdata, fd_sectors = fd_sectors)
+
+  # Check object type is equal to list
+  testthat::expect_type(finaluseful_data, "list")
+
+  # Check column names are correct
+  testthat::expect_equal(colnames(finaluseful_data), c("Country", "Method", "Energy.type",
+                                                       "Stage", "Gross.Net", "E.product",
+                                                       "Sector", "Aggregation.by", "Year", "EX"))
+
+  # Test that the stages include
+  testthat::expect_equal(unique(finaluseful_data$Stage), c("Final", "Services", "Useful"))
+
+  # Test that Gross.Net contains both Gross and Net values
+  testthat::expect_equal(unique(finaluseful_data$Gross.Net), c("Net", "Gross"))
+
+  # Check that there are three sectors, and that those sectors are:
+  # 1) All, 2) Residential, and 3) Transport
+  testthat::expect_equal(unique(finaluseful_data$Sector), c("All", "Residential", "Transport"))
+
+  # Check that there are three Aggregation.by values, and that those flows are:
+  # 1) Total,
+  testthat::expect_equal(unique(finaluseful_data$Aggregation.by), c("Total", "Sector", "Product"))
+
+})
+
 
