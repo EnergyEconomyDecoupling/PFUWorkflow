@@ -4,11 +4,6 @@
 # Total final consumption (TFC) of final and useful energy/exergy
 # Primary-Final, Final-Useful, and Primary-Final efficiencies
 
-# Must load matsbyname in this function file as Recca::finaldemand_aggregates depends on matsbyname functions
-# but incuding matsbyname in imports is not enough to load the functions in matsbyname required.
-library(matsbyname)
-
-
 #' Calculate total energy supply
 #'
 #' Calculate the total energy supply (TES) in primary energy terms. This metric
@@ -57,8 +52,6 @@ calculate_p_ex_total <- function(.sutdata, p_industry_prefixes,
                                  all_value = SEAPSUTWorkflow::agg_metadata$all_value,
                                  total_value = SEAPSUTWorkflow::agg_metadata$total_value
                                  ) {
-
-  library(matsbyname)
 
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
@@ -150,8 +143,6 @@ calculate_p_ex_product <- function(.sutdata, p_industry_prefixes,
                                    all_value = SEAPSUTWorkflow::agg_metadata$all_value,
                                    product_value = SEAPSUTWorkflow::agg_metadata$product_value
 ) {
-
-  library(matsbyname)
 
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
@@ -248,8 +239,6 @@ calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes,
                                 all_value = SEAPSUTWorkflow::agg_metadata$all_value,
                                 flow_value = SEAPSUTWorkflow::agg_metadata$flow_value
                                 ) {
-
-  library(matsbyname)
 
   # Adds primary industry name prefixes to DF and creates a complete list of
   # primary industries
@@ -348,8 +337,6 @@ calculate_fu_ex_total <- function(.sutdata, fd_sectors,
                                   total_value = SEAPSUTWorkflow::agg_metadata$total_value
                                   ) {
 
-  library(matsbyname)
-
   # Creates a list of the final demand sector list equal to the length of the supplied data frame
   fd_sector_list <- create_fd_sectors_list(fd_sectors = fd_sectors, .sutdata = .sutdata)
 
@@ -443,8 +430,6 @@ calculate_fu_ex_product <- function(.sutdata, fd_sectors,
                                     all_value = SEAPSUTWorkflow::agg_metadata$all_value,
                                     product_value = SEAPSUTWorkflow::agg_metadata$product_value
                                     ) {
-
-  library(matsbyname)
 
   # Creates a list of final demand sectors
   fd_sector_list <- create_fd_sectors_list(fd_sectors = fd_sectors, .sutdata = .sutdata)
@@ -545,8 +530,6 @@ calculate_fu_ex_sector <- function(.sutdata, fd_sectors,
                                    sector_value = SEAPSUTWorkflow::agg_metadata$sector_value
                                    ) {
 
-  library(matsbyname)
-
   # Creates a list of final demand sectors
   fd_sector_list <- create_fd_sectors_list(fd_sectors = fd_sectors, .sutdata = .sutdata)
 
@@ -632,8 +615,6 @@ calculate_fu_ex_sector <- function(.sutdata, fd_sectors,
 #'
 calculate_primary_ex_data <- function(.sutdata, p_industry_prefixes) {
 
-  library(matsbyname)
-
   # Calculates total primary energy/exergy
   p_total <- calculate_p_ex_total(.sutdata = .sutdata, p_industry_prefixes = p_industry_prefixes)
 
@@ -681,10 +662,7 @@ calculate_primary_ex_data <- function(.sutdata, p_industry_prefixes) {
 #'                                          values_from = matrix) %>%
 #'                       dplyr::mutate(Method = "PCM") %>%
 #'                       calculate_finaluseful_ex_data(fd_sectors = c("Residential"))
-#'
 calculate_finaluseful_ex_data <- function(.sutdata, fd_sectors) {
-
-  library(matsbyname)
 
   # Calculates total final demand of energy/exergy
   fu_total <- calculate_fu_ex_total(.sutdata = .sutdata, fd_sectors = fd_sectors)

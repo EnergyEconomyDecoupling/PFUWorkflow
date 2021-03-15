@@ -31,5 +31,4 @@ finaluseful_data <- Recca::UKEnergy2000mats \%>\%
                                          values_from = matrix) \%>\%
                       dplyr::mutate(Method = "PCM") \%>\%
                       calculate_finaluseful_ex_data(fd_sectors = c("Residential"))
-
 }
