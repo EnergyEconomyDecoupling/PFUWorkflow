@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -112,6 +112,13 @@
       
     </div>
 
+    <div id="seapsutworkflow-021-2021-03-17" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.1">
+<a href="#seapsutworkflow-021-2021-03-17" class="anchor"></a>SEAPSUTWorkflow 0.2.1 (2021-03-17)</h1>
+<ul>
+<li>New set of functions in <code>tes_tfc_functions.R</code> and <code>socioecon_functions.R</code> which are used to create the following new targets: <code>FinalDemandSectors</code>, <code>PrimaryIndustryPrefixes</code>, <code>AggregatePrimaryData</code>, <code>AggregateFinalUsefulData</code>, and <code>SocioEconData</code>.</li>
+</ul>
+</div>
     <div id="seapsutworkflow-020-2021-01-23" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.0">
 <a href="#seapsutworkflow-020-2021-01-23" class="anchor"></a>SEAPSUTWorkflow 0.2.0 (2021-01-23)</h1>
@@ -123,7 +130,7 @@
 <li>Test coverage remains at 100%.</li>
 </ul>
 </li>
-<li><p>New target “AllMachineData” which consists of a tidy data frames containing information obtained by calling functions in machine_functions.R.</p></li>
+<li><p>New target <code>AllMachineData</code> which consists of a tidy data frames containing information obtained by calling functions in machine_functions.R.</p></li>
 <li><p>New set of functions in machine_functions.R (<code><a href="../reference/get_eta_filepaths.html">get_eta_filepaths()</a></code> and <code>read_all_eta_files</code>) which read in data from a specified file path and create a tidy data frame containing Eta.fu, Phi.u, and any additional metrics supplied.</p></li>
 <li><p>New version of plan that includes extending the PSUT matrices to the useful stage.</p></li>
 <li><p>New functions <code><a href="../reference/nonstat_alloc_graph.html">nonstat_alloc_graph()</a></code> and <code><a href="../reference/nonstat_alloc_plots_df.html">nonstat_alloc_plots_df()</a></code> which make final-to-useful allocations graphs for only non-stationary allocations data, and for later use in reports and other visualization.</p></li>
