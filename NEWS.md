@@ -1,10 +1,16 @@
+
+* New set of functions in `tes_tfc_functions.R` and `socioecon_functions.R` 
+  which are used to create the following new targets: `FinalDemandSectors`, 
+  `PrimaryIndustryPrefixes`, `AggregatePrimaryData`, `AggregateFinalUsefulData`, 
+  and `SocioEconData`.
+
 # SEAPSUTWorkflow 0.2.0 (2021-01-23)
 
 * New tests for new features.
     * Now up to 216 tests, all passing.
     * Test coverage remains at 100%.
 
-* New target "AllMachineData" which consists of a tidy data 
+* New target `AllMachineData` which consists of a tidy data 
   frames containing information obtained by calling functions in 
   machine_functions.R.
 
