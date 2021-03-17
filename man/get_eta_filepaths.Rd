@@ -2,7 +2,7 @@
 % Please edit documentation in R/machine_functions.R
 \name{get_eta_filepaths}
 \alias{get_eta_filepaths}
-\title{Get all filepaths to machine excel files which contain a FIN_ETA sheet}
+\title{Get all file paths to machine excel files which contain a FIN_ETA sheet}
 \usage{
 get_eta_filepaths(filepath)
 }
@@ -11,8 +11,8 @@ get_eta_filepaths(filepath)
 }
 \value{
 A list of the file paths to machine excel files containing
-FIN_ETA frontsheets, and therefore usable data.
+FIN_ETA front sheets, and therefore usable data.
 }
 \description{
-Get all filepaths to machine excel files which contain a FIN_ETA sheet
+Get all file paths to machine excel files which contain a FIN_ETA sheet
 }

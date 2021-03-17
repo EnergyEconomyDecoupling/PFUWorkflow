@@ -12,17 +12,17 @@ sample_machine_workbook_path <- function() {
 }
 
 
-#' Get all filepaths to machine excel files which contain a FIN_ETA sheet
+#' Get all file paths to machine excel files which contain a FIN_ETA sheet
 #'
 #' @param filepath A file path to the folder containing all machine folders.
 #'
 #' @return A list of the file paths to machine excel files containing
-#'         FIN_ETA frontsheets, and therefore usable data.
+#'         FIN_ETA front sheets, and therefore usable data.
 #' @export
 #'
 get_eta_filepaths <- function(filepath) {
 
-  # Estalishes name of the frontsheet of each machines excel workbook
+  # Estalishes name of the front sheet of each machines excel workbook
   eta_sheet <- "FIN_ETA"
 
   # Lists path to each machine folder
@@ -53,7 +53,7 @@ get_eta_filepaths <- function(filepath) {
 #' Create a data frame containing machine Eta.fu and Phi.u values.
 #'
 #' @param eta_fin_paths A list of the file paths to machine excel files containing
-#'                      FIN_ETA frontsheets, and therefore usable data.
+#'                      FIN_ETA front sheets, and therefore usable data.
 #'                      Created by calling the `get_eta_filepaths` function.
 #'
 #' @return A data frame containing all Eta.fu and Phi.u values present

@@ -5,7 +5,7 @@
 \alias{target_names}
 \title{Drake cache target names}
 \format{
-A string list with 35 entries.
+A string list with 39 entries.
 \describe{
 \item{countries}{The string name of the countries target in the drake cache, giving the countries to be analyzed.}
 \item{alloc_and_eff_couns}{The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.}
@@ -31,6 +31,14 @@ A string list with 35 entries.
 \item{ExemplarLists}{A data frame of lists of exemplar countries for each country in \code{countries}, and maybe more.}
 \item{CompletedAllocationTables}{A data frame of completed final-to-useful allocation tables.}
 \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}
+\item{Cmats}{A data frame containing \code{CompletedAllocationTables} in matrix form.}
+\item{EtaPhivecs}{A data frame containing final-to-useful efficiency and exergy-to-energy ratio vectors.}
+\item{PSUT_useful}{A data frame containing PSUT matrices up to the useful stage.}
+\item{FinalDemandSectors}{A list containing  the final demand sectors desired for analysis.}
+\item{PrimaryIndustryPrefixes}{A list containing the prefixes of primary industries desired for analysis.}
+\item{AggregatePrimaryData}{A data frame containing aggregate primary energy and exergy values by total, product, and flow.}
+\item{AggregateFinalUsefulData}{A data frame containing aggregate final and useful energy and exergy values by total, product, and sector.}
+\item{SocioEconData}{A data frame containing socioeconomic data, supplied by the \code{get_L_K_GDP_data} function.}
 \item{AllocationGraphs}{A data frame containing final-to-useful allocation graphs.}
 \item{NonStationaryAllocationGraphs}{A data frame containing final-to-useful allocation graphs, for non-stationary data only.}
 \item{EfficiencyGraphs}{A data frame containing final-to-useful efficiency graphs.}

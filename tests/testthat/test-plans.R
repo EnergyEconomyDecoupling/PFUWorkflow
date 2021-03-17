@@ -71,7 +71,17 @@ test_that("get_plan works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "Cmats")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "EtaPhivecs")
+
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "PSUT_useful")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "FinalDemandSectors")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "PrimaryIndustryPrefixes")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregatePrimaryData")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregateFinalUsefulData")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "SocioEconData")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AllocationGraphs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "NonStationaryAllocationGraphs")
@@ -201,6 +211,8 @@ test_that("make() works", {
       dplyr::select(IEATools::iea_cols$country) %>%
       unique() %>% unlist() %>% unname() %>%
       expect_equal("ZAF")
+
+    ### Add more tests here!
 
   },
   finally = {
