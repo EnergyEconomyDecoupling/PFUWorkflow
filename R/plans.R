@@ -31,6 +31,14 @@
 #' * `CompletedAllocationTables` : A data frame containing completed final-to-useful allocation tables.
 #' * `IncompleteEfficiencyTables`: A data frame containing final-to-useful efficiency tables.
 #' * `CompletedEfficiencyTables`: A data frame containing completed final-to-useful efficiency tables.
+#' * `Cmats` : A data frame containing `CompletedAllocationTables` in matrix form.
+#' * `EtaPhivecs` : A data frame containing final-to-useful efficiency and exergy-to-energy ratio vectors.
+#' * `PSUT_useful` : A data frame containing PSUT matrices up to the useful stage.
+#' * `FinalDemandSectors`: A list of final demand sectors, supplied through the `get_fd_sectors` function.
+#' * `PrimaryIndustryPrefixes`: A string vector of primary industry prefixes, supplied through the `get_p_industry_prefixes` function.
+#' * `AggregatePrimaryData` : A data frame containing aggregate primary energy and exergy values by total, product, and flow.
+#' * `AggregateFinalUsefulData` : A data frame containing aggregate final and useful energy and exergy values by total, product, and sector.
+#' * `SocioEconData` : A data frame containing socioeconomic data, supplied by the `get_L_K_GDP_data` function.
 #' * `AllocationGraphs` : A data frame containing allocation plots.
 #' * `NonStationaryAllocationGraphs` : A data frame containing allocation plots for non-stationary data only.
 #' * `EfficiencyGraphs` : A data frame containing final-to-useful efficiency plots.
@@ -104,7 +112,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
                      iea_data_path, ceda_data_folder,
                      machine_data_path, exemplar_table_path,
-                     fu_analysis_folder, reports_source_folders, reports_dest_folder) {
+                     fu_analysis_folder,
+                     reports_source_folders, reports_dest_folder) {
 
   # Get around warnings of type "no visible binding for global variable".
   alloc_and_eff_couns <- NULL
@@ -113,7 +122,6 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   IEAData <- NULL
   CEDAData <- NULL
   AllMachineData <- NULL
-  MachineData <- NULL
   BalancedIEAData <- NULL
   balanced_after <- NULL
   Specified <- NULL
@@ -125,6 +133,12 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   CompletedEfficiencyTables <- NULL
   Cmats <- NULL
   EtaPhivecs <- NULL
+  PSUT_useful <- NULL
+  FinalDemandSectors <- NULL
+  PrimaryIndustryPrefixes <- NULL
+  AggregatePrimaryData <- NULL
+  AggregateFinalUsefulData <- NULL
+  SocioEconData <- NULL
 
   p <- drake::drake_plan(
 
@@ -252,16 +266,44 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                countries = countries),
                                 dynamic = map(countries)),
 
-    # (11) Add other methods
+    # (-) Add other methods
+
+
+    # (-) Add exergy quantifications of energy
+
+
+    # (-) Off to the races!  Do other calculations:
 
 
 
-    # (12) Add exergy quantifications of energy
+    # (11) Final demand sectors
+
+    FinalDemandSectors = drake::target(get_fd_sectors()),
 
 
-    # (13) Off to the races!  Do other calculations
+    # (12) Primary industry prefixes
+
+    PrimaryIndustryPrefixes = drake::target(get_p_industry_prefixes()),
 
 
+    # (13a) Aggregate of primary energy/exergy by total (total energy supply (TES)), product, and flow
+
+    AggregatePrimaryData = drake::target(calculate_primary_ex_data(.sutdata = PSUT_useful,
+                                                                   p_industry_prefixes = PrimaryIndustryPrefixes)),
+
+
+
+    # (13b) Aggregate final and useful energy/exergy by total (total final consumption (TFC)), product, and sector
+
+    AggregateFinalUsefulData = drake::target(calculate_finaluseful_ex_data(.sutdata = PSUT_useful,
+                                                                           fd_sectors = FinalDemandSectors)),
+
+
+
+    # (14) Socioeconomic Data for selected countries
+
+    SocioEconData = drake::target(get_all_pwt_data(countries = countries) %>%
+                                    get_L_K_GDP_data()),
 
 
 

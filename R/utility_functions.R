@@ -85,6 +85,8 @@ dir_create_pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode =
 #' @param ceda_data_folder The path to CEDA data. Default is `CEDATools::ceda_data_folder()`.
 #' @param `machine_data_path`: The path to the machine data excel files, supplied in the `machine_data_path` argument.
 #' @param fu_analysis_folder The path to the final-to-useful analysis folder. Default is `tempdir()`.
+#' @param fd_sectors Example final demand sectors for testing. Default is `c("Residential", "Transport")`.
+#' @param p_industry_prefixes Example primary industry prefixes. Default is `c("Resources")`.
 #' @param reports_output_folder The path into which reports will be written. Default is `tempdir()`.
 #' @param exemplar_folder The path to a temporary folder to contain an exemplar table. Default is `tempdir()`.
 #' @param cache_path The path to the temporary drake cache used for testing. Default is `tempfile("drake_cache_for_testing")`.
@@ -306,3 +308,69 @@ clean_up_after_testing <- function(testing_setup, cache_path = testing_setup$cac
   temp_cache$destroy()
   return(NULL)
 }
+
+
+#' Retrieve a list of final demand sectors
+#'
+#' Retrieve a list of final demand sectors for calculation of the total final consumption
+#' of final, useful, or services energy in gross or net terms.
+#'
+#' @return A list of final demand sectors
+#' @export
+#'
+#' @examples
+#' fd_sectors <- get_fd_sectors()
+#'
+get_fd_sectors <- function(){
+
+  fd_sectors <- IEATools::fd_sectors
+
+  return(fd_sectors)
+}
+
+
+#' Create a list containing final demand sectors
+#'
+#' This function creates a list equal to the length of any data frame supplied.
+#' It is typically used on a data frame containing Physical Supply-Use Tables (PSUT)
+#' with the associated final demand sectors in the nested `Y` and `U_EIOU` matrices.
+#'
+#' @param fd_sectors A character vector of final demand sectors.
+#' @param .sutdata A data frame containing Physical Supply-Use Table (PSUT)
+#'                 matrices with associated final demand sector names
+#'
+#' @return A list the length of a desired data frame containing final demand vectors
+#' @export
+#'
+#' @examples
+#' library(Recca)
+#' final_demand_sector_list <- create_fd_sectors_list(fd_sectors = c("Residential"),
+#' .sutdata = Recca::UKEnergy2000mats)
+#'
+create_fd_sectors_list <- function(fd_sectors, .sutdata) {
+
+  fd_sectors_list <- rep(x = list(c(fd_sectors)), times = nrow(.sutdata))
+
+  return(fd_sectors_list)
+
+}
+
+
+#' Retrieve primary industry prefixes
+#'
+#' Retrieve primary industry prefixes for use by `Recca::find_p_industry_names`.
+#' Contains "Resources", "Imports", and "Stock changes".
+#'
+#' @return A list of primary industry prefixes
+#' @export
+#'
+#' @examples
+#' p_industry_prefixes <- get_p_industry_prefixes()
+get_p_industry_prefixes <- function() {
+
+  p_industry_prefixes <- IEATools::prim_agg_flows %>% unname() %>% unlist() %>% list()
+
+  return(p_industry_prefixes)
+
+}
+
