@@ -1,3 +1,4 @@
+# SEAPSUTWorkflow 0.2.1 (2021-03-17)
 
 * New set of functions in `tes_tfc_functions.R` and `socioecon_functions.R` 
   which are used to create the following new targets: `FinalDemandSectors`, 

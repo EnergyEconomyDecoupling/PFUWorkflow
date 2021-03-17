@@ -1,7 +1,7 @@
 Package: SEAPSUTWorkflow
 Title: Functions and Workflows For Societal Exergy Analysis Within the PSUT Framework
-Version: 0.2.0
-Date: 2021-01-23
+Version: 0.2.1
+Date: 2021-03-17
 Authors@R: 
     person(given = "Matthew",
            family = "Heun",
