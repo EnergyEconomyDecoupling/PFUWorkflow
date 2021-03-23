@@ -58,7 +58,8 @@ get_eta_filepaths <- function(filepath) {
 #'
 #' @return A data frame containing all Eta.fu and Phi.u values present
 #'         in all Machine excel files, with the following column names:
-#'         "Country", "Machine", "Eu.product", "Metric", "Year", "Value".
+#'         "Country", "Energy.type", "Last.stage", "Method", "Machine",
+#'         "Eu.product", "Quantity", "Year", "Value".
 #' @export
 #'
 read_all_eta_files <- function(eta_fin_paths) {
@@ -83,9 +84,12 @@ read_all_eta_files <- function(eta_fin_paths) {
                           values_to = "Value")
     # Sets column classes
     raw_etas$Country <- as.character(raw_etas$Country)
+    raw_etas$Energy.type <- as.character(raw_etas$Energy.type)
+    raw_etas$Last.stage <- as.character(raw_etas$Last.stage)
+    raw_etas$Method <- as.character(raw_etas$Method)
     raw_etas$Machine <- as.character(raw_etas$Machine)
     raw_etas$Eu.product <- as.character(raw_etas$Eu.product)
-    raw_etas$Metric <- as.character(raw_etas$Metric)
+    raw_etas$Quantity <- as.character(raw_etas$Quantity)
     raw_etas$Year <- as.numeric(raw_etas$Year)
     raw_etas$Value <- as.numeric(raw_etas$Value)
 

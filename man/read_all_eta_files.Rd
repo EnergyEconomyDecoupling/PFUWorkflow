@@ -14,7 +14,8 @@ Created by calling the \code{get_eta_filepaths} function.}
 \value{
 A data frame containing all Eta.fu and Phi.u values present
 in all Machine excel files, with the following column names:
-"Country", "Machine", "Eu.product", "Metric", "Year", "Value".
+"Country", "Energy.type", "Last.stage", "Method", "Machine",
+"Eu.product", "Quantity", "Year", "Value".
 }
 \description{
 Create a data frame containing machine Eta.fu and Phi.u values.

@@ -48,9 +48,12 @@ test_that("read_all_eta_files() works correctly", {
 
   # Tests whether the column names are as expected
   expect_true("Country" %in% cnames)
+  expect_true("Energy.type" %in% cnames)
+  expect_true("Last.stage" %in% cnames)
+  expect_true("Method" %in% cnames)
   expect_true("Machine" %in% cnames)
   expect_true("Eu.product" %in% cnames)
-  expect_true("Metric" %in% cnames)
+  expect_true("Quantity" %in% cnames)
   expect_true("Year" %in% cnames)
   expect_true("Value" %in% cnames)
 
