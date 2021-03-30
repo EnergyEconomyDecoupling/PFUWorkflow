@@ -131,9 +131,19 @@ socioecon_cols <- list(isocode_colname = "isocode",
                        Ladj_colname = "Ladj")
 usethis::use_data(socioecon_cols, overwrite = TRUE)
 
+
 #
 # Cache information.
 #
 
 cache_info = list(cache_path = ".drake")
 usethis::use_data(cache_info, overwrite = TRUE)
+
+
+
+#
+# Column names for MachineData data frames
+#
+
+machine_data_cols <- list(value = "Value")
+usethis::use_data(machine_data_cols, overwrite = TRUE)

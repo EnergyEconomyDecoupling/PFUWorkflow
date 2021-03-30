@@ -186,3 +186,17 @@
 #' @examples
 #' socioecon_cols
 "socioecon_cols"
+
+
+#' MachineData column names
+#'
+#' A string list containing values for the column names of MachineData data frames.
+#'
+#' @format A string list with `r length(machine_data_cols)` entries.
+#' \describe{
+#' \item{value}{The name of a column of values.. Default is "Value".}
+#' }
+#'
+#' @examples
+#' machine_data_cols
+"machine_data_cols"

@@ -307,7 +307,7 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
 #'
 #' @examples
 #' # Make some incomplete efficiency tables for GHA by removing Wood cookstoves.
-#' # Information from the exemplar, ZAF, will supply efficiency for Wood cookstoves.
+#' # Information from the exemplar, ZAF, will supply efficiency for Wood cookstoves for GHA.
 #' incomplete_eta_fu_tables <- IEATools::load_eta_fu_data() %>%
 #'   dplyr::filter(! (Country == "GHA" & Machine == "Wood cookstoves"))
 #' # The rows for Wood cookstoves are missing.
@@ -336,18 +336,50 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                    max_year = NULL,
                                    which_quantity = c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u),
                                    country = IEATools::iea_cols$country,
+                                   method = IEATools::iea_cols$method,
+                                   energy_type = IEATools::iea_cols$energy_type,
+                                   last_stage = IEATools::iea_cols$last_stage,
+                                   unit = IEATools::iea_cols$unit,
                                    year = IEATools::iea_cols$year,
+                                   e_dot = IEATools::iea_cols$e_dot,
+
+                                   machine = IEATools::template_cols$machine,
+                                   eu_product = IEATools::template_cols$eu_product,
+                                   eta_fu = IEATools::template_cols$eta_fu,
+                                   phi_u = IEATools::template_cols$phi_u,
+                                   c_source = IEATools::template_cols$c_source,
+                                   eta_fu_phi_u_source = IEATools::template_cols$eta_fu_phi_u_source,
+                                   e_dot_machine = IEATools::template_cols$e_dot_machine,
+                                   e_dot_machine_perc = IEATools::template_cols$e_dot_machine_perc,
+                                   quantity = IEATools::template_cols$quantity,
+                                   maximum_values = IEATools::template_cols$maximum_values,
+                                   e_dot_perc = IEATools::template_cols$e_dot_perc,
+
                                    exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
                                    exemplar_tables = SEAPSUTWorkflow::exemplar_names$exemplar_tables,
                                    alloc_data = SEAPSUTWorkflow::exemplar_names$alloc_data,
                                    incomplete_eta_tables = SEAPSUTWorkflow::exemplar_names$incomplete_eta_table,
-                                   complete_eta_tables = SEAPSUTWorkflow::exemplar_names$complete_eta_table) {
+                                   complete_eta_tables = SEAPSUTWorkflow::exemplar_names$complete_eta_table,
+
+                                   .values = SEAPSUTWorkflow::machine_data_cols$value) {
 
   which_quantity <- match.arg(which_quantity, several.ok = TRUE)
 
   # The FU allocation tables and the incomplete efficiency tables are easier to deal with when they are tidy.
-  tidy_incomplete_eta_fu_tables <- IEATools::tidy_eta_fu_table(incomplete_eta_fu_tables)
-  tidy_allocation_tables <- IEATools::tidy_fu_allocation_table(completed_fu_allocation_tables)
+  tidy_incomplete_eta_fu_tables <- IEATools::tidy_eta_fu_table(incomplete_eta_fu_tables,
+                                                               year = year,
+                                                               e_dot_machine = e_dot_machine,
+                                                               e_dot_machine_perc = e_dot_machine_perc,
+                                                               quantity = quantity,
+                                                               maximum_values = maximum_values,
+                                                               .values = .values)
+  tidy_allocation_tables <- IEATools::tidy_fu_allocation_table(completed_fu_allocation_tables,
+                                                               year = year,
+                                                               e_dot = e_dot,
+                                                               e_dot_perc = e_dot_perc,
+                                                               quantity = quantity,
+                                                               maximum_values = maximum_values,
+                                                               .values = .values)
   if (!is.null(max_year)) {
     tidy_incomplete_eta_fu_tables <- tidy_incomplete_eta_fu_tables %>%
       dplyr::filter(.data[[year]] <= max_year)
@@ -392,7 +424,27 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                        eta_fu_table = .data[[incomplete_eta_tables]],
                                        exemplar_eta_fu_tables = .data[[exemplar_tables]],
                                        fu_allocation_table = .data[[alloc_data]],
-                                       which_quantity = list(which_quantity))
+                                       which_quantity = list(which_quantity),
+
+                                       country = country,
+                                       method = method,
+                                       energy_type = energy_type,
+                                       last_stage = last_stage,
+                                       e_dot = e_dot,
+                                       unit = unit,
+                                       year = year,
+                                       machine = machine,
+                                       eu_product = eu_product,
+                                       e_dot_perc = e_dot_perc,
+                                       e_dot_machine = e_dot_machine,
+                                       e_dot_machine_perc = e_dot_machine_perc,
+                                       eta_fu = eta_fu,
+                                       phi_u = phi_u,
+                                       quantity = quantity,
+                                       maximum_values = maximum_values,
+                                       c_source = c_source,
+                                       eta_fu_phi_u_source = eta_fu_phi_u_source,
+                                       .values = .values)
       )
   }) %>%
     dplyr::bind_rows()
