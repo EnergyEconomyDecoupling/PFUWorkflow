@@ -446,7 +446,7 @@ test_that("MachineData works in assemble_eta_fu_tables()", {
      ) %>%
      tidyr::pivot_longer(cols = IEATools::year_cols(.),
                          names_to = IEATools::iea_cols$year,
-                         values_to = SEAPSUTWorkflow::machine_data_cols$value)
+                         values_to = IEATools::template_cols$.values)
 
    # The rows for Wood cookstoves were present but are now missing.
    IEATools::load_eta_fu_data() %>%
@@ -486,7 +486,9 @@ test_that("MachineData works in assemble_eta_fu_tables()", {
       "{IEATools::template_cols$maximum_values}" := NULL,
       "{IEATools::iea_cols$unit}" := NULL
     ) %>%
-    tidyr::pivot_longer(cols = year_cols(.), names_to = "Year", values_to = "Value") %>%
+    tidyr::pivot_longer(cols = IEATools::year_cols(.),
+                        names_to = IEATools::iea_cols$year,
+                        values_to = IEATools::template_cols$.values) %>%
     dplyr::mutate(
       Year = as.numeric(Year)
     )

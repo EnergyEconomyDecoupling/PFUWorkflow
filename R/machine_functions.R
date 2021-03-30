@@ -62,7 +62,8 @@ get_eta_filepaths <- function(filepath) {
 #'         "Eu.product", "Quantity", "Year", "Value".
 #' @export
 #'
-read_all_eta_files <- function(eta_fin_paths) {
+read_all_eta_files <- function(eta_fin_paths,
+                               .values = IEATools::template_cols$.values) {
 
   # Creates empty tibble to store etas data in
   etas <- tibble::tibble()
@@ -81,7 +82,7 @@ read_all_eta_files <- function(eta_fin_paths) {
     raw_etas <- raw_etas %>%
       tidyr::pivot_longer(cols = tidyselect::all_of(year_columns),
                           names_to = "Year",
-                          values_to = "Value")
+                          values_to = .values)
     # Sets column classes
     raw_etas$Country <- as.character(raw_etas$Country)
     raw_etas$Energy.type <- as.character(raw_etas$Energy.type)
@@ -91,7 +92,7 @@ read_all_eta_files <- function(eta_fin_paths) {
     raw_etas$Eu.product <- as.character(raw_etas$Eu.product)
     raw_etas$Quantity <- as.character(raw_etas$Quantity)
     raw_etas$Year <- as.numeric(raw_etas$Year)
-    raw_etas$Value <- as.numeric(raw_etas$Value)
+    raw_etas[[.values]] <- as.numeric(raw_etas[[.values]])
 
     # Binds values from individual excel FIN_ETA sheet into etas tibble.
     etas <- etas %>%

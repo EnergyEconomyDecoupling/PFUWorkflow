@@ -139,11 +139,3 @@ usethis::use_data(socioecon_cols, overwrite = TRUE)
 cache_info = list(cache_path = ".drake")
 usethis::use_data(cache_info, overwrite = TRUE)
 
-
-
-#
-# Column names for MachineData data frames
-#
-
-machine_data_cols <- list(value = "Value")
-usethis::use_data(machine_data_cols, overwrite = TRUE)

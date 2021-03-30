@@ -55,7 +55,7 @@ test_that("read_all_eta_files() works correctly", {
   expect_true("Eu.product" %in% cnames)
   expect_true("Quantity" %in% cnames)
   expect_true("Year" %in% cnames)
-  expect_true("Value" %in% cnames)
+  expect_true(IEATools::template_cols$.values %in% cnames)
 
 
 })

@@ -287,6 +287,14 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
 #' Note that this function can accept tidy or wide by year data frames.
 #' The return value is a tidy data frame.
 #'
+#' Note that the `.values` argument applies for both
+#' `incomplete_eta_fu_tables` and
+#' `completed_fu_allocation_tables`.
+#' Callers should ensure that value columns in both
+#' data frames (`incomplete_eta_fu_tables` and `completed_fu_allocation_tables`)
+#' are named identically and that name is passed into the
+#' `.values` argument.
+#'
 #' @param incomplete_eta_fu_tables An incomplete data frame of final-to-useful efficiencies for all Machines in `completed_fu_allocation_tables`.
 #' @param exemplar_lists A data frame containing `country` and `year` columns along with a column of ordered vectors of strings
 #'                       telling which countries should be considered exemplars for the country and year of this row.
@@ -361,7 +369,7 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                    incomplete_eta_tables = SEAPSUTWorkflow::exemplar_names$incomplete_eta_table,
                                    complete_eta_tables = SEAPSUTWorkflow::exemplar_names$complete_eta_table,
 
-                                   .values = SEAPSUTWorkflow::machine_data_cols$value) {
+                                   .values =IEATools::template_cols$.values) {
 
   which_quantity <- match.arg(which_quantity, several.ok = TRUE)
 
