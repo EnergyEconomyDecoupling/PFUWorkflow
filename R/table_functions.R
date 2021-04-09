@@ -369,7 +369,7 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                    incomplete_eta_tables = SEAPSUTWorkflow::exemplar_names$incomplete_eta_table,
                                    complete_eta_tables = SEAPSUTWorkflow::exemplar_names$complete_eta_table,
 
-                                   .values =IEATools::template_cols$.values) {
+                                   .values = IEATools::template_cols$.values) {
 
   which_quantity <- match.arg(which_quantity, several.ok = TRUE)
 
