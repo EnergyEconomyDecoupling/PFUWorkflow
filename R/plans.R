@@ -243,11 +243,19 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (9) Complete efficiency tables
 
-    CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = IncompleteEfficiencyTables,
+    # CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = IncompleteEfficiencyTables,
+    #                                                                  exemplar_lists = ExemplarLists,
+    #                                                                  completed_fu_allocation_tables = CompletedAllocationTables,
+    #                                                                  countries = countries,
+    #                                                                  max_year = max_year),
+    #                                           dynamic = map(countries)),
+
+    CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = AllMachineData,
                                                                      exemplar_lists = ExemplarLists,
                                                                      completed_fu_allocation_tables = CompletedAllocationTables,
                                                                      countries = countries,
-                                                                     max_year = max_year),
+                                                                     max_year = max_year,
+                                                                     which_quantity = IEATools::template_cols$eta_fu),
                                               dynamic = map(countries)),
 
     # (10) Extend to useful stage
