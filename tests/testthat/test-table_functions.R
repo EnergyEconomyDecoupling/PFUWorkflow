@@ -225,12 +225,12 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
     # Make sure that is true.
     fu_alloc_rows <- fu_allocations_GRC %>%
       dplyr::select(IEATools::iea_cols$country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type,
-                    IEATools::iea_cols$last_stage, IEATools::iea_cols$unit,
+                    IEATools::iea_cols$last_stage,
                     IEATools::template_cols$machine, IEATools::template_cols$eu_product) %>%
       unique()
     eta_fu_rows <- eta_fu_table_GRC %>%
       dplyr::select(IEATools::iea_cols$country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type,
-                    IEATools::iea_cols$last_stage, IEATools::iea_cols$unit,
+                    IEATools::iea_cols$last_stage,
                     IEATools::template_cols$machine, IEATools::template_cols$eu_product) %>%
       unique()
     # These two data frames should contain the same information, because
