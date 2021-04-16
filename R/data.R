@@ -83,21 +83,6 @@
 "exemplar_names"
 
 
-#' Cache information
-#'
-#' A string list containing information about the drake cache.
-#' Items in the list provide default values for column name function arguments
-#' throughout the `SEAPSUTWorkflow` package.
-#'
-#' @format A string list with `r length(cache_info)` entries.
-#' \describe{
-#' \item{cache_path}{The default path to the drake cache.}
-#' }
-#'
-#' @examples
-#' cache_info
-"cache_info"
-
 #' SEAPSUTWorkflow data frame column names
 #'
 #' A string list containing named names of columns in SEAPSUTWorkflow data frames.
@@ -161,6 +146,7 @@
 #' gross_net_metadata
 "gross_net_metadata"
 
+
 #' Socioeconomic data column names
 #'
 #' A string list containing values for the column names of socioeconomic data. See `pwt10::pwt10.0`.
@@ -186,4 +172,36 @@
 #' @examples
 #' socioecon_cols
 "socioecon_cols"
+
+
+#' Information about the machine efficiency files
+#'
+#' A string list containing information about machine efficiency files.
+#' Items in the list provide default values for machine efficiency files,
+#' including Excel tab names, etc.
+#'
+#' @format A string list with `r length(machine_constants)` entries.
+#' \describe{
+#' \item{efficiency_tab_name}{The default name of the efficiency tabs in machine efficiency excel files.}
+#' }
+#'
+#' @examples
+#' machine_constants
+"machine_constants"
+
+
+#' Cache information
+#'
+#' A string list containing information about the drake cache.
+#' Items in the list provide default values for column name function arguments
+#' throughout the `SEAPSUTWorkflow` package.
+#'
+#' @format A string list with `r length(cache_info)` entries.
+#' \describe{
+#' \item{cache_path}{The default path to the drake cache.}
+#' }
+#'
+#' @examples
+#' cache_info
+"cache_info"
 

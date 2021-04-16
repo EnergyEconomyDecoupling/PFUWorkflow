@@ -31,6 +31,7 @@ test_that("get_eta_filepaths() works correctly", {
 
 })
 
+
 test_that("read_all_eta_files() works correctly", {
 
   # Establishes the path to the Machine_Example.xlsx
@@ -56,7 +57,34 @@ test_that("read_all_eta_files() works correctly", {
   expect_true("Quantity" %in% cnames)
   expect_true("Year" %in% cnames)
   expect_true(IEATools::template_cols$.values %in% cnames)
+})
 
+
+test_that("read_all_eta_files() works with sample machine efficiency data", {
+  # Establishes the path to the Machine_Example.xlsx
+  eta_fin_sample_path <- system.file("extdata", "Machines - Data", package = "SEAPSUTWorkflow")
+  expect_true(file.exists(eta_fin_sample_path))
+
+  # Reads data from the Machine_Example.slsx file
+  etas <- read_all_eta_files(eta_fin_paths = eta_fin_sample_path)
+
+  # Tests whether the dataframe created by calling read-all_eta_files exists
+  expect_true(!is.null(etas))
+
+  # Gets column names
+  cnames <- etas %>%
+    colnames()
+
+  # Tests whether the column names are as expected
+  expect_true("Country" %in% cnames)
+  expect_true("Energy.type" %in% cnames)
+  expect_true("Last.stage" %in% cnames)
+  expect_true("Method" %in% cnames)
+  expect_true("Machine" %in% cnames)
+  expect_true("Eu.product" %in% cnames)
+  expect_true("Quantity" %in% cnames)
+  expect_true("Year" %in% cnames)
+  expect_true(IEATools::template_cols$.values %in% cnames)
 
 })
 

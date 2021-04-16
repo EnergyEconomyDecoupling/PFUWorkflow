@@ -52,18 +52,35 @@ get_eta_filepaths <- function(filepath) {
 
 #' Create a data frame containing machine Eta.fu and Phi.u values.
 #'
+#' This function reads the files in `eat_fin_paths`
+#' and creates a data frame of important efficiency and other variables.
+#'
+#' Note that `eta_fin_paths` can be a directory, in which case
+#' `get_eat_filepaths()` is called internally before
+#' reading the files and creating the data frames.
+#'
 #' @param eta_fin_paths A list of the file paths to machine excel files containing
 #'                      FIN_ETA front sheets, and therefore usable data.
-#'                      Created by calling the `get_eta_filepaths` function.
+#'                      Created by calling the `get_eta_filepaths()` function.
+#' @param efficiency_tab_name See `SEAPSUTWorkflow::machine_constants`.
+#' @param year See `IEATools::iea_cols`.
+#' @param .values See `IEATools::template_cols`.
 #'
 #' @return A data frame containing all Eta.fu and Phi.u values present
 #'         in all Machine excel files, with the following column names:
 #'         "Country", "Energy.type", "Last.stage", "Method", "Machine",
 #'         "Eu.product", "Quantity", "Year", "Value".
-#' @export
 #'
+#' @export
 read_all_eta_files <- function(eta_fin_paths,
+                               efficiency_tab_name = SEAPSUTWorkflow::machine_constants$efficiency_tab_name,
+                               year = IEATools::iea_cols$year,
                                .values = IEATools::template_cols$.values) {
+
+  # Check if eta_fin_paths is a directory. If so, call get_eta_filepaths() before loading the files.
+  if (fs::is_dir(eta_fin_paths)) {
+    eta_fin_paths <- get_eta_filepaths(eta_fin_paths)
+  }
 
   # Creates empty tibble to store etas data in
   etas <- tibble::tibble()
@@ -73,7 +90,7 @@ read_all_eta_files <- function(eta_fin_paths,
   for(path in eta_fin_paths) {
 
     # Reads raw data
-    raw_etas <- readxl::read_excel(path = path, sheet = "FIN_ETA", skip = 1)
+    raw_etas <- readxl::read_excel(path = path, sheet = efficiency_tab_name, skip = 1)
 
     # Figure out year columns.
     year_columns <- IEATools::year_cols(raw_etas, return_names = TRUE)
@@ -81,7 +98,7 @@ read_all_eta_files <- function(eta_fin_paths,
     # Pivots year columns into a "Year" column and a "Value" column
     raw_etas <- raw_etas %>%
       tidyr::pivot_longer(cols = tidyselect::all_of(year_columns),
-                          names_to = "Year",
+                          names_to = year,
                           values_to = .values)
     # Sets column classes
     raw_etas$Country <- as.character(raw_etas$Country)

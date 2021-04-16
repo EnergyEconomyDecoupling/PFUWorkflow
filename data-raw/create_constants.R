@@ -93,6 +93,7 @@ sea_cols <- list(stage_colname = "Stage",
                  ex_gross_colname = "EX.d_gross")
 usethis::use_data(sea_cols, overwrite = TRUE)
 
+
 #
 # Metadata information for aggregation groups
 #
@@ -104,6 +105,7 @@ agg_metadata <- list(total_value = "Total",
                      flow_value = "Flow")
 usethis::use_data(agg_metadata, overwrite = TRUE)
 
+
 #
 # Metadata information for gross or net
 #
@@ -111,6 +113,7 @@ usethis::use_data(agg_metadata, overwrite = TRUE)
 gross_net_metadata <- list(gross_value = "Gross",
                            net_value = "Net")
 usethis::use_data(gross_net_metadata, overwrite = TRUE)
+
 
 #
 # Column names for socio-economic data
@@ -130,6 +133,14 @@ socioecon_cols <- list(isocode_colname = "isocode",
                        L_colname = "L",
                        Ladj_colname = "Ladj")
 usethis::use_data(socioecon_cols, overwrite = TRUE)
+
+
+#
+# Tab name for machine efficiencies
+#
+
+machine_constants <- list(efficiency_tab_name = "FIN_ETA")
+usethis::use_data(machine_constants, overwrite = TRUE)
 
 
 #

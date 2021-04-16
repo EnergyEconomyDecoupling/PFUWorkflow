@@ -22,6 +22,7 @@ Imports:
     drake,
     dplyr,
     ggplot2,
+    fs,
     IEATools,
     magrittr,
     matsbyname,
