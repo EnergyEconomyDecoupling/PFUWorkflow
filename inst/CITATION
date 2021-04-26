@@ -1,4 +1,4 @@
-citHeader("To cite package ‘IEATools’ in publications use:")
+citHeader("To cite package ‘SEAPSUTWorkflow’ in publications use:")
 
 citEntry(entry = "Manual",
   title        = "SEAPSUTWorkflow: Tools for creating a drake workflow for Societal Exergy Analysis in the Physical Supply-Use Table framework",
