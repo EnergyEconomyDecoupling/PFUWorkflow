@@ -34,18 +34,32 @@ get_eta_filepaths <- function(filepath) {
 
   # Creates empty list which will contain a list of paths to machine folders
   # which contain "FIN_ETA" sheets
-  eta_fin_paths <- list()
 
-  # Loops through all paths to check they have a "FIN_ETA" sheet, and appends
-  # to the eta_fin_paths if so
-  for(path in machine_filepaths) {
-    if(eta_sheet %in% readxl::excel_sheets(path)) {
-      eta_fin_paths <- eta_fin_paths %>% append(path)
+  lapply(machine_filepaths, FUN = function(fp) {
+    if(eta_sheet %in% readxl::excel_sheets(fp)) {
+      return(fp)
     } else {
-      next
+      return(NULL)
     }
-  }
-  return(eta_fin_paths)
+  }) %>%
+    purrr::compact()
+
+#
+#
+#
+#   eta_fin_paths <- list()
+#
+#   # Loops through all paths to check they have a "FIN_ETA" sheet, and appends
+#   # to the eta_fin_paths if so
+#   for(path in machine_filepaths) {
+#     if(eta_sheet %in% readxl::excel_sheets(path)) {
+#       eta_fin_paths <- eta_fin_paths %>% append(path)
+#     } else {
+#       next
+#     }
+#   }
+#   return(eta_fin_paths)
+
 }
 
 
