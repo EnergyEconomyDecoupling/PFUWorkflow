@@ -22,7 +22,7 @@ sample_machine_workbook_path <- function() {
 #'
 get_eta_filepaths <- function(filepath) {
 
-  # Estalishes name of the front sheet of each machines excel workbook
+  # Establishes name of the front sheet of each machines excel workbook
   eta_sheet <- "FIN_ETA"
 
   # Lists path to each machine folder
@@ -69,8 +69,16 @@ get_eta_filepaths <- function(filepath) {
 #' This function reads the files in `eat_fin_paths`
 #' and creates a data frame of important efficiency and other variables.
 #'
-#' Note that `eta_fin_paths` can be a directory, in which case
-#' `get_eat_filepaths()` is called internally before
+#' Note that `eta_fin_paths` should typically be a list of
+#' file paths, each a character string.
+#' But `eta_fin_paths` can be a single character string (not a list),
+#' in which case it will be interpreted as a directory
+#' containing files that have Eta.fu and Phi.u values.
+#' When `eta_fin_paths` is a single character string (not a list),
+#' the directory will be interrogated for files,
+#' a list of file paths constructed, and
+#' all files read.
+#' `get_eta_filepaths()` is called internally before
 #' reading the files and creating the data frames.
 #'
 #' @param eta_fin_paths A list of the file paths to machine excel files containing
@@ -92,7 +100,9 @@ read_all_eta_files <- function(eta_fin_paths,
                                .values = IEATools::template_cols$.values) {
 
   # Check if eta_fin_paths is a directory. If so, call get_eta_filepaths() before loading the files.
-  if (fs::is_dir(eta_fin_paths)) {
+  if (!is.list(eta_fin_paths)) {
+    # Assume this is a directory which contains eta files.
+    # Let's load all the paths.
     eta_fin_paths <- get_eta_filepaths(eta_fin_paths)
   }
 

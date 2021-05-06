@@ -33,7 +33,15 @@ This function reads the files in \code{eat_fin_paths}
 and creates a data frame of important efficiency and other variables.
 }
 \details{
-Note that \code{eta_fin_paths} can be a directory, in which case
-\code{get_eat_filepaths()} is called internally before
+Note that \code{eta_fin_paths} should typically be a list of
+file paths, each a character string.
+But \code{eta_fin_paths} can be a single character string (not a list),
+in which case it will be interpreted as a directory
+containing files that have Eta.fu and Phi.u values.
+When \code{eta_fin_paths} is a single character string (not a list),
+the directory will be interrogated for files,
+a list of file paths constructed, and
+all files read.
+\code{get_eta_filepaths()} is called internally before
 reading the files and creating the data frames.
 }
