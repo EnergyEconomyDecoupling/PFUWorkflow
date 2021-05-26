@@ -15,15 +15,17 @@ sample_machine_workbook_path <- function() {
 #' Get all file paths to machine excel files which contain a FIN_ETA sheet
 #'
 #' @param filepath A file path to the folder containing all machine folders.
+#' @param efficiency_tab_name See `SEAPSUTWorkflow::machine_constants`.
 #'
 #' @return A list of the file paths to machine excel files containing
 #'         FIN_ETA front sheets, and therefore usable data.
 #' @export
 #'
-get_eta_filepaths <- function(filepath) {
+get_eta_filepaths <- function(filepath,
+                              efficiency_tab_name = SEAPSUTWorkflow::machine_constants$efficiency_tab_name) {
 
   # Establishes name of the front sheet of each machines excel workbook
-  eta_sheet <- "FIN_ETA"
+  eta_sheet <- efficiency_tab_name
 
   # Lists path to each machine folder
   machine_paths <- list.dirs(path = filepath, recursive = FALSE)
@@ -43,22 +45,6 @@ get_eta_filepaths <- function(filepath) {
     }
   }) %>%
     purrr::compact()
-
-#
-#
-#
-#   eta_fin_paths <- list()
-#
-#   # Loops through all paths to check they have a "FIN_ETA" sheet, and appends
-#   # to the eta_fin_paths if so
-#   for(path in machine_filepaths) {
-#     if(eta_sheet %in% readxl::excel_sheets(path)) {
-#       eta_fin_paths <- eta_fin_paths %>% append(path)
-#     } else {
-#       next
-#     }
-#   }
-#   return(eta_fin_paths)
 
 }
 
