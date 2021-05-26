@@ -94,6 +94,9 @@ get_eta_filepaths <- function(filepath) {
 #'         "Eu.product", "Quantity", "Year", "Value".
 #'
 #' @export
+#'
+#' @examples
+#'
 read_all_eta_files <- function(eta_fin_paths,
                                efficiency_tab_name = SEAPSUTWorkflow::machine_constants$efficiency_tab_name,
                                year = IEATools::iea_cols$year,

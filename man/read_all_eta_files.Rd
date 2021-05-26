@@ -45,3 +45,6 @@ all files read.
 \code{get_eta_filepaths()} is called internally before
 reading the files and creating the data frames.
 }
+\examples{
+
+}
