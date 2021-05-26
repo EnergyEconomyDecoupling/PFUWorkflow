@@ -7,7 +7,7 @@
 #' @examples
 #' sample_machine_workbook_path()
 sample_machine_workbook_path <- function() {
-  file.path("extdata", "Machine_Example", "Machine_Example.xlsx") %>%
+  file.path("extdata", "Machine Examples") %>%
     system.file(package = "SEAPSUTWorkflow")
 }
 

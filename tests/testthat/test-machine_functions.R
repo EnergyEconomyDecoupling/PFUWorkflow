@@ -7,25 +7,23 @@ context("Machine Data Tables")
 test_that("sample_machine_workbook_path() works correctly", {
   sample_path <- sample_machine_workbook_path()
   expect_true(endsWith(sample_path, file.path("extdata",
-                                              "Machine_Example",
-                                              "Machine_Example.xlsx")))
+                                              "Machine Examples")))
 })
 
 
 test_that("get_eta_filepaths() works correctly", {
 
-  # Creates path to folder containing the Machine Example Folder, and two excel sheets:
-  # 1 - Machine_Example.xlsx, a correctly formatted file
-  # 2 - Machine_Failure.xlsx, an incorrectly formatted file
-  sample_folder <- file.path("extdata") %>%
-    system.file(package = "SEAPSUTWorkflow")
+  # Creates path to folder containing the Machine Examples Folder
+  sample_path <- sample_machine_workbook_path()
 
-  all_files <- get_eta_filepaths(filepath = sample_folder) %>%
+  # Finds machine .xlsx files which contain a FIN_ETA sheet
+  all_files <- get_eta_filepaths(filepath = sample_path) %>%
     unlist()
 
   # Tests that the list of filepaths returned contains only "Machine_Example.xlsx"
   # as it is the only excel file with a "FIN_ETA" sheet.
   expect_true(endsWith(all_files, file.path("extdata",
+                                            "Machine Examples",
                                             "Machine_Example",
                                             "Machine_Example.xlsx")))
 
@@ -35,10 +33,10 @@ test_that("get_eta_filepaths() works correctly", {
 test_that("read_all_eta_files() works correctly", {
 
   # Establishes the path to the Machine_Example.xlsx
-  eta_fin_sample_path <- sample_machine_workbook_path()
+  sample_path <- sample_machine_workbook_path()
 
   # Reads data from the Machine_Example.slsx file
-  etas <- read_all_eta_files(eta_fin_paths = eta_fin_sample_path)
+  etas <- read_all_eta_files(eta_fin_paths = sample_path)
 
   # Tests whether the dataframe created by calling read-all_eta_files exists
   expect_true(!is.null(etas))
@@ -48,27 +46,29 @@ test_that("read_all_eta_files() works correctly", {
     colnames()
 
   # Tests whether the column names are as expected
-  expect_true("Country" %in% cnames)
-  expect_true("Energy.type" %in% cnames)
-  expect_true("Last.stage" %in% cnames)
-  expect_true("Method" %in% cnames)
-  expect_true("Machine" %in% cnames)
-  expect_true("Eu.product" %in% cnames)
-  expect_true("Quantity" %in% cnames)
-  expect_true("Year" %in% cnames)
-  expect_true(IEATools::template_cols$.values %in% cnames)
+  expect_equal(cnames, c("Country", "Energy.type", "Last.stage", "Method",
+                         "Machine", "Eu.product", "Quantity", "Year", ".values"))
+
+
+  # Tests that there are 108 observations
+  expect_equal(length(etas$Country), 108)
+
 })
 
 
 test_that("read_all_eta_files() works with sample machine efficiency data", {
-  # Establishes the path to the Machine_Example.xlsx
-  eta_fin_sample_path <- system.file("extdata", "Machines - Data", package = "SEAPSUTWorkflow")
+
+  # Establishes the path to the folder containing individual machine data files
+  # associated with the IEATools sample data for GHA and ZAF
+  eta_fin_sample_path <- system.file("extdata", "Machines - Data",
+                                     package = "SEAPSUTWorkflow")
+
   expect_true(file.exists(eta_fin_sample_path))
 
-  # Reads data from the Machine_Example.slsx file
+  # Reads data from the machine files
   etas <- read_all_eta_files(eta_fin_paths = eta_fin_sample_path)
 
-  # Tests whether the dataframe created by calling read-all_eta_files exists
+  # Tests whether the dataframe created by calling read_all_eta_files exists
   expect_true(!is.null(etas))
 
   # Gets column names
@@ -76,15 +76,8 @@ test_that("read_all_eta_files() works with sample machine efficiency data", {
     colnames()
 
   # Tests whether the column names are as expected
-  expect_true("Country" %in% cnames)
-  expect_true("Energy.type" %in% cnames)
-  expect_true("Last.stage" %in% cnames)
-  expect_true("Method" %in% cnames)
-  expect_true("Machine" %in% cnames)
-  expect_true("Eu.product" %in% cnames)
-  expect_true("Quantity" %in% cnames)
-  expect_true("Year" %in% cnames)
-  expect_true(IEATools::template_cols$.values %in% cnames)
+  expect_equal(cnames, c("Country", "Energy.type", "Last.stage", "Method",
+                         "Machine", "Eu.product", "Quantity", "Year", ".values"))
 
 })
 
