@@ -255,7 +255,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                                      completed_fu_allocation_tables = CompletedAllocationTables,
                                                                      countries = countries,
                                                                      max_year = max_year,
-                                                                     which_quantity = IEATools::template_cols$eta_fu),
+                                                                     # which_quantity = IEATools::template_cols$eta_fu
+                                                                     ),
                                               dynamic = map(countries)),
 
     # (10) Extend to useful stage
