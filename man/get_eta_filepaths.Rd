@@ -4,10 +4,15 @@
 \alias{get_eta_filepaths}
 \title{Get all file paths to machine excel files which contain a FIN_ETA sheet}
 \usage{
-get_eta_filepaths(filepath)
+get_eta_filepaths(
+  filepath,
+  efficiency_tab_name = SEAPSUTWorkflow::machine_constants$efficiency_tab_name
+)
 }
 \arguments{
 \item{filepath}{A file path to the folder containing all machine folders.}
+
+\item{efficiency_tab_name}{See \code{SEAPSUTWorkflow::machine_constants}.}
 }
 \value{
 A list of the file paths to machine excel files containing
