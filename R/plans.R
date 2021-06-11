@@ -235,11 +235,11 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # (8) Load incomplete FU efficiency tables for each country and year from disk.
     # These may be incomplete.
 
-    IncompleteEfficiencyTables = drake::target(load_eta_fu_tables(fu_analysis_folder = fu_analysis_folder,
-                                                                  completed_fu_allocation_tables = CompletedAllocationTables,
-                                                                  tidy_specified_iea_data = Specified,
-                                                                  countries = alloc_and_eff_couns),
-                                               dynamic = map(alloc_and_eff_couns)),
+    # IncompleteEfficiencyTables = drake::target(load_eta_fu_tables(fu_analysis_folder = fu_analysis_folder,
+    #                                                               completed_fu_allocation_tables = CompletedAllocationTables,
+    #                                                               tidy_specified_iea_data = Specified,
+    #                                                               countries = alloc_and_eff_couns),
+    #                                            dynamic = map(alloc_and_eff_couns)),
 
     # (9) Complete efficiency tables
 
@@ -255,9 +255,19 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                                      completed_fu_allocation_tables = CompletedAllocationTables,
                                                                      countries = countries,
                                                                      max_year = max_year,
-                                                                     # which_quantity = IEATools::template_cols$eta_fu
-                                                                     ),
+                                                                     which_quantity = IEATools::template_cols$eta_fu
+    ),
                                               dynamic = map(countries)),
+
+    CompletedPhiTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = AllMachineData,
+                                                              exemplar_lists = ExemplarLists,
+                                                              completed_fu_allocation_tables = CompletedAllocationTables,
+                                                              countries = countries,
+                                                              max_year = max_year,
+                                                              which_quantity = IEATools::template_cols$phi_u
+    ),
+                                       dynamic = map(countries)),
+
 
     # (10) Extend to useful stage
 

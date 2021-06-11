@@ -89,6 +89,7 @@ dir_create_pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode =
 #' @param p_industry_prefixes Example primary industry prefixes. Default is `c("Resources")`.
 #' @param reports_output_folder The path into which reports will be written. Default is `tempdir()`.
 #' @param exemplar_folder The path to a temporary folder to contain an exemplar table. Default is `tempdir()`.
+#' @param machine_data_folder The path to a temporary folder to contain machine-specific data. Default is `tempdir()`.
 #' @param cache_path The path to the temporary drake cache used for testing. Default is `tempfile("drake_cache_for_testing")`.
 #' @param setup_exemplars Tells whether GHA allocation data should be adjusted to allow exemplars and
 #'                        if ZAF allocations will be duplicated and called "World".
@@ -110,6 +111,7 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                reports_source_folders = system.file("reports", package = "SEAPSUTWorkflow"),
                                reports_output_folder = tempdir(),
                                exemplar_folder = tempdir(),
+                               machine_data_folder = tempdir(),
                                cache_path = tempfile("drake_cache_for_testing"),
                                setup_exemplars = FALSE) {
   # We sometimes forget to include "World" when using exemplars.
@@ -117,7 +119,9 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
   if (setup_exemplars & is.null(additional_exemplar_countries)) {
     additional_exemplar_countries = "World"
   }
-  set_up_temp_analysis(fu_analysis_folder, exemplar_folder, reports_output_folder, iea_data_path, setup_exemplars = setup_exemplars)
+  set_up_temp_analysis(fu_analysis_folder, exemplar_folder, machine_data_folder, reports_output_folder,
+                       iea_data_path, machine_data_examples_path = machine_data_path,
+                       setup_exemplars = setup_exemplars)
   plan <- get_plan(countries = countries,
                    additional_exemplar_countries = additional_exemplar_countries,
                    max_year = max_year,
@@ -144,9 +148,14 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
 #' This function is helpful during testing, but not at any other times.
 #'
 #' @param fu_folder The folder in which the final-to-useful analysis structure will be created.
+#'                  This should be a temporary directory.
 #' @param exemplar_folder The folder in which a small exemplar table will be created.
+#'                        This should be a temporary directory.
+#' @param machine_data_folder The folder into which temporary machine data will be written.
+#'                            This should be a temporary directory.
 #' @param reports_output_folder The folder into which reports will be written.
 #' @param iea_data_path The path to an IEA data file.
+#' @param machine_data_path The path to a folder of existing machine data files.
 #' @param setup_exemplars Tells whether GHA allocation data should be adjusted to allow exemplars and
 #'                        if ZAF allocations will be duplicated and called "World".
 #'                        Default is `FALSE`.
@@ -154,7 +163,9 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
 #' @return `NULL`. This function should be called for its side effect of creating a temporary final-to-useful directory structure.
 #'
 #' @noRd
-set_up_temp_analysis <- function(fu_folder, exemplar_folder, reports_output_folder, iea_data_path, setup_exemplars = FALSE) {
+set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder, reports_output_folder,
+                                 iea_data_path, machine_data_examples_path,
+                                 setup_exemplars = FALSE) {
   # Set up IEA data
   iea_df <- IEATools::iea_df(iea_data_path)
   if (setup_exemplars) {
@@ -170,6 +181,45 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, reports_output_fold
   # Write the iea_df to disk in the temporary directory (fu_folder)
   dir.create(fu_folder, showWarnings = FALSE)
   utils::write.csv(iea_df, file.path(fu_folder, "IEAData.csv"), row.names = FALSE)
+
+  # Duplicate the Machines - Data directory from the SEAPSUTWorkflow example data
+  # into the temporary directory.
+  copied_correctly <- file.copy(from = machine_data_examples_path, to = machine_data_folder, recursive = TRUE)
+  assertthat::assert_that(copied_correctly)
+
+  # Loop over all Machine data files.
+  # Each machine data file is in a subdirectory.
+
+  # In each Machine data file, find the ZAF row
+
+  # Duplicate it and set the country to World
+
+  # Add to the bottom of the data frame
+
+  # Rewrite the Excel Machine data file
+
+
+
+
+  # Set up the MachineData
+  # Establishes the path to the folder containing individual machine data files
+  # associated with the IEATools sample data for GHA and ZAF
+  eta_fin_sample_path <- system.file("extdata", "Machines - Data",
+                                     package = "SEAPSUTWorkflow")
+  # Reads data from the machine files
+  etas <- read_all_eta_files(eta_fin_paths = eta_fin_sample_path)
+
+  # Create a data frame for world etas
+  if (setup_exemplars) {
+    # Create a World data set that is ZAF, only renamed.
+    etas_World <- etas %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF") %>%
+      dplyr::mutate(
+        "{IEATools::iea_cols$country}" := "World"
+      )
+    etas <- etas %>%
+      dplyr::bind_rows(etas_World)
+  }
 
   # Create other temporary folders
   dir.create(exemplar_folder, showWarnings = FALSE)
