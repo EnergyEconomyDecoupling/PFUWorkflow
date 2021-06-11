@@ -159,13 +159,17 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
 #' @param setup_exemplars Tells whether GHA allocation data should be adjusted to allow exemplars and
 #'                        if ZAF allocations will be duplicated and called "World".
 #'                        Default is `FALSE`.
+#' @param fin_eta The name of the tab in a MachineData Excel file that contains
+#'                efficiency information.
+#'                Default is `SEAPSUTWorkflow$machine_constants$efficiency_tab_name`.
 #'
 #' @return `NULL`. This function should be called for its side effect of creating a temporary final-to-useful directory structure.
 #'
 #' @noRd
 set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder, reports_output_folder,
                                  iea_data_path, machine_data_examples_path,
-                                 setup_exemplars = FALSE) {
+                                 setup_exemplars = FALSE,
+                                 fin_eta = SEAPSUTWorkflow::machine_constants$efficiency_tab_name) {
   # Set up IEA data
   iea_df <- IEATools::iea_df(iea_data_path)
   if (setup_exemplars) {
@@ -187,16 +191,40 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
   copied_correctly <- file.copy(from = machine_data_examples_path, to = machine_data_folder, recursive = TRUE)
   assertthat::assert_that(copied_correctly)
 
+  # Get a list of all the files.
+  files <- list.files(path = machine_data_folder, pattern = ".xlsx$", full.names = TRUE, recursive = TRUE)
+
   # Loop over all Machine data files.
-  # Each machine data file is in a subdirectory.
-
-  # In each Machine data file, find the ZAF row
-
-  # Duplicate it and set the country to World
-
-  # Add to the bottom of the data frame
-
-  # Rewrite the Excel Machine data file
+  lapply(files, FUN = function(path) {
+    # In each Machine data file, read the FIN_ETA tab, if it exists.
+    all_sheets <- readxl::excel_sheets(path)
+    if (fin_eta %in% all_sheets) {
+      this_data <- openxlsx::read.xlsx(xlsxFile = path, sheet = fin_eta, startRow = 2)
+      # Find the ZAF data, duplicate it, and set the country to World
+      world_rows <- this_data %>%
+        dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF") %>%
+        dplyr::mutate(
+          "{IEATools::iea_cols$country}" := "World"
+        )
+      # Do some math to find the bottom of the table.
+      # First row is the date.
+      # Second row is the header.
+      # Then we have nrow(this_data) rows of the data.
+      # So we should start writing World data on row
+      first_world_row <- nrow(this_data) + 3
+      # Verify that first_world_row is empty
+      first_col <- openxlsx::read.xlsx(xlsxFile = path, sheet = fin_eta, cols = 1, colNames = FALSE)
+      # Find out how many values in the first column
+      # Verify that the first column is the right length
+      assertthat::assert_that(nrow(first_col) + 1 == first_world_row)
+      # Write the World data to the bottom of the sheet
+      this_wb <- openxlsx::loadWorkbook(path)
+      openxlsx::writeData(this_wb, sheet = fin_eta, x = world_rows,
+                          startCol = 1, startRow = first_world_row,
+                          colNames = FALSE, rowNames = FALSE)
+      openxlsx::saveWorkbook(this_wb, file = path, overwrite = TRUE)
+    }
+  })
 
 
 
