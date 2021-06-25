@@ -111,7 +111,8 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                reports_source_folders = system.file("reports", package = "SEAPSUTWorkflow"),
                                reports_output_folder = tempdir(),
                                exemplar_folder = tempdir(),
-                               machine_data_folder = tempdir(),
+                               # machine_data_folder = tempdir(),
+                               machine_data_folder = file.path(tempdir(), "Machines - Data"),
                                cache_path = tempfile("drake_cache_for_testing"),
                                setup_exemplars = FALSE) {
   # We sometimes forget to include "World" when using exemplars.
@@ -188,7 +189,7 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
 
   # Duplicate the Machines - Data directory from the SEAPSUTWorkflow example data
   # into the temporary directory.
-  copied_correctly <- file.copy(from = machine_data_examples_path, to = machine_data_folder, recursive = TRUE)
+  copied_correctly <- file.copy(from = machine_data_examples_path, to = fu_folder, recursive = TRUE)
   assertthat::assert_that(copied_correctly)
 
   # Get a list of all the files.
@@ -226,28 +227,46 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
     }
   })
 
-
-
-
-  # Set up the MachineData
-  # Establishes the path to the folder containing individual machine data files
-  # associated with the IEATools sample data for GHA and ZAF
-  eta_fin_sample_path <- system.file("extdata", "Machines - Data",
-                                     package = "SEAPSUTWorkflow")
-  # Reads data from the machine files
-  etas <- read_all_eta_files(eta_fin_paths = eta_fin_sample_path)
-
-  # Create a data frame for world etas
+  # Eliminate wood cookstoves from GHA if we want to we're testing exemplars
   if (setup_exemplars) {
-    # Create a World data set that is ZAF, only renamed.
-    etas_World <- etas %>%
-      dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF") %>%
-      dplyr::mutate(
-        "{IEATools::iea_cols$country}" := "World"
-      )
-    etas <- etas %>%
-      dplyr::bind_rows(etas_World)
+    # Create the file name for GHA cookstoves
+    cookstoves_path <- file.path(machine_data_folder, "Wood cookstoves", "Wood cookstoves.xlsx")
+    cookstoves_wb <- openxlsx::loadWorkbook(cookstoves_path)
+    # Delete the row that contains efficiency data for wood cookstoves in GHA
+    cookstove_fineta_worksheet <- openxlsx::read.xlsx(xlsxFile = cookstoves_wb, sheet = fin_eta, startRow = 2, colNames = TRUE)
+    without_gha <- cookstove_fineta_worksheet %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] != "GHA")
+    # Erase all the lines (except for the date) in this workbook.
+    openxlsx::deleteData(cookstoves_wb, sheet = fin_eta, rows = 2:100, cols = 1:100, gridExpand = TRUE)
+    # Write the new data into the workbook.
+    openxlsx::writeData(cookstoves_wb, sheet = fin_eta, x = without_gha,
+                        startCol = 1, startRow = 2,
+                        colNames = TRUE, rowNames = FALSE)
+    openxlsx::saveWorkbook(cookstoves_wb, file = cookstoves_path, overwrite = TRUE)
   }
+
+
+
+
+  # # Set up the MachineData
+  # # Establishes the path to the folder containing individual machine data files
+  # # associated with the IEATools sample data for GHA and ZAF
+  # eta_fin_sample_path <- system.file("extdata", "Machines - Data",
+  #                                    package = "SEAPSUTWorkflow")
+  # # Reads data from the machine files
+  # etas <- read_all_eta_files(eta_fin_paths = eta_fin_sample_path)
+  #
+  # # Create a data frame for world etas
+  # if (setup_exemplars) {
+  #   # Create a World data set that is ZAF, only renamed.
+  #   etas_World <- etas %>%
+  #     dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF") %>%
+  #     dplyr::mutate(
+  #       "{IEATools::iea_cols$country}" := "World"
+  #     )
+  #   etas <- etas %>%
+  #     dplyr::bind_rows(etas_World)
+  # }
 
   # Create other temporary folders
   dir.create(exemplar_folder, showWarnings = FALSE)
