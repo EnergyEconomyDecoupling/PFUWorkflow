@@ -319,7 +319,7 @@ test_that("simple example for assemble_fu_allocation_tables() works", {
 test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as expected.", {
   # Create a directory structure in a tempdir for the allocation tables
   testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(additional_exemplar_countries = "World",
-                                                        how_far = SEAPSUTWorkflow::target_names$CompletedEfficiencyTables,
+                                                        how_far = SEAPSUTWorkflow::target_names$CompletedPhiTables,
                                                         setup_exemplars = TRUE)
 
   tryCatch({
@@ -344,7 +344,7 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
       expect_equal(0)
     # Check that efficiencies for Wood cookstoves do NOT exist for GHA.
     # These will be supplied by an exemplar (World)
-    readd_by_country(SEAPSUTWorkflow::target_names$IncompleteEfficiencyTables,
+    readd_by_country(SEAPSUTWorkflow::target_names$MachineData,
                      country = "GHA",
                      cache_path = testing_setup$cache_path) %>%
       dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves",
@@ -362,14 +362,14 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
       nrow() %>%
       expect_equal(1)
     # Efficiencies:
-    readd_by_country(SEAPSUTWorkflow::target_names$IncompleteEfficiencyTables,
+    readd_by_country(SEAPSUTWorkflow::target_names$MachineData,
                      country = "World",
                      cache_path = testing_setup$cache_path) %>%
       dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves",
                     .data[[IEATools::template_cols$eu_product]] == "MTH.100.C",
                     .data[[IEATools::template_cols$quantity]] == "eta.fu") %>%
       nrow() %>%
-      expect_equal(1)
+      expect_equal(2) # Because 2 years (1971 and 2000)
 
     # Check the completed FU Allocation tables.
     GHA_allocations_completed <- readd_by_country(SEAPSUTWorkflow::target_names$CompletedAllocationTables,
@@ -390,11 +390,21 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
                                                    cache_path = testing_setup$cache_path)
     wood_cookstove_efficiency <- GHA_efficiencies_completed %>%
       dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves")
-    expect_equal(nrow(wood_cookstove_efficiency), 4)
-    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 1971) %>% nrow(), 2)
-    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 2000) %>% nrow(), 2)
+    expect_equal(nrow(wood_cookstove_efficiency), 2)
+    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 1971) %>% nrow(), 1)
+    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 2000) %>% nrow(), 1)
     expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$eta_fu) %>% nrow(), 2)
-    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$phi_u) %>% nrow(), 2)
+
+    # Check the completed phi tables.
+    GHA_phi_completed <- readd_by_country(SEAPSUTWorkflow::target_names$CompletedPhiTables,
+                                                   country = "GHA",
+                                                   cache_path = testing_setup$cache_path)
+    wood_cookstove_phi <- GHA_phi_completed %>%
+      dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves")
+    expect_equal(nrow(wood_cookstove_phi), 2)
+    expect_equal(wood_cookstove_phi %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 1971) %>% nrow(), 1)
+    expect_equal(wood_cookstove_phi %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 2000) %>% nrow(), 1)
+    expect_equal(wood_cookstove_phi %>% dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$phi_u) %>% nrow(), 2)
   },
   finally = {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)

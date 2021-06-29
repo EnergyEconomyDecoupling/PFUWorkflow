@@ -7,6 +7,7 @@ to a data frame.}
 \usage{
 calc_eta_fu_phi_u_vecs(
   completed_efficiency_tables,
+  completed_phi_tables,
   countries,
   country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year,

@@ -53,29 +53,33 @@ calc_C_mats <- function(completed_allocation_tables,
 #'
 #' @export
 calc_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
-                                  countries,
-                                  country = IEATools::iea_cols$country,
-                                  year = IEATools::iea_cols$year,
-                                  c_source = IEATools::template_cols$c_source,
-                                  eta_fu_phi_u_source = IEATools::template_cols$eta_fu_phi_u_source,
-                                  .values = IEATools::template_cols$.values,
-                                  eta_fu = IEATools::template_cols$eta_fu,
-                                  phi_u = IEATools::template_cols$phi_u) {
-  tables <- completed_efficiency_tables %>%
-    dplyr::filter(.data[[country]] %in% countries) %>%
-    dplyr::mutate(
-      # Eliminate the c_source and eta_phi_source column (if it exists) before sending
-      # the completed_allocation_tables into form_eta_fu_phi_u_vecs().
-      # The c_source and eta_fu_phi_u_source columns apply to individual eta_fu and phi_u values, and
-      # we're making vectors out of them.
-      # In other words, form_eta_fu_phi_u_vecs() doesn't know what to do with those columns.
-      "{c_source}" := NULL,
-      "{eta_fu_phi_u_source}" := NULL
-    )
-  # Need to form eta_fu and phi_u vectors from completed_efficiency_tables.
-  # Use the IEATools::completed_efficiency_tablesform_eta_fu_phi_u_vecs() function for this task.
-  # The function accepts a tidy data frame in addition to wide-by-year data frames.
-  IEATools::form_eta_fu_phi_u_vecs(tables, matvals = .values)
+                                   completed_phi_tables,
+                                   countries,
+                                   country = IEATools::iea_cols$country,
+                                   year = IEATools::iea_cols$year,
+                                   c_source = IEATools::template_cols$c_source,
+                                   eta_fu_phi_u_source = IEATools::template_cols$eta_fu_phi_u_source,
+                                   .values = IEATools::template_cols$.values,
+                                   eta_fu = IEATools::template_cols$eta_fu,
+                                   phi_u = IEATools::template_cols$phi_u) {
+  lapply(list(completed_efficiency_tables, completed_phi_tables), function(t) {
+    tables <- t %>%
+      dplyr::filter(.data[[country]] %in% countries) %>%
+      dplyr::mutate(
+        # Eliminate the c_source and eta_phi_source column (if it exists) before sending
+        # the completed_allocation_tables into form_eta_fu_phi_u_vecs().
+        # The c_source and eta_fu_phi_u_source columns apply to individual eta_fu and phi_u values, and
+        # we're making vectors out of them.
+        # In other words, form_eta_fu_phi_u_vecs() doesn't know what to do with those columns.
+        "{c_source}" := NULL,
+        "{eta_fu_phi_u_source}" := NULL
+      )
+    # Need to form eta_fu and phi_u vectors from completed_efficiency_tables.
+    # Use the IEATools::completed_efficiency_tablesform_eta_fu_phi_u_vecs() function for this task.
+    # The function accepts a tidy data frame in addition to wide-by-year data frames.
+    IEATools::form_eta_fu_phi_u_vecs(tables, matvals = .values)
+  }) %>%
+    dplyr::bind_rows()
 }
 
 

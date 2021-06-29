@@ -172,9 +172,10 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                              agg_cru_cy_year = 2020)),
     # (1c) Grab Machine data for ALL countries
 
-    AllMachineData = drake::target(read_all_eta_files(eta_fin_paths = get_eta_filepaths(machine_data_path))),
-
-
+    AllMachineData = read_all_eta_files(eta_fin_paths = get_eta_filepaths(machine_data_path)),
+    MachineData = drake::target(AllMachineData %>%
+                                  extract_country_data(countries = alloc_and_eff_couns, max_year = max_year),
+                                dynamic = map(alloc_and_eff_couns)),
 
     # (2) Balance all final energy data.
 
@@ -250,7 +251,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     #                                                                  max_year = max_year),
     #                                           dynamic = map(countries)),
 
-    CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = AllMachineData,
+    CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
                                                                      exemplar_lists = ExemplarLists,
                                                                      completed_fu_allocation_tables = CompletedAllocationTables,
                                                                      countries = countries,
@@ -259,7 +260,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     ),
                                               dynamic = map(countries)),
 
-    CompletedPhiTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = AllMachineData,
+    CompletedPhiTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
                                                               exemplar_lists = ExemplarLists,
                                                               completed_fu_allocation_tables = CompletedAllocationTables,
                                                               countries = countries,
@@ -276,6 +277,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                           dynamic = map(countries)),
 
     EtaPhivecs = drake::target(calc_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
+                                                      completed_phi_tables = CompletedPhiTables,
                                                       countries = countries),
                                dynamic = map(countries)),
 
