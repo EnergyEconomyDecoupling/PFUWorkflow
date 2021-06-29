@@ -63,7 +63,7 @@ calc_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
                                    eta_fu = IEATools::template_cols$eta_fu,
                                    phi_u = IEATools::template_cols$phi_u) {
   lapply(list(completed_efficiency_tables, completed_phi_tables), function(t) {
-    tables <- t %>%
+    t %>%
       dplyr::filter(.data[[country]] %in% countries) %>%
       dplyr::mutate(
         # Eliminate the c_source and eta_phi_source column (if it exists) before sending
@@ -74,12 +74,12 @@ calc_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
         "{c_source}" := NULL,
         "{eta_fu_phi_u_source}" := NULL
       )
+  }) %>%
+    dplyr::bind_rows() %>%
     # Need to form eta_fu and phi_u vectors from completed_efficiency_tables.
     # Use the IEATools::completed_efficiency_tablesform_eta_fu_phi_u_vecs() function for this task.
     # The function accepts a tidy data frame in addition to wide-by-year data frames.
-    IEATools::form_eta_fu_phi_u_vecs(tables, matvals = .values)
-  }) %>%
-    dplyr::bind_rows()
+    IEATools::form_eta_fu_phi_u_vecs(matvals = .values)
 }
 
 
