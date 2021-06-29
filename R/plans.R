@@ -256,8 +256,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                                      completed_fu_allocation_tables = CompletedAllocationTables,
                                                                      countries = countries,
                                                                      max_year = max_year,
-                                                                     which_quantity = IEATools::template_cols$eta_fu
-    ),
+                                                                     which_quantity = IEATools::template_cols$eta_fu),
                                               dynamic = map(countries)),
 
     CompletedPhiTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
@@ -265,8 +264,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                               completed_fu_allocation_tables = CompletedAllocationTables,
                                                               countries = countries,
                                                               max_year = max_year,
-                                                              which_quantity = IEATools::template_cols$phi_u
-    ),
+                                                              which_quantity = IEATools::template_cols$phi_u),
                                        dynamic = map(countries)),
 
 
