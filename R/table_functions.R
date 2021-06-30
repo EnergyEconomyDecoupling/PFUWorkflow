@@ -305,9 +305,9 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
 #' @param which_quantity A vector of quantities to be completed in the eta_FU table.
 #'                       Default is `c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u)`.
 #'                       Must be one or both of the default values.
-#' @param country,year See `IEATools::iea_cols`.
-#' @param exemplars,exemplar_tables,alloc_data,incomplete_eta_tables,complete_eta_tables
-#'                    See `SEAPSUTWorkflows::exemplar_names`.
+#' @param country,method,energy_type,last_stage,year,unit,e_dot See `IEATools::iea_cols`.
+#' @param machine,eu_product,eta_fu,phi_u,c_source,eta_fu_phi_u_source,e_dot_machine,e_dot_machine_perc,quantity,maximum_values,e_dot_perc,.values See `IEATools::template_cols`.
+#' @param exemplars,exemplar_tables,alloc_data,incomplete_eta_tables,complete_eta_tables See `SEAPSUTWorkflows::exemplar_names`.
 #'
 #' @return A tidy data frame containing completed final-to-useful efficiency tables.
 #'

@@ -54,7 +54,9 @@ typically the result of calling \code{assemble_fu_allocation_tables}.}
 Default is \code{c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u)}.
 Must be one or both of the default values.}
 
-\item{country, year}{See \code{IEATools::iea_cols}.}
+\item{country, method, energy_type, last_stage, year, unit, e_dot}{See \code{IEATools::iea_cols}.}
+
+\item{machine, eu_product, eta_fu, phi_u, c_source, eta_fu_phi_u_source, e_dot_machine, e_dot_machine_perc, quantity, maximum_values, e_dot_perc, .values}{See \code{IEATools::template_cols}.}
 
 \item{exemplars, exemplar_tables, alloc_data, incomplete_eta_tables, complete_eta_tables}{See \code{SEAPSUTWorkflows::exemplar_names}.}
 }

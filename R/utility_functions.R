@@ -230,7 +230,7 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
   # Eliminate wood cookstoves from GHA if we want to we're testing exemplars
   if (setup_exemplars) {
     # Create the file name for GHA cookstoves
-    cookstoves_path <- file.path(machine_data_folder, "Wood cookstoves", "Wood cookstoves.xlsx")
+    cookstoves_path <- file.path(machine_data_folder, "Wood_cookstoves", "Wood_cookstoves.xlsx")
     cookstoves_wb <- openxlsx::loadWorkbook(cookstoves_path)
     # Delete the row that contains efficiency data for wood cookstoves in GHA
     cookstove_fineta_worksheet <- openxlsx::read.xlsx(xlsxFile = cookstoves_wb, sheet = fin_eta, startRow = 2, colNames = TRUE)

@@ -19,9 +19,11 @@ calc_eta_fu_phi_u_vecs(
 )
 }
 \arguments{
-\item{completed_efficiency_tables}{The completed efficiency tables from which allocation (\code{eta_fu}) vectors
-and exergy-to-energy ratio vectors (\code{phi_u}) should be created.
-This data frame is most likely to be the \code{CompletedEfficiencyTables} target.}
+\item{completed_efficiency_tables}{The completed efficiency tables from which efficiency (\code{eta_fu}) vectors
+should be created. This data frame is most likely to be the \code{CompletedEfficiencyTables} target.}
+
+\item{completed_phi_tables}{The completed phi tables from which exergy-to-energy ratio vectors (\code{phi_u})
+should be created.This data frame is most likely to be the \code{CompletedPhiTables} target.}
 
 \item{countries}{The countries for which \code{eta_fu} and \code{phi_u} vectors should be formed.}
 

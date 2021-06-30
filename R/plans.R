@@ -19,7 +19,8 @@
 #' * `AllIEAData`: A data frame with all IEA extended energy balance data read from `iea_data_path`.
 #' * `IEAData`: A version of the `AllIEAData` data frame containing data for only those countries specified in `countries`.
 #' * `CEDAData`: A data frame containing temperature data supplied through `CEDATools::read_cru_cy_files`.
-#' * `AllMachineData`: A data frame containing Eta.fu and Phi.u values read through functions in `machine_functions.R`.
+#' * `AllMachineData`: A data frame containing Eta.fu values read through functions in `machine_functions.R`.
+#' * `MachineData`: A filtered version of `AllMachineData` containing information for only `alloc_and_eff_couns`.
 #' * `balanced_before`: A boolean that tells where the data were balanced as received, usually a vector of `FALSE`, one for each country.
 #' * `BalancedIEAData`: A data frame containing balanced IEA extended energy balance data.
 #' * `balanced_after`: A boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of `TRUE`, one for each country.
@@ -29,8 +30,8 @@
 #' * `ExemplarLists`: A data frame containing lists of exemplar countries on a per-country, per-year basis.
 #' * `IncompleteAllocationTables`: A data frame containing final-to-useful allocation tables.
 #' * `CompletedAllocationTables` : A data frame containing completed final-to-useful allocation tables.
-#' * `IncompleteEfficiencyTables`: A data frame containing final-to-useful efficiency tables.
 #' * `CompletedEfficiencyTables`: A data frame containing completed final-to-useful efficiency tables.
+#' * `CompletedPhiTables` : A data frame of completed exergy-to-energy ratios.
 #' * `Cmats` : A data frame containing `CompletedAllocationTables` in matrix form.
 #' * `EtaPhivecs` : A data frame containing final-to-useful efficiency and exergy-to-energy ratio vectors.
 #' * `PSUT_useful` : A data frame containing PSUT matrices up to the useful stage.

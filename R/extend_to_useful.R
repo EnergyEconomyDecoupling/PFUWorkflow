@@ -42,9 +42,10 @@ calc_C_mats <- function(completed_allocation_tables,
 #' This function adds final-to-useful efficiency (`eta`) and
 #' exergy-to-energy ratio vectors to the previously-created `WithCmats` target.#'
 #'
-#' @param completed_efficiency_tables The completed efficiency tables from which allocation (`eta_fu`) vectors
-#'                                    and exergy-to-energy ratio vectors (`phi_u`) should be created.
-#'                                    This data frame is most likely to be the `CompletedEfficiencyTables` target.
+#' @param completed_efficiency_tables The completed efficiency tables from which efficiency (`eta_fu`) vectors
+#'                                    should be created. This data frame is most likely to be the `CompletedEfficiencyTables` target.
+#' @param completed_phi_tables The completed phi tables from which exergy-to-energy ratio vectors (`phi_u`)
+#'                             should be created.This data frame is most likely to be the `CompletedPhiTables` target.
 #' @param countries The countries for which `eta_fu` and `phi_u` vectors should be formed.
 #' @param country,year See `IEATools::ieacols`.
 #' @param c_source,eta_fu_phi_u_source,.values,eta_fu,phi_u See `IEATools::template_cols`.

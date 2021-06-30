@@ -20,7 +20,8 @@ A string list with 40 entries.
 \item{AllIEAData}{The name of a data frame containing all IEA data read from \code{iea_data_path}.}
 \item{IEAData}{A filtered version of \code{AllIEAData} containing information for only \code{countries}.}
 \item{CEDAData}{The name of the data frame containing all CEDA temperature data read from \code{ceda_data_folder}.}
-\item{AllMachineData}{A data frame containing Eta.fu and Phi.u values read through functions in \code{machine_functions.R}.}
+\item{AllMachineData}{A data frame containing Eta.fu values read through functions in \code{machine_functions.R}.}
+\item{MachineData}{A filtered version of \code{AllMachineData} containing information for only \code{alloc_and_eff_couns}.}
 \item{balanced_before}{A boolean indicating whether the \code{IEAData} are balanced before any further analysis. They usually are not, so this value is typically \code{FALSE}.}
 \item{BalancedIEAData}{A balanced version of \code{IEAData}.}
 \item{balanced_after}{Same as \code{balanced_before}, only for after balancing. This should be \code{TRUE}.}
