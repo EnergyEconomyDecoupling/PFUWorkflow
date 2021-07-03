@@ -123,6 +123,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   IEAData <- NULL
   CEDAData <- NULL
   AllMachineData <- NULL
+  MachineData <- NULL
   BalancedIEAData <- NULL
   balanced_after <- NULL
   Specified <- NULL
@@ -132,6 +133,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   ExemplarLists <- NULL
   CompletedAllocationTables <- NULL
   CompletedEfficiencyTables <- NULL
+  CompletedPhiTables <- NULL
   Cmats <- NULL
   EtaPhivecs <- NULL
   PSUT_useful <- NULL

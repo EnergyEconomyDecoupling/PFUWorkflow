@@ -23,7 +23,6 @@ sample_machine_workbook_path <- function() {
 #'
 #' @example
 #' all_files <- get_eta_filepaths(filepath = sample_machine_workbook_path()) %>% unlist()
-#'
 get_eta_filepaths <- function(filepath,
                               efficiency_tab_name = SEAPSUTWorkflow::machine_constants$efficiency_tab_name) {
 
