@@ -5,7 +5,8 @@
 #' @export
 #'
 #' @examples
-#' sample_machine_workbook_path()
+#' sample_data_path <- sample_machine_workbook_path()
+#'
 sample_machine_workbook_path <- function() {
   file.path("extdata", "Machine Examples") %>%
     system.file(package = "SEAPSUTWorkflow")
@@ -25,7 +26,8 @@ sample_machine_workbook_path <- function() {
 #' @export
 #'
 #' @example
-#' get_eta_filepaths(filepath = sample_machine_workbook_path())
+#' eta_filepaths <- get_eta_filepaths(filepath = sample_machine_workbook_path())
+#'
 get_eta_filepaths <- function(filepath,
                               efficiency_tab_name = SEAPSUTWorkflow::machine_constants$efficiency_tab_name) {
 
