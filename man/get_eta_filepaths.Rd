@@ -22,3 +22,6 @@ FIN_ETA front sheets, and therefore usable data.
 The machine efficiency files contain a FIN_ETA sheet
 that stores all efficiencies..
 }
+\examples{
+get_eta_filepaths(filepath = sample_machine_workbook_path())
+}

@@ -13,6 +13,5 @@ a path to a sample machine excel workbook bundled with this package
 Gives a file path to a sample machine excel workbook
 }
 \examples{
-sample_data_path <- sample_machine_workbook_path()
-
+sample_machine_workbook_path()
 }

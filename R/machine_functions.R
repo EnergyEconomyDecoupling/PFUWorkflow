@@ -5,8 +5,7 @@
 #' @export
 #'
 #' @examples
-#' sample_data_path <- sample_machine_workbook_path()
-#'
+#' sample_machine_workbook_path()
 sample_machine_workbook_path <- function() {
   file.path("extdata", "Machine Examples") %>%
     system.file(package = "SEAPSUTWorkflow")
@@ -25,9 +24,8 @@ sample_machine_workbook_path <- function() {
 #'         FIN_ETA front sheets, and therefore usable data.
 #' @export
 #'
-#' @example
-#' eta_filepaths <- get_eta_filepaths(filepath = sample_machine_workbook_path())
-#'
+#' @examples
+#' get_eta_filepaths(filepath = sample_machine_workbook_path())
 get_eta_filepaths <- function(filepath,
                               efficiency_tab_name = SEAPSUTWorkflow::machine_constants$efficiency_tab_name) {
 
@@ -87,8 +85,7 @@ get_eta_filepaths <- function(filepath,
 #' @export
 #'
 #' @examples
-#' etas <- read_all_eta_files(eta_fin_paths = sample_machine_workbook_path())
-#'
+#' read_all_eta_files(eta_fin_paths = sample_machine_workbook_path())
 read_all_eta_files <- function(eta_fin_paths,
                                efficiency_tab_name = SEAPSUTWorkflow::machine_constants$efficiency_tab_name,
                                year = IEATools::iea_cols$year,

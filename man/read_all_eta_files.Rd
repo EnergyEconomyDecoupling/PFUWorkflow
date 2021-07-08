@@ -46,6 +46,5 @@ all files read.
 reading the files and creating the data frames.
 }
 \examples{
-etas <- read_all_eta_files(eta_fin_paths = sample_machine_workbook_path())
-
+read_all_eta_files(eta_fin_paths = sample_machine_workbook_path())
 }
