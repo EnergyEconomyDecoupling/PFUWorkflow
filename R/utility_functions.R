@@ -417,7 +417,6 @@ clean_up_after_testing <- function(testing_setup, cache_path = testing_setup$cac
 #'
 #' @examples
 #' fd_sectors <- get_fd_sectors()
-#'
 get_fd_sectors <- function(){
 
   fd_sectors <- IEATools::fd_sectors
@@ -443,7 +442,6 @@ get_fd_sectors <- function(){
 #' library(Recca)
 #' final_demand_sector_list <- create_fd_sectors_list(fd_sectors = c("Residential"),
 #' .sutdata = Recca::UKEnergy2000mats)
-#'
 create_fd_sectors_list <- function(fd_sectors, .sutdata) {
 
   fd_sectors_list <- rep(x = list(c(fd_sectors)), times = nrow(.sutdata))
