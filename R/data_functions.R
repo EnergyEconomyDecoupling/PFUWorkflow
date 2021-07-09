@@ -3,7 +3,7 @@
 #' Data is extracted according to the `countries` object in a way that is amenable to drake subtargets.
 #' `dplyr::filter()` does the subsetting.
 #'
-#' @param AllIEAData A data frame containing cleaned IEA extended energy balance data.
+#' @param .df A data frame containing cleaned data with lots of countries.
 #' @param countries A list of 3-letter country codes for countries to be analyzed.
 #' @param max_year The latest year you want to include in the extracted data.
 #' @param country,year See `IEATools::iea_cols`.
@@ -16,10 +16,10 @@
 #' IEATools::sample_iea_data_path() %>%
 #'   IEATools::load_tidy_iea_df() %>%
 #'   extract_country_data(countries = c("ZAF"), max_year = 1999)
-extract_country_data <- function(AllIEAData, countries, max_year,
+extract_country_data <- function(.df, countries, max_year,
                                  country = IEATools::iea_cols$country,
                                  year = IEATools::iea_cols$year) {
-  dplyr::filter(AllIEAData, .data[[country]] %in% countries, .data[[year]] <= max_year)
+  dplyr::filter(.df, .data[[country]] %in% countries, .data[[year]] <= max_year)
 }
 
 

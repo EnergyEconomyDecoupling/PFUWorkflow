@@ -4,18 +4,47 @@
 \alias{read_all_eta_files}
 \title{Create a data frame containing machine Eta.fu and Phi.u values.}
 \usage{
-read_all_eta_files(eta_fin_paths)
+read_all_eta_files(
+  eta_fin_paths,
+  efficiency_tab_name = SEAPSUTWorkflow::machine_constants$efficiency_tab_name,
+  year = IEATools::iea_cols$year,
+  .values = IEATools::template_cols$.values
+)
 }
 \arguments{
 \item{eta_fin_paths}{A list of the file paths to machine excel files containing
 FIN_ETA front sheets, and therefore usable data.
-Created by calling the \code{get_eta_filepaths} function.}
+Created by calling the \code{get_eta_filepaths()} function.}
+
+\item{efficiency_tab_name}{See \code{SEAPSUTWorkflow::machine_constants}.}
+
+\item{year}{See \code{IEATools::iea_cols}.}
+
+\item{.values}{See \code{IEATools::template_cols}.}
 }
 \value{
 A data frame containing all Eta.fu and Phi.u values present
 in all Machine excel files, with the following column names:
-"Country", "Machine", "Eu.product", "Metric", "Year", "Value".
+"Country", "Energy.type", "Last.stage", "Method", "Machine",
+"Eu.product", "Quantity", "Year", "Value".
 }
 \description{
-Create a data frame containing machine Eta.fu and Phi.u values.
+This function reads the files in \code{eat_fin_paths}
+and creates a data frame of important efficiency and other variables.
+}
+\details{
+Note that \code{eta_fin_paths} should typically be a list of
+file paths, each a character string.
+But \code{eta_fin_paths} can be a single character string (not a list),
+in which case it will be interpreted as a directory
+containing files that have Eta.fu and Phi.u values.
+When \code{eta_fin_paths} is a single character string (not a list),
+the directory will be interrogated for files,
+a list of file paths constructed, and
+all files read.
+\code{get_eta_filepaths()} is called internally before
+reading the files and creating the data frames.
+}
+\examples{
+read_all_eta_files(eta_fin_paths = sample_machine_workbook_path())
 }

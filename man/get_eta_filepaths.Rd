@@ -2,17 +2,26 @@
 % Please edit documentation in R/machine_functions.R
 \name{get_eta_filepaths}
 \alias{get_eta_filepaths}
-\title{Get all file paths to machine excel files which contain a FIN_ETA sheet}
+\title{Get all file paths to machine efficiency files}
 \usage{
-get_eta_filepaths(filepath)
+get_eta_filepaths(
+  filepath,
+  efficiency_tab_name = SEAPSUTWorkflow::machine_constants$efficiency_tab_name
+)
 }
 \arguments{
 \item{filepath}{A file path to the folder containing all machine folders.}
+
+\item{efficiency_tab_name}{See \code{SEAPSUTWorkflow::machine_constants}.}
 }
 \value{
 A list of the file paths to machine excel files containing
 FIN_ETA front sheets, and therefore usable data.
 }
 \description{
-Get all file paths to machine excel files which contain a FIN_ETA sheet
+The machine efficiency files contain a FIN_ETA sheet
+that stores all efficiencies..
+}
+\examples{
+get_eta_filepaths(filepath = sample_machine_workbook_path())
 }

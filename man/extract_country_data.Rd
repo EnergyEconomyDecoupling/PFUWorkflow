@@ -5,7 +5,7 @@
 \title{Extract specific country data}
 \usage{
 extract_country_data(
-  AllIEAData,
+  .df,
   countries,
   max_year,
   country = IEATools::iea_cols$country,
@@ -13,7 +13,7 @@ extract_country_data(
 )
 }
 \arguments{
-\item{AllIEAData}{A data frame containing cleaned IEA extended energy balance data.}
+\item{.df}{A data frame containing cleaned data with lots of countries.}
 
 \item{countries}{A list of 3-letter country codes for countries to be analyzed.}
 
