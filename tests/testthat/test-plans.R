@@ -66,6 +66,9 @@ test_that("get_plan works", {
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "ExemplarLists")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "IncompleteAllocationTables")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "TidyIncompleteAllocationTables")
+
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "CompletedAllocationTables")
 
   # expect_equal(my_plan[[rn <- rn + 1, "target"]], "IncompleteEfficiencyTables")

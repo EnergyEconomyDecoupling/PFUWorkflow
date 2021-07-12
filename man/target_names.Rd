@@ -5,7 +5,7 @@
 \alias{target_names}
 \title{Drake cache target names}
 \format{
-A string list with 40 entries.
+A string list with 41 entries.
 \describe{
 \item{countries}{The string name of the countries target in the drake cache, giving the countries to be analyzed.}
 \item{alloc_and_eff_couns}{The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.}
@@ -28,6 +28,7 @@ A string list with 40 entries.
 \item{Specified}{A data frame containing specified IEA data.}
 \item{PSUT_final}{A data frame containing \code{Specified} in a PSUT format.}
 \item{IncompleteAllocationTables}{A data frame of final-to-useful allocation tables, one for each country. These allocation tables may be incomplete.}
+\item{TidyIncompleteAllocationTables}{A tidy data frame of final-to-useful allocation tables, one for each country. These allocation tables may be incomplete.}
 \item{ExemplarLists}{A data frame of lists of exemplar countries for each country in \code{countries}, and maybe more.}
 \item{CompletedAllocationTables}{A data frame of completed final-to-useful allocation tables.}
 \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}

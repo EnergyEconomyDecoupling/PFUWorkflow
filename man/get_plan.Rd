@@ -86,6 +86,7 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{PSUT_final}: A data frame containing PSUT matrices up to the final stage.
 \item \code{ExemplarLists}: A data frame containing lists of exemplar countries on a per-country, per-year basis.
 \item \code{IncompleteAllocationTables}: A data frame containing final-to-useful allocation tables.
+\item \code{TidyIncompleteAllocationTables}: A data frame containing final-to-useful allocation tables.
 \item \code{CompletedAllocationTables} : A data frame containing completed final-to-useful allocation tables.
 \item \code{CompletedEfficiencyTables}: A data frame containing completed final-to-useful efficiency tables.
 \item \code{CompletedPhiTables} : A data frame of completed exergy-to-energy ratios.

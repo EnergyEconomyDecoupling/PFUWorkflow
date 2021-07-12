@@ -29,6 +29,7 @@
 #' * `PSUT_final`: A data frame containing PSUT matrices up to the final stage.
 #' * `ExemplarLists`: A data frame containing lists of exemplar countries on a per-country, per-year basis.
 #' * `IncompleteAllocationTables`: A data frame containing final-to-useful allocation tables.
+#' * `TidyIncompleteAllocationTables`: A data frame containing final-to-useful allocation tables.
 #' * `CompletedAllocationTables` : A data frame containing completed final-to-useful allocation tables.
 #' * `CompletedEfficiencyTables`: A data frame containing completed final-to-useful efficiency tables.
 #' * `CompletedPhiTables` : A data frame of completed exergy-to-energy ratios.
@@ -129,6 +130,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   Specified <- NULL
   PSUT_final <- NULL
   IncompleteAllocationTables <- NULL
+  TidyIncompleteAllocationTables <- NULL
   IncompleteEfficiencyTables <- NULL
   ExemplarLists <- NULL
   CompletedAllocationTables <- NULL
@@ -218,14 +220,18 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                     load_exemplar_table(countries = alloc_and_eff_couns,
                                                         max_year = max_year) %>%
                                     exemplar_lists(alloc_and_eff_couns),
-                                    dynamic = map(alloc_and_eff_couns)),
+                                  dynamic = map(alloc_and_eff_couns)),
 
     # (6) Load incomplete FU allocation tables
 
     IncompleteAllocationTables = drake::target(fu_analysis_folder %>%
                                                  load_fu_allocation_tables(specified_iea_data = Specified,
                                                                            countries = alloc_and_eff_couns),
-                                                 dynamic = map(alloc_and_eff_couns)),
+                                               dynamic = map(alloc_and_eff_couns)),
+
+    TidyIncompleteAllocationTables = drake::target(IncompleteAllocationTables %>%
+                                                     IEATools::tidy_fu_allocation_table(),
+                                                   dynamic = map(alloc_and_eff_couns)),
 
     # (7) Complete FU allocation tables
 
