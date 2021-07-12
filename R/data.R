@@ -28,6 +28,7 @@
 #' \item{Specified}{A data frame containing specified IEA data.}
 #' \item{PSUT_final}{A data frame containing `Specified` in a PSUT format.}
 #' \item{IncompleteAllocationTables}{A data frame of final-to-useful allocation tables, one for each country. These allocation tables may be incomplete.}
+#' \item{TidyIncompleteAllocationTables}{A tidy data frame of final-to-useful allocation tables, one for each country. These allocation tables may be incomplete.}
 #' \item{ExemplarLists}{A data frame of lists of exemplar countries for each country in `countries`, and maybe more.}
 #' \item{CompletedAllocationTables}{A data frame of completed final-to-useful allocation tables.}
 #' \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}
