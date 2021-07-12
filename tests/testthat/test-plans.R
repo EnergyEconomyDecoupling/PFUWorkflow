@@ -49,6 +49,8 @@ test_that("get_plan works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AllMachineData")
 
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "MachineData")
+
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "balanced_before")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "BalancedIEAData")
@@ -66,8 +68,9 @@ test_that("get_plan works", {
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "IncompleteAllocationTables")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "CompletedAllocationTables")
 
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "IncompleteEfficiencyTables")
+  # expect_equal(my_plan[[rn <- rn + 1, "target"]], "IncompleteEfficiencyTables")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "CompletedEfficiencyTables")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "CompletedPhiTables")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "Cmats")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "EtaPhivecs")
@@ -169,6 +172,19 @@ test_that("make() works", {
     # Check making PSUT matrices, reading by country.
     expect_true(!is.null(readd_by_country(target = "PSUT_final", country = "ZAF", cache_path = testing_setup$cache_path)))
 
+    # Ensure that ExemplarLists were read correctly.
+    expect_true(!is.null(readd_by_country(target = "ExemplarLists", country = "GHA", cache_path = testing_setup$cache_path)))
+    expect_true(!is.null(readd_by_country(target = "ExemplarLists", country = "ZAF", cache_path = testing_setup$cache_path)))
+    # Check that each country is in the right target
+    readd_by_country(target = "ExemplarLists", country = "GHA", cache_path = testing_setup$cache_path) %>%
+      dplyr::select(IEATools::iea_cols$country) %>%
+      unique() %>% unlist() %>% unname() %>%
+      expect_equal("GHA")
+    readd_by_country(target = "ExemplarLists", country = "ZAF", cache_path = testing_setup$cache_path) %>%
+      dplyr::select(IEATools::iea_cols$country) %>%
+      unique() %>% unlist() %>% unname() %>%
+      expect_equal("ZAF")
+
     # Test allocation tables.
     expect_true(!is.null(readd_by_country(target = "IncompleteAllocationTables", country = "GHA", cache_path = testing_setup$cache_path)))
     expect_true(!is.null(readd_by_country(target = "IncompleteAllocationTables", country = "ZAF", cache_path = testing_setup$cache_path)))
@@ -186,33 +202,23 @@ test_that("make() works", {
     expect_true(all(!is.na(ZAF_allocation_table[[IEATools::iea_cols$method]])))
     expect_true(all(!is.na(ZAF_allocation_table[[IEATools::iea_cols$energy_type]])))
 
-    # Test efficiency tables.
-    expect_true(!is.null(readd_by_country(target = "IncompleteEfficiencyTables", country = "GHA", cache_path = testing_setup$cache_path)))
-    expect_true(!is.null(readd_by_country(target = "IncompleteEfficiencyTables", country = "ZAF", cache_path = testing_setup$cache_path)))
+    # Test completed allocation tables.
+    expect_true(!is.null(readd_by_country(target = "CompletedAllocationTables", country = "GHA", cache_path = testing_setup$cache_path)))
+    expect_true(!is.null(readd_by_country(target = "CompletedAllocationTables", country = "ZAF", cache_path = testing_setup$cache_path)))
     # Check that each country is in the right target
-    readd_by_country(target = "IncompleteEfficiencyTables", country = "GHA", cache_path = testing_setup$cache_path) %>%
+    readd_by_country(target = "CompletedAllocationTables", country = "GHA", cache_path = testing_setup$cache_path) %>%
       dplyr::select(IEATools::iea_cols$country) %>%
       unique() %>% unlist() %>% unname() %>%
       expect_equal("GHA")
-    readd_by_country(target = "IncompleteEfficiencyTables", country = "ZAF", cache_path = testing_setup$cache_path) %>%
+    readd_by_country(target = "CompletedAllocationTables", country = "ZAF", cache_path = testing_setup$cache_path) %>%
       dplyr::select(IEATools::iea_cols$country) %>%
       unique() %>% unlist() %>% unname() %>%
       expect_equal("ZAF")
+    # Check that the ZAF table looks OK.
+    ZAF_completed_allocation_table <- readd_by_country(target = SEAPSUTWorkflow::target_names$IncompleteAllocationTables, country = "ZAF", cache_path = testing_setup$cache_path)
+    expect_true(all(!is.na(ZAF_completed_allocation_table[[IEATools::iea_cols$method]])))
+    expect_true(all(!is.na(ZAF_completed_allocation_table[[IEATools::iea_cols$energy_type]])))
 
-    # Ensure that ExemplarLists were read correctly.
-    expect_true(!is.null(readd_by_country(target = "ExemplarLists", country = "GHA", cache_path = testing_setup$cache_path)))
-    expect_true(!is.null(readd_by_country(target = "ExemplarLists", country = "ZAF", cache_path = testing_setup$cache_path)))
-    # Check that each country is in the right target
-    readd_by_country(target = "ExemplarLists", country = "GHA", cache_path = testing_setup$cache_path) %>%
-      dplyr::select(IEATools::iea_cols$country) %>%
-      unique() %>% unlist() %>% unname() %>%
-      expect_equal("GHA")
-    readd_by_country(target = "ExemplarLists", country = "ZAF", cache_path = testing_setup$cache_path) %>%
-      dplyr::select(IEATools::iea_cols$country) %>%
-      unique() %>% unlist() %>% unname() %>%
-      expect_equal("ZAF")
-
-    ### Add more tests here!
 
   },
   finally = {

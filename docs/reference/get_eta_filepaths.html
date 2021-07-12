@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get all file paths to machine excel files which contain a FIN_ETA sheet — get_eta_filepaths • SEAPSUTWorkflow</title>
+<title>Get all file paths to machine efficiency files — get_eta_filepaths • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Get all file paths to machine excel files which contain a FIN_ETA sheet — get_eta_filepaths" />
-<meta property="og:description" content="Get all file paths to machine excel files which contain a FIN_ETA sheet" />
+<meta property="og:title" content="Get all file paths to machine efficiency files — get_eta_filepaths" />
+<meta property="og:description" content="The machine efficiency files contain a FIN_ETA sheet
+that stores all efficiencies.." />
 
 
 
@@ -72,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -109,16 +110,20 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get all file paths to machine excel files which contain a FIN_ETA sheet</h1>
+    <h1>Get all file paths to machine efficiency files</h1>
     
     <div class="hidden name"><code>get_eta_filepaths.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get all file paths to machine excel files which contain a FIN_ETA sheet</p>
+    <p>The machine efficiency files contain a FIN_ETA sheet
+that stores all efficiencies..</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_eta_filepaths</span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_eta_filepaths</span><span class='op'>(</span>
+  <span class='va'>filepath</span>,
+  efficiency_tab_name <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='machine_constants.html'>machine_constants</a></span><span class='op'>$</span><span class='va'>efficiency_tab_name</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -127,6 +132,10 @@
       <th>filepath</th>
       <td><p>A file path to the folder containing all machine folders.</p></td>
     </tr>
+    <tr>
+      <th>efficiency_tab_name</th>
+      <td><p>See <code><a href='machine_constants.html'>SEAPSUTWorkflow::machine_constants</a></code>.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -134,6 +143,11 @@
     <p>A list of the file paths to machine excel files containing
 FIN_ETA front sheets, and therefore usable data.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>get_eta_filepaths</span><span class='op'>(</span>filepath <span class='op'>=</span> <span class='fu'><a href='sample_machine_workbook_path.html'>sample_machine_workbook_path</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
+#&gt; [1] "C:/Users/earzm/Documents/Github/SEAPSUTWorkflow/inst/extdata/Machine Examples/Machine_Example/Machine_Example.xlsx"
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -145,7 +159,7 @@ FIN_ETA front sheets, and therefore usable data.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Matthew Heun.</p>
+  <p>Developed by Matthew Heun, Zeke Marshall.</p>
 </div>
 
 <div class="pkgdown">

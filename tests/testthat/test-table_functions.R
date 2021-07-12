@@ -225,12 +225,12 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
     # Make sure that is true.
     fu_alloc_rows <- fu_allocations_GRC %>%
       dplyr::select(IEATools::iea_cols$country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type,
-                    IEATools::iea_cols$last_stage, IEATools::iea_cols$unit,
+                    IEATools::iea_cols$last_stage,
                     IEATools::template_cols$machine, IEATools::template_cols$eu_product) %>%
       unique()
     eta_fu_rows <- eta_fu_table_GRC %>%
       dplyr::select(IEATools::iea_cols$country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type,
-                    IEATools::iea_cols$last_stage, IEATools::iea_cols$unit,
+                    IEATools::iea_cols$last_stage,
                     IEATools::template_cols$machine, IEATools::template_cols$eu_product) %>%
       unique()
     # These two data frames should contain the same information, because
@@ -319,7 +319,7 @@ test_that("simple example for assemble_fu_allocation_tables() works", {
 test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as expected.", {
   # Create a directory structure in a tempdir for the allocation tables
   testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(additional_exemplar_countries = "World",
-                                                        how_far = SEAPSUTWorkflow::target_names$CompletedEfficiencyTables,
+                                                        how_far = SEAPSUTWorkflow::target_names$CompletedPhiTables,
                                                         setup_exemplars = TRUE)
 
   tryCatch({
@@ -344,7 +344,7 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
       expect_equal(0)
     # Check that efficiencies for Wood cookstoves do NOT exist for GHA.
     # These will be supplied by an exemplar (World)
-    readd_by_country(SEAPSUTWorkflow::target_names$IncompleteEfficiencyTables,
+    readd_by_country(SEAPSUTWorkflow::target_names$MachineData,
                      country = "GHA",
                      cache_path = testing_setup$cache_path) %>%
       dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves",
@@ -362,14 +362,14 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
       nrow() %>%
       expect_equal(1)
     # Efficiencies:
-    readd_by_country(SEAPSUTWorkflow::target_names$IncompleteEfficiencyTables,
+    readd_by_country(SEAPSUTWorkflow::target_names$MachineData,
                      country = "World",
                      cache_path = testing_setup$cache_path) %>%
       dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves",
                     .data[[IEATools::template_cols$eu_product]] == "MTH.100.C",
                     .data[[IEATools::template_cols$quantity]] == "eta.fu") %>%
       nrow() %>%
-      expect_equal(1)
+      expect_equal(2) # Because 2 years (1971 and 2000)
 
     # Check the completed FU Allocation tables.
     GHA_allocations_completed <- readd_by_country(SEAPSUTWorkflow::target_names$CompletedAllocationTables,
@@ -390,11 +390,21 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
                                                    cache_path = testing_setup$cache_path)
     wood_cookstove_efficiency <- GHA_efficiencies_completed %>%
       dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves")
-    expect_equal(nrow(wood_cookstove_efficiency), 4)
-    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 1971) %>% nrow(), 2)
-    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 2000) %>% nrow(), 2)
+    expect_equal(nrow(wood_cookstove_efficiency), 2)
+    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 1971) %>% nrow(), 1)
+    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 2000) %>% nrow(), 1)
     expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$eta_fu) %>% nrow(), 2)
-    expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$phi_u) %>% nrow(), 2)
+
+    # Check the completed phi tables.
+    GHA_phi_completed <- readd_by_country(SEAPSUTWorkflow::target_names$CompletedPhiTables,
+                                                   country = "GHA",
+                                                   cache_path = testing_setup$cache_path)
+    wood_cookstove_phi <- GHA_phi_completed %>%
+      dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves")
+    expect_equal(nrow(wood_cookstove_phi), 2)
+    expect_equal(wood_cookstove_phi %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 1971) %>% nrow(), 1)
+    expect_equal(wood_cookstove_phi %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 2000) %>% nrow(), 1)
+    expect_equal(wood_cookstove_phi %>% dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$phi_u) %>% nrow(), 2)
   },
   finally = {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
@@ -425,4 +435,76 @@ test_that("simple example for assemble_eta_fu_tables() works", {
     nrow() %>%
     expect_equal(2)
 })
+
+
+test_that("MachineData works in assemble_eta_fu_tables()", {
+   # Make some incomplete efficiency tables for GHA by removing Wood cookstoves.
+   # Information from the exemplar, ZAF, will supply efficiency for Wood cookstoves for GHA.
+   incomplete_eta_fu_tables <- IEATools::load_eta_fu_data() %>%
+     dplyr::filter(! (Country == "GHA" & Machine == "Wood cookstoves"))
+
+   # Keep track of the cookstove rows we deleted from GHA.
+   # Make sure we get the same number of cookstove rows later.
+   orig_GHA_cookstove_rows <- IEATools::load_eta_fu_data() %>%
+     dplyr::filter(Country == "GHA" & Machine == "Wood cookstoves")
+
+   # Convert incomplete_eta_fu_tables to MachineData format.
+   MachineData <- incomplete_eta_fu_tables %>%
+     dplyr::mutate(
+       "{IEATools::template_cols$maximum_values}" := NULL,
+       "{IEATools::iea_cols$unit}" := NULL
+     ) %>%
+     tidyr::pivot_longer(cols = IEATools::year_cols(.),
+                         names_to = IEATools::iea_cols$year,
+                         values_to = IEATools::template_cols$.values)
+
+   # The rows for Wood cookstoves were present but are now missing.
+   IEATools::load_eta_fu_data() %>%
+     dplyr::filter(Country == "GHA" & Machine == "Wood cookstoves") %>%
+     nrow() %>%
+     expect_gt(0)
+   cookstoves_gone <- MachineData %>%
+     dplyr::filter(Country == "GHA", Machine == "Wood cookstoves")
+   expect_equal(nrow(cookstoves_gone), 0)
+
+   # Set up exemplar list
+   el <- tibble::tribble(
+     ~Country, ~Year, ~Exemplars,
+     "GHA", 1971, c("ZAF"),
+     "GHA", 2000, c("ZAF"))
+   # Load FU allocation data.
+   # An efficiency is needed for each machine in FU allocation data.
+   fu_allocation_data <- IEATools::load_fu_allocation_data()
+   # Assemble complete allocation tables
+   completed <- assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
+                                       exemplar_lists = el,
+                                       completed_fu_allocation_tables = fu_allocation_data,
+                                       countries = "GHA")
+   # Show that the missing rows have been picked up from the exemplar country, ZAF.
+  rows_from_exemplar <- completed %>%
+    dplyr::filter(Country == "GHA", Machine == "Wood cookstoves") %>%
+    dplyr::mutate(
+      eta.fu.phi.u.source = NULL
+    )
+
+  expect_equal(nrow(rows_from_exemplar), nrow(orig_GHA_cookstove_rows))
+
+
+  rows_from_ZA <- IEATools::load_eta_fu_data() %>%
+    dplyr::filter(Country == "ZAF", Machine == "Wood cookstoves", Quantity %in% c("eta.fu", "phi.u")) %>%
+    dplyr::mutate(
+      "{IEATools::template_cols$maximum_values}" := NULL,
+      "{IEATools::iea_cols$unit}" := NULL
+    ) %>%
+    tidyr::pivot_longer(cols = IEATools::year_cols(.),
+                        names_to = IEATools::iea_cols$year,
+                        values_to = IEATools::template_cols$.values) %>%
+    dplyr::mutate(
+      Year = as.numeric(Year)
+    )
+
+  diffs <- dplyr::anti_join(rows_from_exemplar, rows_from_ZA, by = matsindf::everything_except(rows_from_exemplar, "Country") %>% as.character())
+  expect_equal(nrow(diffs), 0)
+})
+
 

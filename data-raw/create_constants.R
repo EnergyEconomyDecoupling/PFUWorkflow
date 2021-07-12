@@ -23,6 +23,7 @@ target_names <- list(countries = "countries",
                      IEAData = "IEAData",
                      CEDAData = "CEDAData",
                      AllMachineData = "AllMachineData",
+                     MachineData = "MachineData",
                      balanced_before = "balanced_before",
                      BalancedIEAData = "BalancedIEAData",
                      balanced_after = "balanced_after",
@@ -30,10 +31,11 @@ target_names <- list(countries = "countries",
                      Specified = "Specified",
                      PSUT_final = "PSUT_final",
                      IncompleteAllocationTables = "IncompleteAllocationTables",
-                     IncompleteEfficiencyTables = "IncompleteEfficiencyTables",
+                     # IncompleteEfficiencyTables = "IncompleteEfficiencyTables",
                      ExemplarLists = "ExemplarLists",
                      CompletedAllocationTables = "CompletedAllocationTables",
                      CompletedEfficiencyTables = "CompletedEfficiencyTables",
+                     CompletedPhiTables = "CompletedPhiTables",
                      Cmats = "Cmats",
                      EtaPhivecs = "EtaPhivecs",
                      PSUT_useful = "PSUT_useful",
@@ -93,6 +95,7 @@ sea_cols <- list(stage_colname = "Stage",
                  ex_gross_colname = "EX.d_gross")
 usethis::use_data(sea_cols, overwrite = TRUE)
 
+
 #
 # Metadata information for aggregation groups
 #
@@ -104,6 +107,7 @@ agg_metadata <- list(total_value = "Total",
                      flow_value = "Flow")
 usethis::use_data(agg_metadata, overwrite = TRUE)
 
+
 #
 # Metadata information for gross or net
 #
@@ -111,6 +115,7 @@ usethis::use_data(agg_metadata, overwrite = TRUE)
 gross_net_metadata <- list(gross_value = "Gross",
                            net_value = "Net")
 usethis::use_data(gross_net_metadata, overwrite = TRUE)
+
 
 #
 # Column names for socio-economic data
@@ -131,9 +136,19 @@ socioecon_cols <- list(isocode_colname = "isocode",
                        Ladj_colname = "Ladj")
 usethis::use_data(socioecon_cols, overwrite = TRUE)
 
+
+#
+# Tab name for machine efficiencies
+#
+
+machine_constants <- list(efficiency_tab_name = "FIN_ETA")
+usethis::use_data(machine_constants, overwrite = TRUE)
+
+
 #
 # Cache information.
 #
 
 cache_info = list(cache_path = ".drake")
 usethis::use_data(cache_info, overwrite = TRUE)
+

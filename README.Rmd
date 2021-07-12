@@ -11,7 +11,8 @@ bibliography: vignettes/References.bib
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![R build status](https://github.com/MatthewHeun/SEAPSUTWorkflow/workflows/check-master-develop/badge.svg)](https://github.com/MatthewHeun/SEAPSUTWorkflow/actions)
 [![Travis-CI Build Status](https://travis-ci.org/MatthewHeun/SEAPSUTWorkflow.svg?branch=master)](https://travis-ci.org/MatthewHeun/SEAPSUTWorkflow)
-[![Coverage status](https://codecov.io/gh/MatthewHeun/SEAPSUTWorkflow/branch/master/graph/badge.svg)](https://codecov.io/github/MatthewHeun/SEAPSUTWorkflow?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/EnergyEconomyDecoupling/SEAPSUTWorkflow/branch/master/graph/badge.svg)](https://codecov.io/gh/EnergyEconomyDecoupling/SEAPSUTWorkflow?branch=master)
+[![DOI](https://zenodo.org/badge/{265032888}.svg)](https://zenodo.org/badge/latestdoi/{265032888})
 <!-- badges: end -->
 
 
@@ -55,10 +56,16 @@ To create a `drake` workflow, do this:
 ```{r example}
 library(SEAPSUTWorkflow)
 get_plan(countries = c("GHA", "ZAF"),
+         additional_exemplar_countries = "World",
          max_year = 1999,
+         ceda_data_folder = "ceda_path",
+         machine_data_path = "machine_path",
          iea_data_path = "iea_path",
          exemplar_table_path = "exemplar_path",
-         fu_analysis_folder = "fu_folder")
+         fu_analysis_folder = "fu_folder",
+         reports_source_folders = "reports_source_path",
+         reports_dest_folder = "reports_dest_path"
+         )
 ```
 
 ## History

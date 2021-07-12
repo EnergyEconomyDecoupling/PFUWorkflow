@@ -155,8 +155,8 @@ test_that("get_fd_sectors() works as expected", {
   # Check object type is equal to list
   testthat::expect_type(fd_sectors, "list")
 
-  # Check that the length of fd_sectors_list is equal to 45
-  testthat::expect_equal(length(fd_sectors), 45)
+  # Check that the length of fd_sectors_list is equal to 47
+  testthat::expect_equal(length(fd_sectors), 47)
 
   # Check that each entry in fd_sectors is correct
   testthat::expect_equal(unlist(unname(fd_sectors)),
@@ -170,6 +170,7 @@ test_that("get_fd_sectors() works as expected", {
                            "Chemical and petrochemical", "Non-ferrous metals", "Non-metallic minerals", "Transport equipment",
                            "Machinery", "Food and tobacco", "Paper, pulp and print", "Paper, pulp and printing", "Wood and wood products",
                            "Textile and leather", "Non-specified (industry)", "Industry not elsewhere specified",
+                           "Oil extraction", "Natural gas extraction",
                            "Domestic aviation", "Road", "Rail", "Pipeline transport",
                            "Domestic navigation", "Non-specified (transport)", "Transport not elsewhere specified",
                            "Residential", "Commercial and public services", "Agriculture/forestry",

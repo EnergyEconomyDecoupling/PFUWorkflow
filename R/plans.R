@@ -19,7 +19,8 @@
 #' * `AllIEAData`: A data frame with all IEA extended energy balance data read from `iea_data_path`.
 #' * `IEAData`: A version of the `AllIEAData` data frame containing data for only those countries specified in `countries`.
 #' * `CEDAData`: A data frame containing temperature data supplied through `CEDATools::read_cru_cy_files`.
-#' * `AllMachineData`: A data frame containing Eta.fu and Phi.u values read through functions in `machine_functions.R`.
+#' * `AllMachineData`: A data frame containing Eta.fu values read through functions in `machine_functions.R`.
+#' * `MachineData`: A filtered version of `AllMachineData` containing information for only `alloc_and_eff_couns`.
 #' * `balanced_before`: A boolean that tells where the data were balanced as received, usually a vector of `FALSE`, one for each country.
 #' * `BalancedIEAData`: A data frame containing balanced IEA extended energy balance data.
 #' * `balanced_after`: A boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of `TRUE`, one for each country.
@@ -29,8 +30,8 @@
 #' * `ExemplarLists`: A data frame containing lists of exemplar countries on a per-country, per-year basis.
 #' * `IncompleteAllocationTables`: A data frame containing final-to-useful allocation tables.
 #' * `CompletedAllocationTables` : A data frame containing completed final-to-useful allocation tables.
-#' * `IncompleteEfficiencyTables`: A data frame containing final-to-useful efficiency tables.
 #' * `CompletedEfficiencyTables`: A data frame containing completed final-to-useful efficiency tables.
+#' * `CompletedPhiTables` : A data frame of completed exergy-to-energy ratios.
 #' * `Cmats` : A data frame containing `CompletedAllocationTables` in matrix form.
 #' * `EtaPhivecs` : A data frame containing final-to-useful efficiency and exergy-to-energy ratio vectors.
 #' * `PSUT_useful` : A data frame containing PSUT matrices up to the useful stage.
@@ -122,6 +123,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   IEAData <- NULL
   CEDAData <- NULL
   AllMachineData <- NULL
+  MachineData <- NULL
   BalancedIEAData <- NULL
   balanced_after <- NULL
   Specified <- NULL
@@ -131,6 +133,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   ExemplarLists <- NULL
   CompletedAllocationTables <- NULL
   CompletedEfficiencyTables <- NULL
+  CompletedPhiTables <- NULL
   Cmats <- NULL
   EtaPhivecs <- NULL
   PSUT_useful <- NULL
@@ -172,9 +175,10 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                              agg_cru_cy_year = 2020)),
     # (1c) Grab Machine data for ALL countries
 
-    AllMachineData = drake::target(read_all_eta_files(eta_fin_paths = get_eta_filepaths(machine_data_path))),
-
-
+    AllMachineData = read_all_eta_files(eta_fin_paths = get_eta_filepaths(machine_data_path)),
+    MachineData = drake::target(AllMachineData %>%
+                                  extract_country_data(countries = alloc_and_eff_couns, max_year = max_year),
+                                dynamic = map(alloc_and_eff_couns)),
 
     # (2) Balance all final energy data.
 
@@ -235,20 +239,37 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # (8) Load incomplete FU efficiency tables for each country and year from disk.
     # These may be incomplete.
 
-    IncompleteEfficiencyTables = drake::target(load_eta_fu_tables(fu_analysis_folder = fu_analysis_folder,
-                                                                  completed_fu_allocation_tables = CompletedAllocationTables,
-                                                                  tidy_specified_iea_data = Specified,
-                                                                  countries = alloc_and_eff_couns),
-                                               dynamic = map(alloc_and_eff_couns)),
+    # IncompleteEfficiencyTables = drake::target(load_eta_fu_tables(fu_analysis_folder = fu_analysis_folder,
+    #                                                               completed_fu_allocation_tables = CompletedAllocationTables,
+    #                                                               tidy_specified_iea_data = Specified,
+    #                                                               countries = alloc_and_eff_couns),
+    #                                            dynamic = map(alloc_and_eff_couns)),
 
     # (9) Complete efficiency tables
 
-    CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = IncompleteEfficiencyTables,
+    # CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = IncompleteEfficiencyTables,
+    #                                                                  exemplar_lists = ExemplarLists,
+    #                                                                  completed_fu_allocation_tables = CompletedAllocationTables,
+    #                                                                  countries = countries,
+    #                                                                  max_year = max_year),
+    #                                           dynamic = map(countries)),
+
+    CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
                                                                      exemplar_lists = ExemplarLists,
                                                                      completed_fu_allocation_tables = CompletedAllocationTables,
                                                                      countries = countries,
-                                                                     max_year = max_year),
+                                                                     max_year = max_year,
+                                                                     which_quantity = IEATools::template_cols$eta_fu),
                                               dynamic = map(countries)),
+
+    CompletedPhiTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
+                                                              exemplar_lists = ExemplarLists,
+                                                              completed_fu_allocation_tables = CompletedAllocationTables,
+                                                              countries = countries,
+                                                              max_year = max_year,
+                                                              which_quantity = IEATools::template_cols$phi_u),
+                                       dynamic = map(countries)),
+
 
     # (10) Extend to useful stage
 
@@ -257,6 +278,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                           dynamic = map(countries)),
 
     EtaPhivecs = drake::target(calc_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
+                                                      completed_phi_tables = CompletedPhiTables,
                                                       countries = countries),
                                dynamic = map(countries)),
 

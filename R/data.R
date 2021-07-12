@@ -20,17 +20,18 @@
 #' \item{AllIEAData}{The name of a data frame containing all IEA data read from `iea_data_path`.}
 #' \item{IEAData}{A filtered version of `AllIEAData` containing information for only `countries`.}
 #' \item{CEDAData}{The name of the data frame containing all CEDA temperature data read from `ceda_data_folder`.}
-#' \item{AllMachineData}{A data frame containing Eta.fu and Phi.u values read through functions in `machine_functions.R`.}
+#' \item{AllMachineData}{A data frame containing Eta.fu values read through functions in `machine_functions.R`.}
+#' \item{MachineData}{A filtered version of `AllMachineData` containing information for only `alloc_and_eff_couns`.}
 #' \item{balanced_before}{A boolean indicating whether the `IEAData` are balanced before any further analysis. They usually are not, so this value is typically `FALSE`.}
 #' \item{BalancedIEAData}{A balanced version of `IEAData`.}
 #' \item{balanced_after}{Same as `balanced_before`, only for after balancing. This should be `TRUE`.}
 #' \item{Specified}{A data frame containing specified IEA data.}
 #' \item{PSUT_final}{A data frame containing `Specified` in a PSUT format.}
 #' \item{IncompleteAllocationTables}{A data frame of final-to-useful allocation tables, one for each country. These allocation tables may be incomplete.}
-#' \item{IncompleteEfficiencyTables}{A data frame of final-to-useful efficiency tables, one for each country. These efficiency tables may be incomplete.}
 #' \item{ExemplarLists}{A data frame of lists of exemplar countries for each country in `countries`, and maybe more.}
 #' \item{CompletedAllocationTables}{A data frame of completed final-to-useful allocation tables.}
 #' \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}
+#' \item{CompletedPhiTables}{A data frame of completed exergy-to-energy ratios.}
 #' \item{Cmats}{A data frame containing `CompletedAllocationTables` in matrix form.}
 #' \item{EtaPhivecs}{A data frame containing final-to-useful efficiency and exergy-to-energy ratio vectors.}
 #' \item{PSUT_useful}{A data frame containing PSUT matrices up to the useful stage.}
@@ -82,21 +83,6 @@
 #' exemplar_names
 "exemplar_names"
 
-
-#' Cache information
-#'
-#' A string list containing information about the drake cache.
-#' Items in the list provide default values for column name function arguments
-#' throughout the `SEAPSUTWorkflow` package.
-#'
-#' @format A string list with `r length(cache_info)` entries.
-#' \describe{
-#' \item{cache_path}{The default path to the drake cache.}
-#' }
-#'
-#' @examples
-#' cache_info
-"cache_info"
 
 #' SEAPSUTWorkflow data frame column names
 #'
@@ -161,6 +147,7 @@
 #' gross_net_metadata
 "gross_net_metadata"
 
+
 #' Socioeconomic data column names
 #'
 #' A string list containing values for the column names of socioeconomic data. See `pwt10::pwt10.0`.
@@ -186,3 +173,36 @@
 #' @examples
 #' socioecon_cols
 "socioecon_cols"
+
+
+#' Information about the machine efficiency files
+#'
+#' A string list containing information about machine efficiency files.
+#' Items in the list provide default values for machine efficiency files,
+#' including Excel tab names, etc.
+#'
+#' @format A string list with `r length(machine_constants)` entries.
+#' \describe{
+#' \item{efficiency_tab_name}{The default name of the efficiency tabs in machine efficiency excel files.}
+#' }
+#'
+#' @examples
+#' machine_constants
+"machine_constants"
+
+
+#' Cache information
+#'
+#' A string list containing information about the drake cache.
+#' Items in the list provide default values for column name function arguments
+#' throughout the `SEAPSUTWorkflow` package.
+#'
+#' @format A string list with `r length(cache_info)` entries.
+#' \describe{
+#' \item{cache_path}{The default path to the drake cache.}
+#' }
+#'
+#' @examples
+#' cache_info
+"cache_info"
+

@@ -24,5 +24,4 @@ with the associated final demand sectors in the nested \code{Y} and \code{U_EIOU
 library(Recca)
 final_demand_sector_list <- create_fd_sectors_list(fd_sectors = c("Residential"),
 .sutdata = Recca::UKEnergy2000mats)
-
 }

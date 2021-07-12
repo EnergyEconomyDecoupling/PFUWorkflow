@@ -76,7 +76,8 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{AllIEAData}: A data frame with all IEA extended energy balance data read from \code{iea_data_path}.
 \item \code{IEAData}: A version of the \code{AllIEAData} data frame containing data for only those countries specified in \code{countries}.
 \item \code{CEDAData}: A data frame containing temperature data supplied through \code{CEDATools::read_cru_cy_files}.
-\item \code{AllMachineData}: A data frame containing Eta.fu and Phi.u values read through functions in \code{machine_functions.R}.
+\item \code{AllMachineData}: A data frame containing Eta.fu values read through functions in \code{machine_functions.R}.
+\item \code{MachineData}: A filtered version of \code{AllMachineData} containing information for only \code{alloc_and_eff_couns}.
 \item \code{balanced_before}: A boolean that tells where the data were balanced as received, usually a vector of \code{FALSE}, one for each country.
 \item \code{BalancedIEAData}: A data frame containing balanced IEA extended energy balance data.
 \item \code{balanced_after}: A boolean telling whether IEA extended energy balance data is balanced after balancing, usually a vector of \code{TRUE}, one for each country.
@@ -86,8 +87,8 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{ExemplarLists}: A data frame containing lists of exemplar countries on a per-country, per-year basis.
 \item \code{IncompleteAllocationTables}: A data frame containing final-to-useful allocation tables.
 \item \code{CompletedAllocationTables} : A data frame containing completed final-to-useful allocation tables.
-\item \code{IncompleteEfficiencyTables}: A data frame containing final-to-useful efficiency tables.
 \item \code{CompletedEfficiencyTables}: A data frame containing completed final-to-useful efficiency tables.
+\item \code{CompletedPhiTables} : A data frame of completed exergy-to-energy ratios.
 \item \code{Cmats} : A data frame containing \code{CompletedAllocationTables} in matrix form.
 \item \code{EtaPhivecs} : A data frame containing final-to-useful efficiency and exergy-to-energy ratio vectors.
 \item \code{PSUT_useful} : A data frame containing PSUT matrices up to the useful stage.
