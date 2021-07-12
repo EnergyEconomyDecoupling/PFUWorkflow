@@ -15,5 +15,4 @@ of final, useful, or services energy in gross or net terms.
 }
 \examples{
 fd_sectors <- get_fd_sectors()
-
 }
