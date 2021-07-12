@@ -75,7 +75,7 @@ See examples for how to construct exemplar_lists." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -132,12 +132,29 @@ See examples for how to construct <code>exemplar_lists</code>.</p>
   max_year <span class='op'>=</span> <span class='cn'>NULL</span>,
   which_quantity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>eta_fu</span>, <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>phi_u</span><span class='op'>)</span>,
   country <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>country</span>,
+  method <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>method</span>,
+  energy_type <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>energy_type</span>,
+  last_stage <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>last_stage</span>,
+  unit <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>unit</span>,
   year <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>year</span>,
+  e_dot <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>e_dot</span>,
+  machine <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>machine</span>,
+  eu_product <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>eu_product</span>,
+  eta_fu <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>eta_fu</span>,
+  phi_u <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>phi_u</span>,
+  c_source <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>c_source</span>,
+  eta_fu_phi_u_source <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>eta_fu_phi_u_source</span>,
+  e_dot_machine <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>e_dot_machine</span>,
+  e_dot_machine_perc <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>e_dot_machine_perc</span>,
+  quantity <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>quantity</span>,
+  maximum_values <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>maximum_values</span>,
+  e_dot_perc <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>e_dot_perc</span>,
   exemplars <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>exemplars</span>,
   exemplar_tables <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>exemplar_tables</span>,
   alloc_data <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>alloc_data</span>,
   incomplete_eta_tables <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>incomplete_eta_table</span>,
-  complete_eta_tables <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>complete_eta_table</span>
+  complete_eta_tables <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>complete_eta_table</span>,
+  .values <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>.values</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -172,8 +189,12 @@ Default is <code><a href='https://rdrr.io/r/base/c.html'>c(IEATools::template_co
 Must be one or both of the default values.</p></td>
     </tr>
     <tr>
-      <th>country, year</th>
+      <th>country, method, energy_type, last_stage, year, unit, e_dot</th>
       <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>IEATools::iea_cols</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>machine, eu_product, eta_fu, phi_u, c_source, eta_fu_phi_u_source, e_dot_machine, e_dot_machine_perc, quantity, maximum_values, e_dot_perc, .values</th>
+      <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>IEATools::template_cols</a></code>.</p></td>
     </tr>
     <tr>
       <th>exemplars, exemplar_tables, alloc_data, incomplete_eta_tables, complete_eta_tables</th>
@@ -188,10 +209,17 @@ Must be one or both of the default values.</p></td>
 
     <p>Note that this function can accept tidy or wide by year data frames.
 The return value is a tidy data frame.</p>
+<p>Note that the <code>.values</code> argument applies for both
+<code>incomplete_eta_fu_tables</code> and
+<code>completed_fu_allocation_tables</code>.
+Callers should ensure that value columns in both
+data frames (<code>incomplete_eta_fu_tables</code> and <code>completed_fu_allocation_tables</code>)
+are named identically and that name is passed into the
+<code>.values</code> argument.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Make some incomplete efficiency tables for GHA by removing Wood cookstoves.</span>
-<span class='co'># Information from the exemplar, ZAF, will supply efficiency for Wood cookstoves.</span>
+<span class='co'># Information from the exemplar, ZAF, will supply efficiency for Wood cookstoves for GHA.</span>
 <span class='va'>incomplete_eta_fu_tables</span> <span class='op'>&lt;-</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/load_eta_fu_data.html'>load_eta_fu_data</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span> <span class='op'>(</span><span class='va'>Country</span> <span class='op'>==</span> <span class='st'>"GHA"</span> <span class='op'>&amp;</span> <span class='va'>Machine</span> <span class='op'>==</span> <span class='st'>"Wood cookstoves"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># The rows for Wood cookstoves are missing.</span>
@@ -216,14 +244,14 @@ The return value is a tidy data frame.</p>
 <span class='co'># Show that the missing rows have been picked up from the exemplar country, ZAF.</span>
 <span class='va'>completed</span> <span class='op'>%&gt;%</span>
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Country</span> <span class='op'>==</span> <span class='st'>"GHA"</span>, <span class='va'>Machine</span> <span class='op'>==</span> <span class='st'>"Wood cookstoves"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 11</span><span>
-#&gt;   Country Method Energy.type Last.stage Unit  Machine  Eu.product Quantity  Year
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> GHA     PCM    E           Final      ktoe  Wood co~ MTH.100.C  eta.fu    </span><span style='text-decoration: underline;'>1</span><span>971
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> GHA     PCM    E           Final      ktoe  Wood co~ MTH.100.C  phi.u     </span><span style='text-decoration: underline;'>1</span><span>971
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> GHA     PCM    E           Final      ktoe  Wood co~ MTH.100.C  eta.fu    </span><span style='text-decoration: underline;'>2</span><span>000
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> GHA     PCM    E           Final      ktoe  Wood co~ MTH.100.C  phi.u     </span><span style='text-decoration: underline;'>2</span><span>000
-#&gt; </span><span style='color: #949494;'># ... with 2 more variables: .values &lt;dbl&gt;, eta.fu.phi.u.source &lt;chr&gt;</span><span></div></span></pre>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 10</span>
+#&gt;   Country Method Energy.type Last.stage Machine        Eu.product Quantity  Year
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> GHA     PCM    E           Final      Wood cookstov~ MTH.100.C  eta.fu    <span style='text-decoration: underline;'>1</span>971
+#&gt; <span style='color: #BCBCBC;'>2</span> GHA     PCM    E           Final      Wood cookstov~ MTH.100.C  phi.u     <span style='text-decoration: underline;'>1</span>971
+#&gt; <span style='color: #BCBCBC;'>3</span> GHA     PCM    E           Final      Wood cookstov~ MTH.100.C  eta.fu    <span style='text-decoration: underline;'>2</span>000
+#&gt; <span style='color: #BCBCBC;'>4</span> GHA     PCM    E           Final      Wood cookstov~ MTH.100.C  phi.u     <span style='text-decoration: underline;'>2</span>000
+#&gt; <span style='color: #949494;'># ... with 2 more variables: .values &lt;dbl&gt;, eta.fu.phi.u.source &lt;chr&gt;</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -235,7 +263,7 @@ The return value is a tidy data frame.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Matthew Heun.</p>
+  <p>Developed by Matthew Heun, Zeke Marshall.</p>
 </div>
 
 <div class="pkgdown">

@@ -74,7 +74,7 @@ throughout the SEAPSUTWorkflow package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -127,7 +127,7 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A string list with 39 entries.</p><dl>
+    <p>A string list with 40 entries.</p><dl>
 <dt>countries</dt><dd><p>The string name of the countries target in the drake cache, giving the countries to be analyzed.</p></dd>
 <dt>alloc_and_eff_couns</dt><dd><p>The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.</p></dd>
 <dt>max_year</dt><dd><p>The integer representing the maximum year to be analyzed.</p></dd>
@@ -141,17 +141,18 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 <dt>AllIEAData</dt><dd><p>The name of a data frame containing all IEA data read from <code>iea_data_path</code>.</p></dd>
 <dt>IEAData</dt><dd><p>A filtered version of <code>AllIEAData</code> containing information for only <code>countries</code>.</p></dd>
 <dt>CEDAData</dt><dd><p>The name of the data frame containing all CEDA temperature data read from <code>ceda_data_folder</code>.</p></dd>
-<dt>AllMachineData</dt><dd><p>A data frame containing Eta.fu and Phi.u values read through functions in <code>machine_functions.R</code>.</p></dd>
+<dt>AllMachineData</dt><dd><p>A data frame containing Eta.fu values read through functions in <code>machine_functions.R</code>.</p></dd>
+<dt>MachineData</dt><dd><p>A filtered version of <code>AllMachineData</code> containing information for only <code>alloc_and_eff_couns</code>.</p></dd>
 <dt>balanced_before</dt><dd><p>A boolean indicating whether the <code>IEAData</code> are balanced before any further analysis. They usually are not, so this value is typically <code>FALSE</code>.</p></dd>
 <dt>BalancedIEAData</dt><dd><p>A balanced version of <code>IEAData</code>.</p></dd>
 <dt>balanced_after</dt><dd><p>Same as <code>balanced_before</code>, only for after balancing. This should be <code>TRUE</code>.</p></dd>
 <dt>Specified</dt><dd><p>A data frame containing specified IEA data.</p></dd>
 <dt>PSUT_final</dt><dd><p>A data frame containing <code>Specified</code> in a PSUT format.</p></dd>
 <dt>IncompleteAllocationTables</dt><dd><p>A data frame of final-to-useful allocation tables, one for each country. These allocation tables may be incomplete.</p></dd>
-<dt>IncompleteEfficiencyTables</dt><dd><p>A data frame of final-to-useful efficiency tables, one for each country. These efficiency tables may be incomplete.</p></dd>
 <dt>ExemplarLists</dt><dd><p>A data frame of lists of exemplar countries for each country in <code>countries</code>, and maybe more.</p></dd>
 <dt>CompletedAllocationTables</dt><dd><p>A data frame of completed final-to-useful allocation tables.</p></dd>
 <dt>CompletedEfficiencyTables</dt><dd><p>A data frame of completed final-to-useful efficiency tables.</p></dd>
+<dt>CompletedPhiTables</dt><dd><p>A data frame of completed exergy-to-energy ratios.</p></dd>
 <dt>Cmats</dt><dd><p>A data frame containing <code>CompletedAllocationTables</code> in matrix form.</p></dd>
 <dt>EtaPhivecs</dt><dd><p>A data frame containing final-to-useful efficiency and exergy-to-energy ratio vectors.</p></dd>
 <dt>PSUT_useful</dt><dd><p>A data frame containing PSUT matrices up to the useful stage.</p></dd>
@@ -215,6 +216,9 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 #&gt; $AllMachineData
 #&gt; [1] "AllMachineData"
 #&gt; 
+#&gt; $MachineData
+#&gt; [1] "MachineData"
+#&gt; 
 #&gt; $balanced_before
 #&gt; [1] "balanced_before"
 #&gt; 
@@ -236,9 +240,6 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 #&gt; $IncompleteAllocationTables
 #&gt; [1] "IncompleteAllocationTables"
 #&gt; 
-#&gt; $IncompleteEfficiencyTables
-#&gt; [1] "IncompleteEfficiencyTables"
-#&gt; 
 #&gt; $ExemplarLists
 #&gt; [1] "ExemplarLists"
 #&gt; 
@@ -247,6 +248,9 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 #&gt; 
 #&gt; $CompletedEfficiencyTables
 #&gt; [1] "CompletedEfficiencyTables"
+#&gt; 
+#&gt; $CompletedPhiTables
+#&gt; [1] "CompletedPhiTables"
 #&gt; 
 #&gt; $Cmats
 #&gt; [1] "Cmats"
@@ -301,7 +305,7 @@ throughout the <code>SEAPSUTWorkflow</code> package.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Matthew Heun.</p>
+  <p>Developed by Matthew Heun, Zeke Marshall.</p>
 </div>
 
 <div class="pkgdown">

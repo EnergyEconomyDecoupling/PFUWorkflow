@@ -75,7 +75,7 @@ exergy-to-energy ratio vectors to the previously-created WithCmats target.#'" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -125,6 +125,7 @@ exergy-to-energy ratio vectors to the previously-created <code>WithCmats</code> 
 
     <pre class="usage"><span class='fu'>calc_eta_fu_phi_u_vecs</span><span class='op'>(</span>
   <span class='va'>completed_efficiency_tables</span>,
+  <span class='va'>completed_phi_tables</span>,
   <span class='va'>countries</span>,
   country <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>country</span>,
   year <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>year</span>,
@@ -140,9 +141,13 @@ exergy-to-energy ratio vectors to the previously-created <code>WithCmats</code> 
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>completed_efficiency_tables</th>
-      <td><p>The completed efficiency tables from which allocation (<code>eta_fu</code>) vectors
-and exergy-to-energy ratio vectors (<code>phi_u</code>) should be created.
-This data frame is most likely to be the <code>CompletedEfficiencyTables</code> target.</p></td>
+      <td><p>The completed efficiency tables from which efficiency (<code>eta_fu</code>) vectors
+should be created. This data frame is most likely to be the <code>CompletedEfficiencyTables</code> target.</p></td>
+    </tr>
+    <tr>
+      <th>completed_phi_tables</th>
+      <td><p>The completed phi tables from which exergy-to-energy ratio vectors (<code>phi_u</code>)
+should be created.This data frame is most likely to be the <code>CompletedPhiTables</code> target.</p></td>
     </tr>
     <tr>
       <th>countries</th>
@@ -173,7 +178,7 @@ This data frame is most likely to be the <code>CompletedEfficiencyTables</code> 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Matthew Heun.</p>
+  <p>Developed by Matthew Heun, Zeke Marshall.</p>
 </div>
 
 <div class="pkgdown">
