@@ -1,3 +1,5 @@
+# SEAPSUTWorkflow 0.2.2 (2021-07-12)
+
 * Split `CompletedEfficiencyTables` into `CompletedPhiTables` which contains phi.u values, and `CompletedEfficiencyTables` which contains eta.fu values.
 
 * Added the target `MachineData` which contains data from `AllMachineData`, but only for the countries specified in `countries` and `alloc_and_eff_couns`.

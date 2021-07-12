@@ -1,6 +1,5 @@
 
 <!-- README.md is generated from README.Rmd. Please edit README.Rmd. -->
-
 <!-- badges: start -->
 
 [![CRAN
@@ -13,8 +12,9 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 status](https://github.com/MatthewHeun/SEAPSUTWorkflow/workflows/check-master-develop/badge.svg)](https://github.com/MatthewHeun/SEAPSUTWorkflow/actions)
 [![Travis-CI Build
 Status](https://travis-ci.org/MatthewHeun/SEAPSUTWorkflow.svg?branch=master)](https://travis-ci.org/MatthewHeun/SEAPSUTWorkflow)
-[![Coverage
-status](https://codecov.io/gh/MatthewHeun/SEAPSUTWorkflow/branch/master/graph/badge.svg)](https://codecov.io/github/MatthewHeun/SEAPSUTWorkflow?branch=master)
+[![Codecov test
+coverage](https://codecov.io/gh/EnergyEconomyDecoupling/SEAPSUTWorkflow/branch/master/graph/badge.svg)](https://codecov.io/gh/EnergyEconomyDecoupling/SEAPSUTWorkflow?branch=master)
+[![DOI](https://zenodo.org/badge/%7B265032888%7D.svg)](https://zenodo.org/badge/latestdoi/%7B265032888%7D)
 <!-- badges: end -->
 
 # SEAPSUTWorkflow
@@ -26,13 +26,9 @@ Analysis (SEA) using the Physical Supply Use Table (PSUT) framework.
 ## Installation
 
 <!-- You can install the released version of SEAPSUTWorkflow from [CRAN](https://CRAN.R-project.org) with: -->
-
 <!-- ``` r -->
-
 <!-- install.packages("SEAPSUTWorkflow") -->
-
 <!-- ``` -->
-
 <!-- And the development version from [GitHub](https://github.com/) with: -->
 
 You can install `SEAPSUTWorkflow` from github with:
@@ -49,31 +45,30 @@ To create a `drake` workflow, do this:
 ``` r
 library(SEAPSUTWorkflow)
 get_plan(countries = c("GHA", "ZAF"),
+         additional_exemplar_countries = "World",
          max_year = 1999,
+         ceda_data_folder = "ceda_path",
+         machine_data_path = "machine_path",
          iea_data_path = "iea_path",
          exemplar_table_path = "exemplar_path",
-         fu_analysis_folder = "fu_folder")
-#> # A tibble: 18 x 3
-#>    target            command                                     dynamic        
-#>    <chr>             <expr_lst>                                  <expr_lst>     
-#>  1 countries         c(c("GHA", "ZAF"))                        … NA            …
-#>  2 alloc_and_eff_co… unique(c(countries, NULL))                … NA            …
-#>  3 max_year          1999                                      … NA            …
-#>  4 iea_data_path     "iea_path"                                … NA            …
-#>  5 exemplar_table_p… "exemplar_path"                           … NA            …
-#>  6 fu_analysis_fold… "fu_folder"                               … NA            …
-#>  7 AllIEAData        iea_data_path %>% IEATools::load_tidy_iea_… NA            …
-#>  8 IEAData           AllIEAData %>% extract_country_data(countr… map(countries)…
-#>  9 balanced_before   IEAData %>% is_balanced(countries)        … map(countries)…
-#> 10 BalancedIEAData   IEAData %>% make_balanced(countries)      … map(countries)…
-#> 11 balanced_after    BalancedIEAData %>% is_balanced(countries)… map(countries)…
-#> 12 OKToProceed       ifelse(is.null(stopifnot(all(balanced_afte… NA            …
-#> 13 Specified         BalancedIEAData %>% specify(countries)    … map(countries)…
-#> 14 PSUT_final        Specified %>% make_psut(countries)        … map(countries)…
-#> 15 IncompleteAlloca… fu_analysis_folder %>% load_fu_allocation_… map(alloc_and_…
-#> 16 IncompleteEffici… fu_analysis_folder %>% load_eta_fu_tables(… map(alloc_and_…
-#> 17 ExemplarLists     exemplar_table_path %>% load_exemplar_tabl… map(countries)…
-#> 18 CompletedAllocat… assemble_fu_allocation_tables(IncompleteAl… map(countries)…
+         fu_analysis_folder = "fu_folder",
+         reports_source_folders = "reports_source_path",
+         reports_dest_folder = "reports_dest_path"
+         )
+#> # A tibble: 37 x 3
+#>    target                 command                       dynamic   
+#>    <chr>                  <expr_lst>                    <expr_lst>
+#>  1 countries              c(c("GHA", "ZAF"))            NA        
+#>  2 alloc_and_eff_couns    unique(c(countries, "World")) NA        
+#>  3 max_year               1999                          NA        
+#>  4 iea_data_path          "iea_path"                    NA        
+#>  5 ceda_data_folder       "ceda_path"                   NA        
+#>  6 machine_data_path      "machine_path"                NA        
+#>  7 exemplar_table_path    "exemplar_path"               NA        
+#>  8 fu_analysis_folder     "fu_folder"                   NA        
+#>  9 reports_source_folders "reports_source_path"         NA        
+#> 10 reports_dest_folder    "reports_dest_path"           NA        
+#> # ... with 27 more rows
 ```
 
 ## History
