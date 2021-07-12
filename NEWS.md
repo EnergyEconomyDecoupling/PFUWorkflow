@@ -1,4 +1,4 @@
-# SEAPSUTWorkflow 0.2.2 (2021-07-12)
+# SEAPSUTWorkflow 0.2.2 (2021-07-12) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5091721.svg)](https://doi.org/10.5281/zenodo.5091721)
 
 * Split `CompletedEfficiencyTables` into `CompletedPhiTables` which contains phi.u values, and `CompletedEfficiencyTables` which contains eta.fu values.
 
