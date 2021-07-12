@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Balance IEA data — make_balanced • SEAPSUTWorkflow</title>
+<title>Information about the machine efficiency files — machine_constants • SEAPSUTWorkflow</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,10 @@
 
 
 
-<meta property="og:title" content="Balance IEA data — make_balanced" />
-<meta property="og:description" content="Balances the IEA data in a way that is amenable to drake subtargets.
-Internally, this function uses IEATools::fix_tidy_iea_df_balances().
-Grouping is done internal to this function using the value of grp_vars." />
+<meta property="og:title" content="Information about the machine efficiency files — machine_constants" />
+<meta property="og:description" content="A string list containing information about machine efficiency files.
+Items in the list provide default values for machine efficiency files,
+including Excel tab names, etc." />
 
 
 
@@ -111,57 +111,33 @@ Grouping is done internal to this function using the value of grp_vars." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Balance IEA data</h1>
+    <h1>Information about the machine efficiency files</h1>
     
-    <div class="hidden name"><code>make_balanced.Rd</code></div>
+    <div class="hidden name"><code>machine_constants.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Balances the IEA data in a way that is amenable to drake subtargets.
-Internally, this function uses <code><a href='https://rdrr.io/pkg/IEATools/man/fix_tidy_iea_df_balances.html'>IEATools::fix_tidy_iea_df_balances()</a></code>.
-Grouping is done internal to this function using the value of <code>grp_vars</code>.</p>
+    <p>A string list containing information about machine efficiency files.
+Items in the list provide default values for machine efficiency files,
+including Excel tab names, etc.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_balanced</span><span class='op'>(</span>
-  <span class='va'>IEAData</span>,
-  <span class='va'>countries</span>,
-  country <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>country</span>,
-  grp_vars <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>country</span>, <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>method</span>, <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>energy_type</span>,
-    <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>last_stage</span>, <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>year</span>, <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>product</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>machine_constants</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>IEAData</th>
-      <td><p>A tidy IEA data frame</p></td>
-    </tr>
-    <tr>
-      <th>countries</th>
-      <td><p>The countries that should be balanced</p></td>
-    </tr>
-    <tr>
-      <th>country</th>
-      <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>IEATools::iea_cols</a></code></p></td>
-    </tr>
-    <tr>
-      <th>grp_vars</th>
-      <td><p>the groups that should be checked. Default is
-<code><a href='https://rdrr.io/r/base/c.html'>c(country, IEATools::iea_cols$method, IEATools::iea_cols$energy_type, IEATools::iea_cols$last_stage, IEATools::iea_cols$product)</a></code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>balanced IEA data</p>
+    <p>A string list with 1 entries.</p><dl>
+<dt>efficiency_tab_name</dt><dd><p>The default name of the efficiency tabs in machine efficiency excel files.</p></dd>
+
+</dl>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>IEATools</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/sample_iea_data_path.html'>sample_iea_data_path</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>IEATools</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/IEATools/man/load_tidy_iea_df.html'>load_tidy_iea_df</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>make_balanced</span><span class='op'>(</span>countries <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='is_balanced.html'>is_balanced</a></span><span class='op'>(</span>countries <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>machine_constants</span>
+</div><div class='output co'>#&gt; $efficiency_tab_name
+#&gt; [1] "FIN_ETA"
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

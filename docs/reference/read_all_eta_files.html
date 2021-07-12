@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="Create a data frame containing machine Eta.fu and Phi.u values. — read_all_eta_files" />
-<meta property="og:description" content="Create a data frame containing machine Eta.fu and Phi.u values." />
+<meta property="og:description" content="This function reads the files in eat_fin_paths
+and creates a data frame of important efficiency and other variables." />
 
 
 
@@ -72,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -115,10 +116,16 @@
     </div>
 
     <div class="ref-description">
-    <p>Create a data frame containing machine Eta.fu and Phi.u values.</p>
+    <p>This function reads the files in <code>eat_fin_paths</code>
+and creates a data frame of important efficiency and other variables.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_all_eta_files</span><span class='op'>(</span><span class='va'>eta_fin_paths</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>read_all_eta_files</span><span class='op'>(</span>
+  <span class='va'>eta_fin_paths</span>,
+  efficiency_tab_name <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='machine_constants.html'>machine_constants</a></span><span class='op'>$</span><span class='va'>efficiency_tab_name</span>,
+  year <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>year</span>,
+  .values <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>.values</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -127,7 +134,19 @@
       <th>eta_fin_paths</th>
       <td><p>A list of the file paths to machine excel files containing
 FIN_ETA front sheets, and therefore usable data.
-Created by calling the <code>get_eta_filepaths</code> function.</p></td>
+Created by calling the <code><a href='get_eta_filepaths.html'>get_eta_filepaths()</a></code> function.</p></td>
+    </tr>
+    <tr>
+      <th>efficiency_tab_name</th>
+      <td><p>See <code><a href='machine_constants.html'>SEAPSUTWorkflow::machine_constants</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>year</th>
+      <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>IEATools::iea_cols</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>.values</th>
+      <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>IEATools::template_cols</a></code>.</p></td>
     </tr>
     </table>
 
@@ -135,8 +154,38 @@ Created by calling the <code>get_eta_filepaths</code> function.</p></td>
 
     <p>A data frame containing all Eta.fu and Phi.u values present
 in all Machine excel files, with the following column names:
-"Country", "Machine", "Eu.product", "Metric", "Year", "Value".</p>
+"Country", "Energy.type", "Last.stage", "Method", "Machine",
+"Eu.product", "Quantity", "Year", "Value".</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>Note that <code>eta_fin_paths</code> should typically be a list of
+file paths, each a character string.
+But <code>eta_fin_paths</code> can be a single character string (not a list),
+in which case it will be interpreted as a directory
+containing files that have Eta.fu and Phi.u values.
+When <code>eta_fin_paths</code> is a single character string (not a list),
+the directory will be interrogated for files,
+a list of file paths constructed, and
+all files read.
+<code><a href='get_eta_filepaths.html'>get_eta_filepaths()</a></code> is called internally before
+reading the files and creating the data frames.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>read_all_eta_files</span><span class='op'>(</span>eta_fin_paths <span class='op'>=</span> <span class='fu'><a href='sample_machine_workbook_path.html'>sample_machine_workbook_path</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 108 x 9</span>
+#&gt;    Country Energy.type Last.stage Method Machine       Eu.product Quantity  Year
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> GBR     E           Final      PCM    Industrial e~ MD         Eta.fu    <span style='text-decoration: underline;'>1</span>960
+#&gt; <span style='color: #BCBCBC;'> 2</span> GBR     E           Final      PCM    Industrial e~ MD         Eta.fu    <span style='text-decoration: underline;'>1</span>961
+#&gt; <span style='color: #BCBCBC;'> 3</span> GBR     E           Final      PCM    Industrial e~ MD         Eta.fu    <span style='text-decoration: underline;'>1</span>962
+#&gt; <span style='color: #BCBCBC;'> 4</span> GBR     E           Final      PCM    Industrial e~ MD         Eta.fu    <span style='text-decoration: underline;'>1</span>963
+#&gt; <span style='color: #BCBCBC;'> 5</span> GBR     E           Final      PCM    Industrial e~ MD         Eta.fu    <span style='text-decoration: underline;'>1</span>964
+#&gt; <span style='color: #BCBCBC;'> 6</span> GBR     E           Final      PCM    Industrial e~ MD         Eta.fu    <span style='text-decoration: underline;'>1</span>965
+#&gt; <span style='color: #BCBCBC;'> 7</span> GBR     E           Final      PCM    Industrial e~ MD         Eta.fu    <span style='text-decoration: underline;'>1</span>966
+#&gt; <span style='color: #BCBCBC;'> 8</span> GBR     E           Final      PCM    Industrial e~ MD         Eta.fu    <span style='text-decoration: underline;'>1</span>967
+#&gt; <span style='color: #BCBCBC;'> 9</span> GBR     E           Final      PCM    Industrial e~ MD         Eta.fu    <span style='text-decoration: underline;'>1</span>968
+#&gt; <span style='color: #BCBCBC;'>10</span> GBR     E           Final      PCM    Industrial e~ MD         Eta.fu    <span style='text-decoration: underline;'>1</span>969
+#&gt; <span style='color: #949494;'># ... with 98 more rows, and 1 more variable: .values &lt;dbl&gt;</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -148,7 +197,7 @@ in all Machine excel files, with the following column names:
 
       <footer>
       <div class="copyright">
-  <p>Developed by Matthew Heun.</p>
+  <p>Developed by Matthew Heun, Zeke Marshall.</p>
 </div>
 
 <div class="pkgdown">
