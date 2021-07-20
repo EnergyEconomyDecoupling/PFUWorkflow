@@ -14,9 +14,13 @@ clean_targets(
 )
 }
 \arguments{
+\item{to_clean}{The first target to clean. Default is "CEDAData", thereby cleaning everything after "IEAData".}
+
 \item{first_cleaned_target}{The string name of the first target to clean. Default is "CEDAData".}
 
 \item{last_cleaned_target}{The string name of the last target to clean. Default is the last target in the workflow.}
+
+\item{path}{The path to the drake cache. Default is \code{NULL}, meaning that drake should look in the ".drake" folder for cache information.}
 }
 \value{
 
