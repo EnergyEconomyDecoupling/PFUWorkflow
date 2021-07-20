@@ -4,6 +4,7 @@ AllocationGraphs
 avh
 Cmats
 CEDA
+CEDAData
 Codecov
 cru
 cy
@@ -27,6 +28,7 @@ Hotfix
 https
 Hotfix
 IEA
+IEAData
 IEATools
 iea
 io

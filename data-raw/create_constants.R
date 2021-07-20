@@ -48,7 +48,6 @@ target_names <- list(countries = "countries",
                      NonStationaryAllocationGraphs = "NonStationaryAllocationGraphs",
                      EfficiencyGraphs = "EfficiencyGraphs",
                      ExergyEnergyGraphs = "ExergyEnergyGraphs",
-                     reports_dest_folder = "reports_dest_folder",
                      reports_complete = "reports_complete")
 
 usethis::use_data(target_names, overwrite = TRUE)

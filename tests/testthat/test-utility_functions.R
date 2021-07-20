@@ -60,6 +60,24 @@ test_that("readd_by_country() works as expected", {
 })
 
 
+test_that("clean_targets() works as expected", {
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$CEDAData)
+
+  tryCatch({
+    drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
+    # Verify that all targets are OK. If so, no targets will be out of date.
+    expect_equal(length(drake::outdated(testing_setup$plan, cache = testing_setup$temp_cache)), 0)
+    # Now clean some targets, by default everything after IEAData.
+    # In this case, everything after IEAData is only CEDAData.
+    clean_targets(path = testing_setup$cache_path)
+    expect_equal(drake::outdated(testing_setup$plan, cache = testing_setup$temp_cache), "CEDAData")
+  },
+  finally = {
+    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+  })
+})
+
+
 test_that("setup_exemplars() works as expected", {
   testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(additional_exemplar_countries = "World",
                                                         how_far = SEAPSUTWorkflow::target_names$CompletedAllocationTables,
@@ -156,7 +174,7 @@ test_that("get_fd_sectors() works as expected", {
   testthat::expect_type(fd_sectors, "list")
 
   # Check that the length of fd_sectors_list is equal to 47
-  testthat::expect_equal(length(fd_sectors), 47)
+  testthat::expect_equal(length(fd_sectors), 49)
 
   # Check that each entry in fd_sectors is correct
   testthat::expect_equal(unlist(unname(fd_sectors)),
@@ -171,7 +189,9 @@ test_that("get_fd_sectors() works as expected", {
                            "Machinery", "Food and tobacco", "Paper, pulp and print", "Paper, pulp and printing", "Wood and wood products",
                            "Textile and leather", "Non-specified (industry)", "Industry not elsewhere specified",
                            "Oil extraction", "Natural gas extraction",
+                           "World aviation bunkers",
                            "Domestic aviation", "Road", "Rail", "Pipeline transport",
+                           "World marine bunkers",
                            "Domestic navigation", "Non-specified (transport)", "Transport not elsewhere specified",
                            "Residential", "Commercial and public services", "Agriculture/forestry",
                            "Fishing", "Non-specified (other)", "Final consumption not elsewhere specified"))
