@@ -469,3 +469,26 @@ get_p_industry_prefixes <- function() {
 
 }
 
+
+#' Cleans drake targets
+#'
+#' It is often helpful to clean only a few targets.
+#' This function allows specification of targets to be cleaned by names.
+#' By default, this function cleans all targets *after* `IEAData`,
+#' according to the list `SEAPSUTWorkflow::target_names`.
+#'
+#' @param to_clean The first target to clean. Default is "CEDAData", thereby cleaning everything after "IEAData".
+#' @param first_cleaned_target The string name of the first target to clean. Default is "CEDAData".
+#' @param last_cleaned_target The string name of the last target to clean. Default is the last target in the workflow.
+#' @param path The path to the drake cache. Default is `NULL`, meaning that drake should look in the ".drake" folder for cache information.
+#'
+#' @return
+#' @export
+clean_targets <- function(to_clean = SEAPSUTWorkflow::target_names[seq(which(SEAPSUTWorkflow::target_names == first_cleaned_target),
+                                                                        which(SEAPSUTWorkflow::target_names == last_cleaned_target))],
+                          first_cleaned_target = "CEDAData",
+                          last_cleaned_target = SEAPSUTWorkflow::target_names[[length(SEAPSUTWorkflow::target_names)]],
+                          path = NULL) {
+  drake::clean(list = to_clean, path = path)
+}
+

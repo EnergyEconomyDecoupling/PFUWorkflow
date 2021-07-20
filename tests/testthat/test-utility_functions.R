@@ -60,6 +60,24 @@ test_that("readd_by_country() works as expected", {
 })
 
 
+test_that("clean_targets() works as expected", {
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$CEDAData)
+
+  tryCatch({
+    drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
+    # Verify that all targets are OK. If so, no targets will be out of date.
+    expect_equal(length(drake::outdated(testing_setup$plan, cache = testing_setup$temp_cache)), 0)
+    # Now clean some targets, by default everything after IEAData.
+    # In this case, everything after IEAData is only CEDAData.
+    clean_targets(path = testing_setup$cache_path)
+    expect_equal(drake::outdated(testing_setup$plan, cache = testing_setup$temp_cache), "CEDAData")
+  },
+  finally = {
+    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+  })
+})
+
+
 test_that("setup_exemplars() works as expected", {
   testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(additional_exemplar_countries = "World",
                                                         how_far = SEAPSUTWorkflow::target_names$CompletedAllocationTables,
