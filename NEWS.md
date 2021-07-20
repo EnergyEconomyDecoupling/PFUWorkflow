@@ -1,7 +1,7 @@
 * New function `clean_targets()` assists with cleaning targets.
   By default, it cleans only those targets after "IEAData", 
   thereby making it easy to 
-  * Now up to 2xx tests, all passing.
+  * Now up to 282 tests, all passing.
   * Test coverage remains at 100%.
 
 

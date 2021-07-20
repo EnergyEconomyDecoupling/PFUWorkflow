@@ -6,28 +6,28 @@
 \usage{
 clean_targets(
   to_clean = SEAPSUTWorkflow::target_names[seq(which(SEAPSUTWorkflow::target_names ==
-    first_cleaned_target), which(SEAPSUTWorkflow::target_names == last_cleaned_target))],
-  first_cleaned_target = "CEDAData",
- 
-    last_cleaned_target = SEAPSUTWorkflow::target_names[[length(SEAPSUTWorkflow::target_names)]],
+    first_target), which(SEAPSUTWorkflow::target_names == last_target))],
+  first_target = "CEDAData",
+  last_target = SEAPSUTWorkflow::target_names[[length(SEAPSUTWorkflow::target_names)]],
   path = NULL
 )
 }
 \arguments{
-\item{to_clean}{The first target to clean. Default is "CEDAData", thereby cleaning everything after "IEAData".}
+\item{to_clean}{A vector of strings of target names to be cleaned. Default is
+all target names from "CEDAData" to the end of \code{SEAPSUTWorkflow::target_names}.}
 
-\item{first_cleaned_target}{The string name of the first target to clean. Default is "CEDAData".}
+\item{first_target}{The string name of the first target to clean. Default is "CEDAData".}
 
-\item{last_cleaned_target}{The string name of the last target to clean. Default is the last target in the workflow.}
+\item{last_target}{The string name of the last target to clean. Default is the last target in the workflow.}
 
 \item{path}{The path to the drake cache. Default is \code{NULL}, meaning that drake should look in the ".drake" folder for cache information.}
 }
 \value{
-
+Nothing. This function should be called for its side effect of precision cleaning the drake cache.
 }
 \description{
 It is often helpful to clean only a few targets.
-This function allows specification of targets to be cleaned by names.
+This function allows specified targets to be cleaned.
 By default, this function cleans all targets \emph{after} \code{IEAData},
 according to the list \code{SEAPSUTWorkflow::target_names}.
 }
