@@ -13,7 +13,7 @@ clean_targets(
 )
 }
 \arguments{
-\item{to_clean}{A vector of strings of target names to be cleaned. Default is
+\item{to_clean}{A vector of target name strings to be cleaned. Default is
 all target names from "CEDAData" to the end of \code{SEAPSUTWorkflow::target_names}.}
 
 \item{first_target}{The string name of the first target to clean. Default is "CEDAData".}
