@@ -124,6 +124,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   alloc_and_eff_couns <- NULL
   map <- NULL
   AllIEAData <- NULL
+  CountryConcordanceTable <- NULL
   IEAData <- NULL
   CEDAData <- NULL
   AllMachineData <- NULL
