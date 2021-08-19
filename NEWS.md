@@ -1,3 +1,4 @@
+* New targets: `country_concordance_path1 and `CountryConcordanceTable`.
 * New function `clean_targets()` assists with cleaning targets.
   By default, it cleans only those targets after "IEAData", 
   thereby making it easy to re-run the workflow.
