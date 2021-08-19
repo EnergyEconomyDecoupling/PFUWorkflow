@@ -167,6 +167,9 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     reports_source_folders = !!reports_source_folders,
     reports_dest_folder = !!reports_dest_folder,
 
+    # Load country concordance table
+    CountryConcordanceTable = readxl::read_excel(country_concordance_path, sheet = "country_concordance_table"),
+
     # (1a) Grab all IEA data for ALL countries
 
     AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(),
