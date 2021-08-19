@@ -77,6 +77,7 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{exemplar_table_path}: The path to an exemplar table, supplied in the \code{exemplar_table_path} argument.
 \item \code{fu_analysis_folder}: The path to the final-to-useful analysis folder, supplied in the \code{fu_analysis_folder} argument.
 \item \code{report_output_folder}: The path to a report output folder, supplied in the \code{report_output_folder} argument.
+\item \code{CountryConcordanceTable}: A data frame containing concordance information which maps full country names to custom 3 letter codes.
 \item \code{AllIEAData}: A data frame with all IEA extended energy balance data read from \code{iea_data_path}.
 \item \code{IEAData}: A version of the \code{AllIEAData} data frame containing data for only those countries specified in \code{countries}.
 \item \code{CEDAData}: A data frame containing temperature data supplied through \code{CEDATools::read_cru_cy_files}.

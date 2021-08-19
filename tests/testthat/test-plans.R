@@ -3,7 +3,8 @@ context("Plan Functions")
 ###########################################################
 
 test_that("get_plan works", {
-  my_plan <- get_plan(iea_data_path = "datapath",
+  my_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+                      iea_data_path = "datapath",
                       ceda_data_folder = "cedapath",
                       machine_data_path = "machinepath",
                       exemplar_table_path = "exemplarpath",
@@ -26,6 +27,8 @@ test_that("get_plan works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("datapath"))
 
+  expect_equal(my_plan[[rn <- rn + 1, "command"]], list("countryconcordancepath"))
+
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("cedapath"))
 
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("machinepath"))
@@ -40,6 +43,8 @@ test_that("get_plan works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "reports_dest_folder")
   expect_equal(my_plan[[rn, "command"]], list("reports_dest_folder"))
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "CountryConcordanceTable")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AllIEAData")
 

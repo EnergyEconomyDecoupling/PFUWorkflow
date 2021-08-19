@@ -173,8 +173,8 @@ test_that("get_fd_sectors() works as expected", {
   # Check object type is equal to list
   testthat::expect_type(fd_sectors, "list")
 
-  # Check that the length of fd_sectors_list is equal to 47
-  testthat::expect_equal(length(fd_sectors), 49)
+  # Check that the length of fd_sectors_list is equal to 51
+  testthat::expect_equal(length(fd_sectors), 51)
 
   # Check that each entry in fd_sectors is correct
   testthat::expect_equal(unlist(unname(fd_sectors)),
