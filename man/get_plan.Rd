@@ -10,6 +10,7 @@ get_plan(
   max_year,
   how_far = "all_targets",
   iea_data_path,
+  country_concordance_path,
   ceda_data_folder,
   machine_data_path,
   exemplar_table_path,
@@ -37,6 +38,8 @@ Default is \code{NULL}, indicating no additional exemplars.}
 Default is "all_targets" to indicate all targets of the plan should be returned.}
 
 \item{iea_data_path}{The path to IEA extended energy balance data in .csv format.}
+
+\item{country_concordance_path}{The path to the country concordance Excel file.}
 
 \item{ceda_data_folder}{The path to the CEDA data in text file, .per, format.}
 
@@ -68,6 +71,7 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{alloc_and_eff_couns}: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of \code{countries} and \code{additional_exemplar_countries}, with duplicates removed.
 \item \code{max_year}: The maximum year to be analyzed, supplied in the \code{max_year} argument.
 \item \code{iea_data_path}: The path to IEA extended energy balance data, supplied in the \code{iea_data_path} argument.
+\item \code{country_concordance_path}: The path to the country concordance file, supplied in the \code{country_concordance_path} argument.
 \item \code{ceda_data_folder}: The path to the CEDA data, supplied in the \code{ceda_data_folder} argument.
 \item \code{machine_data_path}: The path to the machine data excel files, supplied in the \code{machine_data_path} argument.
 \item \code{exemplar_table_path}: The path to an exemplar table, supplied in the \code{exemplar_table_path} argument.
