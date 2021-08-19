@@ -11,6 +11,7 @@
 #' * `alloc_and_eff_couns`: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of `countries` and `additional_exemplar_countries`, with duplicates removed.
 #' * `max_year`: The maximum year to be analyzed, supplied in the `max_year` argument.
 #' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
+#' * `country_concordance_path`: The path to the country concordance file, supplied in the `country_concordance_path` argument.
 #' * `ceda_data_folder`: The path to the CEDA data, supplied in the `ceda_data_folder` argument.
 #' * `machine_data_path`: The path to the machine data excel files, supplied in the `machine_data_path` argument.
 #' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.
@@ -80,6 +81,7 @@
 #' @param how_far A string indicating the last target to include in the plan that is returned.
 #'                Default is "all_targets" to indicate all targets of the plan should be returned.
 #' @param iea_data_path The path to IEA extended energy balance data in .csv format.
+#' @param country_concordance_path The path to the country concordance Excel file.
 #' @param ceda_data_folder The path to the CEDA data in text file, .per, format.
 #' @param machine_data_path The path to the machine data in .xlsx format.
 #' @param exemplar_table_path The path to an exemplar table.
@@ -112,7 +114,8 @@
 #'          reports_dest_folder = "reports_dest_folder")
 get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
-                     iea_data_path, ceda_data_folder,
+                     iea_data_path,
+                     country_concordance_path, ceda_data_folder,
                      machine_data_path, exemplar_table_path,
                      fu_analysis_folder,
                      reports_source_folders, reports_dest_folder) {
@@ -156,6 +159,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     alloc_and_eff_couns = unique(c(countries, !!additional_exemplar_countries)),
     max_year = !!max_year,
     iea_data_path = !!iea_data_path,
+    country_concordance_path = !!country_concordance_path,
     ceda_data_folder = !!ceda_data_folder,
     machine_data_path = !!machine_data_path,
     exemplar_table_path = !!exemplar_table_path,
