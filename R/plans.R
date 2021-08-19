@@ -17,6 +17,7 @@
 #' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.
 #' * `fu_analysis_folder`: The path to the final-to-useful analysis folder, supplied in the `fu_analysis_folder` argument.
 #' * `report_output_folder`: The path to a report output folder, supplied in the `report_output_folder` argument.
+#' * `CountryConcordanceTable`: A data frame containing concordance information which maps full country names to custom 3 letter codes.
 #' * `AllIEAData`: A data frame with all IEA extended energy balance data read from `iea_data_path`.
 #' * `IEAData`: A version of the `AllIEAData` data frame containing data for only those countries specified in `countries`.
 #' * `CEDAData`: A data frame containing temperature data supplied through `CEDATools::read_cru_cy_files`.
@@ -123,8 +124,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   # Get around warnings of type "no visible binding for global variable".
   alloc_and_eff_couns <- NULL
   map <- NULL
-  AllIEAData <- NULL
   CountryConcordanceTable <- NULL
+  AllIEAData <- NULL
   IEAData <- NULL
   CEDAData <- NULL
   AllMachineData <- NULL
