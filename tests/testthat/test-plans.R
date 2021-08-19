@@ -101,7 +101,8 @@ test_that("get_plan works", {
 
 
 test_that("keeping only some rows of a plan works", {
-  full_plan <- get_plan(iea_data_path = "datapath",
+  full_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+                        iea_data_path = "datapath",
                         ceda_data_folder = "cedapath",
                         machine_data_path = "machinepath",
                         exemplar_table_path = "exemplarpath",
@@ -110,7 +111,8 @@ test_that("keeping only some rows of a plan works", {
                         reports_dest_folder = "reports_dest_folder",
                         countries = c("GHA", "ZAF"),
                         max_year = 1999)
-  short_plan <- get_plan(iea_data_path = "mypath",
+  short_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+                         iea_data_path = "mypath",
                          ceda_data_folder = "cedapath",
                          machine_data_path = "machinepath",
                          exemplar_table_path = "exemplarpath",
