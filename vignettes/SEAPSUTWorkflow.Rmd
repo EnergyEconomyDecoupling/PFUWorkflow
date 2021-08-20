@@ -41,6 +41,7 @@ To get started, follow these steps:
 plan <- SEAPSUTWorkflow::get_plan(countries = c("GHA", "ZAF"), 
                                   max_year = 2017,
                                   iea_data_path = "<<IEA extended energy balance path>>", 
+                                  country_concordance_path = "<<Country concordance path>>",
                                   ceda_data_folder = "<<CEDA temperature data path>>",
                                   machine_data_path = "<<Machine data path>>",
                                   exemplar_table_path = "<<exemplar table path>>",
