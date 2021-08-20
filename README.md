@@ -14,7 +14,7 @@ status](https://github.com/MatthewHeun/SEAPSUTWorkflow/workflows/check-master-de
 Status](https://travis-ci.org/MatthewHeun/SEAPSUTWorkflow.svg?branch=master)](https://travis-ci.org/MatthewHeun/SEAPSUTWorkflow)
 [![Codecov test
 coverage](https://codecov.io/gh/EnergyEconomyDecoupling/SEAPSUTWorkflow/branch/master/graph/badge.svg)](https://codecov.io/gh/EnergyEconomyDecoupling/SEAPSUTWorkflow?branch=master)
-[![DOI](https://zenodo.org/badge/%7B265032888%7D.svg)](https://zenodo.org/badge/latestdoi/%7B265032888%7D)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5091720.svg)](https://doi.org/10.5281/zenodo.5091720)
 <!-- badges: end -->
 
 # SEAPSUTWorkflow

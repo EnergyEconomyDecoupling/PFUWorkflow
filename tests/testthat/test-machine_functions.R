@@ -27,6 +27,9 @@ test_that("get_eta_filepaths() works correctly", {
                                             "Machine_Example",
                                             "Machine_Example.xlsx")))
 
+  # Try with a degenerate case.
+  empty_list <- get_eta_filepaths("#!@% My unexpected filepath name / foo ***bar*** /")
+  expect_equal(empty_list, list())
 })
 
 

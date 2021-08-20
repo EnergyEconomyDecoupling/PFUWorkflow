@@ -17,6 +17,7 @@
 #' \item{fu_analysis_folder}{A string representing the folder containing final-to-useful analyses for various countries.}
 #' \item{report_source_folders}{A string vector representing folders containing reports to be run as the last step of the workflow.}
 #' \item{report_dest_folder}{A string representing the folder containing reports from the workflow.}
+#' \item{CountryConcordanceTable}{A data frame containing concordance information which maps full country names to custom 3 letter codes.}
 #' \item{AllIEAData}{The name of a data frame containing all IEA data read from `iea_data_path`.}
 #' \item{IEAData}{A filtered version of `AllIEAData` containing information for only `countries`.}
 #' \item{CEDAData}{The name of the data frame containing all CEDA temperature data read from `ceda_data_folder`.}
@@ -28,6 +29,7 @@
 #' \item{Specified}{A data frame containing specified IEA data.}
 #' \item{PSUT_final}{A data frame containing `Specified` in a PSUT format.}
 #' \item{IncompleteAllocationTables}{A data frame of final-to-useful allocation tables, one for each country. These allocation tables may be incomplete.}
+#' \item{TidyIncompleteAllocationTables}{A tidy data frame of final-to-useful allocation tables, one for each country. These allocation tables may be incomplete.}
 #' \item{ExemplarLists}{A data frame of lists of exemplar countries for each country in `countries`, and maybe more.}
 #' \item{CompletedAllocationTables}{A data frame of completed final-to-useful allocation tables.}
 #' \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}

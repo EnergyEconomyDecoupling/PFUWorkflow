@@ -19,6 +19,7 @@ target_names <- list(countries = "countries",
                      fu_analysis_folder = "fu_analysis_folder",
                      report_source_folders = "report_source_folders",
                      report_dest_folder = "report_dest_folder",
+                     CountryConcordanceTable = "CountryConcordanceTable",
                      AllIEAData = "AllIEAData",
                      IEAData = "IEAData",
                      CEDAData = "CEDAData",
@@ -31,7 +32,7 @@ target_names <- list(countries = "countries",
                      Specified = "Specified",
                      PSUT_final = "PSUT_final",
                      IncompleteAllocationTables = "IncompleteAllocationTables",
-                     # IncompleteEfficiencyTables = "IncompleteEfficiencyTables",
+                     TidyIncompleteAllocationTables = "TidyIncompleteAllocationTables",
                      ExemplarLists = "ExemplarLists",
                      CompletedAllocationTables = "CompletedAllocationTables",
                      CompletedEfficiencyTables = "CompletedEfficiencyTables",
@@ -48,7 +49,6 @@ target_names <- list(countries = "countries",
                      NonStationaryAllocationGraphs = "NonStationaryAllocationGraphs",
                      EfficiencyGraphs = "EfficiencyGraphs",
                      ExergyEnergyGraphs = "ExergyEnergyGraphs",
-                     reports_dest_folder = "reports_dest_folder",
                      reports_complete = "reports_complete")
 
 usethis::use_data(target_names, overwrite = TRUE)
@@ -72,7 +72,7 @@ exemplar_names <- list(exemplar_tab_name = "exemplar_table",
                        complete_eta_table = "Complete.eta.table",
                        row_code = "ROW.code",
                        country_name = "Country.name",
-                       world = "World")
+                       world = "WLD")
 usethis::use_data(exemplar_names, overwrite = TRUE)
 
 

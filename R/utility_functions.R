@@ -92,7 +92,7 @@ dir_create_pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode =
 #' @param machine_data_folder The path to a temporary folder to contain machine-specific data. Default is `tempdir()`.
 #' @param cache_path The path to the temporary drake cache used for testing. Default is `tempfile("drake_cache_for_testing")`.
 #' @param setup_exemplars Tells whether GHA allocation data should be adjusted to allow exemplars and
-#'                        if ZAF allocations will be duplicated and called "World".
+#'                        if ZAF allocations will be duplicated and called "WLD".
 #'                        Default is `FALSE`.
 #'
 #' @return A list containing a drake plan (`$plan`),
@@ -104,6 +104,7 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                additional_exemplar_countries = NULL,
                                max_year = 2000,
                                how_far = "all_targets",
+                               country_concordance_path = system.file("extdata", "Concordance_Data", "Country_Concordance_Sample.xlsx", package = "SEAPSUTWorkflow"),
                                iea_data_path = IEATools::sample_iea_data_path(),
                                ceda_data_folder = CEDATools::sample_ceda_data_folder(),
                                machine_data_path = system.file("extdata", "Machines - Data", package = "SEAPSUTWorkflow"),
@@ -115,10 +116,10 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                machine_data_folder = file.path(tempdir(), "Machines - Data"),
                                cache_path = tempfile("drake_cache_for_testing"),
                                setup_exemplars = FALSE) {
-  # We sometimes forget to include "World" when using exemplars.
+  # We sometimes forget to include "WLD" when using exemplars.
   # This if statement avoids that problem.
   if (setup_exemplars & is.null(additional_exemplar_countries)) {
-    additional_exemplar_countries = "World"
+    additional_exemplar_countries = "WLD"
   }
   set_up_temp_analysis(fu_analysis_folder, exemplar_folder, machine_data_folder, reports_output_folder,
                        iea_data_path, machine_data_examples_path = machine_data_path,
@@ -128,6 +129,7 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                    max_year = max_year,
                    how_far = how_far,
                    iea_data_path = file.path(fu_analysis_folder, "IEAData.csv"),
+                   country_concordance_path = country_concordance_path,
                    ceda_data_folder = ceda_data_folder,
                    machine_data_path = machine_data_folder,
                    exemplar_table_path = file.path(exemplar_folder, "Exemplar_Table.xlsx"),
@@ -174,7 +176,7 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
   # Set up IEA data
   iea_df <- IEATools::iea_df(iea_data_path)
   if (setup_exemplars) {
-    # Set up IEA data for "World", using a copy of the ZAF data as world.
+    # Set up IEA data for "World", using a copy of the "South Africa" data as world.
     world <- iea_df %>%
       dplyr::filter(.data[["COUNTRY"]] == "South Africa") %>%
       dplyr::mutate(
@@ -201,11 +203,11 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
     all_sheets <- readxl::excel_sheets(path)
     if (fin_eta %in% all_sheets) {
       this_data <- openxlsx::read.xlsx(xlsxFile = path, sheet = fin_eta, startRow = 2)
-      # Find the ZAF data, duplicate it, and set the country to World
+      # Find the ZAF data, duplicate it, and set the country to WLD
       world_rows <- this_data %>%
         dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF") %>%
         dplyr::mutate(
-          "{IEATools::iea_cols$country}" := "World"
+          "{IEATools::iea_cols$country}" := "WLD"
         )
       # Do some math to find the bottom of the table.
       # First row is the date.
@@ -288,14 +290,14 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
     dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF")
 
   if (setup_exemplars) {
-    # Set up for using World as an exemplar for GHA.
+    # Set up for using WLD as an exemplar for GHA.
     World_FU_allocation_table <- ZAF_FU_allocation_table %>%
       dplyr::mutate(
-        "{IEATools::iea_cols$country}" := "World"
+        "{IEATools::iea_cols$country}" := "WLD"
       )
     World_FU_etas_table <- ZAF_FU_etas_table %>%
       dplyr::mutate(
-        "{IEATools::iea_cols$country}" := "World"
+        "{IEATools::iea_cols$country}" := "WLD"
       )
     # Trim the GHA allocation table to make a missing row that will be filled by an exemplar.
     # Get rid of Residential Primary Solid biofuels consumption
@@ -338,8 +340,8 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
   openxlsx::saveWorkbook(GHA_fu_wb, file = file.path(fu_folder, "GHA", "GHA FU Analysis.xlsx"), overwrite = TRUE)
   openxlsx::saveWorkbook(ZAF_fu_wb, file = file.path(fu_folder, "ZAF", "ZAF FU Analysis.xlsx"), overwrite = TRUE)
   if (setup_exemplars) {
-    dir.create(file.path(fu_folder, "World"), showWarnings = FALSE)
-    openxlsx::saveWorkbook(World_fu_wb, file = file.path(fu_folder, "World", "World FU Analysis.xlsx"), overwrite = TRUE)
+    dir.create(file.path(fu_folder, "WLD"), showWarnings = FALSE)
+    openxlsx::saveWorkbook(World_fu_wb, file = file.path(fu_folder, "WLD", "WLD FU Analysis.xlsx"), overwrite = TRUE)
   }
 
   # Create an exemplar table
@@ -350,7 +352,7 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
     IEATools::year_cols(return_names = TRUE)
   years_to_remove <- setdiff(year_colnames, c("1971", "2000"))
   if (setup_exemplars) {
-    countries_to_keep <- c("GHA", "ZAF", "World")
+    countries_to_keep <- c("GHA", "ZAF", "WLD")
   } else {
     countries_to_keep <- c("GHA", "ZAF")
   }
@@ -466,6 +468,35 @@ get_p_industry_prefixes <- function() {
   p_industry_prefixes <- IEATools::prim_agg_flows %>% unname() %>% unlist() %>% list()
 
   return(p_industry_prefixes)
+
+}
+
+
+#' Cleans drake targets
+#'
+#' It is often helpful to clean only a few targets.
+#' This function allows specified targets to be cleaned.
+#' By default, this function cleans all targets _after_ `IEAData`,
+#' according to the list `SEAPSUTWorkflow::target_names`.
+#'
+#' @param to_clean A vector of target name strings to be cleaned. Default is
+#'                 all target names from "CEDAData" to the end of `SEAPSUTWorkflow::target_names`.
+#' @param first_target The string name of the first target to clean. Default is "CEDAData".
+#' @param last_target The string name of the last target to clean. Default is the last target in the workflow.
+#' @param path The path to the drake cache. Default is `NULL`, meaning that drake should look in the ".drake" folder for cache information.
+#'
+#' @return Nothing. This function should be called for its side effect of precision cleaning the drake cache.
+#'
+#' @export
+clean_targets <- function(
+  to_clean = SEAPSUTWorkflow::target_names[
+  seq(which(SEAPSUTWorkflow::target_names == first_target),
+      which(SEAPSUTWorkflow::target_names == last_target))],
+  first_target = "CEDAData",
+  last_target = SEAPSUTWorkflow::target_names[[length(SEAPSUTWorkflow::target_names)]],
+  path = NULL) {
+
+  drake::clean(list = to_clean, path = path)
 
 }
 

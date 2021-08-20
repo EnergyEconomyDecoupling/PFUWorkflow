@@ -4,9 +4,13 @@ AllocationGraphs
 avh
 Cmats
 CEDA
+CEDAData
+Codecov
+CountryConcordanceTable
 cru
 cy
 csv
+DOI
 de
 drakepkg
 ECC
@@ -25,6 +29,7 @@ Hotfix
 https
 Hotfix
 IEA
+IEAData
 IEATools
 iea
 io
@@ -55,5 +60,6 @@ TFC
 tibble
 TPES
 WIP
+WLD
 xlsx
 ZAF

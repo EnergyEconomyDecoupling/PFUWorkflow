@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
       </span>
     </div>
 
@@ -112,12 +112,28 @@
       
     </div>
 
-    <div id="seapsutworkflow-022-2021-07-12" class="section level1">
-<h1 class="page-header" data-toc-text="0.2.2">
-<a href="#seapsutworkflow-022-2021-07-12" class="anchor"></a>SEAPSUTWorkflow 0.2.2 (2021-07-12)</h1>
+    <div id="seapsutworkflow-023-2021-08-20" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.3">
+<a href="#seapsutworkflow-023-2021-08-20" class="anchor"></a>SEAPSUTWorkflow 0.2.3 (2021-08-20)</h1>
 <ul>
-<li><p>Split <code>CompletedEfficiencyTables</code> into <code>CompletedPhiTables</code> which contains phi.u values, and <code>CompletedEfficiencyTables</code> which contains eta.fu values.</p></li>
-<li><p>Added the target <code>MachineData</code> which contains data from <code>AllMachineData</code>, but only for the countries specified in <code>countries</code> and <code>alloc_and_eff_couns</code>.</p></li>
+<li>Now using “WLD” instead of “World” everywhere.</li>
+<li>New targets: <code>country_concordance_path1 and</code>CountryConcordanceTable`.</li>
+<li>New function <code><a href="../reference/clean_targets.html">clean_targets()</a></code> assists with cleaning targets. By default, it cleans only those targets after “IEAData”, thereby making it easy to re-run the workflow.</li>
+<li>New tests for new features.
+<ul>
+<li>Now up to 284 tests, all passing.</li>
+<li>Test coverage remains at 100%.</li>
+</ul>
+</li>
+</ul>
+</div>
+    <div id="seapsutworkflow-022-2021-07-12-doi" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.2">
+<a href="#seapsutworkflow-022-2021-07-12-doi" class="anchor"></a>SEAPSUTWorkflow 0.2.2 (2021-07-12) <a href="https://doi.org/10.5281/zenodo.5091721"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5091721.svg" alt="DOI"></a>
+</h1>
+<ul>
+<li>Split <code>CompletedEfficiencyTables</code> into <code>CompletedPhiTables</code> which contains phi.u values, and <code>CompletedEfficiencyTables</code> which contains eta.fu values.</li>
+<li>Added the target <code>MachineData</code> which contains data from <code>AllMachineData</code>, but only for the countries specified in <code>countries</code> and <code>alloc_and_eff_couns</code>.</li>
 </ul>
 </div>
     <div id="seapsutworkflow-021-2021-03-17" class="section level1">
@@ -131,18 +147,17 @@
 <h1 class="page-header" data-toc-text="0.2.0">
 <a href="#seapsutworkflow-020-2021-01-23" class="anchor"></a>SEAPSUTWorkflow 0.2.0 (2021-01-23)</h1>
 <ul>
-<li>
-<p>New tests for new features.</p>
+<li>New tests for new features.
 <ul>
 <li>Now up to 216 tests, all passing.</li>
 <li>Test coverage remains at 100%.</li>
 </ul>
 </li>
-<li><p>New target <code>AllMachineData</code> which consists of a tidy data frames containing information obtained by calling functions in machine_functions.R.</p></li>
-<li><p>New set of functions in machine_functions.R (<code><a href="../reference/get_eta_filepaths.html">get_eta_filepaths()</a></code> and <code>read_all_eta_files</code>) which read in data from a specified file path and create a tidy data frame containing Eta.fu, Phi.u, and any additional metrics supplied.</p></li>
-<li><p>New version of plan that includes extending the PSUT matrices to the useful stage.</p></li>
-<li><p>New functions <code><a href="../reference/nonstat_alloc_graph.html">nonstat_alloc_graph()</a></code> and <code><a href="../reference/nonstat_alloc_plots_df.html">nonstat_alloc_plots_df()</a></code> which make final-to-useful allocations graphs for only non-stationary allocations data, and for later use in reports and other visualization.</p></li>
-<li><p>New functions <code><a href="../reference/phi_u_graph.html">phi_u_graph()</a></code> and <code><a href="../reference/phi_u_plots_df.html">phi_u_plots_df()</a></code> which make exergy-to-energy ratio graphs for use in reports and other visualization.</p></li>
+<li>New target <code>AllMachineData</code> which consists of a tidy data frames containing information obtained by calling functions in machine_functions.R.</li>
+<li>New set of functions in machine_functions.R (<code><a href="../reference/get_eta_filepaths.html">get_eta_filepaths()</a></code> and <code>read_all_eta_files</code>) which read in data from a specified file path and create a tidy data frame containing Eta.fu, Phi.u, and any additional metrics supplied.</li>
+<li>New version of plan that includes extending the PSUT matrices to the useful stage.</li>
+<li>New functions <code><a href="../reference/nonstat_alloc_graph.html">nonstat_alloc_graph()</a></code> and <code><a href="../reference/nonstat_alloc_plots_df.html">nonstat_alloc_plots_df()</a></code> which make final-to-useful allocations graphs for only non-stationary allocations data, and for later use in reports and other visualization.</li>
+<li>New functions <code><a href="../reference/phi_u_graph.html">phi_u_graph()</a></code> and <code><a href="../reference/phi_u_plots_df.html">phi_u_plots_df()</a></code> which make exergy-to-energy ratio graphs for use in reports and other visualization.</li>
 </ul>
 </div>
     <div id="seapsutworkflow-0111-2020-09-28" class="section level1">

@@ -3,7 +3,8 @@ context("Plan Functions")
 ###########################################################
 
 test_that("get_plan works", {
-  my_plan <- get_plan(iea_data_path = "datapath",
+  my_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+                      iea_data_path = "datapath",
                       ceda_data_folder = "cedapath",
                       machine_data_path = "machinepath",
                       exemplar_table_path = "exemplarpath",
@@ -26,6 +27,8 @@ test_that("get_plan works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("datapath"))
 
+  expect_equal(my_plan[[rn <- rn + 1, "command"]], list("countryconcordancepath"))
+
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("cedapath"))
 
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("machinepath"))
@@ -40,6 +43,8 @@ test_that("get_plan works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "reports_dest_folder")
   expect_equal(my_plan[[rn, "command"]], list("reports_dest_folder"))
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "CountryConcordanceTable")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AllIEAData")
 
@@ -66,6 +71,9 @@ test_that("get_plan works", {
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "ExemplarLists")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "IncompleteAllocationTables")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "TidyIncompleteAllocationTables")
+
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "CompletedAllocationTables")
 
   # expect_equal(my_plan[[rn <- rn + 1, "target"]], "IncompleteEfficiencyTables")
@@ -93,7 +101,8 @@ test_that("get_plan works", {
 
 
 test_that("keeping only some rows of a plan works", {
-  full_plan <- get_plan(iea_data_path = "datapath",
+  full_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+                        iea_data_path = "datapath",
                         ceda_data_folder = "cedapath",
                         machine_data_path = "machinepath",
                         exemplar_table_path = "exemplarpath",
@@ -102,7 +111,8 @@ test_that("keeping only some rows of a plan works", {
                         reports_dest_folder = "reports_dest_folder",
                         countries = c("GHA", "ZAF"),
                         max_year = 1999)
-  short_plan <- get_plan(iea_data_path = "mypath",
+  short_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+                         iea_data_path = "mypath",
                          ceda_data_folder = "cedapath",
                          machine_data_path = "machinepath",
                          exemplar_table_path = "exemplarpath",
