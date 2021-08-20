@@ -1,4 +1,4 @@
-# SEAPSUTWorkflow 0.2.3 (2021-08-20)
+# SEAPSUTWorkflow 0.2.3 (2021-08-20) [![DOI](https://zenodo.org/badge/265032888.svg)](https://zenodo.org/badge/latestdoi/265032888)
 
 * Now using "WLD" instead of "World" everywhere.
 * New targets: `country_concordance_path1 and `CountryConcordanceTable`.
