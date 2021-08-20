@@ -1,3 +1,5 @@
+# SEAPSUTWorkflow 0.2.3 (2021-08-20)
+
 * Now using "WLD" instead of "World" everywhere.
 * New targets: `country_concordance_path1 and `CountryConcordanceTable`.
 * New function `clean_targets()` assists with cleaning targets.
