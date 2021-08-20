@@ -6,6 +6,7 @@ Cmats
 CEDA
 CEDAData
 Codecov
+CountryConcordanceTable
 cru
 cy
 csv
@@ -59,5 +60,6 @@ TFC
 tibble
 TPES
 WIP
+WLD
 xlsx
 ZAF
