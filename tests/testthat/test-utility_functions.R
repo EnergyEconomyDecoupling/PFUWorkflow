@@ -79,7 +79,7 @@ test_that("clean_targets() works as expected", {
 
 
 test_that("setup_exemplars() works as expected", {
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(additional_exemplar_countries = "World",
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(additional_exemplar_countries = c("WLD"),
                                                         how_far = SEAPSUTWorkflow::target_names$CompletedAllocationTables,
                                                         setup_exemplars = TRUE)
 
@@ -94,12 +94,12 @@ test_that("setup_exemplars() works as expected", {
     iea_data %>%
       magrittr::extract2(IEATools::iea_cols$country) %>%
       unique() %>%
-      expect_equal(c("GHA", "World", "ZAF"))
+      expect_equal(c("GHA", "WLD", "ZAF"))
     # World and ZAF should be the same.
     expect_equal(iea_data %>%
                    dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF"),
                  iea_data %>%
-                   dplyr::filter(.data[[IEATools::iea_cols$country]] == "World") %>%
+                   dplyr::filter(.data[[IEATools::iea_cols$country]] == "WLD") %>%
                    dplyr::mutate(
                      "{IEATools::iea_cols$country}" := "ZAF"
                    ))
@@ -116,7 +116,7 @@ test_that("setup_exemplars() works as expected", {
                                  path = testing_setup$cache_path,
                                  character_only = TRUE)
     world_alloc_tables <- alloc_tables %>%
-      dplyr::filter(.data[[IEATools::iea_cols$country]] == "World")
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "WLD")
     zaf_alloc_tables <- alloc_tables %>%
       dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF")
     # World and ZAF should be the same, because World is just rebranded ZAF.
@@ -128,7 +128,7 @@ test_that("setup_exemplars() works as expected", {
                                                 country = "ZAF",
                                                 cache_path = testing_setup$cache_path)
     World_fu_allocation_table <- readd_by_country(SEAPSUTWorkflow::target_names$IncompleteAllocationTables,
-                                                  country = "World",
+                                                  country = "WLD",
                                                   cache_path = testing_setup$cache_path)
     expect_equal(World_fu_allocation_table %>%
                    dplyr::mutate("{IEATools::iea_cols$country}" := "ZAF"),
@@ -153,7 +153,7 @@ test_that("set_up_for_testing() works when setting up exemplars with no exemplar
     testing_setup$plan %>%
       dplyr::filter(.data[["target"]] == SEAPSUTWorkflow::target_names$alloc_and_eff_couns) %>%
       magrittr::extract2("command") %>%
-      grepl("World", .) %>%
+      grepl("WLD", .) %>%
       expect_true()
   },
   finally = {
