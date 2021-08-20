@@ -1,6 +1,7 @@
+* Now using "WLD" instead of "World" everywhere.
 * New targets: `country_concordance_path1 and `CountryConcordanceTable`.
 * New function `clean_targets()` assists with cleaning targets.
-  By default, it cleans only those targets after "IEAData", 
+  By default, it cleans only those targets after "IEAData",
   thereby making it easy to re-run the workflow.
   * Now up to 282 tests, all passing.
   * Test coverage remains at 100%.
@@ -8,15 +9,17 @@
 
 # SEAPSUTWorkflow 0.2.2 (2021-07-12) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5091721.svg)](https://doi.org/10.5281/zenodo.5091721)
 
-* Split `CompletedEfficiencyTables` into `CompletedPhiTables` which contains phi.u values, and `CompletedEfficiencyTables` which contains eta.fu values.
-* Added the target `MachineData` which contains data from `AllMachineData`, but only for the countries specified in `countries` and `alloc_and_eff_couns`.
+* Split `CompletedEfficiencyTables` into `CompletedPhiTables` which contains phi.u values, and
+  `CompletedEfficiencyTables` which contains eta.fu values.
+* Added the target `MachineData` which contains data from `AllMachineData`,
+  but only for the countries specified in `countries` and `alloc_and_eff_couns`.
 
 
 # SEAPSUTWorkflow 0.2.1 (2021-03-17)
 
-* New set of functions in `tes_tfc_functions.R` and `socioecon_functions.R` 
-  which are used to create the following new targets: `FinalDemandSectors`, 
-  `PrimaryIndustryPrefixes`, `AggregatePrimaryData`, `AggregateFinalUsefulData`, 
+* New set of functions in `tes_tfc_functions.R` and `socioecon_functions.R`
+  which are used to create the following new targets: `FinalDemandSectors`,
+  `PrimaryIndustryPrefixes`, `AggregatePrimaryData`, `AggregateFinalUsefulData`,
   and `SocioEconData`.
 
 
@@ -25,15 +28,15 @@
 * New tests for new features.
     * Now up to 216 tests, all passing.
     * Test coverage remains at 100%.
-* New target `AllMachineData` which consists of a tidy data 
-  frames containing information obtained by calling functions in 
+* New target `AllMachineData` which consists of a tidy data
+  frames containing information obtained by calling functions in
   machine_functions.R.
-* New set of functions in machine_functions.R (`get_eta_filepaths()` and 
-  `read_all_eta_files`) which read in data from a specified file path and create 
+* New set of functions in machine_functions.R (`get_eta_filepaths()` and
+  `read_all_eta_files`) which read in data from a specified file path and create
   a tidy data frame containing Eta.fu, Phi.u, and any additional metrics supplied.
 * New version of plan that includes extending the PSUT matrices to the useful stage.
 * New functions `nonstat_alloc_graph()` and `nonstat_alloc_plots_df()`
-  which make final-to-useful allocations graphs for only non-stationary allocations 
+  which make final-to-useful allocations graphs for only non-stationary allocations
   data, and for later use in reports and other visualization.
 * New functions `phi_u_graph()` and `phi_u_plots_df()`
   which make exergy-to-energy ratio graphs for use in reports and other
