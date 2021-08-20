@@ -75,7 +75,7 @@ which the maximum year to be analyzed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
       </span>
     </div>
 
@@ -130,6 +130,7 @@ which the maximum year to be analyzed.</p>
   <span class='va'>max_year</span>,
   how_far <span class='op'>=</span> <span class='st'>"all_targets"</span>,
   <span class='va'>iea_data_path</span>,
+  <span class='va'>country_concordance_path</span>,
   <span class='va'>ceda_data_folder</span>,
   <span class='va'>machine_data_path</span>,
   <span class='va'>exemplar_table_path</span>,
@@ -171,6 +172,10 @@ Default is "all_targets" to indicate all targets of the plan should be returned.
       <td><p>The path to IEA extended energy balance data in .csv format.</p></td>
     </tr>
     <tr>
+      <th>country_concordance_path</th>
+      <td><p>The path to the country concordance Excel file.</p></td>
+    </tr>
+    <tr>
       <th>ceda_data_folder</th>
       <td><p>The path to the CEDA data in text file, .per, format.</p></td>
     </tr>
@@ -208,11 +213,13 @@ Sub-folders named with 3-letter country abbreviations are assumed.</p></td>
 <li><p><code>alloc_and_eff_couns</code>: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of <code>countries</code> and <code>additional_exemplar_countries</code>, with duplicates removed.</p></li>
 <li><p><code>max_year</code>: The maximum year to be analyzed, supplied in the <code>max_year</code> argument.</p></li>
 <li><p><code>iea_data_path</code>: The path to IEA extended energy balance data, supplied in the <code>iea_data_path</code> argument.</p></li>
+<li><p><code>country_concordance_path</code>: The path to the country concordance file, supplied in the <code>country_concordance_path</code> argument.</p></li>
 <li><p><code>ceda_data_folder</code>: The path to the CEDA data, supplied in the <code>ceda_data_folder</code> argument.</p></li>
 <li><p><code>machine_data_path</code>: The path to the machine data excel files, supplied in the <code>machine_data_path</code> argument.</p></li>
 <li><p><code>exemplar_table_path</code>: The path to an exemplar table, supplied in the <code>exemplar_table_path</code> argument.</p></li>
 <li><p><code>fu_analysis_folder</code>: The path to the final-to-useful analysis folder, supplied in the <code>fu_analysis_folder</code> argument.</p></li>
 <li><p><code>report_output_folder</code>: The path to a report output folder, supplied in the <code>report_output_folder</code> argument.</p></li>
+<li><p><code>CountryConcordanceTable</code>: A data frame containing concordance information which maps full country names to custom 3 letter codes.</p></li>
 <li><p><code>AllIEAData</code>: A data frame with all IEA extended energy balance data read from <code>iea_data_path</code>.</p></li>
 <li><p><code>IEAData</code>: A version of the <code>AllIEAData</code> data frame containing data for only those countries specified in <code>countries</code>.</p></li>
 <li><p><code>CEDAData</code>: A data frame containing temperature data supplied through <code><a href='https://rdrr.io/pkg/CEDATools/man/read_cru_cy_files.html'>CEDATools::read_cru_cy_files</a></code>.</p></li>
@@ -226,6 +233,7 @@ Sub-folders named with 3-letter country abbreviations are assumed.</p></td>
 <li><p><code>PSUT_final</code>: A data frame containing PSUT matrices up to the final stage.</p></li>
 <li><p><code>ExemplarLists</code>: A data frame containing lists of exemplar countries on a per-country, per-year basis.</p></li>
 <li><p><code>IncompleteAllocationTables</code>: A data frame containing final-to-useful allocation tables.</p></li>
+<li><p><code>TidyIncompleteAllocationTables</code>: A data frame containing final-to-useful allocation tables.</p></li>
 <li><p><code>CompletedAllocationTables</code> : A data frame containing completed final-to-useful allocation tables.</p></li>
 <li><p><code>CompletedEfficiencyTables</code>: A data frame containing completed final-to-useful efficiency tables.</p></li>
 <li><p><code>CompletedPhiTables</code> : A data frame of completed exergy-to-energy ratios.</p></li>
@@ -277,26 +285,27 @@ Results can be recovered with
     <pre class="examples"><div class='input'><span class='fu'>get_plan</span><span class='op'>(</span>countries <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"GHA"</span>, <span class='st'>"ZAF"</span><span class='op'>)</span>,
          max_year <span class='op'>=</span> <span class='fl'>1999</span>,
          iea_data_path <span class='op'>=</span> <span class='st'>"iea_path"</span>,
+         country_concordance_path <span class='op'>=</span> <span class='st'>"country_concordance_path"</span>,
          ceda_data_folder <span class='op'>=</span> <span class='st'>"ceda_path"</span>,
          machine_data_path <span class='op'>=</span> <span class='st'>"machine_path"</span>,
          exemplar_table_path <span class='op'>=</span> <span class='st'>"exemplar_path"</span>,
          fu_analysis_folder <span class='op'>=</span> <span class='st'>"fu_folder"</span>,
          reports_source_folders <span class='op'>=</span> <span class='st'>"reports_source_folders"</span>,
          reports_dest_folder <span class='op'>=</span> <span class='st'>"reports_dest_folder"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 37 x 3</span>
-#&gt;    target                 command                    dynamic   
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                  <span style='color: #949494; font-style: italic;'>&lt;expr_lst&gt;</span>                 <span style='color: #949494; font-style: italic;'>&lt;expr_lst&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> countries              c(c("GHA", "ZAF"))         NA        
-#&gt; <span style='color: #BCBCBC;'> 2</span> alloc_and_eff_couns    unique(c(countries, NULL)) NA        
-#&gt; <span style='color: #BCBCBC;'> 3</span> max_year               1999                       NA        
-#&gt; <span style='color: #BCBCBC;'> 4</span> iea_data_path          "iea_path"                 NA        
-#&gt; <span style='color: #BCBCBC;'> 5</span> ceda_data_folder       "ceda_path"                NA        
-#&gt; <span style='color: #BCBCBC;'> 6</span> machine_data_path      "machine_path"             NA        
-#&gt; <span style='color: #BCBCBC;'> 7</span> exemplar_table_path    "exemplar_path"            NA        
-#&gt; <span style='color: #BCBCBC;'> 8</span> fu_analysis_folder     "fu_folder"                NA        
-#&gt; <span style='color: #BCBCBC;'> 9</span> reports_source_folders "reports_source_folders"   NA        
-#&gt; <span style='color: #BCBCBC;'>10</span> reports_dest_folder    "reports_dest_folder"      NA        
-#&gt; <span style='color: #949494;'># ... with 27 more rows</span></div></pre>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 40 × 3</span>
+#&gt;    target                   command                    dynamic   
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;expr_lst&gt;</span>                 <span style='color: #949494; font-style: italic;'>&lt;expr_lst&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> countries                c(c("GHA", "ZAF"))         NA        
+#&gt; <span style='color: #BCBCBC;'> 2</span> alloc_and_eff_couns      unique(c(countries, NULL)) NA        
+#&gt; <span style='color: #BCBCBC;'> 3</span> max_year                 1999                       NA        
+#&gt; <span style='color: #BCBCBC;'> 4</span> iea_data_path            "iea_path"                 NA        
+#&gt; <span style='color: #BCBCBC;'> 5</span> country_concordance_path "country_concordance_path" NA        
+#&gt; <span style='color: #BCBCBC;'> 6</span> ceda_data_folder         "ceda_path"                NA        
+#&gt; <span style='color: #BCBCBC;'> 7</span> machine_data_path        "machine_path"             NA        
+#&gt; <span style='color: #BCBCBC;'> 8</span> exemplar_table_path      "exemplar_path"            NA        
+#&gt; <span style='color: #BCBCBC;'> 9</span> fu_analysis_folder       "fu_folder"                NA        
+#&gt; <span style='color: #BCBCBC;'>10</span> reports_source_folders   "reports_source_folders"   NA        
+#&gt; <span style='color: #949494;'># … with 30 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
