@@ -72,7 +72,7 @@ exemplar_names <- list(exemplar_tab_name = "exemplar_table",
                        complete_eta_table = "Complete.eta.table",
                        row_code = "ROW.code",
                        country_name = "Country.name",
-                       world = "World")
+                       world = "WLD")
 usethis::use_data(exemplar_names, overwrite = TRUE)
 
 

@@ -175,7 +175,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (1a) Grab all IEA data for ALL countries
 
-    AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(),
+    AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(override_df = CountryConcordanceTable),
     IEAData = drake::target(AllIEAData %>%
                               extract_country_data(countries = alloc_and_eff_couns, max_year = max_year),
                             dynamic = map(alloc_and_eff_couns)),
