@@ -50,7 +50,6 @@ target_names <- list(countries = "countries",
                      EfficiencyGraphs = "EfficiencyGraphs",
                      ExergyEnergyGraphs = "ExergyEnergyGraphs",
                      reports_complete = "reports_complete")
-
 usethis::use_data(target_names, overwrite = TRUE)
 
 
