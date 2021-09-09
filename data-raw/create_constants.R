@@ -50,7 +50,6 @@ target_names <- list(countries = "countries",
                      EfficiencyGraphs = "EfficiencyGraphs",
                      ExergyEnergyGraphs = "ExergyEnergyGraphs",
                      reports_complete = "reports_complete")
-
 usethis::use_data(target_names, overwrite = TRUE)
 
 
@@ -70,7 +69,7 @@ exemplar_names <- list(exemplar_tab_name = "exemplar_table",
                        complete_alloc_table = "Complete.alloc.table",
                        incomplete_eta_table = "Incomplete.eta.table",
                        complete_eta_table = "Complete.eta.table",
-                       row_code = "ROW.code",
+                       region_code = "Region.code",
                        country_name = "Country.name",
                        world = "WLD")
 usethis::use_data(exemplar_names, overwrite = TRUE)
