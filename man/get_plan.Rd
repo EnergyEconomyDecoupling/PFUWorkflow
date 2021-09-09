@@ -94,6 +94,10 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{Specified}: A data frame with specified industries. See \code{IEATools::specify_all()}.
 \item \code{PSUT_final}: A data frame containing PSUT matrices up to the final stage.
 \item \code{ExemplarLists}: A data frame containing lists of exemplar countries on a per-country, per-year basis.
+}
+}
+\section{\code{Phi_constants}: A table of reasonable constant values for phi, the energy-to-exergy ratio.}{
+\itemize{
 \item \code{IncompleteAllocationTables}: A data frame containing final-to-useful allocation tables.
 \item \code{TidyIncompleteAllocationTables}: A data frame containing final-to-useful allocation tables.
 \item \code{CompletedAllocationTables} : A data frame containing completed final-to-useful allocation tables.
@@ -134,6 +138,7 @@ Note that some targets can be read using \code{readd_by_country()}, including:
 \item \code{CompletedEfficiencyTables},
 }
 }
+
 \examples{
 get_plan(countries = c("GHA", "ZAF"),
          max_year = 1999,

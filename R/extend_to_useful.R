@@ -78,7 +78,7 @@ calc_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
   }) %>%
     dplyr::bind_rows() %>%
     # Need to form eta_fu and phi_u vectors from completed_efficiency_tables.
-    # Use the IEATools::completed_efficiency_tablesform_eta_fu_phi_u_vecs() function for this task.
+    # Use the IEATools::form_eta_fu_phi_u_vecs() function for this task.
     # The function accepts a tidy data frame in addition to wide-by-year data frames.
     IEATools::form_eta_fu_phi_u_vecs(matvals = .values)
 }

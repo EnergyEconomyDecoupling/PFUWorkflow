@@ -14,11 +14,11 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
 
     # Try to read a country for which no allocations or efficiencies exist.
     # (Note that the test setup has only "GHA" and "ZAF" countries, so "GRC" should return NULL.)
-    expect_null(load_fu_allocation_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, character_only = TRUE, path = testing_setup$cache_path),
+    expect_null(load_fu_allocation_tables(fu_analysis_folder = drake::readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, character_only = TRUE, path = testing_setup$cache_path),
                                           countries = "GRC", generate_missing_fu_allocation_template = FALSE))
     # Now try when we want to generate a template.
     # First, we need to make some data for GRC, by pretending that GHA is GRC.
-    iea_data_GRC <- readd(SEAPSUTWorkflow::target_names$Specified, character_only = TRUE, path = testing_setup$cache_path) %>%
+    iea_data_GRC <- drake::readd(SEAPSUTWorkflow::target_names$Specified, character_only = TRUE, path = testing_setup$cache_path) %>%
       # dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA", .data[[IEATools::iea_cols$year]] == 1971) %>%
       dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA") %>%
       dplyr::mutate(
@@ -49,7 +49,7 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
 
     # Now ask for an fu allocation table for GRC.
     # GRC does not exist, so it will generate a blank template and write to disk.
-    GRC_alloc_table <- load_fu_allocation_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, character_only = TRUE, path = testing_setup$cache_path),
+    GRC_alloc_table <- load_fu_allocation_tables(fu_analysis_folder = drake::readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, character_only = TRUE, path = testing_setup$cache_path),
                                                  specified_iea_data = iea_data_GRC,
                                                  countries = "GRC",
                                                  generate_missing_fu_allocation_template = TRUE)
@@ -98,21 +98,21 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
     #### Check the eta_fu_tables.
 
     # First, try without generating an empty template.
-    expect_null(load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE),
+    expect_null(load_eta_fu_tables(fu_analysis_folder = drake::readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE),
                                    countries = "GRC", generate_missing_fu_etas_template = FALSE))
 
     # Now try to generate an empty template.
     # This should fail, because there are no rows in the allocation table from which machines can be determined.
-    expect_error(load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE),
-                                    completed_fu_allocation_tables = readd(SEAPSUTWorkflow::target_names$CompletedAllocationTables, path = testing_setup$cache_path, character_only = TRUE),
-                                    tidy_specified_iea_data = readd(SEAPSUTWorkflow::target_names$Specified, path = testing_setup$cache_path, character_only = TRUE),
+    expect_error(load_eta_fu_tables(fu_analysis_folder = drake::readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE),
+                                    completed_fu_allocation_tables = drake::readd(SEAPSUTWorkflow::target_names$CompletedAllocationTables, path = testing_setup$cache_path, character_only = TRUE),
+                                    tidy_specified_iea_data = drake::readd(SEAPSUTWorkflow::target_names$Specified, path = testing_setup$cache_path, character_only = TRUE),
                                     countries = "GRC", generate_missing_fu_etas_template = TRUE),
                  ".fu_allocations has no allocation rows.")
 
     # Try when we ask for one country that DOES exist and one that doesn't exist.
     # We should NOT get NULL here.
-    expect_true(!is.null(alloc_tables_from_disk <- load_fu_allocation_tables(fu_analysis_folder = readd("fu_analysis_folder",
-                                                                                                        path = testing_setup$cache_path),
+    expect_true(!is.null(alloc_tables_from_disk <- load_fu_allocation_tables(fu_analysis_folder = drake::readd("fu_analysis_folder",
+                                                                                                               path = testing_setup$cache_path),
                                                                              countries = c("GRC", "GHA"),
                                                                              generate_missing_fu_allocation_template = FALSE)))
     # Make sure that fu_tables contains what we expect
@@ -133,8 +133,8 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
       expect_false()
 
     # Now look at the eta_fu tables.
-    expect_true(!is.null(eta_tables_from_disk <- load_eta_fu_tables(fu_analysis_folder = readd("fu_analysis_folder",
-                                                                                               path = testing_setup$cache_path),
+    expect_true(!is.null(eta_tables_from_disk <- load_eta_fu_tables(fu_analysis_folder = drake::readd("fu_analysis_folder",
+                                                                                                      path = testing_setup$cache_path),
                                                                     countries = c("GRC", "GHA"),
                                                                     generate_missing_fu_etas_template = FALSE)))
     # GRC should have no rows at all, because its fu allocation table is empty.
@@ -191,26 +191,26 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
     # Try to load the GRC eta_fu table from disk.
     # First try without specifying a completed_fu_allocation_table
     # This should fail, because the completed_fu_allocation_tables argument is missing
-    expect_error(load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder,
-                                                               path = testing_setup$cache_path,
-                                                               character_only = TRUE),
+    expect_error(load_eta_fu_tables(fu_analysis_folder = drake::readd(SEAPSUTWorkflow::target_names$fu_analysis_folder,
+                                                                      path = testing_setup$cache_path,
+                                                                      character_only = TRUE),
                                     tidy_specified_iea_data = iea_data_GRC,
                                     countries = "GRC", generate_missing_fu_etas_template = TRUE),
                  'argument "completed_fu_allocation_tables" is missing, with no default')
     # Try again with missing tidy_specified_iea_data. This should also fail, because we need the IEA data
     # to make an eta_fu template from only the completed_fu_allocation_table.
-    expect_error(load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder,
-                                                               path = testing_setup$cache_path,
-                                                               character_only = TRUE),
+    expect_error(load_eta_fu_tables(fu_analysis_folder = drake::readd(SEAPSUTWorkflow::target_names$fu_analysis_folder,
+                                                                      path = testing_setup$cache_path,
+                                                                      character_only = TRUE),
                                     completed_fu_allocation_tables = fu_allocations_GRC,
                                     countries = "GRC", generate_missing_fu_etas_template = TRUE),
                  'argument "tidy_specified_iea_data" is missing, with no default')
 
     # Now try with the completed_fu_allocation_tables and tidy_specified_iea_data arguments present
     # This should work!
-    eta_fu_table_GRC <- load_eta_fu_tables(fu_analysis_folder = readd(SEAPSUTWorkflow::target_names$fu_analysis_folder,
-                                                                      path = testing_setup$cache_path,
-                                                                      character_only = TRUE),
+    eta_fu_table_GRC <- load_eta_fu_tables(fu_analysis_folder = drake::readd(SEAPSUTWorkflow::target_names$fu_analysis_folder,
+                                                                             path = testing_setup$cache_path,
+                                                                             character_only = TRUE),
                                            completed_fu_allocation_tables = fu_allocations_GRC,
                                            tidy_specified_iea_data = iea_data_GRC,
                                            countries = "GRC", generate_missing_fu_etas_template = TRUE)
@@ -240,11 +240,11 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
       expect_equal(0)
 
     # Try when we ask for two countries that exist. Should get one big data frame.
-    result_alloc <- load_fu_allocation_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
+    result_alloc <- load_fu_allocation_tables(fu_analysis_folder = drake::readd("fu_analysis_folder", path = testing_setup$cache_path),
                                               countries = c("GHA", "ZAF"))
     expect_equal(result_alloc[[IEATools::iea_cols$country]] %>% unique(), c("GHA", "ZAF"))
-    result_eff <- load_eta_fu_tables(fu_analysis_folder = readd("fu_analysis_folder", path = testing_setup$cache_path),
-                                            countries = c("GHA", "ZAF"))
+    result_eff <- load_eta_fu_tables(fu_analysis_folder = drake::readd("fu_analysis_folder", path = testing_setup$cache_path),
+                                     countries = c("GHA", "ZAF"))
     expect_equal(result_eff[[IEATools::iea_cols$country]] %>% unique(), c("GHA", "ZAF"))
   },
   finally = {
@@ -326,9 +326,9 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
 
     # Verify that the incomplete fu allocation tables look as we expect.
-    incomplete_alloc_tables <- readd(target = SEAPSUTWorkflow::target_names$IncompleteAllocationTables,
-                                     path = testing_setup$cache_path,
-                                     character_only = TRUE)
+    incomplete_alloc_tables <- drake::readd(target = SEAPSUTWorkflow::target_names$IncompleteAllocationTables,
+                                            path = testing_setup$cache_path,
+                                            character_only = TRUE)
     expect_true(all(!is.na(incomplete_alloc_tables[[IEATools::iea_cols$method]])))
     expect_true(all(!is.na(incomplete_alloc_tables[[IEATools::iea_cols$energy_type]])))
     expect_true(all(!is.na(incomplete_alloc_tables[[IEATools::iea_cols$flow_aggregation_point]])))
@@ -508,3 +508,28 @@ test_that("MachineData works in assemble_eta_fu_tables()", {
 })
 
 
+test_that("assemble_phi_u_tables() works as expected", {
+
+  # Create a directory structure in a tempdir for the allocation tables
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "CompletedPhiTables")
+
+  tryCatch({
+    drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
+    incomplete_phi_tables <- drake::readd(target = SEAPSUTWorkflow::target_names$MachineData,
+                                          path = testing_setup$cache_path,
+                                          character_only = TRUE)
+    # Check that GHA, 1971, Charcoal stoves is empty and gives an NA value.
+    missing_phi_u <- incomplete_phi_tables %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA",
+                    .data[[IEATools::iea_cols$year]] == 1971,
+                    .data[[IEATools::template_cols$machine]] == "Charcoal stoves",
+                    .data[[IEATools::template_cols$quantity]] == IEATools::template_cols$phi_u) %>%
+      magrittr::extract2(IEATools::template_cols$.values) %>%
+      is.na() %>%
+      expect_true()
+
+  },
+  finally = {
+    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+  })
+})
