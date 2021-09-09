@@ -1,6 +1,3 @@
-###########################################################
-context("Table Functions")
-###########################################################
 
 test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-existent country", {
 
@@ -519,7 +516,7 @@ test_that("assemble_phi_u_tables() works as expected", {
                                           path = testing_setup$cache_path,
                                           character_only = TRUE)
     # Check that GHA, 1971, Charcoal stoves is empty and gives an NA value.
-    missing_phi_u <- incomplete_phi_tables %>%
+    incomplete_phi_tables %>%
       dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA",
                     .data[[IEATools::iea_cols$year]] == 1971,
                     .data[[IEATools::template_cols$machine]] == "Charcoal stoves",
@@ -527,6 +524,20 @@ test_that("assemble_phi_u_tables() works as expected", {
       magrittr::extract2(IEATools::template_cols$.values) %>%
       is.na() %>%
       expect_true()
+
+    # Now check that the completed phi tables target has that value filled
+    # from the phi_constants table
+    completed_phi_tables <- drake::readd(target = SEAPSUTWorkflow::target_names$CompletedPhiTables,
+                                         path = testing_setup$cache_path,
+                                         character_only = TRUE)
+    completed_phi_tables %>%
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA",
+                    .data[[IEATools::iea_cols$year]] == 1971,
+                    .data[[IEATools::template_cols$machine]] == "Charcoal stoves",
+                    .data[[IEATools::template_cols$quantity]] == IEATools::template_cols$phi_u) %>%
+      magrittr::extract2(IEATools::template_cols$.values) %>%
+      expect_equal(0.23047)
+
 
   },
   finally = {
