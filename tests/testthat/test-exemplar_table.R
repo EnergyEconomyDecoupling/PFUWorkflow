@@ -40,6 +40,7 @@ test_single_exemplar <- function(el, coun, expected_exemplar) {
     expect_equal(expected_exemplar)
 }
 
+
 test_that("exemplar_lists() works as expected", {
   el <- exemplar_lists(load_exemplar_table())
 
