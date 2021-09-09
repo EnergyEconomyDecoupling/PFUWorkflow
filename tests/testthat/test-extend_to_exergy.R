@@ -1,3 +1,5 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+test_that("loading the phi constants table works as expected", {
+  colnames <- load_phi_constants_table() %>%
+    names()
+  expect_equal(colnames, c("Product", "phi"))
 })

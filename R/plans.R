@@ -12,6 +12,7 @@
 #' * `max_year`: The maximum year to be analyzed, supplied in the `max_year` argument.
 #' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
 #' * `country_concordance_path`: The path to the country concordance file, supplied in the `country_concordance_path` argument.
+#' * `phi_constants_path`: The path to a phi (exergy-to-energy ratio) file, supplied in the `phi_constants_path` argument.
 #' * `ceda_data_folder`: The path to the CEDA data, supplied in the `ceda_data_folder` argument.
 #' * `machine_data_path`: The path to the machine data excel files, supplied in the `machine_data_path` argument.
 #' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.
@@ -83,6 +84,7 @@
 #'                Default is "all_targets" to indicate all targets of the plan should be returned.
 #' @param iea_data_path The path to IEA extended energy balance data in .csv format.
 #' @param country_concordance_path The path to the country concordance Excel file.
+#' @param phi_constants_path The path to a phi (exergy-to-energy ratio) Excel file.
 #' @param ceda_data_folder The path to the CEDA data in text file, .per, format.
 #' @param machine_data_path The path to the machine data in .xlsx format.
 #' @param exemplar_table_path The path to an exemplar table.
@@ -108,6 +110,7 @@
 #'          max_year = 1999,
 #'          iea_data_path = "iea_path",
 #'          country_concordance_path = "country_concordance_path",
+#'          phi_constants_path = "phi_constants_path",
 #'          ceda_data_folder = "ceda_path",
 #'          machine_data_path = "machine_path",
 #'          exemplar_table_path = "exemplar_path",
@@ -117,7 +120,7 @@
 get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
                      iea_data_path,
-                     country_concordance_path, ceda_data_folder,
+                     country_concordance_path, phi_constants_path, ceda_data_folder,
                      machine_data_path, exemplar_table_path,
                      fu_analysis_folder,
                      reports_source_folders, reports_dest_folder) {
@@ -163,6 +166,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     max_year = !!max_year,
     iea_data_path = !!iea_data_path,
     country_concordance_path = !!country_concordance_path,
+    phi_constants_path = !!phi_constants_path,
     ceda_data_folder = !!ceda_data_folder,
     machine_data_path = !!machine_data_path,
     exemplar_table_path = !!exemplar_table_path,

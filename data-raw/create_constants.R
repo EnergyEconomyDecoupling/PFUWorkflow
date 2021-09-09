@@ -76,6 +76,16 @@ usethis::use_data(exemplar_names, overwrite = TRUE)
 
 
 #
+# Names and constants associated with constant phi value tables.
+#
+
+phi_constants_names <- list(phi_constants_tab_name = "phi_constants",
+                            product_colname = "Product",
+                            phi_colname = "phi")
+usethis::use_data(phi_constants_names, overwrite = TRUE)
+
+
+#
 # Give the names of SEAPSUTWorkflow columns, this function compliments "IEATools::iea_cols".
 #
 

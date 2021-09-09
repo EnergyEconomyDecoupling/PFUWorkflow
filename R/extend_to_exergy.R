@@ -10,3 +10,22 @@ sample_phi_constants_path <- function() {
   file.path("extdata", "phi_constants.xlsx") %>%
     system.file(package = "SEAPSUTWorkflow")
 }
+
+
+#' Read a table of constant phi (exergy-to-energy ratio) values from a file.
+#'
+#' @param phi_constants_table_path The path to the Excel file containing a table of constant phi values.
+#'                                 Default is the value of `sample_phi_constants_path()`.
+#' @param phi_constants_tab_name The
+#'
+#' @return
+#' @export
+#'
+#' @examples
+load_phi_constants_table <- function(phi_constants_table_path = sample_phi_constants_path(),
+                                     phi_constants_tab_name = SEAPSUTWorkflow::phi_constants_names$phi_constants_tab_name,
+                                     product_colname = SEAPSUTWorkflow::phi_constants_names$product_colname,
+                                     phi_colname = SEAPSUTWorkflow::phi_constants_names$phi_colname) {
+  readxl::read_excel(path = phi_constants_table_path, sheet = phi_constants_tab_name) %>%
+    dplyr::select(product_colname, phi_colname)
+}
