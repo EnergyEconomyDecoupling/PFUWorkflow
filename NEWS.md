@@ -1,3 +1,6 @@
+* Change name of constant: `row_code` --> `region_code`.
+
+
 # SEAPSUTWorkflow 0.2.3 (2021-08-20) [![DOI](https://zenodo.org/badge/265032888.svg)](https://zenodo.org/badge/latestdoi/265032888)
 
 * Now using "WLD" instead of "World" everywhere.

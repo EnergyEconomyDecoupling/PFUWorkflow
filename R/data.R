@@ -76,7 +76,7 @@
 #' \item{complete_alloc_table}{The name of a column containing completed final-to-useful allocation tables.}
 #' \item{incomplete_eta_table}{The name of a column containing incomplete final-to-useful efficiency tables.}
 #' \item{complete_eta_table}{The name of a column containing completed final-to-useful efficiency tables.}
-#' \item{row_code}{The name of the rest-of-world region code column.}
+#' \item{region_code}{The name of the region code column.}
 #' \item{country_name}{The name of the column containing the long name of a country.}
 #' \item{world}{The name of the world region.}
 #' }
