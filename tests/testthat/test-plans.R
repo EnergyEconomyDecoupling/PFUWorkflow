@@ -4,6 +4,7 @@ context("Plan Functions")
 
 test_that("get_plan works", {
   my_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+                      phi_constants_path = "phiconstantspath",
                       iea_data_path = "datapath",
                       ceda_data_folder = "cedapath",
                       machine_data_path = "machinepath",
@@ -28,6 +29,8 @@ test_that("get_plan works", {
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("datapath"))
 
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("countryconcordancepath"))
+
+  expect_equal(my_plan[[rn <- rn + 1, "command"]], list("phiconstantspath"))
 
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("cedapath"))
 
@@ -70,6 +73,8 @@ test_that("get_plan works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "ExemplarLists")
 
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "Phi_constants")
+
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "IncompleteAllocationTables")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "TidyIncompleteAllocationTables")
@@ -102,6 +107,7 @@ test_that("get_plan works", {
 
 test_that("keeping only some rows of a plan works", {
   full_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+                        phi_constants_path = "phiconstantspath",
                         iea_data_path = "datapath",
                         ceda_data_folder = "cedapath",
                         machine_data_path = "machinepath",
@@ -112,6 +118,7 @@ test_that("keeping only some rows of a plan works", {
                         countries = c("GHA", "ZAF"),
                         max_year = 1999)
   short_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+                         phi_constants_path = "phiconstantspath",
                          iea_data_path = "mypath",
                          ceda_data_folder = "cedapath",
                          machine_data_path = "machinepath",

@@ -22,6 +22,7 @@ sample_phi_constants_path <- function() {
 #' @export
 #'
 #' @examples
+#' load_phi_constants_table()
 load_phi_constants_table <- function(phi_constants_table_path = sample_phi_constants_path(),
                                      phi_constants_tab_name = SEAPSUTWorkflow::phi_constants_names$phi_constants_tab_name,
                                      product_colname = SEAPSUTWorkflow::phi_constants_names$product_colname,

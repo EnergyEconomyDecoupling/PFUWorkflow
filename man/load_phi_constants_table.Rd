@@ -23,3 +23,6 @@ Default is the value of \code{sample_phi_constants_path()}.}
 \description{
 Read a table of constant phi (exergy-to-energy ratio) values from a file.
 }
+\examples{
+load_phi_constants_table()
+}
