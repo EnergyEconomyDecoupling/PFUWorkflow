@@ -287,19 +287,19 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                                      which_quantity = IEATools::template_cols$eta_fu),
                                               dynamic = map(countries)),
 
-    # CompletedPhiTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
-    #                                                           exemplar_lists = ExemplarLists,
-    #                                                           completed_fu_allocation_tables = CompletedAllocationTables,
-    #                                                           countries = countries,
-    #                                                           max_year = max_year,
-    #                                                           which_quantity = IEATools::template_cols$phi_u),
-    #                                    dynamic = map(countries)),
-
-    CompletedPhiTables = drake::target(assemble_phi_u_tables(incomplete_phi_table = MachineData,
-                                                             phi_constants_table = Phi_constants,
-                                                             countries = countries,
-                                                             max_year = max_year),
+    CompletedPhiTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
+                                                              exemplar_lists = ExemplarLists,
+                                                              completed_fu_allocation_tables = CompletedAllocationTables,
+                                                              countries = countries,
+                                                              max_year = max_year,
+                                                              which_quantity = IEATools::template_cols$phi_u),
                                        dynamic = map(countries)),
+
+    # CompletedPhiTables = drake::target(assemble_phi_u_tables(incomplete_phi_table = MachineData,
+    #                                                          phi_constants_table = Phi_constants,
+    #                                                          countries = countries,
+    #                                                          max_year = max_year),
+    #                                    dynamic = map(countries)),
 
 
     # (10) Extend to useful stage
