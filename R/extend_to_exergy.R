@@ -30,3 +30,23 @@ load_phi_constants_table <- function(phi_constants_table_path = sample_phi_const
   readxl::read_excel(path = phi_constants_table_path, sheet = phi_constants_tab_name) %>%
     dplyr::select(product_colname, phi_colname)
 }
+
+
+
+#' Assemble completed phi (exergy-to-energy ratio) tables
+#'
+#' This function is used in the drake workflow to assemble completed phi (exergy-to-energy ratio) tables
+#' given a set of phi tables read from machine data files and a phi constants table.
+#'
+#'
+#' @param incomplete_phi_table A data frame of phi values read from machine efficiency data files.
+#' @param phi_constants_table A data frame of constant phi values with reasonable default values for all energy carriers.
+#'
+#' @return A data frame of phi values for every country, year, machine, destination, etc.
+#'
+#' @export
+#'
+#' @examples
+assemble_phi_table <- function(incomplete_phi_table, phi_constants_table) {
+
+}
