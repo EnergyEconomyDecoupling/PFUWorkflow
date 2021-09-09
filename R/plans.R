@@ -236,6 +236,10 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                     exemplar_lists(alloc_and_eff_couns),
                                   dynamic = map(alloc_and_eff_couns)),
 
+    # (5.5) Load phi (exergy-to-energy ratio) constants
+    Phi_constants = drake::target(phi_constants_path %>%
+                                    load_phi_constants_table(),
+
     # (6) Load incomplete FU allocation tables
 
     IncompleteAllocationTables = drake::target(fu_analysis_folder %>%
