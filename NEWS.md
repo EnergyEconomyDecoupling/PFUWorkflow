@@ -1,3 +1,6 @@
+* New targets:
+    * `phi_constants_path` gives path to a phi constants file.
+    * `Phi_constants` is a table of reasonable constant values of phi (the energy-to-exergy) ratio.
 * Change name of constant: `row_code` --> `region_code`.
 
 

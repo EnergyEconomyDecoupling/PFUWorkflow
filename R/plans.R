@@ -31,6 +31,7 @@
 #' * `Specified`: A data frame with specified industries. See `IEATools::specify_all()`.
 #' * `PSUT_final`: A data frame containing PSUT matrices up to the final stage.
 #' * `ExemplarLists`: A data frame containing lists of exemplar countries on a per-country, per-year basis.
+#' # `Phi_constants`: A table of reasonable constant values for phi, the energy-to-exergy ratio.
 #' * `IncompleteAllocationTables`: A data frame containing final-to-useful allocation tables.
 #' * `TidyIncompleteAllocationTables`: A data frame containing final-to-useful allocation tables.
 #' * `CompletedAllocationTables` : A data frame containing completed final-to-useful allocation tables.
