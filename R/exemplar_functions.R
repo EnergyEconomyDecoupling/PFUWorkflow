@@ -1,6 +1,6 @@
 #' Gives a file path to a sample exemplar table
 #'
-#' @return a path to a sample exemplar table bundled with this package
+#' @return A path to a sample exemplar table bundled with this package.
 #'
 #' @export
 #'
