@@ -34,6 +34,7 @@ target_names <- list(countries = "countries",
                      IncompleteAllocationTables = "IncompleteAllocationTables",
                      TidyIncompleteAllocationTables = "TidyIncompleteAllocationTables",
                      ExemplarLists = "ExemplarLists",
+                     Phi_constants = "Phi_constants",
                      CompletedAllocationTables = "CompletedAllocationTables",
                      CompletedEfficiencyTables = "CompletedEfficiencyTables",
                      CompletedPhiTables = "CompletedPhiTables",
@@ -73,16 +74,6 @@ exemplar_names <- list(exemplar_tab_name = "exemplar_table",
                        country_name = "Country.name",
                        world = "WLD")
 usethis::use_data(exemplar_names, overwrite = TRUE)
-
-
-#
-# Names and constants associated with constant phi value tables.
-#
-
-phi_constants_names <- list(phi_constants_tab_name = "phi_constants",
-                            product_colname = "Product",
-                            phi_colname = "phi")
-usethis::use_data(phi_constants_names, overwrite = TRUE)
 
 
 #
