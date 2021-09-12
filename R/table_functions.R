@@ -489,11 +489,11 @@ get_one_df_by_coun_and_yr <- function(.df, coun, yr, country_colname, year_colna
 #' 1. phi values from the `incomplete_phi_table` argument
 #' 2. phi values from the `phi_constants_table` argument
 #'
-#' @param incomplete_phi_table A data frame of phi values read from machine efficiency and phi data files.
+#' @param incomplete_phi__utable A data frame of phi values read from machine efficiency and phi data files.
 #'                             This data frame can be "incomplete," i.e., it can be missing
 #'                             phi values.
 #'                             The phi values from `phi_constants_table` will be used instead.
-#' @param phi_constants_table A data frame of constant phi values with reasonable default values for all energy carriers.
+#' @param phi_constants_table A data frame of constant phi values with reasonable default values for all energy products.
 #' @param countries A vector of countries for which completed phi tables are to be assembled.
 #' @param max_year The latest year for which analysis is desired. Default is `NULL`, meaning analyze all years.
 #'
@@ -502,10 +502,11 @@ get_one_df_by_coun_and_yr <- function(.df, coun, yr, country_colname, year_colna
 #' @export
 #'
 #' @examples
-assemble_phi_u_tables <- function(incomplete_phi_table,
+assemble_phi_u_tables <- function(incomplete_phi_u_table,
                                   phi_constants_table,
                                   countries,
                                   max_year = NULL,
+                                  country = IEATools::iea_cols$country,
                                   year = IEATools::iea_cols$year) {
 
   if (!is.null(max_year)) {
@@ -513,6 +514,20 @@ assemble_phi_u_tables <- function(incomplete_phi_table,
       dplyr::filter(.data[[year]] <= max_year)
   }
 
+
+  # Left join the phi_constants table to the incomplete_phi_u_table by product
+  completed_phi_tables_by_year <- lapply(countries, FUN = function(coun) {
+    phi_u_table <- incomplete_phi_u_table %>%
+      dplyr::filter(.data[[country]] == coun)
+
+
+
+  }) %>%
+    dplyr::bind_rows()
+
+
+
 }
+
 
 

@@ -5,24 +5,25 @@
 \title{Assemble completed phi (exergy-to-energy ratio) tables}
 \usage{
 assemble_phi_u_tables(
-  incomplete_phi_table,
+  incomplete_phi_u_table,
   phi_constants_table,
   countries,
   max_year = NULL,
+  country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year
 )
 }
 \arguments{
-\item{incomplete_phi_table}{A data frame of phi values read from machine efficiency and phi data files.
-This data frame can be "incomplete," i.e., it can be missing
-phi values.
-The phi values from \code{phi_constants_table} will be used instead.}
-
-\item{phi_constants_table}{A data frame of constant phi values with reasonable default values for all energy carriers.}
+\item{phi_constants_table}{A data frame of constant phi values with reasonable default values for all energy products.}
 
 \item{countries}{A vector of countries for which completed phi tables are to be assembled.}
 
 \item{max_year}{The latest year for which analysis is desired. Default is \code{NULL}, meaning analyze all years.}
+
+\item{incomplete_phi__utable}{A data frame of phi values read from machine efficiency and phi data files.
+This data frame can be "incomplete," i.e., it can be missing
+phi values.
+The phi values from \code{phi_constants_table} will be used instead.}
 }
 \value{
 A data frame of phi values for every country, year, machine, destination, etc.

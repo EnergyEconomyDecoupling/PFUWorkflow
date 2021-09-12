@@ -515,7 +515,7 @@ test_that("assemble_phi_u_tables() works as expected", {
     incomplete_phi_tables <- drake::readd(target = SEAPSUTWorkflow::target_names$MachineData,
                                           path = testing_setup$cache_path,
                                           character_only = TRUE)
-    # Check that GHA, 1971, Charcoal stoves is empty and gives an NA value.
+    # Check that all values are present.
     incomplete_phi_tables %>%
       dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA",
                     .data[[IEATools::iea_cols$year]] == 1971,
@@ -523,10 +523,10 @@ test_that("assemble_phi_u_tables() works as expected", {
                     .data[[IEATools::template_cols$quantity]] == IEATools::template_cols$phi_u) %>%
       magrittr::extract2(IEATools::template_cols$.values) %>%
       is.na() %>%
-      expect_true()
+      expect_false()
 
     # Now check that the completed phi tables target has that value filled
-    # from the phi_constants table
+    # from the Excel sheet
     completed_phi_tables <- drake::readd(target = SEAPSUTWorkflow::target_names$CompletedPhiTables,
                                          path = testing_setup$cache_path,
                                          character_only = TRUE)
@@ -536,11 +536,23 @@ test_that("assemble_phi_u_tables() works as expected", {
                     .data[[IEATools::template_cols$machine]] == "Charcoal stoves",
                     .data[[IEATools::template_cols$quantity]] == IEATools::template_cols$phi_u) %>%
       magrittr::extract2(IEATools::template_cols$.values) %>%
-      expect_equal(0.23047)
+      expect_equal(0.200991558)
 
 
   },
   finally = {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
   })
+})
+
+
+test_that("simple example for assemble_phi_u_tables() works as expected", {
+  # Delete a value from loaded phi table.
+
+
+  # Run through the assemble_phi_u_tables function
+
+
+
+  # Make sure we get the correct value.
 })
