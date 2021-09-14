@@ -8,8 +8,8 @@ test_that("extending to exergy works as expected", {
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
 
     # Check that the eta_fu and phi_u were added to the WithEtaPhi_target data frame target
-    Phi_constants <- readd(SEAPSUTWorkflow::target_names$Phi_constants, character_only = TRUE, path = testing_setup$cache_path)
-    expect_true(all(names(Phi_constants) == c("Product", "phi")))
+    PhiConstants <- readd(SEAPSUTWorkflow::target_names$PhiConstants, character_only = TRUE, path = testing_setup$cache_path)
+    expect_true(all(names(PhiConstants) == c("Product", "phi", "is.useful")))
   },
   finally = {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
