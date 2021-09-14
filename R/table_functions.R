@@ -563,9 +563,9 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
     still_missing <- found_phi_values %>%
       dplyr::filter(is.na(.data[[.values]]))
     if (nrow(still_missing) > 0) {
-      err_msg <- paste("In assemble_phi_u_tables(), the following useful energy products were not found in the useful products portion of the phi_constants_table:",
-                       paste(still_missing %>% dplyr::select(country, year, eu_product), sep = ", ", collapse = "; "))
-      stop(err_msg)
+      stop(still_missing %>%
+             dplyr::select(.data[[country]], .data[[year]], .data[[eu_product]]) %>%
+             df_to_msg())
     }
 
     # bind to the good rows of incomplete_phi_u_table
