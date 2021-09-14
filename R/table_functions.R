@@ -565,9 +565,11 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
     still_missing <- found_phi_values %>%
       dplyr::filter(is.na(.data[[.values]]))
     if (nrow(still_missing) > 0) {
-      stop(still_missing %>%
-             dplyr::select(.data[[country]], .data[[year]], .data[[machine]], .data[[eu_product]]) %>%
-             df_to_msg())
+      err_msg <- paste("Not all useful energy carriers have been assigned phi values in assemble_phi_u_tables(). Missing combinations are:",
+                       still_missing %>%
+                         dplyr::select(.data[[country]], .data[[year]], .data[[machine]], .data[[eu_product]]) %>%
+                         df_to_msg())
+      stop(err_msg)
     }
 
     # bind to the good rows of incomplete_phi_u_table
