@@ -508,9 +508,10 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
                                   max_year = NULL,
                                   country = IEATools::iea_cols$country,
                                   year = IEATools::iea_cols$year,
+                                  product = IEATools::iea_cols$product,
+                                  machine = IEATools::template_cols$machine,
                                   .values = IEATools::template_cols$.values,
                                   eu_product = IEATools::template_cols$eu_product,
-                                  product = IEATools::iea_cols$product,
                                   phi_colname = IEATools::phi_constants_names$phi_colname,
                                   phi_source_colname = IEATools::phi_constants_names$phi_source_colname,
                                   is_useful = IEATools::phi_constants_names$is_useful_colname,
@@ -532,7 +533,8 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
     missing_phi_values <- incomplete_phi_u_table %>%
       dplyr::filter(is.na(.data[[.values]]))
     # Get a data frame of present phi_u values.
-    present_phi_values <- dplyr::anti_join(incomplete_phi_u_table, missing_phi_values) %>%
+    present_phi_values <- dplyr::anti_join(incomplete_phi_u_table, missing_phi_values,
+                                           by = names(incomplete_phi_u_table)) %>%
       # Add the fact that these rows came from the efficiency tables.
       dplyr::mutate(
         "{phi_source_colname}" := eta_fu_tables
@@ -544,14 +546,14 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
       # so we can pull phi values from the phi_constants_table
       dplyr::mutate("{.values}" := NULL) %>%
       # left_join to pick up the values from phi_constants_table
-      # Note: using trick from https://stackoverflow.com/questions/28399065/dplyr-join-on-by-a-b-where-a-and-b-are-variables-containing-strings
-      # to get around non-standard evaluation.
       dplyr::left_join(phi_constants_table %>%
                          # Use only the useful data in phi_constants_table
                          dplyr::filter(.data[[is_useful]]) %>%
                          # Strip off the is.useful column, as it is no longer necessary.
-                         dplyr::mutate("{is_useful}" := NULL),
-                       by = setNames(nm=eu_product, product)) %>%
+                         dplyr::mutate("{is_useful}" := NULL) %>%
+                         # Rename the Product column to Eu.product to match found_phi_values
+                         dplyr::rename("{eu_product}" := .data[[product]]),
+                       by = eu_product) %>%
       # At this point, we have the wrong column name.
       # Rename to match the expected column name.
       dplyr::rename("{.values}" := .data[[phi_colname]]) %>%
@@ -564,7 +566,7 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
       dplyr::filter(is.na(.data[[.values]]))
     if (nrow(still_missing) > 0) {
       stop(still_missing %>%
-             dplyr::select(.data[[country]], .data[[year]], .data[[eu_product]]) %>%
+             dplyr::select(.data[[country]], .data[[year]], .data[[machine]], .data[[eu_product]]) %>%
              df_to_msg())
     }
 
