@@ -10,7 +10,15 @@ assemble_phi_u_tables(
   countries,
   max_year = NULL,
   country = IEATools::iea_cols$country,
-  year = IEATools::iea_cols$year
+  year = IEATools::iea_cols$year,
+  .values = IEATools::template_cols$.values,
+  eu_product = IEATools::template_cols$eu_product,
+  product = IEATools::iea_cols$product,
+  phi_colname = IEATools::phi_constants_names$phi_colname,
+  phi_source_colname = IEATools::phi_constants_names$phi_source_colname,
+  is_useful = IEATools::phi_constants_names$is_useful_colname,
+  eta_fu_tables = SEAPSUTWorkflow::phi_source_options$eta_fu_tables,
+  phi_constants = SEAPSUTWorkflow::phi_source_options$phi_constnats
 )
 }
 \arguments{

@@ -208,3 +208,18 @@
 #' cache_info
 "cache_info"
 
+
+#' Options for phi (exergy-to-energy ratio) sources
+#'
+#' A string list containing options for the source of phi (exergy-to-energy ratio) data.
+#'
+#' @format A string list with `r length(phi_source_options)` entries.
+#' \describe{
+#' \item{eta_fu_tables}{Indicates phi values came from final-to-useful efficiency tables.}
+#' \item{temperature_data}{Indicates phi values came from national monthly temperature data.}
+#' \item{phi_constants}{Indicates phi values came from a phi constants file.}
+#' }
+#'
+#' @examples
+#' phi_source_options
+"phi_source_options"

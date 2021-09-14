@@ -73,7 +73,7 @@ test_that("get_plan works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "ExemplarLists")
 
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "Phi_constants")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "PhiConstants")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "IncompleteAllocationTables")
 

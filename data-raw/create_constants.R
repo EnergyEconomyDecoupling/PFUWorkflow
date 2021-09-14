@@ -149,6 +149,16 @@ usethis::use_data(machine_constants, overwrite = TRUE)
 # Cache information.
 #
 
-cache_info = list(cache_path = ".drake")
+cache_info <- list(cache_path = ".drake")
 usethis::use_data(cache_info, overwrite = TRUE)
+
+
+#
+# phi.source options
+#
+
+phi_source_options <- list(eta_fu_tables = "eta_fu.tables",
+                           temperature_data = "temperature.data",
+                           phi_constnats = "phi.constants")
+usethis::use_data(phi_source_options, overwrite = TRUE)
 

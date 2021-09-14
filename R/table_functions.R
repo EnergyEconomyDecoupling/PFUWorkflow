@@ -507,10 +507,18 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
                                   countries,
                                   max_year = NULL,
                                   country = IEATools::iea_cols$country,
-                                  year = IEATools::iea_cols$year) {
+                                  year = IEATools::iea_cols$year,
+                                  .values = IEATools::template_cols$.values,
+                                  eu_product = IEATools::template_cols$eu_product,
+                                  product = IEATools::iea_cols$product,
+                                  phi_colname = IEATools::phi_constants_names$phi_colname,
+                                  phi_source_colname = IEATools::phi_constants_names$phi_source_colname,
+                                  is_useful = IEATools::phi_constants_names$is_useful_colname,
+                                  eta_fu_tables = SEAPSUTWorkflow::phi_source_options$eta_fu_tables,
+                                  phi_constants = SEAPSUTWorkflow::phi_source_options$phi_constnats) {
 
   if (!is.null(max_year)) {
-    incomplete_phi_table <- incomplete_phi_table %>%
+    incomplete_phi_u_table <- incomplete_phi_u_table %>%
       dplyr::filter(.data[[year]] <= max_year)
   }
 
@@ -520,7 +528,49 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
     phi_u_table <- incomplete_phi_u_table %>%
       dplyr::filter(.data[[country]] == coun)
 
+    # Find all the places where there is a missing value for .value in incomplete_phi_u_table
+    missing_phi_values <- incomplete_phi_u_table %>%
+      dplyr::filter(is.na(.data[[.values]]))
+    # Get a data frame of present phi_u values.
+    present_phi_values <- dplyr::anti_join(incomplete_phi_u_table, missing_phi_values) %>%
+      # Add the fact that these rows came from the efficiency tables.
+      dplyr::mutate(
+        "{phi_source_colname}" := eta_fu_tables
+      )
 
+    # Complete the .values column in missing_phi_values from the phi_constants_table
+    found_phi_values <- missing_phi_values %>%
+      # Strip off the .values column, if present,
+      # so we can pull phi values from the phi_constants_table
+      dplyr::mutate("{.values}" := NULL) %>%
+      # left_join to pick up the values from phi_constants_table
+      # Note: using trick from https://stackoverflow.com/questions/28399065/dplyr-join-on-by-a-b-where-a-and-b-are-variables-containing-strings
+      # to get around non-standard evaluation.
+      dplyr::left_join(phi_constants_table %>%
+                         # Use only the useful data in phi_constants_table
+                         dplyr::filter(.data[[is_useful]]) %>%
+                         # Strip off the is.useful column, as it is no longer necessary.
+                         dplyr::mutate("{is_useful}" := NULL),
+                       by = setNames(nm=eu_product, product)) %>%
+      # At this point, we have the wrong column name.
+      # Rename to match the expected column name.
+      dplyr::rename("{.values}" := .data[[phi_colname]]) %>%
+      # Add that these phi values came from the constants table
+      dplyr::mutate(
+        "{phi_source_colname}" := phi_constants
+      )
+    # Ensure that ALL rows have a value in .values
+    still_missing <- found_phi_values %>%
+      dplyr::filter(is.na(.data[[.values]]))
+    if (nrow(still_missing) > 0) {
+      err_msg <- paste("In assemble_phi_u_tables(), the following useful energy products were not found in phi_constants_table:",
+                       still_missing[[eu_product]] %>% unique(),
+                       sep = ",", collapse = ";")
+      stop(err_msg)
+    }
+
+    # bind to the good rows of incomplete_phi_u_table
+    dplyr::bind_rows(present_phi_values, found_phi_values)
 
   }) %>%
     dplyr::bind_rows()
