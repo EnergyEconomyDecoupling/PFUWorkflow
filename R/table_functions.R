@@ -548,7 +548,7 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
       # to get around non-standard evaluation.
       dplyr::left_join(phi_constants_table %>%
                          # Use only the useful data in phi_constants_table
-                         # dplyr::filter(.data[[is_useful]]) %>%
+                         dplyr::filter(.data[[is_useful]]) %>%
                          # Strip off the is.useful column, as it is no longer necessary.
                          dplyr::mutate("{is_useful}" := NULL),
                        by = setNames(nm=eu_product, product)) %>%
@@ -564,7 +564,7 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
       dplyr::filter(is.na(.data[[.values]]))
     if (nrow(still_missing) > 0) {
       err_msg <- paste("In assemble_phi_u_tables(), the following useful energy products were not found in the useful products portion of the phi_constants_table:",
-                       paste(still_missing[[eu_product]] %>% unique(), collapse = ", "))
+                       paste(still_missing %>% dplyr::select(country, year, eu_product), sep = ", ", collapse = "; "))
       stop(err_msg)
     }
 
