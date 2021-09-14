@@ -11,11 +11,13 @@
 #' * `alloc_and_eff_couns`: The full set of countries for which final-to-useful allocations and efficiencies will be read. This is the sum of `countries` and `additional_exemplar_countries`, with duplicates removed.
 #' * `max_year`: The maximum year to be analyzed, supplied in the `max_year` argument.
 #' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
+#' * `country_concordance_path`: The path to the country concordance file, supplied in the `country_concordance_path` argument.
 #' * `ceda_data_folder`: The path to the CEDA data, supplied in the `ceda_data_folder` argument.
 #' * `machine_data_path`: The path to the machine data excel files, supplied in the `machine_data_path` argument.
 #' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.
 #' * `fu_analysis_folder`: The path to the final-to-useful analysis folder, supplied in the `fu_analysis_folder` argument.
 #' * `report_output_folder`: The path to a report output folder, supplied in the `report_output_folder` argument.
+#' * `CountryConcordanceTable`: A data frame containing concordance information which maps full country names to custom 3 letter codes.
 #' * `AllIEAData`: A data frame with all IEA extended energy balance data read from `iea_data_path`.
 #' * `IEAData`: A version of the `AllIEAData` data frame containing data for only those countries specified in `countries`.
 #' * `CEDAData`: A data frame containing temperature data supplied through `CEDATools::read_cru_cy_files`.
@@ -80,6 +82,7 @@
 #' @param how_far A string indicating the last target to include in the plan that is returned.
 #'                Default is "all_targets" to indicate all targets of the plan should be returned.
 #' @param iea_data_path The path to IEA extended energy balance data in .csv format.
+#' @param country_concordance_path The path to the country concordance Excel file.
 #' @param ceda_data_folder The path to the CEDA data in text file, .per, format.
 #' @param machine_data_path The path to the machine data in .xlsx format.
 #' @param exemplar_table_path The path to an exemplar table.
@@ -104,6 +107,7 @@
 #' get_plan(countries = c("GHA", "ZAF"),
 #'          max_year = 1999,
 #'          iea_data_path = "iea_path",
+#'          country_concordance_path = "country_concordance_path",
 #'          ceda_data_folder = "ceda_path",
 #'          machine_data_path = "machine_path",
 #'          exemplar_table_path = "exemplar_path",
@@ -112,7 +116,8 @@
 #'          reports_dest_folder = "reports_dest_folder")
 get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
-                     iea_data_path, ceda_data_folder,
+                     iea_data_path,
+                     country_concordance_path, ceda_data_folder,
                      machine_data_path, exemplar_table_path,
                      fu_analysis_folder,
                      reports_source_folders, reports_dest_folder) {
@@ -120,6 +125,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   # Get around warnings of type "no visible binding for global variable".
   alloc_and_eff_couns <- NULL
   map <- NULL
+  CountryConcordanceTable <- NULL
   AllIEAData <- NULL
   IEAData <- NULL
   CEDAData <- NULL
@@ -156,6 +162,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     alloc_and_eff_couns = unique(c(countries, !!additional_exemplar_countries)),
     max_year = !!max_year,
     iea_data_path = !!iea_data_path,
+    country_concordance_path = !!country_concordance_path,
     ceda_data_folder = !!ceda_data_folder,
     machine_data_path = !!machine_data_path,
     exemplar_table_path = !!exemplar_table_path,
@@ -163,9 +170,12 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     reports_source_folders = !!reports_source_folders,
     reports_dest_folder = !!reports_dest_folder,
 
+    # Load country concordance table
+    CountryConcordanceTable = readxl::read_excel(country_concordance_path, sheet = "country_concordance_table"),
+
     # (1a) Grab all IEA data for ALL countries
 
-    AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(),
+    AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(override_df = CountryConcordanceTable),
     IEAData = drake::target(AllIEAData %>%
                               extract_country_data(countries = alloc_and_eff_couns, max_year = max_year),
                             dynamic = map(alloc_and_eff_couns)),

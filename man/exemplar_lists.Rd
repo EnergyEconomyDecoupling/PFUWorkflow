@@ -10,7 +10,7 @@ exemplar_lists(
   prev_names = SEAPSUTWorkflow::exemplar_names$prev_names,
   exemplar_country = SEAPSUTWorkflow::exemplar_names$exemplar_country,
   exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
-  row_code = SEAPSUTWorkflow::exemplar_names$row_code,
+  region_code = SEAPSUTWorkflow::exemplar_names$region_code,
   world = SEAPSUTWorkflow::exemplar_names$world,
   country = IEATools::iea_cols$country,
   year = IEATools::iea_cols$year,
@@ -23,7 +23,7 @@ exemplar_lists(
 
 \item{countries}{The countries for which exemplar lists are desired. Default is \code{NULL}, which returns all known countries.}
 
-\item{exemplars, prev_names, exemplar_country, row_code, world}{See \code{SEAPSUTWorkflow::exemplar_names}.}
+\item{exemplars, prev_names, exemplar_country, region_code, world}{See \code{SEAPSUTWorkflow::exemplar_names}.}
 
 \item{country, year}{See \code{IEATools::iea_cols}.}
 

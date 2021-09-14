@@ -318,7 +318,7 @@ test_that("simple example for assemble_fu_allocation_tables() works", {
 
 test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as expected.", {
   # Create a directory structure in a tempdir for the allocation tables
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(additional_exemplar_countries = "World",
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(additional_exemplar_countries = "WLD",
                                                         how_far = SEAPSUTWorkflow::target_names$CompletedPhiTables,
                                                         setup_exemplars = TRUE)
 
@@ -355,7 +355,7 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
     # Check that World DOES have the allocation and efficiencies for Wood cookstoves.
     # Allocations:
     readd_by_country(SEAPSUTWorkflow::target_names$IncompleteAllocationTables,
-                     country = "World",
+                     country = "WLD",
                      cache_path = testing_setup$cache_path) %>%
       dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves",
                     .data[[IEATools::template_cols$destination]] == "Residential") %>%
@@ -363,7 +363,7 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
       expect_equal(1)
     # Efficiencies:
     readd_by_country(SEAPSUTWorkflow::target_names$MachineData,
-                     country = "World",
+                     country = "WLD",
                      cache_path = testing_setup$cache_path) %>%
       dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves",
                     .data[[IEATools::template_cols$eu_product]] == "MTH.100.C",
@@ -382,7 +382,7 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
     expect_equal(nrow(residential_psb), 4)
     expect_equal(residential_psb %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 1971) %>% nrow(), 2)
     expect_equal(residential_psb %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 2000) %>% nrow(), 2)
-    expect_equal(residential_psb %>% magrittr::extract2(IEATools::template_cols$c_source) %>% unique(), "World")
+    expect_equal(residential_psb %>% magrittr::extract2(IEATools::template_cols$c_source) %>% unique(), "WLD")
 
     # Check the completed FU Efficiency tables.
     GHA_efficiencies_completed <- readd_by_country(SEAPSUTWorkflow::target_names$CompletedEfficiencyTables,

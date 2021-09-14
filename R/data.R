@@ -17,6 +17,7 @@
 #' \item{fu_analysis_folder}{A string representing the folder containing final-to-useful analyses for various countries.}
 #' \item{report_source_folders}{A string vector representing folders containing reports to be run as the last step of the workflow.}
 #' \item{report_dest_folder}{A string representing the folder containing reports from the workflow.}
+#' \item{CountryConcordanceTable}{A data frame containing concordance information which maps full country names to custom 3 letter codes.}
 #' \item{AllIEAData}{The name of a data frame containing all IEA data read from `iea_data_path`.}
 #' \item{IEAData}{A filtered version of `AllIEAData` containing information for only `countries`.}
 #' \item{CEDAData}{The name of the data frame containing all CEDA temperature data read from `ceda_data_folder`.}
@@ -75,7 +76,7 @@
 #' \item{complete_alloc_table}{The name of a column containing completed final-to-useful allocation tables.}
 #' \item{incomplete_eta_table}{The name of a column containing incomplete final-to-useful efficiency tables.}
 #' \item{complete_eta_table}{The name of a column containing completed final-to-useful efficiency tables.}
-#' \item{row_code}{The name of the rest-of-world region code column.}
+#' \item{region_code}{The name of the region code column.}
 #' \item{country_name}{The name of the column containing the long name of a country.}
 #' \item{world}{The name of the world region.}
 #' }
