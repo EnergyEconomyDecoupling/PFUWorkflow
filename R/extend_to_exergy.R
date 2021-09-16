@@ -77,3 +77,36 @@ calc_phi_pf_vecs <- function(phi_constants,
                                                   lenx = 1)
     )
 }
+
+
+#' Sums phi_pf and phi_u vectors
+#'
+#' This function verifies that there are no rows in common between the
+#' two input vectors.
+#'
+#' @param phi_pf_vecs A data frame of phi_pf vectors
+#' @param phi_u_vecs A data frame of phi_u vectors
+#' @param countries The countries for which you want to perform this task.
+#'
+#' @return A data frame of summed phi_pf and phi_u vectors.
+#'
+#' @export
+#'
+#' @examples
+sum_phi_vecs <- function(phi_pf_vecs,
+                         phi_u_vecs,
+                         countries,
+                         phi_pf = IEATools::template_cols$phi_pf,
+                         phi_u = IEATools::template_cols$phi_u,
+                         phi_colname = IEATools::phi_constants_names$phi_colname) {
+  phi_df <- dplyr::full_join(phi_pf_vecs,
+                             phi_u_vecs,
+                             by = matsindf::everything_except(phi_pf_vecs, phi_pf) %>% as.character())
+  phi_df %>%
+    dplyr::mutate(
+      "{phi_colname}" := matsbyname::sum_byname(.data[[phi_pf]], .data[[phi_u]]),
+      # Delete the columns we no longer need.
+      "{phi_pf}" := NULL,
+      "{phi_u}" := NULL
+    )
+}

@@ -23,7 +23,26 @@ test_that("calc_phi_pf_vecs() works as expected with a simple example", {
 })
 
 
-test_that("extending to exergy works as expected", {
+test_that("sum_phi_vecs() works as expected", {
+
+  phi_pf_vec <- matrix(c(1.1,
+                         1.05), nrow = 2, ncol = 1, dimnames = list(c("Coal", "Oil"), "phi"))
+  # Make a bogus data frame of phi_pf vectors
+  phi_pf <- tibble::tibble(phi.pf = matsbyname::make_list(phi_pf_vec, n = 2, lenx = 1),
+                           Country = "GHA",
+                           Year = c(1971, 2000))
+
+  phi_u_vec <- matrix(c(0.8,
+                        0.9,
+                        0.7), nrow = 3, ncol = 1, dimnames = list(c("Light", "MD", "Propulsion"), "phi"))
+  phi_u <- tibble::tibble(phi.u = matsbyname::make_list(phi_u_vec, n = 2, lenx = 1),
+                          Country = "GHA",
+                          Year = c(1971, 2000))
+  sum_phi_vecs(phi_pf, phi_u, countries = "GHA")
+})
+
+
+test_that("extending to exergy works as expected in teh workflow", {
   # Set up for 1 past the exergy stuff.
   testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$IncompleteAllocationTables)
   tryCatch({
@@ -38,6 +57,5 @@ test_that("extending to exergy works as expected", {
   })
 
 })
-
 
 
