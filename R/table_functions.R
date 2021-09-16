@@ -529,12 +529,12 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
     phi_u_table <- incomplete_phi_u_table %>%
       dplyr::filter(.data[[country]] == coun)
 
-    # Find all the places where there is a missing value for .value in incomplete_phi_u_table
-    missing_phi_values <- incomplete_phi_u_table %>%
+    # Find all the places where there is a missing value for .value in phi_u_table
+    missing_phi_values <- phi_u_table %>%
       dplyr::filter(is.na(.data[[.values]]))
     # Get a data frame of present phi_u values.
-    present_phi_values <- dplyr::anti_join(incomplete_phi_u_table, missing_phi_values,
-                                           by = names(incomplete_phi_u_table)) %>%
+    present_phi_values <- dplyr::anti_join(phi_u_table, missing_phi_values,
+                                           by = names(phi_u_table)) %>%
       # Add the fact that these rows came from the efficiency tables.
       dplyr::mutate(
         "{phi_source_colname}" := eta_fu_tables
@@ -572,7 +572,7 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
       stop(err_msg)
     }
 
-    # bind to the good rows of incomplete_phi_u_table
+    # bind to the good rows of phi_u_table
     dplyr::bind_rows(present_phi_values, found_phi_values)
 
   }) %>%
