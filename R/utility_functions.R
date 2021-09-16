@@ -230,7 +230,7 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
     }
   })
 
-  # Eliminate wood cookstoves from GHA if we want to we're testing exemplars
+  # Eliminate wood cookstoves from GHA if we want to test exemplars
   if (setup_exemplars) {
     # Create the file name for GHA cookstoves
     cookstoves_path <- file.path(machine_data_folder, "Wood_cookstoves", "Wood_cookstoves.xlsx")

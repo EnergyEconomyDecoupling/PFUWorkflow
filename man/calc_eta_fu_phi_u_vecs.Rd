@@ -13,6 +13,7 @@ calc_eta_fu_phi_u_vecs(
   year = IEATools::iea_cols$year,
   c_source = IEATools::template_cols$c_source,
   eta_fu_phi_u_source = IEATools::template_cols$eta_fu_phi_u_source,
+  phi_u_source = IEATools::phi_constants_names$phi_source_colname,
   .values = IEATools::template_cols$.values,
   eta_fu = IEATools::template_cols$eta_fu,
   phi_u = IEATools::template_cols$phi_u

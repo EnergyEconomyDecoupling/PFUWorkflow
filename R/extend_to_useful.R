@@ -60,6 +60,7 @@ calc_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
                                    year = IEATools::iea_cols$year,
                                    c_source = IEATools::template_cols$c_source,
                                    eta_fu_phi_u_source = IEATools::template_cols$eta_fu_phi_u_source,
+                                   phi_u_source = IEATools::phi_constants_names$phi_source_colname,
                                    .values = IEATools::template_cols$.values,
                                    eta_fu = IEATools::template_cols$eta_fu,
                                    phi_u = IEATools::template_cols$phi_u) {
@@ -73,6 +74,7 @@ calc_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
         # we're making vectors out of them.
         # In other words, form_eta_fu_phi_u_vecs() doesn't know what to do with those columns.
         "{c_source}" := NULL,
+        "{phi_u_source}" := NULL,
         "{eta_fu_phi_u_source}" := NULL
       )
   }) %>%

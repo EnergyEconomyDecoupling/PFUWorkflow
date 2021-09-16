@@ -157,8 +157,8 @@ usethis::use_data(cache_info, overwrite = TRUE)
 # phi.source options
 #
 
-phi_source_options <- list(eta_fu_tables = "eta_fu.tables",
-                           temperature_data = "temperature.data",
-                           phi_constnats = "phi.constants")
-usethis::use_data(phi_source_options, overwrite = TRUE)
+phi_sources <- list(eta_fu_tables = "eta_fu.tables",
+                    temperature_data = "temperature.data",
+                    phi_constnats = "phi.constants")
+usethis::use_data(phi_sources, overwrite = TRUE)
 

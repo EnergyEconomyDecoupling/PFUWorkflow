@@ -515,8 +515,8 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
                                   phi_colname = IEATools::phi_constants_names$phi_colname,
                                   phi_source_colname = IEATools::phi_constants_names$phi_source_colname,
                                   is_useful = IEATools::phi_constants_names$is_useful_colname,
-                                  eta_fu_tables = SEAPSUTWorkflow::phi_source_options$eta_fu_tables,
-                                  phi_constants = SEAPSUTWorkflow::phi_source_options$phi_constnats) {
+                                  eta_fu_tables = SEAPSUTWorkflow::phi_sources$eta_fu_tables,
+                                  phi_constants = SEAPSUTWorkflow::phi_sources$phi_constnats) {
 
   if (!is.null(max_year)) {
     incomplete_phi_u_table <- incomplete_phi_u_table %>%
