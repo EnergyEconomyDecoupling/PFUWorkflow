@@ -35,7 +35,8 @@
 #' \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}
 #' \item{CompletedPhiTables}{A data frame of completed exergy-to-energy ratios.}
 #' \item{Cmats}{A data frame containing `CompletedAllocationTables` in matrix form.}
-#' \item{EtaPhivecs}{A data frame containing final-to-useful efficiency and exergy-to-energy ratio vectors.}
+#' \item{EtaPhiuvecs}{A data frame containing final-to-useful efficiency and useful exergy-to-energy ratio vectors.}
+#' \item{Phipfvect}{A data frame containing primary and final exergy-to-energy ratio vectors.}
 #' \item{PSUT_useful}{A data frame containing PSUT matrices up to the useful stage.}
 #' \item{FinalDemandSectors}{A list containing  the final demand sectors desired for analysis.}
 #' \item{PrimaryIndustryPrefixes}{A list containing the prefixes of primary industries desired for analysis.}

@@ -304,20 +304,25 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                        dynamic = map(countries)),
 
 
-    # (10) Extend to useful stage
+    # (9.5) Build matrices and vectors for extending to useful stage and exergy
 
     Cmats = drake::target(calc_C_mats(completed_allocation_tables = CompletedAllocationTables,
                                       countries = countries),
                           dynamic = map(countries)),
 
-    EtaPhivecs = drake::target(calc_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
-                                                      completed_phi_tables = CompletedPhiTables,
-                                                      countries = countries),
-                               dynamic = map(countries)),
+    EtaPhiuvecs = drake::target(calc_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
+                                                       completed_phi_tables = CompletedPhiTables,
+                                                       countries = countries),
+                                dynamic = map(countries)),
+
+    Phipfvecs = drake::target(calc_phi_pf_vecs(phi_u_vecs = EtaPhiuvecs,
+                                               phi_constants = PhiConstants)),
+
+    # (10) Extend to useful stage
 
     PSUT_useful = drake::target(move_to_useful(psut_final = PSUT_final,
                                                C_mats = Cmats,
-                                               eta_phi_vecs = EtaPhivecs,
+                                               eta_phi_vecs = EtaPhiuvecs,
                                                countries = countries),
                                 dynamic = map(countries)),
 

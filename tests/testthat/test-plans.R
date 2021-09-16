@@ -2,7 +2,7 @@
 context("Plan Functions")
 ###########################################################
 
-test_that("get_plan works", {
+test_that("get_plan() works", {
   my_plan <- get_plan(country_concordance_path = "countryconcordancepath",
                       phi_constants_path = "phiconstantspath",
                       iea_data_path = "datapath",
@@ -86,7 +86,9 @@ test_that("get_plan works", {
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "CompletedPhiTables")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "Cmats")
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "EtaPhivecs")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "EtaPhiuvecs")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "Phipfvecs")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "PSUT_useful")
 

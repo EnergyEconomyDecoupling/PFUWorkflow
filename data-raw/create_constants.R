@@ -39,7 +39,8 @@ target_names <- list(countries = "countries",
                      CompletedEfficiencyTables = "CompletedEfficiencyTables",
                      CompletedPhiTables = "CompletedPhiTables",
                      Cmats = "Cmats",
-                     EtaPhivecs = "EtaPhivecs",
+                     EtaPhiuvecs = "EtaPhiuvecs",
+                     Phipfvecs = "Phipfvecs",
                      PSUT_useful = "PSUT_useful",
                      FinalDemandSectors = "FinalDemandSectors",
                      PrimaryIndustryPrefixes = "PrimaryIndustryPrefixes",
@@ -154,7 +155,7 @@ usethis::use_data(cache_info, overwrite = TRUE)
 
 
 #
-# phi.source options
+# phi.sources
 #
 
 phi_sources <- list(eta_fu_tables = "eta_fu.tables",

@@ -69,14 +69,18 @@ calc_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
     t %>%
       dplyr::filter(.data[[country]] %in% countries) %>%
       dplyr::mutate(
-        # Eliminate the c_source and eta_phi_source column (if it exists) before sending
+        # Eliminate the c_source, phi_u_source, and eta_phi_source columns
+        # (if they exists) before sending
         # the completed_allocation_tables into form_eta_fu_phi_u_vecs().
-        # The c_source and eta_fu_phi_u_source columns apply to individual eta_fu and phi_u values, and
+        # The c_source, phi_u_source, eta_fu_phi_u_source columns
+        # apply to individual eta_fu and phi_u values, and
         # we're making vectors out of them.
-        # In other words, form_eta_fu_phi_u_vecs() doesn't know what to do with those columns.
+        # In other words, form_eta_fu_phi_u_vecs() doesn't
+        # know what to do with those columns.
         "{c_source}" := NULL,
         "{phi_u_source}" := NULL,
-        "{eta_fu_phi_u_source}" := NULL
+        "{eta_fu_phi_u_source}" := NULL,
+        "{phi_u_source}" := NULL
       )
   }) %>%
     dplyr::bind_rows() %>%
