@@ -258,3 +258,10 @@ test_that("get_p_industry_prefixes() works as expected", {
   testthat::expect_equal(unlist(p_industry_prefixes), c("Resources", "Imports", "Stock changes"))
 
 })
+
+
+test_that("df_to_msg() works as expected", {
+  msg <- data.frame(a = c(1, 2, 3), b = c("a", "b", "c")) %>%
+    df_to_msg()
+  expect_equal(msg, "1, a; 2, b; 3, c")
+})

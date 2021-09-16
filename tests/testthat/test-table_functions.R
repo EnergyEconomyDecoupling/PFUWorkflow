@@ -505,6 +505,65 @@ test_that("MachineData works in assemble_eta_fu_tables()", {
 })
 
 
+test_that("simple example for assemble_phi_u_tables() works as expected", {
+  # Load the phi constants table
+  phi_constants_table <- IEATools::load_phi_constants_table()
+
+  # Load all the MachineData for our examples.
+  phi_table <- IEATools::load_eta_fu_data() %>%
+    # Convert incomplete_eta_fu_tables to MachineData format.
+    dplyr::mutate(
+      "{IEATools::template_cols$maximum_values}" := NULL,
+      "{IEATools::iea_cols$unit}" := NULL
+    ) %>%
+    tidyr::pivot_longer(cols = IEATools::year_cols(.),
+                        names_to = IEATools::iea_cols$year,
+                        values_to = IEATools::template_cols$.values) %>%
+    # Convert to a table of phi values only
+    dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$phi_u)
+  # Set a value to NA (Charcoal stoves, MTH.100.C, GHA, 1971) in the phi table.
+  incomplete_phi_table <- phi_table %>%
+    dplyr::mutate(
+      "{IEATools::template_cols$.values}" := dplyr::case_when(
+        .data[[IEATools::iea_cols$country]] == "GHA" &
+          .data[[IEATools::iea_cols$year]] == 1971 &
+          .data[[IEATools::template_cols$machine]] == "Charcoal stoves" ~ NA_real_,
+        TRUE ~ .data[[IEATools::template_cols$.values]]
+      )
+    )
+
+  # Run through the assemble_phi_u_tables function
+  completed_phi_u_table <- assemble_phi_u_tables(incomplete_phi_table,
+                                                 phi_constants_table,
+                                                 countries = "GHA")
+
+  # Make sure we get the correct value.
+  expected_value <- phi_constants_table %>%
+    dplyr::filter(.data[[IEATools::phi_constants_names$product_colname]] == "MTH.100.C") %>%
+    magrittr::extract2(IEATools::phi_constants_names$phi_colname)
+  actual_value <- completed_phi_u_table %>%
+    dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA",
+                  .data[[IEATools::iea_cols$year]] == 1971,
+                  .data[[IEATools::template_cols$machine]] == "Charcoal stoves") %>%
+    magrittr::extract2(IEATools::template_cols$.values)
+  expect_equal(actual_value, expected_value)
+
+  # Make sure we have a phi.source column
+  expect_true(IEATools::phi_constants_names$phi_source_colname %in% names(completed_phi_u_table))
+})
+
+
+test_that("assemble_phi_u_tables() throws an error when not complete", {
+  # Make a bogus table that needs to be completed
+  empty_table <- data.frame(Country = "GHA", Year = 1971, Machine = "machine",
+                            Eu.product = "MTH.100.C", Quantity = "phi.u", .values = NA_real_)
+  phi_constants <- data.frame(Product = "L", phi = 0.955, is.useful = TRUE)
+  expect_error(assemble_phi_u_tables(empty_table, phi_constants_table = phi_constants,
+                                     countries = "GHA"),
+               "Not all useful energy carriers have been assigned phi values")
+})
+
+
 test_that("assemble_phi_u_tables() works as expected in the workflow", {
 
   # Create a directory structure in a tempdir for the allocation tables
@@ -546,49 +605,3 @@ test_that("assemble_phi_u_tables() works as expected in the workflow", {
 })
 
 
-test_that("simple example for assemble_phi_u_tables() works as expected", {
-  # Load the phi constants table
-  phi_constants_table <- IEATools::load_phi_constants_table()
-
-  # Load all the MachineData for our examples.
-  phi_table <- IEATools::load_eta_fu_data() %>%
-  # Convert incomplete_eta_fu_tables to MachineData format.
-    dplyr::mutate(
-      "{IEATools::template_cols$maximum_values}" := NULL,
-      "{IEATools::iea_cols$unit}" := NULL
-    ) %>%
-    tidyr::pivot_longer(cols = IEATools::year_cols(.),
-                        names_to = IEATools::iea_cols$year,
-                        values_to = IEATools::template_cols$.values) %>%
-    # Convert to a table of phi values only
-    dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$phi_u)
-  # Set a value to NA (Charcoal stoves, MTH.100.C, GHA, 1971) in the phi table.
-  incomplete_phi_table <- phi_table %>%
-    dplyr::mutate(
-      "{IEATools::template_cols$.values}" := dplyr::case_when(
-        .data[[IEATools::iea_cols$country]] == "GHA" &
-          .data[[IEATools::iea_cols$year]] == 1971 &
-          .data[[IEATools::template_cols$machine]] == "Charcoal stoves" ~ NA_real_,
-        TRUE ~ .data[[IEATools::template_cols$.values]]
-      )
-    )
-
-  # Run through the assemble_phi_u_tables function
-  completed_phi_u_table <- assemble_phi_u_tables(incomplete_phi_table,
-                                                 phi_constants_table,
-                                                 countries = "GHA")
-
-  # Make sure we get the correct value.
-  expected_value <- phi_constants_table %>%
-    dplyr::filter(.data[[IEATools::phi_constants_names$product_colname]] == "MTH.100.C") %>%
-    magrittr::extract2(IEATools::phi_constants_names$phi_colname)
-  actual_value <- completed_phi_u_table %>%
-    dplyr::filter(.data[[IEATools::iea_cols$country]] == "GHA",
-                  .data[[IEATools::iea_cols$year]] == 1971,
-                  .data[[IEATools::template_cols$machine]] == "Charcoal stoves") %>%
-    magrittr::extract2(IEATools::template_cols$.values)
-  expect_equal(actual_value, expected_value)
-
-  # Make sure we have a phi.source column
-  expect_true(IEATools::phi_constants_names$phi_source_colname %in% names(completed_phi_u_table))
-})

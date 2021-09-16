@@ -10,7 +10,7 @@ df_to_msg(df)
 \item{df}{The data frame to be converted to a message}
 }
 \value{
-A string with rows separated by semcolons and entries separated by commas.
+A string with rows separated by semicolons and entries separated by commas.
 }
 \description{
 This function is especially helpful for cases when a data frame

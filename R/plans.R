@@ -143,6 +143,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   TidyIncompleteAllocationTables <- NULL
   IncompleteEfficiencyTables <- NULL
   ExemplarLists <- NULL
+  PhiConstants <- NULL
   CompletedAllocationTables <- NULL
   CompletedEfficiencyTables <- NULL
   CompletedPhiTables <- NULL
@@ -297,6 +298,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     CompletedPhiTables = drake::target(assemble_phi_u_tables(incomplete_phi_u_table = MachineData,
                                                              phi_constants_table = PhiConstants,
+                                                             completed_efficiency_table = CompletedEfficiencyTables,
                                                              countries = countries,
                                                              max_year = max_year),
                                        dynamic = map(countries)),

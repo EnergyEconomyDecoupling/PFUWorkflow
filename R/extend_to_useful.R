@@ -49,6 +49,7 @@ calc_C_mats <- function(completed_allocation_tables,
 #' @param countries The countries for which `eta_fu` and `phi_u` vectors should be formed.
 #' @param country,year See `IEATools::ieacols`.
 #' @param c_source,eta_fu_phi_u_source,.values,eta_fu,phi_u See `IEATools::template_cols`.
+#' @param phi_u_source See `IEATools::phi_constants_names`.
 #'
 #' @return A data frame with `eta_fu` and `phi_u` vectors added as columns.
 #'
@@ -60,10 +61,10 @@ calc_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
                                    year = IEATools::iea_cols$year,
                                    c_source = IEATools::template_cols$c_source,
                                    eta_fu_phi_u_source = IEATools::template_cols$eta_fu_phi_u_source,
-                                   phi_u_source = IEATools::phi_constants_names$phi_source_colname,
                                    .values = IEATools::template_cols$.values,
                                    eta_fu = IEATools::template_cols$eta_fu,
-                                   phi_u = IEATools::template_cols$phi_u) {
+                                   phi_u = IEATools::template_cols$phi_u,
+                                   phi_u_source = IEATools::phi_constants_names$phi_source_colname) {
   lapply(list(completed_efficiency_tables, completed_phi_tables), function(t) {
     t %>%
       dplyr::filter(.data[[country]] %in% countries) %>%

@@ -511,7 +511,7 @@ clean_targets <- function(
 #'
 #' @param df The data frame to be converted to a message
 #'
-#' @return A string with rows separated by semcolons and entries separated by commas.
+#' @return A string with rows separated by semicolons and entries separated by commas.
 #'
 #' @export
 #'
