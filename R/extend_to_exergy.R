@@ -102,11 +102,21 @@ sum_phi_vecs <- function(phi_pf_vecs,
   phi_df <- dplyr::full_join(phi_pf_vecs,
                              phi_u_vecs,
                              by = matsindf::everything_except(phi_pf_vecs, phi_pf) %>% as.character())
-  phi_df %>%
+  out <- phi_df %>%
     dplyr::mutate(
       "{phi_colname}" := matsbyname::sum_byname(.data[[phi_pf]], .data[[phi_u]]),
       # Delete the columns we no longer need.
       "{phi_pf}" := NULL,
       "{phi_u}" := NULL
     )
+
+  # Check that the length of each phi vector is the sum of the lengths of the phi_pf and phi_u vectors.
+  # If not, there are duplicate rows in the vectors, which should be an error.
+  # There should be no primary-final energy carriers that are also useful energy carriers.
+
+
+
+
+
+  return(out)
 }
