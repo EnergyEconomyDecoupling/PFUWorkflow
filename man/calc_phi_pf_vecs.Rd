@@ -7,7 +7,10 @@
 calc_phi_pf_vecs(
   phi_constants,
   phi_u_vecs,
+  countries,
+  country = IEATools::iea_cols$country,
   product = IEATools::iea_cols$product,
+  eta_fu = IEATools::template_cols$eta_fu,
   phi_u = IEATools::template_cols$phi_u,
   phi_pf_colname = IEATools::template_cols$phi_pf,
   phi_colname = IEATools::phi_constants_names$phi_colname,
@@ -21,9 +24,9 @@ with columns \code{product}, \code{phi_colname}, and \code{is_useful_colname}.}
 \item{phi_u_vecs}{A data frame containing metadata columns and a column of phi_u vectors.
 A column of phi_pf vectors replaces the column of phi_u vectors on output.}
 
-\item{product}{See \code{IEATools::iea_cols}.}
+\item{country, product}{See \code{IEATools::iea_cols}.}
 
-\item{phi_u, phi_pf_colname}{See \code{IEATools::template_cols}.}
+\item{eta_fu, phi_u, phi_pf_colname}{See \code{IEATools::template_cols}.}
 
 \item{phi_colname, is_useful_colname}{See \code{IEATools::phi_constants_colnames}.}
 }

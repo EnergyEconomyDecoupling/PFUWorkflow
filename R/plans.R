@@ -148,7 +148,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   CompletedEfficiencyTables <- NULL
   CompletedPhiTables <- NULL
   Cmats <- NULL
-  EtaPhivecs <- NULL
+  EtaPhiuvecs <- NULL
+  Phipfvecs <- NULL
   PSUT_useful <- NULL
   FinalDemandSectors <- NULL
   PrimaryIndustryPrefixes <- NULL
@@ -316,7 +317,9 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                 dynamic = map(countries)),
 
     Phipfvecs = drake::target(calc_phi_pf_vecs(phi_u_vecs = EtaPhiuvecs,
-                                               phi_constants = PhiConstants)),
+                                               phi_constants = PhiConstants,
+                                               countries = countries),
+                              dynamic = map(countries)),
 
     # (10) Extend to useful stage
 

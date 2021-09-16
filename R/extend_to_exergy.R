@@ -14,8 +14,8 @@
 #'                      with columns `product`, `phi_colname`, and `is_useful_colname`.
 #' @param phi_u_vecs A data frame containing metadata columns and a column of phi_u vectors.
 #'                   A column of phi_pf vectors replaces the column of phi_u vectors on output.
-#' @param product See `IEATools::iea_cols`.
-#' @param phi_u,phi_pf_colname See `IEATools::template_cols`.
+#' @param country,product See `IEATools::iea_cols`.
+#' @param eta_fu,phi_u,phi_pf_colname See `IEATools::template_cols`.
 #' @param phi_colname,is_useful_colname See `IEATools::phi_constants_colnames`.
 #'
 #' @return A version of the `phi_constants` data frame
@@ -43,8 +43,11 @@
 #' calc_phi_pf_vecs(phi_constants, phi_u_vecs)
 calc_phi_pf_vecs <- function(phi_constants,
                              phi_u_vecs,
+                             countries,
+                             country = IEATools::iea_cols$country,
                              product = IEATools::iea_cols$product,
                              # quantity = IEATools::template_cols$quantity,
+                             eta_fu = IEATools::template_cols$eta_fu,
                              phi_u = IEATools::template_cols$phi_u,
                              phi_pf_colname = IEATools::template_cols$phi_pf,
                              phi_colname = IEATools::phi_constants_names$phi_colname,
@@ -57,12 +60,20 @@ calc_phi_pf_vecs <- function(phi_constants,
   phi_pf_vec <- matrix(phi_pf_constants[[phi_colname]], nrow = nrow(phi_pf_constants), ncol = 1,
                        dimnames = list(c(phi_pf_constants[[product]]), NULL))
 
-  phi_u_vecs %>%
+  trimmed_phi_u_vecs <- phi_u_vecs %>%
+    dplyr::filter(.data[[country]] %in% countries) %>%
     dplyr::mutate(
-      "{phi_pf_colname}" := matsbyname::make_list(phi_pf_vec,
-                                                  n = nrow(phi_u_vecs),
-                                                  lenx = 1),
-      # We don't need the phi_u column here.
+      # We don't need the eta_fu or phi_u column on output.
+      "{eta_fu}" := NULL,
       "{phi_u}" := NULL
+    )
+  nrows_trimmed_phi_u_vecs <- nrow(trimmed_phi_u_vecs)
+
+  trimmed_phi_u_vecs %>%
+    dplyr::mutate(
+      # Add a column of phi_pf vectors
+      "{phi_pf_colname}" := matsbyname::make_list(phi_pf_vec,
+                                                  n = nrows_trimmed_phi_u_vecs,
+                                                  lenx = 1)
     )
 }

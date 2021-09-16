@@ -17,7 +17,7 @@ test_that("calc_phi_pf_vecs() works as expected with a simple example", {
     dplyr::mutate(
       Quantity = NULL
     )
-  res <- calc_phi_pf_vecs(phi_constants, phi_u_vecs)
+  res <- calc_phi_pf_vecs(phi_constants, phi_u_vecs, countries = "GHA")
   expect_true("phi.pf" %in% names(res))
   expect_false("phi.u" %in% names(res))
 })
