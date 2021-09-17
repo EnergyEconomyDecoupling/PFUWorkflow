@@ -10,13 +10,15 @@ sum_phi_vecs(
   countries,
   phi_pf = IEATools::template_cols$phi_pf,
   phi_u = IEATools::template_cols$phi_u,
-  phi_colname = IEATools::phi_constants_names$phi_colname
+  phi_colname = IEATools::phi_constants_names$phi_colname,
+  .nrow_diffs = ".nrow_diffs",
+  .phi_sum_OK = ".phi_sum_OK"
 )
 }
 \arguments{
-\item{phi_pf_vecs}{A data frame of phi_pf vectors}
+\item{phi_pf_vecs}{A data frame of phi_pf vectors.}
 
-\item{phi_u_vecs}{A data frame of phi_u vectors}
+\item{phi_u_vecs}{A data frame of phi_u vectors.}
 
 \item{countries}{The countries for which you want to perform this task.}
 }
