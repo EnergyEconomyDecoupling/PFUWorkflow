@@ -61,7 +61,7 @@ test_that("sum_phi_vecs() works as expected", {
 
 test_that("extending to exergy works as expected in the workflow", {
   # Set up for 1 past the exergy stuff.
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$PSUT_useful)
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$PSUT_useful_exergy)
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
 

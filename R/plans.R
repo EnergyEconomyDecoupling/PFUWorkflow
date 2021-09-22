@@ -330,6 +330,11 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (-) Add exergy quantifications of energy
 
+    PSUT_useful_exergy = drake::target(move_to_exergy(psut_energy = PSUT_useful,
+                                                      phi_vecs = Phivecs,
+                                                      countries = countries),
+                                       dynamic = map(countries)),
+
 
     # (-) Off to the races!  Do other calculations:
 

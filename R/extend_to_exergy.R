@@ -89,7 +89,7 @@ calc_phi_pf_vecs <- function(phi_constants,
 #' @param phi_pf_vecs A data frame of phi_pf vectors.
 #' @param phi_u_vecs A data frame of phi_u vectors.
 #' @param countries The countries for which you want to perform this task.
-#' @param country See `IEATools::iea_cols`.
+#' @param country,last_stage,energy_type,method See `IEATools::iea_cols`.
 #' @param phi_pf_colname,phi_u_colname See `IEATools::template_cols`.
 #' @param phi_colname See `IEATools::phi_constants_names`.
 #' @param .nrow_diffs,.phi_sum_OK Names of temporary error-checking columns created internally.
@@ -118,6 +118,9 @@ sum_phi_vecs <- function(phi_pf_vecs,
                          phi_u_vecs,
                          countries,
                          country = IEATools::iea_cols$country,
+                         last_stage = IEATools::iea_cols$last_stage,
+                         energy_type = IEATools::iea_cols$energy_type,
+                         method = IEATools::iea_cols$method,
                          phi_pf_colname = IEATools::template_cols$phi_pf,
                          phi_u_colname = IEATools::template_cols$phi_u,
                          phi_colname = IEATools::phi_constants_names$phi_colname,
@@ -158,7 +161,65 @@ sum_phi_vecs <- function(phi_pf_vecs,
   out %>%
     dplyr::mutate(
       # Delete the columns we no longer need.
+      # These are not relevant
+      # The output works for energy at all stages of the energy conversion chain,
+      # so we don't need to track last stage.
+      "{last_stage}" := NULL,
+      # This function converts from energy to exergy, so we
+      # should remove dependence on energy type.
+      "{energy_type}" := NULL,
+      # This function work for any method of counting the primary energy of renewable electricity.
+      # Once we have the primary energy of renewable electricity,
+      # this function will have identified the exergy-to-energy ratio associated with that
+      # primary energy carrier.
+      "{method}" := NULL,
+      # These were temporary columns
       "{phi_pf_colname}" := NULL,
       "{phi_u_colname}" := NULL
     )
+}
+
+
+#' Move from all exergy quantities to all energy quantities in energy conversion chains
+#'
+#' Converts energy conversion chains represented by the matrices
+#' in the data frame of `psut_energy` from energy quantities to exergy quantities.
+#'
+#' The steps in this calculation are to join phi_vecs to psut_energy.
+#' Thereafter, we call into the `IEATools` package to do the matrix multiplications.
+#'
+#' @param psut_energy A wide-by-matrices data frame of energy conversion chain data.
+#' @param phi_vecs A data frame of vectors of phi (exergy-to-energy ratios)
+#' @param countries The countries for which this task should be performed.
+#' @param country See `IEATools::iea_cols`.
+#'
+#' @return A version of `psut_energy` with additional rows
+#' @export
+#'
+#' @examples
+move_to_exergy <- function(psut_energy,
+                           phi_vecs,
+                           countries,
+                           country = IEATools::iea_cols$country,
+                           phi_colname = IEATools::phi_constants_names$phi_colname) {
+  # Make sure we're operating on the countries of interest.
+  psut_energy <- psut_energy %>%
+    dplyr::filter(.data[[country]] %in% countries)
+  phi_vecs <- phi_vecs %>%
+    dplyr::filter(.data[[country]] %in% countries)
+
+  # Get the metadata columns for the phi_vecs data frame.
+  meta_cols <- matsindf::everything_except(phi_vecs, phi_colname, .symbols = FALSE)
+
+  # Join the phi vectors to the psut_energy data frame
+  df <- dplyr::left_join(psut_energy, phi_vecs, by = meta_cols)
+
+  # Calculate exergy versions of the ECC.
+
+
+  stop("Have not fully implemented move_to_exergy()")
+
+
+
+
 }

@@ -93,6 +93,7 @@ test_that("get_plan() works", {
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "Phivecs")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "PSUT_useful")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "PSUT_useful_exergy")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "FinalDemandSectors")
 

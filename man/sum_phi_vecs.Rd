@@ -9,6 +9,9 @@ sum_phi_vecs(
   phi_u_vecs,
   countries,
   country = IEATools::iea_cols$country,
+  last_stage = IEATools::iea_cols$last_stage,
+  energy_type = IEATools::iea_cols$energy_type,
+  method = IEATools::iea_cols$method,
   phi_pf_colname = IEATools::template_cols$phi_pf,
   phi_u_colname = IEATools::template_cols$phi_u,
   phi_colname = IEATools::phi_constants_names$phi_colname,
@@ -23,7 +26,7 @@ sum_phi_vecs(
 
 \item{countries}{The countries for which you want to perform this task.}
 
-\item{country}{See \code{IEATools::iea_cols}.}
+\item{country, last_stage, energy_type, method}{See \code{IEATools::iea_cols}.}
 
 \item{phi_pf_colname, phi_u_colname}{See \code{IEATools::template_cols}.}
 
