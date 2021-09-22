@@ -295,6 +295,13 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
 #' are named identically and that name is passed into the
 #' `.values` argument.
 #'
+#' Note that the `which_quantity` argument is an accident of history.
+#' At one time, this function also assembled tables
+#' of `phi.u` (useful exergy-to-energy ratio) values.
+#' At present, the function only assembles `eta.fu` (final-to-useful efficiency) tables,
+#' so the only valid value for `which_quantity` is `IEATools::template_cols$eta_fu`.
+#'
+#'
 #' @param incomplete_eta_fu_tables An incomplete data frame of final-to-useful efficiencies for all Machines in `completed_fu_allocation_tables`.
 #' @param exemplar_lists A data frame containing `country` and `year` columns along with a column of ordered vectors of strings
 #'                       telling which countries should be considered exemplars for the country and year of this row.

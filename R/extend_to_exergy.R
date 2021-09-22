@@ -22,6 +22,7 @@
 #' @return A version of the `phi_constants` data frame
 #'         with the column of useful phi (useful exergy-to-energy ratio) vectors
 #'         replaced by a column of primary and final phi vectors.
+#'
 #' @export
 #'
 #' @examples
@@ -98,6 +99,21 @@ calc_phi_pf_vecs <- function(phi_constants,
 #' @export
 #'
 #' @examples
+#' phi_pf_vec <- matrix(c(1.1,
+#'                        1.05), nrow = 2, ncol = 1,
+#'                      dimnames = list(c("Coal", "Oil"), "phi"))
+#' # Make a data frame of phi_pf vectors
+#' phi_pf <- tibble::tibble(phi.pf = matsbyname::make_list(phi_pf_vec, n = 2, lenx = 1),
+#'                          Country = "GHA",
+#'                          Year = c(1971, 2000))
+#' phi_u_vec <- matrix(c(0.8,
+#'                       0.9,
+#'                       0.7), nrow = 3, ncol = 1,
+#'                     dimnames = list(c("Light", "MD", "Propulsion"), "phi"))
+#' phi_u <- tibble::tibble(phi.u = matsbyname::make_list(phi_u_vec, n = 2, lenx = 1),
+#'                         Country = "GHA",
+#'                         Year = c(1971, 2000))
+#' sum_phi_vecs(phi_pf, phi_u, countries = "GHA")
 sum_phi_vecs <- function(phi_pf_vecs,
                          phi_u_vecs,
                          countries,

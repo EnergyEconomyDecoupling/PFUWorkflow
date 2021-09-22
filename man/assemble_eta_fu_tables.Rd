@@ -80,6 +80,12 @@ Callers should ensure that value columns in both
 data frames (\code{incomplete_eta_fu_tables} and \code{completed_fu_allocation_tables})
 are named identically and that name is passed into the
 \code{.values} argument.
+
+Note that the \code{which_quantity} argument is an accident of history.
+At one time, this function also assembled tables
+of \code{phi.u} (useful exergy-to-energy ratio) values.
+At present, the function only assembles \code{eta.fu} (final-to-useful efficiency) tables,
+so the only valid value for \code{which_quantity} is \code{IEATools::template_cols$eta_fu}.
 }
 \examples{
 # Make some incomplete efficiency tables for GHA by removing Wood cookstoves.
