@@ -316,7 +316,7 @@ test_that("simple example for assemble_fu_allocation_tables() works", {
 test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as expected.", {
   # Create a directory structure in a tempdir for the allocation tables
   testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(additional_exemplar_countries = "WLD",
-                                                        how_far = SEAPSUTWorkflow::target_names$CompletedPhiTables,
+                                                        how_far = SEAPSUTWorkflow::target_names$CompletedPhiuTables,
                                                         setup_exemplars = TRUE)
 
   tryCatch({

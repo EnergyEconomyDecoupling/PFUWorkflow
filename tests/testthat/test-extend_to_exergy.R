@@ -18,8 +18,8 @@ test_that("calc_phi_pf_vecs() works as expected with a simple example", {
       Quantity = NULL
     )
   res <- calc_phi_pf_vecs(phi_constants, phi_u_vecs, countries = "GHA")
-  expect_true("phi.pf" %in% names(res))
-  expect_false("phi.u" %in% names(res))
+  expect_true(IEATools::template_cols$phi_pf %in% names(res))
+  expect_false(IEATools::template_cols$phi_u %in% names(res))
 })
 
 
@@ -38,13 +38,30 @@ test_that("sum_phi_vecs() works as expected", {
   phi_u <- tibble::tibble(phi.u = matsbyname::make_list(phi_u_vec, n = 2, lenx = 1),
                           Country = "GHA",
                           Year = c(1971, 2000))
-  sum_phi_vecs(phi_pf, phi_u, countries = "GHA")
+  res <- sum_phi_vecs(phi_pf, phi_u, countries = "GHA")
+  expected_phi <- matrix(c(1.1,
+                           0.8,
+                           0.9,
+                           1.05,
+                           0.7), ncol = 1, dimnames = list(c("Coal", "Light", "MD", "Oil", "Propulsion"), "phi"))
+  expect_equal(res$phi[[1]], expected_phi)
+  expect_equal(res$phi[[2]], expected_phi)
+
+  # Ensure that we get an error when phi_pf and phi_u have the same rows.
+  phi_u_vec_2 <- matrix(c(0.8,
+                          0.9,
+                          0.7), nrow = 3, ncol = 1, dimnames = list(c("Coal", "MD", "Propulsion"), "phi"))
+  phi_u_2 <- tibble::tibble(phi.u = matsbyname::make_list(phi_u_vec_2, n = 2, lenx = 1),
+                            Country = "GHA",
+                            Year = c(1971, 2000))
+  expect_error(sum_phi_vecs(phi_pf, phi_u_2, countries = "GHA"),
+               "the length of the sum of phi_pf and phi_u vectors")
 })
 
 
-test_that("extending to exergy works as expected in teh workflow", {
+test_that("extending to exergy works as expected in the workflow", {
   # Set up for 1 past the exergy stuff.
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$IncompleteAllocationTables)
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$PSUT_useful)
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
 

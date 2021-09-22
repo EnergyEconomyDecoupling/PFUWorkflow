@@ -33,7 +33,7 @@ A string list with 43 entries.
 \item{ExemplarLists}{A data frame of lists of exemplar countries for each country in \code{countries}, and maybe more.}
 \item{CompletedAllocationTables}{A data frame of completed final-to-useful allocation tables.}
 \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}
-\item{CompletedPhiTables}{A data frame of completed exergy-to-energy ratios.}
+\item{CompletedPhiuTables}{A data frame of completed useful-stage exergy-to-energy ratios.}
 \item{Cmats}{A data frame containing \code{CompletedAllocationTables} in matrix form.}
 \item{EtaPhiuvecs}{A data frame containing final-to-useful efficiency and useful exergy-to-energy ratio vectors.}
 \item{Phipfvecs}{A data frame containing primary and final exergy-to-energy ratio vectors.}

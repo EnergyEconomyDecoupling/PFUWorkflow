@@ -146,7 +146,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   PhiConstants <- NULL
   CompletedAllocationTables <- NULL
   CompletedEfficiencyTables <- NULL
-  CompletedPhiTables <- NULL
+  CompletedPhiuTables <- NULL
   Cmats <- NULL
   EtaPhiuvecs <- NULL
   Phipfvecs <- NULL
@@ -264,23 +264,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                                             max_year = max_year),
                                               dynamic = map(countries)),
 
-    # (8) Load incomplete FU efficiency tables for each country and year from disk.
-    # These may be incomplete.
-
-    # IncompleteEfficiencyTables = drake::target(load_eta_fu_tables(fu_analysis_folder = fu_analysis_folder,
-    #                                                               completed_fu_allocation_tables = CompletedAllocationTables,
-    #                                                               tidy_specified_iea_data = Specified,
-    #                                                               countries = alloc_and_eff_couns),
-    #                                            dynamic = map(alloc_and_eff_couns)),
-
-    # (9) Complete efficiency tables
-
-    # CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = IncompleteEfficiencyTables,
-    #                                                                  exemplar_lists = ExemplarLists,
-    #                                                                  completed_fu_allocation_tables = CompletedAllocationTables,
-    #                                                                  countries = countries,
-    #                                                                  max_year = max_year),
-    #                                           dynamic = map(countries)),
+    # (8) Complete efficiency tables
 
     CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
                                                                      exemplar_lists = ExemplarLists,
@@ -290,20 +274,14 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                                      which_quantity = IEATools::template_cols$eta_fu),
                                               dynamic = map(countries)),
 
-    # CompletedPhiTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
-    #                                                           exemplar_lists = ExemplarLists,
-    #                                                           completed_fu_allocation_tables = CompletedAllocationTables,
-    #                                                           countries = countries,
-    #                                                           max_year = max_year,
-    #                                                           which_quantity = IEATools::template_cols$phi_u),
-    #                                    dynamic = map(countries)),
+    # (9) Complete phi_u tables
 
-    CompletedPhiTables = drake::target(assemble_phi_u_tables(incomplete_phi_u_table = MachineData,
-                                                             phi_constants_table = PhiConstants,
-                                                             completed_efficiency_table = CompletedEfficiencyTables,
-                                                             countries = countries,
-                                                             max_year = max_year),
-                                       dynamic = map(countries)),
+    CompletedPhiuTables = drake::target(assemble_phi_u_tables(incomplete_phi_u_table = MachineData,
+                                                              phi_constants_table = PhiConstants,
+                                                              completed_efficiency_table = CompletedEfficiencyTables,
+                                                              countries = countries,
+                                                              max_year = max_year),
+                                        dynamic = map(countries)),
 
 
     # (9.5) Build matrices and vectors for extending to useful stage and exergy
@@ -313,7 +291,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                           dynamic = map(countries)),
 
     EtaPhiuvecs = drake::target(calc_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
-                                                       completed_phi_tables = CompletedPhiTables,
+                                                       completed_phi_tables = CompletedPhiuTables,
                                                        countries = countries),
                                 dynamic = map(countries)),
 
@@ -322,7 +300,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                countries = countries),
                               dynamic = map(countries)),
 
-    Phivecs = drake::target(sum_phi_vecs(phi_pf_vecs, phi_u_vecs),
+    Phivecs = drake::target(sum_phi_vecs(Phipfvecs, phi_u_vecs),
                             dynamic = map(countries)),
 
     # (10) Extend to useful stage

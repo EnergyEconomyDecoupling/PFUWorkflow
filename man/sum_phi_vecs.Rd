@@ -8,8 +8,8 @@ sum_phi_vecs(
   phi_pf_vecs,
   phi_u_vecs,
   countries,
-  phi_pf = IEATools::template_cols$phi_pf,
-  phi_u = IEATools::template_cols$phi_u,
+  phi_pf_colname = IEATools::template_cols$phi_pf,
+  phi_u_colname = IEATools::template_cols$phi_u,
   phi_colname = IEATools::phi_constants_names$phi_colname,
   .nrow_diffs = ".nrow_diffs",
   .phi_sum_OK = ".phi_sum_OK"

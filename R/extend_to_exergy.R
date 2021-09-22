@@ -58,7 +58,7 @@ calc_phi_pf_vecs <- function(phi_constants,
     dplyr::filter(! .data[[is_useful_colname]])
   # Create a vector from phi_constants
   phi_pf_vec <- matrix(phi_pf_constants[[phi_colname]], nrow = nrow(phi_pf_constants), ncol = 1,
-                       dimnames = list(c(phi_pf_constants[[product]]), NULL))
+                       dimnames = list(c(phi_pf_constants[[product]]), phi_colname))
 
   trimmed_phi_u_vecs <- phi_u_vecs %>%
     dplyr::filter(.data[[country]] %in% countries) %>%
@@ -96,17 +96,17 @@ calc_phi_pf_vecs <- function(phi_constants,
 sum_phi_vecs <- function(phi_pf_vecs,
                          phi_u_vecs,
                          countries,
-                         phi_pf = IEATools::template_cols$phi_pf,
-                         phi_u = IEATools::template_cols$phi_u,
+                         phi_pf_colname = IEATools::template_cols$phi_pf,
+                         phi_u_colname = IEATools::template_cols$phi_u,
                          phi_colname = IEATools::phi_constants_names$phi_colname,
                          .nrow_diffs = ".nrow_diffs",
                          .phi_sum_OK = ".phi_sum_OK") {
   phi_df <- dplyr::full_join(phi_pf_vecs,
                              phi_u_vecs,
-                             by = matsindf::everything_except(phi_pf_vecs, phi_pf) %>% as.character())
+                             by = matsindf::everything_except(phi_pf_vecs, phi_pf_colname) %>% as.character())
   out <- phi_df %>%
     dplyr::mutate(
-      "{phi_colname}" := matsbyname::sum_byname(.data[[phi_pf]], .data[[phi_u]])
+      "{phi_colname}" := matsbyname::sum_byname(.data[[phi_pf_colname]], .data[[phi_u_colname]])
     )
 
   # Check that the length of each phi vector is the sum of the lengths of the phi_pf and phi_u vectors.
@@ -115,9 +115,9 @@ sum_phi_vecs <- function(phi_pf_vecs,
 
   err_check <- out %>%
     dplyr::mutate(
-      "{.nrow_diffs}" := matsbyname::nrow_byname(.data[[phi_pf]]) +
-                         matsbyname::nrow_byname(.data[[phi_u]]) -
-                         matsbyname::nrow_byname(.data[[phi_colname]]),
+      "{.nrow_diffs}" := matsbyname::nrow_byname(.data[[phi_pf_colname]]) %>% as.numeric() +
+                         matsbyname::nrow_byname(.data[[phi_u_colname]]) %>% as.numeric() -
+                         matsbyname::nrow_byname(.data[[phi_colname]]) %>% as.numeric(),
       "{.phi_sum_OK}" := matsbyname::iszero_byname(.data[[.nrow_diffs]])
     )
 
@@ -128,12 +128,13 @@ sum_phi_vecs <- function(phi_pf_vecs,
     err_msg <- paste("In SEAPSUTWorkflow::sum_phi_vecs(), the length of the sum of phi_pf and phi_u vectors",
                      "was not the same as the sum of vector lengths. The rows that failed the test are",
                      df_to_msg(problem_rows))
+    stop(err_msg)
   }
 
   out %>%
     dplyr::mutate(
       # Delete the columns we no longer need.
-      "{phi_pf}" := NULL,
-      "{phi_u}" := NULL
+      "{phi_pf_colname}" := NULL,
+      "{phi_u_colname}" := NULL
     )
 }
