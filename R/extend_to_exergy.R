@@ -96,14 +96,17 @@ calc_phi_pf_vecs <- function(phi_constants,
 sum_phi_vecs <- function(phi_pf_vecs,
                          phi_u_vecs,
                          countries,
+                         country = IEATools::iea_cols$country,
                          phi_pf_colname = IEATools::template_cols$phi_pf,
                          phi_u_colname = IEATools::template_cols$phi_u,
                          phi_colname = IEATools::phi_constants_names$phi_colname,
                          .nrow_diffs = ".nrow_diffs",
                          .phi_sum_OK = ".phi_sum_OK") {
+
   phi_df <- dplyr::full_join(phi_pf_vecs,
                              phi_u_vecs,
-                             by = matsindf::everything_except(phi_pf_vecs, phi_pf_colname) %>% as.character())
+                             by = matsindf::everything_except(phi_pf_vecs, phi_pf_colname) %>% as.character()) %>%
+    dplyr::filter(.data[[country]] %in% countries)
   out <- phi_df %>%
     dplyr::mutate(
       "{phi_colname}" := matsbyname::sum_byname(.data[[phi_pf_colname]], .data[[phi_u_colname]])

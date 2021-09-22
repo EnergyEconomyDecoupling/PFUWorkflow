@@ -148,7 +148,6 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   CompletedEfficiencyTables <- NULL
   CompletedPhiuTables <- NULL
   Cmats <- NULL
-  EtaPhiuvecs <- NULL
   Phipfvecs <- NULL
   Phivecs <- NULL
   PSUT_useful <- NULL
@@ -290,24 +289,37 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                       countries = countries),
                           dynamic = map(countries)),
 
-    EtaPhiuvecs = drake::target(calc_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
-                                                       completed_phi_tables = CompletedPhiuTables,
-                                                       countries = countries),
-                                dynamic = map(countries)),
+    EtafuPhiuvecs = drake::target(calc_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
+                                                         completed_phi_tables = CompletedPhiuTables,
+                                                         countries = countries),
+                                  dynamic = map(countries)),
 
-    Phipfvecs = drake::target(calc_phi_pf_vecs(phi_u_vecs = EtaPhiuvecs,
+    Etafuvecs = drake::target(sep_eta_fu_phi_u(EtafuPhiuvecs,
+                                               keep = IEATools::template_cols$eta_fu,
+                                               countries = countries),
+                              dynamic = map(countries)),
+
+    Phiuvecs = drake::target(sep_eta_fu_phi_u(EtafuPhiuvecs,
+                                              keep = IEATools::template_cols$phi_u,
+                                              countries = countries),
+                             dynamic = map(countries)),
+
+
+    Phipfvecs = drake::target(calc_phi_pf_vecs(phi_u_vecs = Phiuvecs,
                                                phi_constants = PhiConstants,
                                                countries = countries),
                               dynamic = map(countries)),
 
-    Phivecs = drake::target(sum_phi_vecs(Phipfvecs, phi_u_vecs),
+    Phivecs = drake::target(sum_phi_vecs(phi_pf_vecs = Phipfvecs,
+                                         phi_u_vecs = Phiuvecs,
+                                         countries = countries),
                             dynamic = map(countries)),
 
     # (10) Extend to useful stage
 
     PSUT_useful = drake::target(move_to_useful(psut_final = PSUT_final,
                                                C_mats = Cmats,
-                                               eta_phi_vecs = EtaPhiuvecs,
+                                               eta_phi_vecs = EtafuPhiuvecs,
                                                countries = countries),
                                 dynamic = map(countries)),
 

@@ -306,7 +306,7 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
 #'                       Default is `c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u)`.
 #'                       Must be one or both of the default values.
 #' @param country,method,energy_type,last_stage,year,unit,e_dot See `IEATools::iea_cols`.
-#' @param machine,eu_product,eta_fu,phi_u,c_source,eta_fu_phi_u_source,e_dot_machine,e_dot_machine_perc,quantity,maximum_values,e_dot_perc,.values See `IEATools::template_cols`.
+#' @param machine,eu_product,eta_fu,phi_u,c_source,eta_fu_source,e_dot_machine,e_dot_machine_perc,quantity,maximum_values,e_dot_perc,.values See `IEATools::template_cols`.
 #' @param exemplars,exemplar_tables,alloc_data,incomplete_eta_tables,complete_eta_tables See `SEAPSUTWorkflows::exemplar_names`.
 #'
 #' @return A tidy data frame containing completed final-to-useful efficiency tables.
@@ -342,7 +342,7 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                    completed_fu_allocation_tables,
                                    countries,
                                    max_year = NULL,
-                                   which_quantity = c(IEATools::template_cols$eta_fu, IEATools::template_cols$phi_u),
+                                   which_quantity = c(IEATools::template_cols$eta_fu),
                                    country = IEATools::iea_cols$country,
                                    method = IEATools::iea_cols$method,
                                    energy_type = IEATools::iea_cols$energy_type,
@@ -356,7 +356,7 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                    eta_fu = IEATools::template_cols$eta_fu,
                                    phi_u = IEATools::template_cols$phi_u,
                                    c_source = IEATools::template_cols$c_source,
-                                   eta_fu_phi_u_source = IEATools::template_cols$eta_fu_phi_u_source,
+                                   eta_fu_source = IEATools::template_cols$eta_fu_source,
                                    e_dot_machine = IEATools::template_cols$e_dot_machine,
                                    e_dot_machine_perc = IEATools::template_cols$e_dot_machine_perc,
                                    quantity = IEATools::template_cols$quantity,
@@ -371,7 +371,7 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
 
                                    .values = IEATools::template_cols$.values) {
 
-  which_quantity <- match.arg(which_quantity, several.ok = TRUE)
+  which_quantity <- match.arg(which_quantity, several.ok = FALSE)
 
   # The FU allocation tables and the incomplete efficiency tables are easier to deal with when they are tidy.
   tidy_incomplete_eta_fu_tables <- IEATools::tidy_eta_fu_table(incomplete_eta_fu_tables,
@@ -451,7 +451,7 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                        quantity = quantity,
                                        maximum_values = maximum_values,
                                        c_source = c_source,
-                                       eta_fu_phi_u_source = eta_fu_phi_u_source,
+                                       eta_fu_source = eta_fu_source,
                                        .values = .values)
       )
   }) %>%
@@ -509,7 +509,7 @@ get_one_df_by_coun_and_yr <- function(.df, coun, yr, country_colname, year_colna
 #' @param countries A vector of countries for which completed phi tables are to be assembled.
 #' @param max_year The latest year for which analysis is desired. Default is `NULL`, meaning analyze all years.
 #' @param country,year,product See `IEATools::iea_cols`.
-#' @param machine,quantity,phi_u,.values,eu_product,eta_fu_phi_u_source,eta_fu_source See `IEATools::template_cols`.
+#' @param machine,quantity,phi_u,.values,eu_product,eta_fu_source See `IEATools::template_cols`.
 #' @param phi_colname,phi_source_colname,is_useful See `IEATools::phi_constants_names`.
 #' @param eta_fu_tables,phi_constants See `SEAPSUTWorkflow::phi_sources`.
 #'
@@ -564,7 +564,6 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
                                   phi_u = IEATools::template_cols$phi_u,
                                   .values = IEATools::template_cols$.values,
                                   eu_product = IEATools::template_cols$eu_product,
-                                  eta_fu_phi_u_source = IEATools::template_cols$eta_fu_phi_u_source,
                                   eta_fu_source = IEATools::template_cols$eta_fu_source,
                                   phi_colname = IEATools::phi_constants_names$phi_colname,
                                   phi_source_colname = IEATools::phi_constants_names$phi_source_colname,
@@ -603,8 +602,8 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
           # The completed_effiiency_table will have eta_fu for its quantity.
           # We want phi_u
           "{quantity}" := phi_u,
-          # Eliminate the eta_fu_phi_u_source column
-          "{eta_fu_phi_u_source}" := NULL,
+          # Eliminate the phi_u_source column
+          "{phi_source_colname}" := NULL,
           # Eliminate the eta_fu_source column. We will add a phi_u_source column later
           "{eta_fu_source}" := NULL,
           # Eliminate the .values column. It contains eta_fu values.

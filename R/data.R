@@ -35,7 +35,9 @@
 #' \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}
 #' \item{CompletedPhiuTables}{A data frame of completed useful-stage exergy-to-energy ratios.}
 #' \item{Cmats}{A data frame containing `CompletedAllocationTables` in matrix form.}
-#' \item{EtaPhiuvecs}{A data frame containing final-to-useful efficiency and useful exergy-to-energy ratio vectors.}
+#' \item{EtafuPhiuvecs}{A data frame containing final-to-useful efficiency vectors and useful exergy-to-energy ratios.}
+#' \item{Etafuvecs}{A data frame containing final-to-useful efficiency vectors.}
+#' \item{Phiuvecs}{A data frame containing useful exergy-to-energy ratio vectors.}
 #' \item{Phipfvecs}{A data frame containing primary and final exergy-to-energy ratio vectors.}
 #' \item{Phivecs}{A data frame containing exergy-to-energy ratio vectors.}
 #' \item{PSUT_useful}{A data frame containing PSUT matrices up to the useful stage.}

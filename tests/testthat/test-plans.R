@@ -83,11 +83,12 @@ test_that("get_plan() works", {
 
   # expect_equal(my_plan[[rn <- rn + 1, "target"]], "IncompleteEfficiencyTables")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "CompletedEfficiencyTables")
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "CompletedPhiTables")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "CompletedPhiuTables")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "Cmats")
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "EtaPhiuvecs")
-
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "EtafuPhiuvecs")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "Etafuvecs")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "Phiuvecs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "Phipfvecs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "Phivecs")
 

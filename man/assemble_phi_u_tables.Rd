@@ -18,7 +18,6 @@ assemble_phi_u_tables(
   phi_u = IEATools::template_cols$phi_u,
   .values = IEATools::template_cols$.values,
   eu_product = IEATools::template_cols$eu_product,
-  eta_fu_phi_u_source = IEATools::template_cols$eta_fu_phi_u_source,
   eta_fu_source = IEATools::template_cols$eta_fu_source,
   phi_colname = IEATools::phi_constants_names$phi_colname,
   phi_source_colname = IEATools::phi_constants_names$phi_source_colname,
@@ -47,7 +46,7 @@ should be completed.}
 
 \item{country, year, product}{See \code{IEATools::iea_cols}.}
 
-\item{machine, quantity, phi_u, .values, eu_product, eta_fu_phi_u_source, eta_fu_source}{See \code{IEATools::template_cols}.}
+\item{machine, quantity, phi_u, .values, eu_product, eta_fu_source}{See \code{IEATools::template_cols}.}
 
 \item{phi_colname, phi_source_colname, is_useful}{See \code{IEATools::phi_constants_names}.}
 

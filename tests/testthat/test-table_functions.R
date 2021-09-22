@@ -393,7 +393,7 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
     expect_equal(wood_cookstove_efficiency %>% dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$eta_fu) %>% nrow(), 2)
 
     # Check the completed phi tables.
-    GHA_phi_completed <- readd_by_country(SEAPSUTWorkflow::target_names$CompletedPhiTables,
+    GHA_phi_completed <- readd_by_country(SEAPSUTWorkflow::target_names$CompletedPhiuTables,
                                                    country = "GHA",
                                                    cache_path = testing_setup$cache_path)
     wood_cookstove_phi <- GHA_phi_completed %>%
@@ -435,56 +435,68 @@ test_that("simple example for assemble_eta_fu_tables() works", {
 
 
 test_that("MachineData works in assemble_eta_fu_tables()", {
-   # Make some incomplete efficiency tables for GHA by removing Wood cookstoves.
-   # Information from the exemplar, ZAF, will supply efficiency for Wood cookstoves for GHA.
-   incomplete_eta_fu_tables <- IEATools::load_eta_fu_data() %>%
-     dplyr::filter(! (Country == "GHA" & Machine == "Wood cookstoves"))
+  # Make some incomplete efficiency tables for GHA by removing Wood cookstoves.
+  # Information from the exemplar, ZAF, will supply efficiency for Wood cookstoves for GHA.
+  incomplete_eta_fu_tables <- IEATools::load_eta_fu_data() %>%
+    dplyr::filter(! (Country == "GHA" & Machine == "Wood cookstoves"))
 
-   # Keep track of the cookstove rows we deleted from GHA.
-   # Make sure we get the same number of cookstove rows later.
-   orig_GHA_cookstove_rows <- IEATools::load_eta_fu_data() %>%
-     dplyr::filter(Country == "GHA" & Machine == "Wood cookstoves")
+  # Keep track of the cookstove rows we deleted from GHA.
+  # Make sure we get the same number of cookstove rows later.
+  orig_GHA_cookstove_rows <- IEATools::load_eta_fu_data() %>%
+    dplyr::filter(Country == "GHA" & Machine == "Wood cookstoves")
 
-   # Convert incomplete_eta_fu_tables to MachineData format.
-   MachineData <- incomplete_eta_fu_tables %>%
-     dplyr::mutate(
-       "{IEATools::template_cols$maximum_values}" := NULL,
-       "{IEATools::iea_cols$unit}" := NULL
-     ) %>%
-     tidyr::pivot_longer(cols = IEATools::year_cols(.),
-                         names_to = IEATools::iea_cols$year,
-                         values_to = IEATools::template_cols$.values)
-
-   # The rows for Wood cookstoves were present but are now missing.
-   IEATools::load_eta_fu_data() %>%
-     dplyr::filter(Country == "GHA" & Machine == "Wood cookstoves") %>%
-     nrow() %>%
-     expect_gt(0)
-   cookstoves_gone <- MachineData %>%
-     dplyr::filter(Country == "GHA", Machine == "Wood cookstoves")
-   expect_equal(nrow(cookstoves_gone), 0)
-
-   # Set up exemplar list
-   el <- tibble::tribble(
-     ~Country, ~Year, ~Exemplars,
-     "GHA", 1971, c("ZAF"),
-     "GHA", 2000, c("ZAF"))
-   # Load FU allocation data.
-   # An efficiency is needed for each machine in FU allocation data.
-   fu_allocation_data <- IEATools::load_fu_allocation_data()
-   # Assemble complete allocation tables
-   completed <- assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
-                                       exemplar_lists = el,
-                                       completed_fu_allocation_tables = fu_allocation_data,
-                                       countries = "GHA")
-   # Show that the missing rows have been picked up from the exemplar country, ZAF.
-  rows_from_exemplar <- completed %>%
-    dplyr::filter(Country == "GHA", Machine == "Wood cookstoves") %>%
+  # Convert incomplete_eta_fu_tables to MachineData format.
+  MachineData <- incomplete_eta_fu_tables %>%
     dplyr::mutate(
-      eta.fu.phi.u.source = NULL
+      "{IEATools::template_cols$maximum_values}" := NULL,
+      "{IEATools::iea_cols$unit}" := NULL
+    ) %>%
+    tidyr::pivot_longer(cols = IEATools::year_cols(.),
+                        names_to = IEATools::iea_cols$year,
+                        values_to = IEATools::template_cols$.values)
+
+  # Convert orig_GHA_cookstove_rows to MachineData format.
+  orig_GHA_cookstove_rows_MachineData <- orig_GHA_cookstove_rows %>%
+    dplyr::mutate(
+      "{IEATools::template_cols$maximum_values}" := NULL,
+      "{IEATools::iea_cols$unit}" := NULL
+    ) %>%
+    tidyr::pivot_longer(cols = IEATools::year_cols(.),
+                        names_to = IEATools::iea_cols$year,
+                        values_to = IEATools::template_cols$.values)
+
+  # The rows for Wood cookstoves were present but are now missing.
+  IEATools::load_eta_fu_data() %>%
+    dplyr::filter(Country == "GHA" & Machine == "Wood cookstoves") %>%
+    nrow() %>%
+    expect_gt(0)
+  cookstoves_gone <- MachineData %>%
+    dplyr::filter(Country == "GHA", Machine == "Wood cookstoves")
+  expect_equal(nrow(cookstoves_gone), 0)
+
+  # Set up exemplar list
+  el <- tibble::tribble(
+    ~Country, ~Year, ~Exemplars,
+    "GHA", 1971, c("ZAF"),
+    "GHA", 2000, c("ZAF"))
+  # Load FU allocation data.
+  # An efficiency is needed for each machine in FU allocation data.
+  fu_allocation_data <- IEATools::load_fu_allocation_data()
+  # Assemble complete allocation tables
+  completed <- assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
+                                      exemplar_lists = el,
+                                      completed_fu_allocation_tables = fu_allocation_data,
+                                      countries = "GHA")
+  # Show that the missing rows have been picked up from the exemplar country, ZAF.
+  rows_from_exemplar <- completed %>%
+    dplyr::filter(Country == "GHA", Machine == "Wood cookstoves", Quantity == "eta.fu") %>%
+    dplyr::mutate(
+      eta.fu.source = NULL
     )
 
-  expect_equal(nrow(rows_from_exemplar), nrow(orig_GHA_cookstove_rows))
+  expect_equal(nrow(rows_from_exemplar),
+               nrow(orig_GHA_cookstove_rows_MachineData %>%
+                      dplyr::filter(.data[[IEATools::template_cols$quantity]] == IEATools::template_cols$eta_fu)))
 
 
   rows_from_ZA <- IEATools::load_eta_fu_data() %>%
@@ -567,7 +579,7 @@ test_that("assemble_phi_u_tables() throws an error when not complete", {
 test_that("assemble_phi_u_tables() works as expected in the workflow", {
 
   # Create a directory structure in a tempdir for the allocation tables
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "CompletedPhiTables")
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "CompletedPhiuTables")
 
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
@@ -586,7 +598,7 @@ test_that("assemble_phi_u_tables() works as expected in the workflow", {
 
     # Now check that the completed phi tables target has that value filled
     # from the Excel sheet
-    completed_phi_tables <- drake::readd(target = SEAPSUTWorkflow::target_names$CompletedPhiTables,
+    completed_phi_tables <- drake::readd(target = SEAPSUTWorkflow::target_names$CompletedPhiuTables,
                                          path = testing_setup$cache_path,
                                          character_only = TRUE)
     completed_phi_tables %>%

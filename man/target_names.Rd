@@ -5,7 +5,7 @@
 \alias{target_names}
 \title{Drake cache target names}
 \format{
-A string list with 43 entries.
+A string list with 46 entries.
 \describe{
 \item{countries}{The string name of the countries target in the drake cache, giving the countries to be analyzed.}
 \item{alloc_and_eff_couns}{The string name of the allocation and efficiency countries target in the drake cache, giving the countries from which final-to-useful allocations and efficiencies can be drawn for final-to-useful analyses. This is a superset of countries.}
@@ -35,7 +35,9 @@ A string list with 43 entries.
 \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}
 \item{CompletedPhiuTables}{A data frame of completed useful-stage exergy-to-energy ratios.}
 \item{Cmats}{A data frame containing \code{CompletedAllocationTables} in matrix form.}
-\item{EtaPhiuvecs}{A data frame containing final-to-useful efficiency and useful exergy-to-energy ratio vectors.}
+\item{EtafuPhiuvecs}{A data frame containing final-to-useful efficiency vectors and useful exergy-to-energy ratios.}
+\item{Etafuvecs}{A data frame containing final-to-useful efficiency vectors.}
+\item{Phiuvecs}{A data frame containing useful exergy-to-energy ratio vectors.}
 \item{Phipfvecs}{A data frame containing primary and final exergy-to-energy ratio vectors.}
 \item{Phivecs}{A data frame containing exergy-to-energy ratio vectors.}
 \item{PSUT_useful}{A data frame containing PSUT matrices up to the useful stage.}
