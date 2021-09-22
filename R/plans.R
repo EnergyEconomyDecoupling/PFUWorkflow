@@ -148,7 +148,9 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   CompletedEfficiencyTables <- NULL
   CompletedPhiuTables <- NULL
   Cmats <- NULL
+  EtafuPhiuvecs <- NULL
   Phipfvecs <- NULL
+  Phiuvecs <- NULL
   Phivecs <- NULL
   PSUT_useful <- NULL
   FinalDemandSectors <- NULL

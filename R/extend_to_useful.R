@@ -131,7 +131,7 @@ move_to_useful <- function(psut_final,
 }
 
 
-#' Choose eta.fu or phi.u columns from the EtafuPhiuvecs data frame.
+#' Choose eta.fu or phi.u columns from a data frame of eta.fu and phi.u vectors.
 #'
 #' @param eta_fu_phi_u_vecs A data frame containing metadata columns and columns for
 #'                          eta_fu (final to useful efficiency) and

@@ -14,6 +14,7 @@
 #'                      with columns `product`, `phi_colname`, and `is_useful_colname`.
 #' @param phi_u_vecs A data frame containing metadata columns and a column of phi_u vectors.
 #'                   A column of phi_pf vectors replaces the column of phi_u vectors on output.
+#' @param countries The countries for which you want to perform this task.
 #' @param country,product See `IEATools::iea_cols`.
 #' @param eta_fu,phi_u,phi_pf_colname See `IEATools::template_cols`.
 #' @param phi_colname,is_useful_colname See `IEATools::phi_constants_colnames`.
@@ -40,7 +41,7 @@
 #'   dplyr::mutate(
 #'     Quantity = NULL
 #'   )
-#' calc_phi_pf_vecs(phi_constants, phi_u_vecs)
+#' calc_phi_pf_vecs(phi_constants, phi_u_vecs, countries = "GHA")
 calc_phi_pf_vecs <- function(phi_constants,
                              phi_u_vecs,
                              countries,
@@ -87,6 +88,10 @@ calc_phi_pf_vecs <- function(phi_constants,
 #' @param phi_pf_vecs A data frame of phi_pf vectors.
 #' @param phi_u_vecs A data frame of phi_u vectors.
 #' @param countries The countries for which you want to perform this task.
+#' @param country See `IEATools::iea_cols`.
+#' @param phi_pf_colname,phi_u_colname See `IEATools::template_cols`.
+#' @param phi_colname See `IEATools::phi_constants_names`.
+#' @param .nrow_diffs,.phi_sum_OK Names of temporary error-checking columns created internally.
 #'
 #' @return A data frame of summed phi_pf and phi_u vectors.
 #'

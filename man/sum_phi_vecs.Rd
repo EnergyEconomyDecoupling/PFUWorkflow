@@ -22,6 +22,14 @@ sum_phi_vecs(
 \item{phi_u_vecs}{A data frame of phi_u vectors.}
 
 \item{countries}{The countries for which you want to perform this task.}
+
+\item{country}{See \code{IEATools::iea_cols}.}
+
+\item{phi_pf_colname, phi_u_colname}{See \code{IEATools::template_cols}.}
+
+\item{phi_colname}{See \code{IEATools::phi_constants_names}.}
+
+\item{.nrow_diffs, .phi_sum_OK}{Names of temporary error-checking columns created internally.}
 }
 \value{
 A data frame of summed phi_pf and phi_u vectors.

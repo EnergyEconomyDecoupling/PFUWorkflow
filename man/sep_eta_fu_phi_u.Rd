@@ -2,7 +2,7 @@
 % Please edit documentation in R/extend_to_useful.R
 \name{sep_eta_fu_phi_u}
 \alias{sep_eta_fu_phi_u}
-\title{Choose eta.fu or phi.u columns from the EtafuPhiuvecs data frame.}
+\title{Choose eta.fu or phi.u columns from a data frame of eta.fu and phi.u vectors.}
 \usage{
 sep_eta_fu_phi_u(
   eta_fu_phi_u_vecs,
@@ -27,5 +27,5 @@ Must be one of \code{IEATools::template_cols$eta_fu} or \code{IEATools::template
 A data frame of metadata and either an eta_fu column or a phi_u column
 }
 \description{
-Choose eta.fu or phi.u columns from the EtafuPhiuvecs data frame.
+Choose eta.fu or phi.u columns from a data frame of eta.fu and phi.u vectors.
 }

@@ -24,6 +24,8 @@ with columns \code{product}, \code{phi_colname}, and \code{is_useful_colname}.}
 \item{phi_u_vecs}{A data frame containing metadata columns and a column of phi_u vectors.
 A column of phi_pf vectors replaces the column of phi_u vectors on output.}
 
+\item{countries}{The countries for which you want to perform this task.}
+
 \item{country, product}{See \code{IEATools::iea_cols}.}
 
 \item{eta_fu, phi_u, phi_pf_colname}{See \code{IEATools::template_cols}.}
@@ -60,5 +62,5 @@ phi_u_vecs <- tibble::tibble(Country = "GHA",
   dplyr::mutate(
     Quantity = NULL
   )
-calc_phi_pf_vecs(phi_constants, phi_u_vecs)
+calc_phi_pf_vecs(phi_constants, phi_u_vecs, countries = "GHA")
 }
