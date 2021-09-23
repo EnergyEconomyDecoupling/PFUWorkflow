@@ -701,7 +701,7 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
       err_msg <- paste("Not all useful energy carriers have been assigned phi values in assemble_phi_u_tables(). Missing combinations are:",
                        still_missing %>%
                          dplyr::select(.data[[country]], .data[[year]], .data[[machine]], .data[[eu_product]]) %>%
-                         df_to_msg())
+                         matsindf::df_to_msg())
       stop(err_msg)
     }
 

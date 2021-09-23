@@ -154,7 +154,7 @@ sum_phi_vecs <- function(phi_pf_vecs,
       dplyr::filter(!.data[[.phi_sum_OK]])
     err_msg <- paste("In SEAPSUTWorkflow::sum_phi_vecs(), the length of the sum of phi_pf and phi_u vectors",
                      "was not the same as the sum of vector lengths. The rows that failed the test are",
-                     df_to_msg(problem_rows))
+                     matsindf::df_to_msg(problem_rows))
     stop(err_msg)
   }
 
