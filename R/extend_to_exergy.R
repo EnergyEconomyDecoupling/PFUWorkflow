@@ -212,14 +212,8 @@ move_to_exergy <- function(psut_energy,
   meta_cols <- matsindf::everything_except(phi_vecs, phi_colname, .symbols = FALSE)
 
   # Join the phi vectors to the psut_energy data frame
-  df <- dplyr::left_join(psut_energy, phi_vecs, by = meta_cols)
+  df_with_phi <- dplyr::left_join(psut_energy, phi_vecs, by = meta_cols)
 
   # Calculate exergy versions of the ECC.
-
-
-  stop("Have not fully implemented move_to_exergy()")
-
-
-
-
+  Recca::extend_to_exergy(df_with_phi)
 }
