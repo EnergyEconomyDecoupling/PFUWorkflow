@@ -72,7 +72,7 @@ calc_eta_fu_phi_u_vecs <- function(completed_efficiency_tables,
         # Eliminate the c_source, eta_fu_source, and phi_u_source columns
         # (if they exists) before sending
         # the completed_allocation_tables into form_eta_fu_phi_u_vecs().
-        # The c_source, phi_u_source, eta_fu_phi_u_source columns
+        # The c_source, eta_fu_source, and phi_u_source columns
         # apply to individual eta_fu and phi_u values, and
         # we're making vectors out of them.
         # In other words, form_eta_fu_phi_u_vecs() doesn't
