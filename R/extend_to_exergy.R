@@ -58,9 +58,10 @@ calc_phi_pf_vecs <- function(phi_constants,
   # phi values.
   phi_pf_constants <- phi_constants %>%
     dplyr::filter(! .data[[is_useful_colname]])
-  # Create a vector from phi_constants
+  # Create a vector from phi_pf_constants
   phi_pf_vec <- matrix(phi_pf_constants[[phi_colname]], nrow = nrow(phi_pf_constants), ncol = 1,
-                       dimnames = list(c(phi_pf_constants[[product]]), phi_colname))
+                       dimnames = list(c(phi_pf_constants[[product]]), phi_colname)) %>%
+    matsbyname::setrowtype(product) %>% matsbyname::setcoltype(phi_colname)
 
   trimmed_phi_u_vecs <- phi_u_vecs %>%
     dplyr::filter(.data[[country]] %in% countries) %>%
@@ -194,9 +195,8 @@ sum_phi_vecs <- function(phi_pf_vecs,
 #' @param country See `IEATools::iea_cols`.
 #'
 #' @return A version of `psut_energy` with additional rows
-#' @export
 #'
-#' @examples
+#' @export
 move_to_exergy <- function(psut_energy,
                            phi_vecs,
                            countries,

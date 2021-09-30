@@ -352,14 +352,14 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (13a) Aggregate of primary energy/exergy by total (total energy supply (TES)), product, and flow
 
-    AggregatePrimaryData = drake::target(calculate_primary_ex_data(.sutdata = PSUT_useful,
+    AggregatePrimaryData = drake::target(calculate_primary_ex_data(.sutdata = PSUT_useful_exergy,
                                                                    p_industry_prefixes = PrimaryIndustryPrefixes)),
 
 
 
     # (13b) Aggregate final and useful energy/exergy by total (total final consumption (TFC)), product, and sector
 
-    AggregateFinalUsefulData = drake::target(calculate_finaluseful_ex_data(.sutdata = PSUT_useful,
+    AggregateFinalUsefulData = drake::target(calculate_finaluseful_ex_data(.sutdata = PSUT_useful_exergy,
                                                                            fd_sectors = FinalDemandSectors)),
 
 

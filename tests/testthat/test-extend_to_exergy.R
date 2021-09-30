@@ -20,6 +20,9 @@ test_that("calc_phi_pf_vecs() works as expected with a simple example", {
   res <- calc_phi_pf_vecs(phi_constants, phi_u_vecs, countries = "GHA")
   expect_true(IEATools::template_cols$phi_pf %in% names(res))
   expect_false(IEATools::template_cols$phi_u %in% names(res))
+
+  expect_equal(matsbyname::rowtype(res$phi.pf[[1]]), IEATools::row_col_types$product)
+  expect_equal(matsbyname::coltype(res$phi.pf[[1]]), IEATools::phi_constants_names$phi_colname)
 })
 
 
