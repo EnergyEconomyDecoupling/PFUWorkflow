@@ -195,11 +195,11 @@ sum_phi_vecs <- function(phi_pf_vecs,
     problem_rows <- err_check %>%
       dplyr::filter(!.data[[.phi_cols_OK]]) %>%
       dplyr::mutate(
+        "{phi_pf_colname}" := matsbyname::getcolnames_byname(.data[[phi_pf_colname]]),
+        "{phi_u_colname}" := matsbyname::getcolnames_byname(.data[[phi_u_colname]]),
         "{.nrow_diffs}" := NULL,
         "{.phi_sum_OK}" := NULL,
         "{.phi_cols_OK}" := NULL,
-        "{phi_pf_colname}" := NULL,
-        "{phi_u_colname}" := NULL,
         "{phi_colname}" := NULL
       )
     err_msg <- paste("In SEAPSUTWorkflow::sum_pghi_vecs(), the names of the phi.pf and phi.u columns should be the same.",
