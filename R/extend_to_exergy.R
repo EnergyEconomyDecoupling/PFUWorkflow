@@ -152,7 +152,8 @@ sum_phi_vecs <- function(phi_pf_vecs,
 
   out <- phi_df %>%
     dplyr::mutate(
-      "{phi_colname}" := matsbyname::sum_byname(.data[[phi_pf_colname]], .data[[phi_u_colname]])
+      "{phi_colname}" := matsbyname::sum_byname(.data[[phi_pf_colname]], .data[[phi_u_colname]]),
+      "{.phi_shape_OK}" := NULL
     )
 
   # Check that the length of each phi vector is the sum of the lengths of the phi_pf and phi_u vectors.
@@ -164,7 +165,6 @@ sum_phi_vecs <- function(phi_pf_vecs,
 
   err_check <- out %>%
     dplyr::mutate(
-      "{.phi_shape_OK}" := NULL,
       "{.nrow_diffs}" := matsbyname::nrow_byname(.data[[phi_pf_colname]]) %>% as.numeric() +
                          matsbyname::nrow_byname(.data[[phi_u_colname]]) %>% as.numeric() -
                          matsbyname::nrow_byname(.data[[phi_colname]]) %>% as.numeric(),
@@ -195,8 +195,8 @@ sum_phi_vecs <- function(phi_pf_vecs,
     problem_rows <- err_check %>%
       dplyr::filter(!.data[[.phi_cols_OK]]) %>%
       dplyr::mutate(
-        "{phi_pf_colname}" := matsbyname::getcolnames_byname(.data[[phi_pf_colname]]),
-        "{phi_u_colname}" := matsbyname::getcolnames_byname(.data[[phi_u_colname]]),
+        "{phi_pf_colname}" := paste(phi_pf_colname, "=", matsbyname::getcolnames_byname(.data[[phi_pf_colname]])),
+        "{phi_u_colname}" := paste(phi_u_colname, "=", matsbyname::getcolnames_byname(.data[[phi_u_colname]])),
         "{.nrow_diffs}" := NULL,
         "{.phi_sum_OK}" := NULL,
         "{.phi_cols_OK}" := NULL,
