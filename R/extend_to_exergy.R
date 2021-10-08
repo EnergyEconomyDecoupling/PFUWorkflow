@@ -202,7 +202,7 @@ sum_phi_vecs <- function(phi_pf_vecs,
         "{.phi_cols_OK}" := NULL,
         "{phi_colname}" := NULL
       )
-    err_msg <- paste("In SEAPSUTWorkflow::sum_pghi_vecs(), the names of the phi.pf and phi.u columns should be the same.",
+    err_msg <- paste("In SEAPSUTWorkflow::sum_phi_vecs(), the names of the phi.pf and phi.u columns should be the same.",
                      "Rows that failed the test are",
                      matsindf::df_to_msg(problem_rows))
     stop(err_msg)
