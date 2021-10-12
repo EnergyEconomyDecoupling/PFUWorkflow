@@ -59,6 +59,28 @@ test_that("sum_phi_vecs() works as expected", {
                             Year = c(1971, 2000))
   expect_error(sum_phi_vecs(phi_pf, phi_u_2, countries = "GHA"),
                "the length of the sum of phi_pf and phi_u vectors")
+
+  # Ensure that we get an error when phi_pf and phi_u have different column names
+  phi_u_3 <- phi_u %>%
+    dplyr::mutate(
+      phi.u = matsbyname::setcolnames_byname(phi.u, colnames = "phi.u")
+    )
+  expect_error(sum_phi_vecs(phi_pf, phi_u_3, countries = "GHA"),
+               "the names of the phi.pf and phi.u columns should be the same.")
+
+  # Ensure that we get an error when either phi_pf or phi_u have 2 columns.
+  phi_u_4 <- phi_u %>%
+    dplyr::mutate(
+      phi.u = matsbyname::sum_byname(phi.u, matrix(42, dimnames = list("row", "col")))
+    )
+  expect_error(sum_phi_vecs(phi_pf, phi_u_4, countries = "GHA"),
+               "need phi vectors with one column only.")
+  phi_pf_2 <- phi_pf %>%
+    dplyr::mutate(
+      phi.pf = matsbyname::sum_byname(phi.pf, matrix(42, dimnames = list("row", "col")))
+    )
+  expect_error(sum_phi_vecs(phi_pf_2, phi_u, countries = "GHA"))
+
 })
 
 
