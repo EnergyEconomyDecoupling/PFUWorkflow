@@ -153,6 +153,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   Phiuvecs <- NULL
   Phivecs <- NULL
   PSUT_useful <- NULL
+  PSUT_useful_exergy <- NULL
   FinalDemandSectors <- NULL
   PrimaryIndustryPrefixes <- NULL
   AggregatePrimaryData <- NULL

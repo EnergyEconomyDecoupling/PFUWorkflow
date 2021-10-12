@@ -93,7 +93,7 @@ calc_phi_pf_vecs <- function(phi_constants,
 #' @param country,last_stage,energy_type,method See `IEATools::iea_cols`.
 #' @param phi_pf_colname,phi_u_colname See `IEATools::template_cols`.
 #' @param phi_colname See `IEATools::phi_constants_names`.
-#' @param .nrow_diffs,.phi_shape_OK,.phi_names_OK,.phi_sum_OK,.phi_pf_colnames,.phi_u_colnames Names of temporary error-checking columns created internally.
+#' @param .nrow_diffs,.phi_shape_OK,.phi_names_OK,.phi_cols_OK,.phi_sum_OK,.phi_pf_colnames,.phi_u_colnames Names of temporary error-checking columns created internally.
 #'
 #' @return A data frame of summed phi_pf and phi_u vectors.
 #'
@@ -242,6 +242,7 @@ sum_phi_vecs <- function(phi_pf_vecs,
 #' @param phi_vecs A data frame of vectors of phi (exergy-to-energy ratios)
 #' @param countries The countries for which this task should be performed.
 #' @param country See `IEATools::iea_cols`.
+#' @param phi_colname See `IEATools::phi_constants`.
 #'
 #' @return A version of `psut_energy` with additional rows
 #'

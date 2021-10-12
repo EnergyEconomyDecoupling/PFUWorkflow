@@ -37,7 +37,7 @@ sum_phi_vecs(
 
 \item{phi_colname}{See \code{IEATools::phi_constants_names}.}
 
-\item{.nrow_diffs, .phi_shape_OK, .phi_names_OK, .phi_sum_OK, .phi_pf_colnames, .phi_u_colnames}{Names of temporary error-checking columns created internally.}
+\item{.nrow_diffs, .phi_shape_OK, .phi_names_OK, .phi_cols_OK, .phi_sum_OK, .phi_pf_colnames, .phi_u_colnames}{Names of temporary error-checking columns created internally.}
 }
 \value{
 A data frame of summed phi_pf and phi_u vectors.

@@ -20,6 +20,8 @@ move_to_exergy(
 \item{countries}{The countries for which this task should be performed.}
 
 \item{country}{See \code{IEATools::iea_cols}.}
+
+\item{phi_colname}{See \code{IEATools::phi_constants}.}
 }
 \value{
 A version of \code{psut_energy} with additional rows
