@@ -10,8 +10,6 @@ has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![R build
 status](https://github.com/MatthewHeun/SEAPSUTWorkflow/workflows/check-master-develop/badge.svg)](https://github.com/MatthewHeun/SEAPSUTWorkflow/actions)
-[![Travis-CI Build
-Status](https://travis-ci.org/MatthewHeun/SEAPSUTWorkflow.svg?branch=master)](https://travis-ci.org/MatthewHeun/SEAPSUTWorkflow)
 [![Codecov test
 coverage](https://codecov.io/gh/EnergyEconomyDecoupling/SEAPSUTWorkflow/branch/master/graph/badge.svg)](https://codecov.io/gh/EnergyEconomyDecoupling/SEAPSUTWorkflow?branch=master)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5091720.svg)](https://doi.org/10.5281/zenodo.5091720)
