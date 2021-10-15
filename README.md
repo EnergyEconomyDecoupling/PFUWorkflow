@@ -50,25 +50,27 @@ get_plan(countries = c("GHA", "ZAF"),
          ceda_data_folder = "ceda_path",
          machine_data_path = "machine_path",
          iea_data_path = "iea_path",
+         country_concordance_path = "country_concordance_path",
+         phi_constants_path = "phi_constants_path",
          exemplar_table_path = "exemplar_path",
          fu_analysis_folder = "fu_folder",
          reports_source_folders = "reports_source_path",
          reports_dest_folder = "reports_dest_path"
          )
-#> # A tibble: 37 x 3
-#>    target                 command                       dynamic   
-#>    <chr>                  <expr_lst>                    <expr_lst>
-#>  1 countries              c(c("GHA", "ZAF"))            NA        
-#>  2 alloc_and_eff_couns    unique(c(countries, "World")) NA        
-#>  3 max_year               1999                          NA        
-#>  4 iea_data_path          "iea_path"                    NA        
-#>  5 ceda_data_folder       "ceda_path"                   NA        
-#>  6 machine_data_path      "machine_path"                NA        
-#>  7 exemplar_table_path    "exemplar_path"               NA        
-#>  8 fu_analysis_folder     "fu_folder"                   NA        
-#>  9 reports_source_folders "reports_source_path"         NA        
-#> 10 reports_dest_folder    "reports_dest_path"           NA        
-#> # ... with 27 more rows
+#> # A tibble: 47 × 3
+#>    target                   command                       dynamic   
+#>    <chr>                    <expr_lst>                    <expr_lst>
+#>  1 countries                c(c("GHA", "ZAF"))            NA        
+#>  2 alloc_and_eff_couns      unique(c(countries, "World")) NA        
+#>  3 max_year                 1999                          NA        
+#>  4 iea_data_path            "iea_path"                    NA        
+#>  5 country_concordance_path "country_concordance_path"    NA        
+#>  6 phi_constants_path       "phi_constants_path"          NA        
+#>  7 ceda_data_folder         "ceda_path"                   NA        
+#>  8 machine_data_path        "machine_path"                NA        
+#>  9 exemplar_table_path      "exemplar_path"               NA        
+#> 10 fu_analysis_folder       "fu_folder"                   NA        
+#> # … with 37 more rows
 ```
 
 ## History
