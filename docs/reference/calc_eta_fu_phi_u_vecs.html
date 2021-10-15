@@ -75,7 +75,7 @@ exergy-to-energy ratio vectors to the previously-created WithCmats target.#'" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4</span>
       </span>
     </div>
 
@@ -130,10 +130,11 @@ exergy-to-energy ratio vectors to the previously-created <code>WithCmats</code> 
   country <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>country</span>,
   year <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>year</span>,
   c_source <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>c_source</span>,
-  eta_fu_phi_u_source <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>eta_fu_phi_u_source</span>,
+  eta_fu_source <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>eta_fu_source</span>,
   .values <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>.values</span>,
   eta_fu <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>eta_fu</span>,
-  phi_u <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>phi_u</span>
+  phi_u <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>template_cols</a></span><span class='op'>$</span><span class='va'>phi_u</span>,
+  phi_u_source <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/phi_constants_names.html'>phi_constants_names</a></span><span class='op'>$</span><span class='va'>phi_source_colname</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -158,8 +159,12 @@ should be created.This data frame is most likely to be the <code>CompletedPhiTab
       <td><p>See <code>IEATools::ieacols</code>.</p></td>
     </tr>
     <tr>
-      <th>c_source, eta_fu_phi_u_source, .values, eta_fu, phi_u</th>
+      <th>c_source, eta_fu_source, .values, eta_fu, phi_u</th>
       <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/template_cols.html'>IEATools::template_cols</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>phi_u_source</th>
+      <td><p>See <code><a href='https://rdrr.io/pkg/IEATools/man/phi_constants_names.html'>IEATools::phi_constants_names</a></code>.</p></td>
     </tr>
     </table>
 

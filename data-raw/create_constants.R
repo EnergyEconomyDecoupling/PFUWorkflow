@@ -34,12 +34,18 @@ target_names <- list(countries = "countries",
                      IncompleteAllocationTables = "IncompleteAllocationTables",
                      TidyIncompleteAllocationTables = "TidyIncompleteAllocationTables",
                      ExemplarLists = "ExemplarLists",
+                     PhiConstants = "PhiConstants",
                      CompletedAllocationTables = "CompletedAllocationTables",
                      CompletedEfficiencyTables = "CompletedEfficiencyTables",
-                     CompletedPhiTables = "CompletedPhiTables",
+                     CompletedPhiuTables = "CompletedPhiuTables",
                      Cmats = "Cmats",
-                     EtaPhivecs = "EtaPhivecs",
+                     EtafuPhiuvecs = "EtafuPhiuvecs",
+                     Etafuvecs = "Etafuvecs",
+                     Phiuvecs = "Phiuvecs",
+                     Phipfvecs = "Phipfvecs",
+                     Phivecs = "Phivecs",
                      PSUT_useful = "PSUT_useful",
+                     PSUT_useful_exergy = "PSUT_useful_exergy",
                      FinalDemandSectors = "FinalDemandSectors",
                      PrimaryIndustryPrefixes = "PrimaryIndustryPrefixes",
                      AggregatePrimaryData = "AggregatePrimaryData",
@@ -50,7 +56,6 @@ target_names <- list(countries = "countries",
                      EfficiencyGraphs = "EfficiencyGraphs",
                      ExergyEnergyGraphs = "ExergyEnergyGraphs",
                      reports_complete = "reports_complete")
-
 usethis::use_data(target_names, overwrite = TRUE)
 
 
@@ -70,7 +75,7 @@ exemplar_names <- list(exemplar_tab_name = "exemplar_table",
                        complete_alloc_table = "Complete.alloc.table",
                        incomplete_eta_table = "Incomplete.eta.table",
                        complete_eta_table = "Complete.eta.table",
-                       row_code = "ROW.code",
+                       region_code = "Region.code",
                        country_name = "Country.name",
                        world = "WLD")
 usethis::use_data(exemplar_names, overwrite = TRUE)
@@ -149,6 +154,16 @@ usethis::use_data(machine_constants, overwrite = TRUE)
 # Cache information.
 #
 
-cache_info = list(cache_path = ".drake")
+cache_info <- list(cache_path = ".drake")
 usethis::use_data(cache_info, overwrite = TRUE)
+
+
+#
+# phi.sources
+#
+
+phi_sources <- list(eta_fu_tables = "eta_fu.tables",
+                    temperature_data = "temperature.data",
+                    phi_constants = "phi.constants")
+usethis::use_data(phi_sources, overwrite = TRUE)
 

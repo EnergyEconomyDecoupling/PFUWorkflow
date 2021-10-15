@@ -78,7 +78,7 @@ to create exemplar lists." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SEAPSUTWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4</span>
       </span>
     </div>
 
@@ -136,7 +136,7 @@ to create exemplar lists.</p>
   prev_names <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>prev_names</span>,
   exemplar_country <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>exemplar_country</span>,
   exemplars <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>exemplars</span>,
-  row_code <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>row_code</span>,
+  region_code <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>region_code</span>,
   world <span class='op'>=</span> <span class='fu'>SEAPSUTWorkflow</span><span class='fu'>::</span><span class='va'><a href='exemplar_names.html'>exemplar_names</a></span><span class='op'>$</span><span class='va'>world</span>,
   country <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>country</span>,
   year <span class='op'>=</span> <span class='fu'>IEATools</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/IEATools/man/iea_cols.html'>iea_cols</a></span><span class='op'>$</span><span class='va'>year</span>,
@@ -156,7 +156,7 @@ to create exemplar lists.</p>
       <td><p>The countries for which exemplar lists are desired. Default is <code>NULL</code>, which returns all known countries.</p></td>
     </tr>
     <tr>
-      <th>exemplars, prev_names, exemplar_country, row_code, world</th>
+      <th>exemplars, prev_names, exemplar_country, region_code, world</th>
       <td><p>See <code><a href='exemplar_names.html'>SEAPSUTWorkflow::exemplar_names</a></code>.</p></td>
     </tr>
     <tr>
@@ -208,16 +208,16 @@ when searching for missing allocations and efficiencies.</p>
 #&gt; <span style='color: #BCBCBC;'>3</span> MNE      <span style='text-decoration: underline;'>1</span>990 <span style='color: #949494;'>&lt;chr [5]&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>4</span> MNE      <span style='text-decoration: underline;'>2</span>017 <span style='color: #949494;'>&lt;chr [5]&gt;</span></div><div class='input'><span class='va'>el</span><span class='op'>[[</span><span class='fl'>1</span>, <span class='st'>"Exemplars"</span><span class='op'>]</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; [[1]]
-#&gt; [1] "YGS"   "ESP"   "RoEUR" "WLD"  
+#&gt; [1] "YGS" "ESP" "EUR" "WLD"
 #&gt; </div><div class='input'><span class='va'>el</span><span class='op'>[[</span><span class='fl'>2</span>, <span class='st'>"Exemplars"</span><span class='op'>]</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; [[1]]
-#&gt; [1] "YGS"   "ESP"   "RoEUR" "WLD"  
+#&gt; [1] "YGS" "ESP" "EUR" "WLD"
 #&gt; </div><div class='input'><span class='va'>el</span><span class='op'>[[</span><span class='fl'>3</span>, <span class='st'>"Exemplars"</span><span class='op'>]</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; [[1]]
-#&gt; [1] "SRB"   "YGS"   "ESP"   "RoEUR" "WLD"  
+#&gt; [1] "SRB" "YGS" "ESP" "EUR" "WLD"
 #&gt; </div><div class='input'><span class='va'>el</span><span class='op'>[[</span><span class='fl'>4</span>, <span class='st'>"Exemplars"</span><span class='op'>]</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; [[1]]
-#&gt; [1] "SRB"   "YGS"   "ESP"   "RoEUR" "WLD"  
+#&gt; [1] "SRB" "YGS" "ESP" "EUR" "WLD"
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

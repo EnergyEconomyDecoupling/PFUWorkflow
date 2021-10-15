@@ -1,6 +1,6 @@
 #' Gives a file path to a sample exemplar table
 #'
-#' @return a path to a sample exemplar table bundled with this package
+#' @return A path to a sample exemplar table bundled with this package.
 #'
 #' @export
 #'
@@ -95,7 +95,7 @@ load_exemplar_table <- function(exemplar_table_path = sample_exemplar_table_path
 #'
 #' @param exemplar_table An exemplar table, probably read by `load_exemplar_table()`.
 #' @param countries The countries for which exemplar lists are desired. Default is `NULL`, which returns all known countries.
-#' @param exemplars,prev_names,exemplar_country,row_code,world See `SEAPSUTWorkflow::exemplar_names`.
+#' @param exemplars,prev_names,exemplar_country,region_code,world See `SEAPSUTWorkflow::exemplar_names`.
 #' @param country,year See `IEATools::iea_cols`.
 #' @param year_temp The name of a temporary year column. Default is ".year_temp".
 #' @param prev_names_list The name of a temporary column in `exemplar_table`. Default is ".prev_names_list".
@@ -123,7 +123,7 @@ exemplar_lists <- function(exemplar_table,
                            prev_names = SEAPSUTWorkflow::exemplar_names$prev_names,
                            exemplar_country = SEAPSUTWorkflow::exemplar_names$exemplar_country,
                            exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
-                           row_code = SEAPSUTWorkflow::exemplar_names$row_code,
+                           region_code = SEAPSUTWorkflow::exemplar_names$region_code,
                            world = SEAPSUTWorkflow::exemplar_names$world,
                            country = IEATools::iea_cols$country,
                            year = IEATools::iea_cols$year,
@@ -172,7 +172,7 @@ exemplar_lists <- function(exemplar_table,
       "{exemplars}" := Map(f = build_one_exemplar_list,
                            p_names = .data[[prev_names]],
                            exemp = .data[[exemplar_country]],
-                           restofworldcode = .data[[row_code]],
+                           restofworldcode = .data[[region_code]],
                            world = world)
     ) %>%
     # {exemplars} is a column with entries like list(c(coun1, coun2, ...)).

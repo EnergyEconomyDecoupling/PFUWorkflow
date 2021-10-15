@@ -31,3 +31,5 @@ vignettes/*.pdf
 # Drake testing
 .drake/
 inst/doc
+# Temporary Excel files.
+~$*.xlsx

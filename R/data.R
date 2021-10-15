@@ -33,9 +33,13 @@
 #' \item{ExemplarLists}{A data frame of lists of exemplar countries for each country in `countries`, and maybe more.}
 #' \item{CompletedAllocationTables}{A data frame of completed final-to-useful allocation tables.}
 #' \item{CompletedEfficiencyTables}{A data frame of completed final-to-useful efficiency tables.}
-#' \item{CompletedPhiTables}{A data frame of completed exergy-to-energy ratios.}
+#' \item{CompletedPhiuTables}{A data frame of completed useful-stage exergy-to-energy ratios.}
 #' \item{Cmats}{A data frame containing `CompletedAllocationTables` in matrix form.}
-#' \item{EtaPhivecs}{A data frame containing final-to-useful efficiency and exergy-to-energy ratio vectors.}
+#' \item{EtafuPhiuvecs}{A data frame containing final-to-useful efficiency vectors and useful exergy-to-energy ratios.}
+#' \item{Etafuvecs}{A data frame containing final-to-useful efficiency vectors.}
+#' \item{Phiuvecs}{A data frame containing useful exergy-to-energy ratio vectors.}
+#' \item{Phipfvecs}{A data frame containing primary and final exergy-to-energy ratio vectors.}
+#' \item{Phivecs}{A data frame containing exergy-to-energy ratio vectors.}
 #' \item{PSUT_useful}{A data frame containing PSUT matrices up to the useful stage.}
 #' \item{FinalDemandSectors}{A list containing  the final demand sectors desired for analysis.}
 #' \item{PrimaryIndustryPrefixes}{A list containing the prefixes of primary industries desired for analysis.}
@@ -76,7 +80,7 @@
 #' \item{complete_alloc_table}{The name of a column containing completed final-to-useful allocation tables.}
 #' \item{incomplete_eta_table}{The name of a column containing incomplete final-to-useful efficiency tables.}
 #' \item{complete_eta_table}{The name of a column containing completed final-to-useful efficiency tables.}
-#' \item{row_code}{The name of the rest-of-world region code column.}
+#' \item{region_code}{The name of the region code column.}
 #' \item{country_name}{The name of the column containing the long name of a country.}
 #' \item{world}{The name of the world region.}
 #' }
@@ -208,3 +212,18 @@
 #' cache_info
 "cache_info"
 
+
+#' Sources for phi (exergy-to-energy ratio) data
+#'
+#' A string list containing options for the source of phi (exergy-to-energy ratio) data.
+#'
+#' @format A string list with `r length(phi_sources)` entries.
+#' \describe{
+#' \item{eta_fu_tables}{Indicates phi values came from final-to-useful efficiency tables.}
+#' \item{temperature_data}{Indicates phi values came from national monthly temperature data.}
+#' \item{phi_constants}{Indicates phi values came from a phi constants file.}
+#' }
+#'
+#' @examples
+#' phi_sources
+"phi_sources"

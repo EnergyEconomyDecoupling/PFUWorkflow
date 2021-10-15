@@ -7,7 +7,7 @@
 sample_exemplar_table_path()
 }
 \value{
-a path to a sample exemplar table bundled with this package
+A path to a sample exemplar table bundled with this package.
 }
 \description{
 Gives a file path to a sample exemplar table
