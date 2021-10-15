@@ -34,12 +34,18 @@ target_names <- list(countries = "countries",
                      IncompleteAllocationTables = "IncompleteAllocationTables",
                      TidyIncompleteAllocationTables = "TidyIncompleteAllocationTables",
                      ExemplarLists = "ExemplarLists",
+                     PhiConstants = "PhiConstants",
                      CompletedAllocationTables = "CompletedAllocationTables",
                      CompletedEfficiencyTables = "CompletedEfficiencyTables",
-                     CompletedPhiTables = "CompletedPhiTables",
+                     CompletedPhiuTables = "CompletedPhiuTables",
                      Cmats = "Cmats",
-                     EtaPhivecs = "EtaPhivecs",
+                     EtafuPhiuvecs = "EtafuPhiuvecs",
+                     Etafuvecs = "Etafuvecs",
+                     Phiuvecs = "Phiuvecs",
+                     Phipfvecs = "Phipfvecs",
+                     Phivecs = "Phivecs",
                      PSUT_useful = "PSUT_useful",
+                     PSUT_useful_exergy = "PSUT_useful_exergy",
                      FinalDemandSectors = "FinalDemandSectors",
                      PrimaryIndustryPrefixes = "PrimaryIndustryPrefixes",
                      AggregatePrimaryData = "AggregatePrimaryData",
@@ -148,6 +154,16 @@ usethis::use_data(machine_constants, overwrite = TRUE)
 # Cache information.
 #
 
-cache_info = list(cache_path = ".drake")
+cache_info <- list(cache_path = ".drake")
 usethis::use_data(cache_info, overwrite = TRUE)
+
+
+#
+# phi.sources
+#
+
+phi_sources <- list(eta_fu_tables = "eta_fu.tables",
+                    temperature_data = "temperature.data",
+                    phi_constants = "phi.constants")
+usethis::use_data(phi_sources, overwrite = TRUE)
 

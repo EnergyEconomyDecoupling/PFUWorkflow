@@ -2,8 +2,9 @@
 context("Plan Functions")
 ###########################################################
 
-test_that("get_plan works", {
+test_that("get_plan() works", {
   my_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+                      phi_constants_path = "phiconstantspath",
                       iea_data_path = "datapath",
                       ceda_data_folder = "cedapath",
                       machine_data_path = "machinepath",
@@ -28,6 +29,8 @@ test_that("get_plan works", {
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("datapath"))
 
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("countryconcordancepath"))
+
+  expect_equal(my_plan[[rn <- rn + 1, "command"]], list("phiconstantspath"))
 
   expect_equal(my_plan[[rn <- rn + 1, "command"]], list("cedapath"))
 
@@ -70,6 +73,8 @@ test_that("get_plan works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "ExemplarLists")
 
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "PhiConstants")
+
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "IncompleteAllocationTables")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "TidyIncompleteAllocationTables")
@@ -78,12 +83,17 @@ test_that("get_plan works", {
 
   # expect_equal(my_plan[[rn <- rn + 1, "target"]], "IncompleteEfficiencyTables")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "CompletedEfficiencyTables")
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "CompletedPhiTables")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "CompletedPhiuTables")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "Cmats")
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "EtaPhivecs")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "EtafuPhiuvecs")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "Etafuvecs")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "Phiuvecs")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "Phipfvecs")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "Phivecs")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "PSUT_useful")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "PSUT_useful_exergy")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "FinalDemandSectors")
 
@@ -102,6 +112,7 @@ test_that("get_plan works", {
 
 test_that("keeping only some rows of a plan works", {
   full_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+                        phi_constants_path = "phiconstantspath",
                         iea_data_path = "datapath",
                         ceda_data_folder = "cedapath",
                         machine_data_path = "machinepath",
@@ -112,6 +123,7 @@ test_that("keeping only some rows of a plan works", {
                         countries = c("GHA", "ZAF"),
                         max_year = 1999)
   short_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+                         phi_constants_path = "phiconstantspath",
                          iea_data_path = "mypath",
                          ceda_data_folder = "cedapath",
                          machine_data_path = "machinepath",
