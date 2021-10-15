@@ -4,6 +4,8 @@ output: html_document
 ---
 
 
+# SEAPSUTWorkflow 0.2.4 (2021-10-15) 
+
 * Fixed a bug where the primary-to-final exergy-to-energy ratio
   (phi) didn't get row and column types.
 * New targets:
