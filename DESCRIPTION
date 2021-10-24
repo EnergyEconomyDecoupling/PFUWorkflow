@@ -46,6 +46,7 @@ Suggests:
     visNetwork,
     spelling,
     covr
+Remotes: github::MatthewHeun/MKHthemes
 Depends: 
     R (>= 2.10)
 VignetteBuilder: knitr
