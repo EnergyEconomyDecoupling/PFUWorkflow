@@ -4,10 +4,20 @@ output: html_document
 ---
 
 
+# SEAPSUTWorkflow 0.2.4 (2021-10-15) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5572330.svg)](https://doi.org/10.5281/zenodo.5572330)
+
+* Fixed a bug where the primary-to-final exergy-to-energy ratio
+  (phi) didn't get row and column types.
+* New targets:
+    * `phi_constants_path` gives path to a phi constants file.
+    * `Phi_constants` is a table of reasonable constant values of phi (the energy-to-exergy) ratio.
 * Change name of constant: `row_code` --> `region_code`.
+* New tests for new features.
+  * Now up to 306 tests, all passing.
+  * Test coverage remains at 100%.
 
 
-# SEAPSUTWorkflow 0.2.3 (2021-08-20) [![DOI](https://zenodo.org/badge/265032888.svg)](https://zenodo.org/badge/latestdoi/265032888)
+# SEAPSUTWorkflow 0.2.3 (2021-08-20) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5228318.svg)](https://doi.org/10.5281/zenodo.5228318)
 
 * Now using "WLD" instead of "World" everywhere.
 * New targets: `country_concordance_path1 and `CountryConcordanceTable`.

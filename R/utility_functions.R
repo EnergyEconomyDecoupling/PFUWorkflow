@@ -105,6 +105,7 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                max_year = 2000,
                                how_far = "all_targets",
                                country_concordance_path = system.file("extdata", "Concordance_Data", "Country_Concordance_Sample.xlsx", package = "SEAPSUTWorkflow"),
+                               phi_constants_path = IEATools::sample_phi_constants_path(),
                                iea_data_path = IEATools::sample_iea_data_path(),
                                ceda_data_folder = CEDATools::sample_ceda_data_folder(),
                                machine_data_path = system.file("extdata", "Machines - Data", package = "SEAPSUTWorkflow"),
@@ -112,7 +113,6 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                reports_source_folders = system.file("reports", package = "SEAPSUTWorkflow"),
                                reports_output_folder = tempdir(),
                                exemplar_folder = tempdir(),
-                               # machine_data_folder = tempdir(),
                                machine_data_folder = file.path(tempdir(), "Machines - Data"),
                                cache_path = tempfile("drake_cache_for_testing"),
                                setup_exemplars = FALSE) {
@@ -133,6 +133,7 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                    ceda_data_folder = ceda_data_folder,
                    machine_data_path = machine_data_folder,
                    exemplar_table_path = file.path(exemplar_folder, "Exemplar_Table.xlsx"),
+                   phi_constants_path = phi_constants_path,
                    fu_analysis_folder = fu_analysis_folder,
                    reports_source_folders = reports_source_folders,
                    reports_dest_folder = reports_output_folder)
@@ -229,7 +230,7 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
     }
   })
 
-  # Eliminate wood cookstoves from GHA if we want to we're testing exemplars
+  # Eliminate wood cookstoves from GHA if we want to test exemplars
   if (setup_exemplars) {
     # Create the file name for GHA cookstoves
     cookstoves_path <- file.path(machine_data_folder, "Wood_cookstoves", "Wood_cookstoves.xlsx")
@@ -499,4 +500,5 @@ clean_targets <- function(
   drake::clean(list = to_clean, path = path)
 
 }
+
 

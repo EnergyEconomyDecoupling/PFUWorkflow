@@ -1,7 +1,7 @@
 Package: SEAPSUTWorkflow
 Title: Functions and Workflows For Societal Exergy Analysis Within the PSUT Framework
-Version: 0.2.3
-Date: 2021-08-20
+Version: 0.2.4
+Date: 2021-10-15
 Authors@R: 
     c(person(given = "Matthew",
            family = "Heun",
@@ -16,7 +16,7 @@ Language: en-US
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports:
     assertthat,
     CEDATools,
@@ -46,6 +46,11 @@ Suggests:
     visNetwork,
     spelling,
     covr
+Remotes: 
+    github::EnergyEconomyDecoupling/CEDATools,
+    github::MatthewHeun/IEATools,
+    github::MatthewHeun/MKHthemes,
+    github::MatthewHeun/Recca
 Depends: 
     R (>= 2.10)
 VignetteBuilder: knitr

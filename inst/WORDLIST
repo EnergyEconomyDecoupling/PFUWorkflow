@@ -42,6 +42,7 @@ PFU
 PPPs
 prev
 PSUT
+psut
 PWT
 pwt
 readd
@@ -59,6 +60,7 @@ TES
 TFC
 tibble
 TPES
+vecs
 WIP
 WLD
 xlsx

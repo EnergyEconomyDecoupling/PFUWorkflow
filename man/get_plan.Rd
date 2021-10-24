@@ -11,6 +11,7 @@ get_plan(
   how_far = "all_targets",
   iea_data_path,
   country_concordance_path,
+  phi_constants_path,
   ceda_data_folder,
   machine_data_path,
   exemplar_table_path,
@@ -40,6 +41,8 @@ Default is "all_targets" to indicate all targets of the plan should be returned.
 \item{iea_data_path}{The path to IEA extended energy balance data in .csv format.}
 
 \item{country_concordance_path}{The path to the country concordance Excel file.}
+
+\item{phi_constants_path}{The path to a phi (exergy-to-energy ratio) Excel file.}
 
 \item{ceda_data_folder}{The path to the CEDA data in text file, .per, format.}
 
@@ -72,6 +75,7 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{max_year}: The maximum year to be analyzed, supplied in the \code{max_year} argument.
 \item \code{iea_data_path}: The path to IEA extended energy balance data, supplied in the \code{iea_data_path} argument.
 \item \code{country_concordance_path}: The path to the country concordance file, supplied in the \code{country_concordance_path} argument.
+\item \code{phi_constants_path}: The path to a phi (exergy-to-energy ratio) file, supplied in the \code{phi_constants_path} argument.
 \item \code{ceda_data_folder}: The path to the CEDA data, supplied in the \code{ceda_data_folder} argument.
 \item \code{machine_data_path}: The path to the machine data excel files, supplied in the \code{machine_data_path} argument.
 \item \code{exemplar_table_path}: The path to an exemplar table, supplied in the \code{exemplar_table_path} argument.
@@ -90,6 +94,10 @@ The return value is a \code{drake} plan object with the following targets:
 \item \code{Specified}: A data frame with specified industries. See \code{IEATools::specify_all()}.
 \item \code{PSUT_final}: A data frame containing PSUT matrices up to the final stage.
 \item \code{ExemplarLists}: A data frame containing lists of exemplar countries on a per-country, per-year basis.
+}
+}
+\section{\code{Phi_constants}: A table of reasonable constant values for phi, the energy-to-exergy ratio.}{
+\itemize{
 \item \code{IncompleteAllocationTables}: A data frame containing final-to-useful allocation tables.
 \item \code{TidyIncompleteAllocationTables}: A data frame containing final-to-useful allocation tables.
 \item \code{CompletedAllocationTables} : A data frame containing completed final-to-useful allocation tables.
@@ -130,11 +138,13 @@ Note that some targets can be read using \code{readd_by_country()}, including:
 \item \code{CompletedEfficiencyTables},
 }
 }
+
 \examples{
 get_plan(countries = c("GHA", "ZAF"),
          max_year = 1999,
          iea_data_path = "iea_path",
          country_concordance_path = "country_concordance_path",
+         phi_constants_path = "phi_constants_path",
          ceda_data_folder = "ceda_path",
          machine_data_path = "machine_path",
          exemplar_table_path = "exemplar_path",

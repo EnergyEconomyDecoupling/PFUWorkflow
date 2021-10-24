@@ -12,6 +12,7 @@
 #' * `max_year`: The maximum year to be analyzed, supplied in the `max_year` argument.
 #' * `iea_data_path`: The path to IEA extended energy balance data, supplied in the `iea_data_path` argument.
 #' * `country_concordance_path`: The path to the country concordance file, supplied in the `country_concordance_path` argument.
+#' * `phi_constants_path`: The path to a phi (exergy-to-energy ratio) file, supplied in the `phi_constants_path` argument.
 #' * `ceda_data_folder`: The path to the CEDA data, supplied in the `ceda_data_folder` argument.
 #' * `machine_data_path`: The path to the machine data excel files, supplied in the `machine_data_path` argument.
 #' * `exemplar_table_path`: The path to an exemplar table, supplied in the `exemplar_table_path` argument.
@@ -30,6 +31,7 @@
 #' * `Specified`: A data frame with specified industries. See `IEATools::specify_all()`.
 #' * `PSUT_final`: A data frame containing PSUT matrices up to the final stage.
 #' * `ExemplarLists`: A data frame containing lists of exemplar countries on a per-country, per-year basis.
+#' # `Phi_constants`: A table of reasonable constant values for phi, the energy-to-exergy ratio.
 #' * `IncompleteAllocationTables`: A data frame containing final-to-useful allocation tables.
 #' * `TidyIncompleteAllocationTables`: A data frame containing final-to-useful allocation tables.
 #' * `CompletedAllocationTables` : A data frame containing completed final-to-useful allocation tables.
@@ -83,6 +85,7 @@
 #'                Default is "all_targets" to indicate all targets of the plan should be returned.
 #' @param iea_data_path The path to IEA extended energy balance data in .csv format.
 #' @param country_concordance_path The path to the country concordance Excel file.
+#' @param phi_constants_path The path to a phi (exergy-to-energy ratio) Excel file.
 #' @param ceda_data_folder The path to the CEDA data in text file, .per, format.
 #' @param machine_data_path The path to the machine data in .xlsx format.
 #' @param exemplar_table_path The path to an exemplar table.
@@ -108,6 +111,7 @@
 #'          max_year = 1999,
 #'          iea_data_path = "iea_path",
 #'          country_concordance_path = "country_concordance_path",
+#'          phi_constants_path = "phi_constants_path",
 #'          ceda_data_folder = "ceda_path",
 #'          machine_data_path = "machine_path",
 #'          exemplar_table_path = "exemplar_path",
@@ -117,7 +121,7 @@
 get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
                      iea_data_path,
-                     country_concordance_path, ceda_data_folder,
+                     country_concordance_path, phi_constants_path, ceda_data_folder,
                      machine_data_path, exemplar_table_path,
                      fu_analysis_folder,
                      reports_source_folders, reports_dest_folder) {
@@ -139,12 +143,17 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   TidyIncompleteAllocationTables <- NULL
   IncompleteEfficiencyTables <- NULL
   ExemplarLists <- NULL
+  PhiConstants <- NULL
   CompletedAllocationTables <- NULL
   CompletedEfficiencyTables <- NULL
-  CompletedPhiTables <- NULL
+  CompletedPhiuTables <- NULL
   Cmats <- NULL
-  EtaPhivecs <- NULL
+  EtafuPhiuvecs <- NULL
+  Phipfvecs <- NULL
+  Phiuvecs <- NULL
+  Phivecs <- NULL
   PSUT_useful <- NULL
+  PSUT_useful_exergy <- NULL
   FinalDemandSectors <- NULL
   PrimaryIndustryPrefixes <- NULL
   AggregatePrimaryData <- NULL
@@ -163,6 +172,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     max_year = !!max_year,
     iea_data_path = !!iea_data_path,
     country_concordance_path = !!country_concordance_path,
+    phi_constants_path = !!phi_constants_path,
     ceda_data_folder = !!ceda_data_folder,
     machine_data_path = !!machine_data_path,
     exemplar_table_path = !!exemplar_table_path,
@@ -232,6 +242,10 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                     exemplar_lists(alloc_and_eff_couns),
                                   dynamic = map(alloc_and_eff_couns)),
 
+    # (5.5) Load phi (exergy-to-energy ratio) constants
+    PhiConstants = drake::target(phi_constants_path %>%
+                                    IEATools::load_phi_constants_table()),
+
     # (6) Load incomplete FU allocation tables
 
     IncompleteAllocationTables = drake::target(fu_analysis_folder %>%
@@ -252,23 +266,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                                             max_year = max_year),
                                               dynamic = map(countries)),
 
-    # (8) Load incomplete FU efficiency tables for each country and year from disk.
-    # These may be incomplete.
-
-    # IncompleteEfficiencyTables = drake::target(load_eta_fu_tables(fu_analysis_folder = fu_analysis_folder,
-    #                                                               completed_fu_allocation_tables = CompletedAllocationTables,
-    #                                                               tidy_specified_iea_data = Specified,
-    #                                                               countries = alloc_and_eff_couns),
-    #                                            dynamic = map(alloc_and_eff_couns)),
-
-    # (9) Complete efficiency tables
-
-    # CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = IncompleteEfficiencyTables,
-    #                                                                  exemplar_lists = ExemplarLists,
-    #                                                                  completed_fu_allocation_tables = CompletedAllocationTables,
-    #                                                                  countries = countries,
-    #                                                                  max_year = max_year),
-    #                                           dynamic = map(countries)),
+    # (8) Complete efficiency tables
 
     CompletedEfficiencyTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
                                                                      exemplar_lists = ExemplarLists,
@@ -278,29 +276,53 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                                                      which_quantity = IEATools::template_cols$eta_fu),
                                               dynamic = map(countries)),
 
-    CompletedPhiTables = drake::target(assemble_eta_fu_tables(incomplete_eta_fu_tables = MachineData,
-                                                              exemplar_lists = ExemplarLists,
-                                                              completed_fu_allocation_tables = CompletedAllocationTables,
+    # (9) Complete phi_u tables
+
+    CompletedPhiuTables = drake::target(assemble_phi_u_tables(incomplete_phi_u_table = MachineData,
+                                                              phi_constants_table = PhiConstants,
+                                                              completed_efficiency_table = CompletedEfficiencyTables,
                                                               countries = countries,
-                                                              max_year = max_year,
-                                                              which_quantity = IEATools::template_cols$phi_u),
-                                       dynamic = map(countries)),
+                                                              max_year = max_year),
+                                        dynamic = map(countries)),
 
 
-    # (10) Extend to useful stage
+    # (9.5) Build matrices and vectors for extending to useful stage and exergy
 
     Cmats = drake::target(calc_C_mats(completed_allocation_tables = CompletedAllocationTables,
                                       countries = countries),
                           dynamic = map(countries)),
 
-    EtaPhivecs = drake::target(calc_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
-                                                      completed_phi_tables = CompletedPhiTables,
-                                                      countries = countries),
-                               dynamic = map(countries)),
+    EtafuPhiuvecs = drake::target(calc_eta_fu_phi_u_vecs(completed_efficiency_tables = CompletedEfficiencyTables,
+                                                         completed_phi_tables = CompletedPhiuTables,
+                                                         countries = countries),
+                                  dynamic = map(countries)),
+
+    Etafuvecs = drake::target(sep_eta_fu_phi_u(EtafuPhiuvecs,
+                                               keep = IEATools::template_cols$eta_fu,
+                                               countries = countries),
+                              dynamic = map(countries)),
+
+    Phiuvecs = drake::target(sep_eta_fu_phi_u(EtafuPhiuvecs,
+                                              keep = IEATools::template_cols$phi_u,
+                                              countries = countries),
+                             dynamic = map(countries)),
+
+
+    Phipfvecs = drake::target(calc_phi_pf_vecs(phi_u_vecs = Phiuvecs,
+                                               phi_constants = PhiConstants,
+                                               countries = countries),
+                              dynamic = map(countries)),
+
+    Phivecs = drake::target(sum_phi_vecs(phi_pf_vecs = Phipfvecs,
+                                         phi_u_vecs = Phiuvecs,
+                                         countries = countries),
+                            dynamic = map(countries)),
+
+    # (10) Extend to useful stage
 
     PSUT_useful = drake::target(move_to_useful(psut_final = PSUT_final,
                                                C_mats = Cmats,
-                                               eta_phi_vecs = EtaPhivecs,
+                                               eta_phi_vecs = EtafuPhiuvecs,
                                                countries = countries),
                                 dynamic = map(countries)),
 
@@ -308,6 +330,11 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
 
     # (-) Add exergy quantifications of energy
+
+    PSUT_useful_exergy = drake::target(move_to_exergy(psut_energy = PSUT_useful,
+                                                      phi_vecs = Phivecs,
+                                                      countries = countries),
+                                       dynamic = map(countries)),
 
 
     # (-) Off to the races!  Do other calculations:
@@ -326,14 +353,14 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (13a) Aggregate of primary energy/exergy by total (total energy supply (TES)), product, and flow
 
-    AggregatePrimaryData = drake::target(calculate_primary_ex_data(.sutdata = PSUT_useful,
+    AggregatePrimaryData = drake::target(calculate_primary_ex_data(.sutdata = PSUT_useful_exergy,
                                                                    p_industry_prefixes = PrimaryIndustryPrefixes)),
 
 
 
     # (13b) Aggregate final and useful energy/exergy by total (total final consumption (TFC)), product, and sector
 
-    AggregateFinalUsefulData = drake::target(calculate_finaluseful_ex_data(.sutdata = PSUT_useful,
+    AggregateFinalUsefulData = drake::target(calculate_finaluseful_ex_data(.sutdata = PSUT_useful_exergy,
                                                                            fd_sectors = FinalDemandSectors)),
 
 
