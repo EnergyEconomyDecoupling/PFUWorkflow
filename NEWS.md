@@ -4,6 +4,10 @@ output: html_document
 ---
 
 
+* Added GitHub Actions continuous integration workflow
+  that pulls in remote repositories from non-CRAN packages.
+
+
 # SEAPSUTWorkflow 0.2.4 (2021-10-15) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5572330.svg)](https://doi.org/10.5281/zenodo.5572330)
 
 * Fixed a bug where the primary-to-final exergy-to-energy ratio
