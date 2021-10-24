@@ -4,6 +4,8 @@ output: html_document
 ---
 
 
+* Fixed a bug where the country "WLD" was added twice to exemplar lists of 
+  World marine bunkers, World aviation bunkers, and World itself.
 * Added GitHub Actions continuous integration workflow
   that pulls in remote repositories from non-CRAN packages.
 
