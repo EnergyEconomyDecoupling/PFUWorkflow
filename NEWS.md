@@ -3,7 +3,14 @@ title: "Release notes for `SEAPSUTWorkflow`"
 output: html_document
 ---
 
-
+* Fixed a bug where extraneous exergy-to-energy ratio (phi) information
+  was retained from the `incomplete_phi_u_table` argument 
+  in `assemble_phi_u_tables()`. 
+  I had expected that `incomplete_phi_u_table` would contain too little
+  information. 
+  I had not considered that `incomplete_phi_u_table` could contain
+  too *much* information.
+  The bug led to "zero-length" errors later in the workflow.
 * Fixed a bug where the country "WLD" was added twice to exemplar lists of 
   World marine bunkers, World aviation bunkers, and World itself.
 * Added GitHub Actions continuous integration workflow
