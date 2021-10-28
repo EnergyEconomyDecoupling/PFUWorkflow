@@ -3,6 +3,8 @@ title: "Release notes for `SEAPSUTWorkflow`"
 output: html_document
 ---
 
+# SEAPSUTWorkflow 0.2.5 (2021-10-28)
+
 * Fixed a bug where extraneous exergy-to-energy ratio (phi) information
   was retained from the `incomplete_phi_u_table` argument 
   in `assemble_phi_u_tables()`. 
@@ -15,6 +17,9 @@ output: html_document
   World marine bunkers, World aviation bunkers, and World itself.
 * Added GitHub Actions continuous integration workflow
   that pulls in remote repositories from non-CRAN packages.
+* New tests to maintain 100% test coverage.
+  * Now up to 308 tests, all passing.
+  * Test coverage remains at 100%.
 
 
 # SEAPSUTWorkflow 0.2.4 (2021-10-15) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5572330.svg)](https://doi.org/10.5281/zenodo.5572330)

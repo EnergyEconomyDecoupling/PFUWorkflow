@@ -59,6 +59,26 @@ test_that("sum_phi_vecs() works with same row types", {
                             Year = c(1971, 2000))
   expect_error(sum_phi_vecs(phi_pf, phi_u_2, countries = "GHA"),
                "the length of the sum of phi_pf and phi_u vectors")
+
+  # Ensure that we get an error when the shape is wrong.
+  phi_u_vec_3 <- matrix(c(0.8, 42,
+                          0.9, 42,
+                          0.7, 42), nrow = 3, ncol = 2, dimnames = list(c("Coal", "MD", "Propulsion"), c("phi", "bogus")))
+  phi_u_3 <- tibble::tibble(phi.u = matsbyname::make_list(phi_u_vec_3, n = 2, lenx = 1),
+                            Country = "GHA",
+                            Year = c(1971, 2000))
+  expect_error(sum_phi_vecs(phi_pf, phi_u_3, countries = "GHA"),
+               "need phi vectors with one column only")
+
+  # Ensure that we get an error when we obtain two columns after the sum, becuase the names are different.
+  phi_u_vec_4 <- matrix(c(0.8,
+                          0.9,
+                          0.7), nrow = 3, ncol = 1, dimnames = list(c("Light", "MD", "Propulsion"), c("phi.bogus")))
+  phi_u_4 <- tibble::tibble(phi.u = matsbyname::make_list(phi_u_vec_4, n = 2, lenx = 1),
+                            Country = "GHA",
+                            Year = c(1971, 2000))
+  expect_error(sum_phi_vecs(phi_pf, phi_u_4, countries = "GHA"),
+               "the names of the phi.pf and phi.u columns should be the same.")
 })
 
 
