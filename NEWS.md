@@ -3,6 +3,8 @@ title: "Release notes for `SEAPSUTWorkflow`"
 output: html_document
 ---
 
+# SEAPSUTWorkflow 0.2.5 (2021-10-28)
+
 * Fixed a bug where extraneous exergy-to-energy ratio (phi) information
   was retained from the `incomplete_phi_u_table` argument 
   in `assemble_phi_u_tables()`. 
