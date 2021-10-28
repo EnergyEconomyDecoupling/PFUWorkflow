@@ -9,7 +9,7 @@ Authors@R:
            email = "matthew.heun@me.com",
            comment = c(ORCID = "0000-0002-7438-214X")),
       person(given = "Zeke", family = "Marshall", role = "aut"))
-Description: Provides functions and workflows for societal exergy analysis within the PSUT framework.
+Description: This package functions and workflows for societal exergy analysis within the PSUT framework.
              The package is compatible with `drake`.
 License: MIT + file LICENSE
 Language: en-US
