@@ -172,7 +172,7 @@ exemplar_lists <- function(exemplar_table,
       "{exemplars}" := Map(f = build_one_exemplar_list,
                            p_names = .data[[prev_names]],
                            exemp = .data[[exemplar_country]],
-                           restofworldcode = .data[[region_code]],
+                           row_region_code = .data[[region_code]],
                            world = world)
     ) %>%
     # {exemplars} is a column with entries like list(c(coun1, coun2, ...)).
@@ -202,12 +202,18 @@ exemplar_lists <- function(exemplar_table,
 #'
 #' @param p_names A character vector of previous names for this country.
 #' @param exemp An exemplar country.
-#' @param restofworldcode The rest-of-world code for this country.
+#' @param row_region_code The rest-of-world region code for this country.
 #' @param world A string indicating the world.
 #'
 #' @return A list of length 1 containing all possible exemplars, in the order in which they apply.
 #'
 #' @noRd
-build_one_exemplar_list <- function(p_names, exemp, restofworldcode, world) {
-  list(c(unlist(p_names), exemp, restofworldcode, world))
+build_one_exemplar_list <- function(p_names, exemp, row_region_code, world) {
+  c(unlist(p_names), exemp, row_region_code, world) %>%
+    # For countries with row_region_code that matches world,
+    # duplicated world codes are included in this list.
+    # To avoid duplication, call unique().
+    unique() %>%
+    # Bundle as a list and return.
+    list()
 }

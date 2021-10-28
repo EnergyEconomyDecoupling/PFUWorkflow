@@ -623,7 +623,7 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
     # relevant to the particular analysis
     # for this country.
     # This data frame comes from the incomplete_phi_u_table.
-    # Thus, any phi values coming from the effiiency tables or machine data tables
+    # Thus, any phi values coming from the efficiency tables or machine data tables
     # will have first priority
     phi_u_from_eta_fu_tables <- incomplete_phi_u_table %>%
       dplyr::filter(.data[[country]] == coun,
@@ -632,6 +632,17 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
       dplyr::mutate(
         "{phi_source_colname}" := eta_fu_tables
       )
+    if (!is.null(completed_efficiency_table)) {
+      # incomplete_phi_u_table may have more rows than we need.
+      # I.e., it may contain rows for years/countries that do not exist in
+      # completed_efficiency_table.
+      # Having the extra rows may cause problems later, so filter out the unneeded rows here.
+      # But only do this step if completed_efficiency_table is present.
+      phi_u_from_eta_fu_tables <- dplyr::semi_join(phi_u_from_eta_fu_tables,
+                                                   completed_efficiency_table,
+                                                   by = setdiff(names(incomplete_phi_u_table),
+                                                                c(.values, quantity)))
+    }
 
     phi_u_table <- phi_u_from_eta_fu_tables
 

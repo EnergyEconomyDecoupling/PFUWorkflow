@@ -3,8 +3,26 @@ title: "Release notes for `SEAPSUTWorkflow`"
 output: html_document
 ---
 
+# SEAPSUTWorkflow 0.2.5 (2021-10-28)
 
-# SEAPSUTWorkflow 0.2.4 (2021-10-15) 
+* Fixed a bug where extraneous exergy-to-energy ratio (phi) information
+  was retained from the `incomplete_phi_u_table` argument 
+  in `assemble_phi_u_tables()`. 
+  I had expected that `incomplete_phi_u_table` would contain too little
+  information. 
+  I had not considered that `incomplete_phi_u_table` could contain
+  too *much* information.
+  The bug led to "zero-length" errors later in the workflow.
+* Fixed a bug where the country "WLD" was added twice to exemplar lists of 
+  World marine bunkers, World aviation bunkers, and World itself.
+* Added GitHub Actions continuous integration workflow
+  that pulls in remote repositories from non-CRAN packages.
+* New tests to maintain 100% test coverage.
+  * Now up to 308 tests, all passing.
+  * Test coverage remains at 100%.
+
+
+# SEAPSUTWorkflow 0.2.4 (2021-10-15) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5572330.svg)](https://doi.org/10.5281/zenodo.5572330)
 
 * Fixed a bug where the primary-to-final exergy-to-energy ratio
   (phi) didn't get row and column types.
@@ -17,7 +35,7 @@ output: html_document
   * Test coverage remains at 100%.
 
 
-# SEAPSUTWorkflow 0.2.3 (2021-08-20) [![DOI](https://zenodo.org/badge/265032888.svg)](https://zenodo.org/badge/latestdoi/265032888)
+# SEAPSUTWorkflow 0.2.3 (2021-08-20) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5228318.svg)](https://doi.org/10.5281/zenodo.5228318)
 
 * Now using "WLD" instead of "World" everywhere.
 * New targets: `country_concordance_path1 and `CountryConcordanceTable`.
