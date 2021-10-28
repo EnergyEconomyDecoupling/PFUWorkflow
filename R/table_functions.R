@@ -629,15 +629,20 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
       dplyr::filter(.data[[country]] == coun,
                     .data[[quantity]] == phi_u,
                     !is.na(.data[[.values]])) %>%
+      dplyr::mutate(
+        "{phi_source_colname}" := eta_fu_tables
+      )
+    if (!is.null(completed_efficiency_table)) {
       # incomplete_phi_u_table may have more rows than we need.
       # I.e., it may contain rows for years/countries that do not exist in
       # completed_efficiency_table.
       # Having the extra rows may cause problems later, so filter out the unneeded rows here.
-      dplyr::semi_join(completed_efficiency_table,
-                       by = setdiff(names(incomplete_phi_u_table), c(.values, quantity))) %>%
-      dplyr::mutate(
-        "{phi_source_colname}" := eta_fu_tables
-      )
+      # But only do this step if completed_efficiency_table is present.
+      phi_u_from_eta_fu_tables <- dplyr::semi_join(phi_u_from_eta_fu_tables,
+                                                   completed_efficiency_table,
+                                                   by = setdiff(names(incomplete_phi_u_table),
+                                                                c(.values, quantity)))
+    }
 
     phi_u_table <- phi_u_from_eta_fu_tables
 
