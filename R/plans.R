@@ -337,8 +337,18 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                        dynamic = map(countries)),
 
 
+    # Set PSUT as the last target. We'll use it for all further calculations.
+
+    PSUT = PSUT_useful_exergy,
+
+
     # (-) Off to the races!  Do other calculations:
 
+    # Aggregate all matrices by products (energy carrier)
+    AggregateProducts = drake::target(aggregate_products(PSUT,
+                                                         aggregation_map = SEAPSUTWorkflow::product_aggregation_map,
+                                                         countries = countries),
+                                      dynamic = map(countries)),
 
 
     # (11) Final demand sectors
@@ -353,14 +363,14 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # (13a) Aggregate of primary energy/exergy by total (total energy supply (TES)), product, and flow
 
-    AggregatePrimaryData = drake::target(calculate_primary_ex_data(.sutdata = PSUT_useful_exergy,
+    AggregatePrimaryData = drake::target(calculate_primary_ex_data(.sutdata = PSUT,
                                                                    p_industry_prefixes = PrimaryIndustryPrefixes)),
 
 
 
     # (13b) Aggregate final and useful energy/exergy by total (total final consumption (TFC)), product, and sector
 
-    AggregateFinalUsefulData = drake::target(calculate_finaluseful_ex_data(.sutdata = PSUT_useful_exergy,
+    AggregateFinalUsefulData = drake::target(calculate_finaluseful_ex_data(.sutdata = PSUT,
                                                                            fd_sectors = FinalDemandSectors)),
 
 

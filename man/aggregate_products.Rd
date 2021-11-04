@@ -7,7 +7,6 @@
 aggregate_products(
   .psut_df,
   matrices_to_aggregate = c("R", "U", "V", "Y"),
-  suffix = "_product_aggregation",
   aggregation_map = SEAPSUTWorkflow::product_aggregation_map,
   countries,
   country = IEATools::iea_cols$country
