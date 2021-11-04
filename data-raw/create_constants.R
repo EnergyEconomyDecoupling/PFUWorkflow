@@ -167,3 +167,16 @@ phi_sources <- list(eta_fu_tables = "eta_fu.tables",
                     phi_constants = "phi.constants")
 usethis::use_data(phi_sources, overwrite = TRUE)
 
+
+#
+# Aggregation information
+#
+
+product_aggregation_map <-
+  list(`Oil and oil products`        = IEATools::oil_and_oil_products %>% unlist() %>% unname(),
+       `Natural gas`                 = IEATools::primary_gas_products %>% unlist() %>% unname(),
+       Renewables                    = IEATools::renewable_products %>% unlist() %>% unname(),
+       `Biofuels and waste products` = IEATools::biofuels_and_waste_products %>% unlist() %>% unname())
+usethis::use_data(product_aggregation_map, overwrite = TRUE)
+
+

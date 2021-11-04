@@ -3,6 +3,7 @@
 export("%>%")
 export(":=")
 export(.data)
+export(aggregate_products)
 export(alloc_graph)
 export(alloc_plots_df)
 export(assemble_eta_fu_tables)
