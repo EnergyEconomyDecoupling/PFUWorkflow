@@ -227,3 +227,36 @@
 #' @examples
 #' phi_sources
 "phi_sources"
+
+#' All countries and selected country groups
+#'
+#' All individual countries and selected country groups from the IEA's World Extended
+#' energy balances 2021.
+#'
+#' @format A string list with `r length(all_countries)` entries.
+#'
+#' @examples
+#' all_countries
+"all_countries"
+
+#' Double-counted countries
+#'
+#' Selected individual countries and selected country groups which, if aggregated,
+#' would result in double counting.
+#'
+#' @format A string list with `r length(double_counted_countries)` entries.
+#'
+#' @examples
+#' double_counted_countries
+"double_counted_countries"
+
+#' Canonical countries
+#'
+#' Countries and country groups which, if aggregated, cover the entire world
+#' (WLD) without double counting.
+#'
+#' @format A string list with `r length(canonical_countries)` entries.
+#'
+#' @examples
+#' canonical_countries
+"canonical_countries"
