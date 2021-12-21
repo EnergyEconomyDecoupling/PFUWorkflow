@@ -139,6 +139,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   balanced_after <- NULL
   Specified <- NULL
   PSUT_final <- NULL
+  PSUT <- NULL
   IncompleteAllocationTables <- NULL
   TidyIncompleteAllocationTables <- NULL
   IncompleteEfficiencyTables <- NULL
