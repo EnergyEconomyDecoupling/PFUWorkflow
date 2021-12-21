@@ -7,7 +7,6 @@
 aggregate_products(
   .psut_df,
   matrices_to_aggregate = c("R", "U", "V", "Y"),
-  suffix = "_product_aggregation",
   aggregation_map = SEAPSUTWorkflow::product_aggregation_map,
   countries,
   country = IEATools::iea_cols$country
@@ -28,7 +27,7 @@ Default is \code{SEAPSUTWorkflow::product_aggregation_map}.}
 \item{country}{The name of the country column in \code{.psut_df}.}
 }
 \value{
-
+A data frame of aggregated products.
 }
 \description{
 This function aggregates PSUT matrices by energy carrier (product)

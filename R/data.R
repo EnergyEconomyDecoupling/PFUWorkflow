@@ -228,6 +228,24 @@
 #' phi_sources
 "phi_sources"
 
+
+#' A map for aggregating products
+#'
+#' A string list containing a map for aggregating energy products.
+#'
+#' @format A string list with `r length(phi_sources)` entries.
+#' \describe{
+#' \item{Oil and oil products}{All energy products counted as oil and oil products.}
+#' \item{Natural gas}{All energy products counted as natural gas.}
+#' \item{Renewables}{All energy products counted as renewables.}
+#' \item{Biofuels and waste products}{All energy products counted as biofuels and waste products.}
+#' }
+#'
+#' @examples
+#' product_aggregation_map
+"product_aggregation_map"
+
+
 #' All countries and selected country groups
 #'
 #' All individual countries and selected country groups from the IEA's World Extended
@@ -238,6 +256,7 @@
 #' @examples
 #' all_countries
 "all_countries"
+
 
 #' Double-counted countries
 #'
@@ -250,6 +269,7 @@
 #' double_counted_countries
 "double_counted_countries"
 
+
 #' Canonical countries
 #'
 #' Countries and country groups which, if aggregated, cover the entire world
@@ -260,3 +280,4 @@
 #' @examples
 #' canonical_countries
 "canonical_countries"
+

@@ -16,26 +16,24 @@
 #' @param countries The countries to be analyzed.
 #' @param country The name of the country column in `.psut_df`.
 #'
-#' @return
-#' @export
+#' @return A data frame of aggregated products.
 #'
-#' @examples
+#' @export
 aggregate_products <- function(.psut_df,
                                matrices_to_aggregate = c("R", "U", "V", "Y"),
-                               suffix = "_product_aggregation",
                                aggregation_map = SEAPSUTWorkflow::product_aggregation_map,
                                countries,
                                country = IEATools::iea_cols$country) {
 
   out <- .psut_df %>%
-    dplry::filter(.data[[country]] %in% countries)
+    dplyr::filter(.data[[country]] %in% countries)
 
 
   for (mat_name in matrices_to_aggregate) {
     out <- out %>%
       dplyr::mutate(
-        "{mat_name}" := .data[[matname]] %>%
-          matsbyname::aggregate_byname(aggregation_map = aggregation_map, pattern_type = "leading")
+        "{mat_name}" := .data[[mat_name]] %>%
+          matsbyname::aggregate_byname(aggregation_map = list(aggregation_map), pattern_type = "leading")
       )
   }
   return(out)
