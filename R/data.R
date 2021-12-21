@@ -227,3 +227,20 @@
 #' @examples
 #' phi_sources
 "phi_sources"
+
+
+#' A map for aggregating products
+#'
+#' A string list containing a map for aggregating energy products.
+#'
+#' @format A string list with `r length(phi_sources)` entries.
+#' \describe{
+#' \item{Oil and oil products}{All energy products counted as oil and oil products.}
+#' \item{Natural gas}{All energy products counted as natural gas.}
+#' \item{Renewables}{All energy products counted as renewables.}
+#' \item{Biofuels and waste products}{All energy products counted as biofuels and waste products.}
+#' }
+#'
+#' @examples
+#' product_aggregation_map
+"product_aggregation_map"
