@@ -27,7 +27,7 @@ Default is \code{SEAPSUTWorkflow::product_aggregation_map}.}
 \item{country}{The name of the country column in \code{.psut_df}.}
 }
 \value{
-
+A data frame of aggregated products.
 }
 \description{
 This function aggregates PSUT matrices by energy carrier (product)
