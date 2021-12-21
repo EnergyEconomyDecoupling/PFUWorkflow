@@ -38,7 +38,10 @@ test_that("load_fu_allocation_tables() and load_eta_fu_tables() work for a non-e
 
     # Use anti_join to find which rows are different. None should be different.
     dplyr::anti_join(GHA,
-                     iea_data_GRC %>% dplyr::mutate("{IEATools::iea_cols$country}" := "GHA"),
+                     iea_data_GRC %>%
+                       dplyr::mutate(
+                         "{IEATools::iea_cols$country}" := "GHA"
+                       ),
                      by = colnames(GHA)) %>%
       nrow() %>%
       expect_equal(0)
