@@ -16,7 +16,8 @@
 #' @param countries The countries to be analyzed.
 #' @param country The name of the country column in `.psut_df`.
 #'
-#' @return
+#' @return A data frame of aggregated products.
+#'
 #' @export
 aggregate_products <- function(.psut_df,
                                matrices_to_aggregate = c("R", "U", "V", "Y"),
