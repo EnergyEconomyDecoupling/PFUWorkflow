@@ -235,7 +235,7 @@ all_countries <- list(
   fyg = "FYG",
   gab = "GAB",
   gbr = "GBR",
-  gbr = "GEO",
+  geo = "GEO",
   gha = "GHA",
   gib = "GIB",
   gnq = "GNQ",
