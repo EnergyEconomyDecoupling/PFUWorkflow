@@ -49,6 +49,10 @@ test_that("get_plan() works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "CountryConcordanceTable")
 
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "FinalDemandSectors")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "PrimaryIndustryPrefixes")
+
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AllIEAData")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "IEAData")
@@ -58,6 +62,8 @@ test_that("get_plan() works", {
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AllMachineData")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "MachineData")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "SocioEconData")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "balanced_before")
 
@@ -92,24 +98,20 @@ test_that("get_plan() works", {
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "Phivecs")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "PSUT_useful")
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "PSUT_useful_exergy")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "PSUT")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregateProducts")
 
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "FinalDemandSectors")
 
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "PrimaryIndustryPrefixes")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregatePrimaryData")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregateFinalUsefulData")
 
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "SocioEconData")
-
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AllocationGraphs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "NonStationaryAllocationGraphs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "EfficiencyGraphs")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "ExergyEnergyGraphs")
 })
 
 

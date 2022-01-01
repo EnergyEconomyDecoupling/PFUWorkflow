@@ -68,9 +68,10 @@ test_that("clean_targets() works as expected", {
     # Verify that all targets are OK. If so, no targets will be out of date.
     expect_equal(length(drake::outdated(testing_setup$plan, cache = testing_setup$temp_cache)), 0)
     # Now clean some targets, by default everything after IEAData.
-    # In this case, everything after IEAData is only CEDAData.
+    # In this case, everything after IEAData is only 3 targets.
     clean_targets(path = testing_setup$cache_path)
-    expect_equal(drake::outdated(testing_setup$plan, cache = testing_setup$temp_cache), "CEDAData")
+    expect_equal(drake::outdated(testing_setup$plan, cache = testing_setup$temp_cache),
+                 c("CEDAData", "FinalDemandSectors", "PrimaryIndustryPrefixes"))
   },
   finally = {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)

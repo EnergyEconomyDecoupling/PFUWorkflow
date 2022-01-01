@@ -184,9 +184,21 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     # Load country concordance table
     CountryConcordanceTable = readxl::read_excel(country_concordance_path, sheet = "country_concordance_table"),
 
+
+    # Load the final demand sectors
+
+    FinalDemandSectors = drake::target(get_fd_sectors()),
+
+
+    # Load the primary industry prefixes
+
+    PrimaryIndustryPrefixes = drake::target(get_p_industry_prefixes()),
+
+
     # (1a) Grab all IEA data for ALL countries
 
     AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(override_df = CountryConcordanceTable),
+
     IEAData = drake::target(AllIEAData %>%
                               extract_country_data(countries = alloc_and_eff_couns, max_year = max_year),
                             dynamic = map(alloc_and_eff_couns)),
@@ -202,6 +214,12 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     MachineData = drake::target(AllMachineData %>%
                                   extract_country_data(countries = alloc_and_eff_couns, max_year = max_year),
                                 dynamic = map(alloc_and_eff_couns)),
+
+    # (1d) Grab Socioeconomic Data for selected countries
+
+    SocioEconData = drake::target(get_all_pwt_data(countries = countries) %>%
+                                    get_L_K_GDP_data()),
+
 
     # (2) Balance all final energy data.
 
@@ -331,35 +349,21 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
 
     # (-) Add exergy quantifications of energy
+    # Set PSUT as the last target. We'll use it for all further calculations.
 
-    PSUT_useful_exergy = drake::target(move_to_exergy(psut_energy = PSUT_useful,
+    PSUT = drake::target(move_to_exergy(psut_energy = PSUT_useful,
                                                       phi_vecs = Phivecs,
                                                       countries = countries),
                                        dynamic = map(countries)),
 
 
-    # Set PSUT as the last target. We'll use it for all further calculations.
-
-    PSUT = PSUT_useful_exergy,
-
-
     # (-) Off to the races!  Do other calculations:
 
-    # Aggregate all matrices by products (energy carrier)
-    AggregateProducts = drake::target(aggregate_products(PSUT,
+    # Aggregate all matrices by products (energy carriers)
+    AggregateProducts = drake::target(aggregate_products(.psut_df = PSUT,
                                                          aggregation_map = SEAPSUTWorkflow::product_aggregation_map,
                                                          countries = countries),
                                       dynamic = map(countries)),
-
-
-    # (11) Final demand sectors
-
-    FinalDemandSectors = drake::target(get_fd_sectors()),
-
-
-    # (12) Primary industry prefixes
-
-    PrimaryIndustryPrefixes = drake::target(get_p_industry_prefixes()),
 
 
     # (13a) Aggregate of primary energy/exergy by total (total energy supply (TES)), product, and flow
@@ -376,11 +380,6 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
 
 
-    # (14) Socioeconomic Data for selected countries
-
-    SocioEconData = drake::target(get_all_pwt_data(countries = countries) %>%
-                                    get_L_K_GDP_data()),
-
 
 
 
@@ -395,10 +394,12 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                      dynamic = map(countries)),
 
     # Build Efficiency Graphs
-    EfficiencyGraphs = drake::target(eta_fu_plots_df(CompletedEfficiencyTables, countries = countries)),
+    EfficiencyGraphs = drake::target(eta_fu_plots_df(CompletedEfficiencyTables, countries = countries),
+                                     dynamic = map(countries)),
 
     # Build Exergy-to-energy ratio graphs
-    # ExergyEnergyGraphs = drake::target(phi_u_plots_df(CompletedEfficiencyTables, countries = countries))
+    ExergyEnergyGraphs = drake::target(phi_u_plots_df(CompletedEfficiencyTables, countries = countries),
+                                       dynamic = map(countries))
 
 
 
