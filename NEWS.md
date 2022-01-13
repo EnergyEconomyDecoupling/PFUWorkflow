@@ -3,6 +3,11 @@ title: "Release notes for `SEAPSUTWorkflow`"
 output: html_document
 ---
 
+* Now detecting error conditions when loading
+  the country concordance table:
+  empty and repeated 3-letter country codes.
+  
+
 # SEAPSUTWorkflow 0.2.5 (2021-10-28) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5608687.svg)](https://doi.org/10.5281/zenodo.5608687)
 
 * Fixed a bug where extraneous exergy-to-energy ratio (phi) information
