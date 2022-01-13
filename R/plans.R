@@ -182,8 +182,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     reports_dest_folder = !!reports_dest_folder,
 
     # Load country concordance table
-    CountryConcordanceTable = readxl::read_excel(country_concordance_path, sheet = "country_concordance_table"),
-
+    # CountryConcordanceTable = readxl::read_excel(country_concordance_path, sheet = "country_concordance_table"),
+    CountryConcordanceTable = load_country_concordance_table(country_concordance_path = country_concordance_path),
 
     # Load the final demand sectors
 
