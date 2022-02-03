@@ -265,5 +265,10 @@ move_to_exergy <- function(psut_energy,
   df_with_phi <- dplyr::left_join(psut_energy, phi_vecs, by = meta_cols)
 
   # Calculate exergy versions of the ECC.
-  Recca::extend_to_exergy(df_with_phi)
+  # Need to specify the mat_piece here, because the default value ("all")
+  # is not appropriate.
+  # We will have cases where the matrix will have specified names like
+  # "MP [from Bulk carrier ships]".
+  # In this case, we need to match the noun, not the whole string.
+  Recca::extend_to_exergy(df_with_phi, mat_piece = "noun", phi_piece = "all")
 }
