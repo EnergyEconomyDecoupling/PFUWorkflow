@@ -112,6 +112,8 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                fu_analysis_folder = tempdir(),
                                reports_source_folders = system.file("reports", package = "SEAPSUTWorkflow"),
                                reports_output_folder = tempdir(),
+                               workflow_output_folder = tempdir(),
+                               workflow_releases_folder = tempdir(),
                                exemplar_folder = tempdir(),
                                machine_data_folder = file.path(tempdir(), "Machines - Data"),
                                cache_path = tempfile("drake_cache_for_testing"),
@@ -136,7 +138,9 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                    phi_constants_path = phi_constants_path,
                    fu_analysis_folder = fu_analysis_folder,
                    reports_source_folders = reports_source_folders,
-                   reports_dest_folder = reports_output_folder)
+                   reports_dest_folder = reports_output_folder,
+                   workflow_output_folder = workflow_output_folder,
+                   workflow_releases_folder = workflow_releases_folder)
   temp_cache <- drake::new_cache(path = cache_path)
   list(plan = plan, cache_path = cache_path, temp_cache = temp_cache)
 }
