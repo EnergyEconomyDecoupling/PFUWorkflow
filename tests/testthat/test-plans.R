@@ -12,6 +12,8 @@ test_that("get_plan() works", {
                       fu_analysis_folder = "FUpath",
                       reports_source_folders = "reports_source_folders",
                       reports_dest_folder = "reports_dest_folder",
+                      workflow_output_folder = "workflow_output_folder",
+                      workflow_releases_folder = "workflow_releases_folder",
                       countries = c("GHA", "ZAF"),
                       max_year = 1999)
 
@@ -46,6 +48,10 @@ test_that("get_plan() works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "reports_dest_folder")
   expect_equal(my_plan[[rn, "command"]], list("reports_dest_folder"))
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "workflow_output_folder")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "workflow_releases_folder")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "CountryConcordanceTable")
 
@@ -101,12 +107,6 @@ test_that("get_plan() works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "PSUT")
 
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregateProducts")
-
-
-
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregatePrimaryData")
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregateFinalUsefulData")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AllocationGraphs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "NonStationaryAllocationGraphs")

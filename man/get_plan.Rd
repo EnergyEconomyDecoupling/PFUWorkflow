@@ -17,7 +17,9 @@ get_plan(
   exemplar_table_path,
   fu_analysis_folder,
   reports_source_folders,
-  reports_dest_folder
+  reports_dest_folder,
+  workflow_output_folder,
+  workflow_releases_folder
 )
 }
 \arguments{
@@ -150,7 +152,9 @@ get_plan(countries = c("GHA", "ZAF"),
          exemplar_table_path = "exemplar_path",
          fu_analysis_folder = "fu_folder",
          reports_source_folders = "reports_source_folders",
-         reports_dest_folder = "reports_dest_folder")
+         reports_dest_folder = "reports_dest_folder",
+         workflow_output_folder = "workflow_output_folder",
+         workflow_releases_folder = "workflow_releases_folder")
 }
 \seealso{
 \itemize{

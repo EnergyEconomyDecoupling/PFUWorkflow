@@ -117,14 +117,18 @@
 #'          exemplar_table_path = "exemplar_path",
 #'          fu_analysis_folder = "fu_folder",
 #'          reports_source_folders = "reports_source_folders",
-#'          reports_dest_folder = "reports_dest_folder")
+#'          reports_dest_folder = "reports_dest_folder",
+#'          workflow_output_folder = "workflow_output_folder",
+#'          workflow_releases_folder = "workflow_releases_folder")
 get_plan <- function(countries, additional_exemplar_countries = NULL,
                      max_year, how_far = "all_targets",
                      iea_data_path,
                      country_concordance_path, phi_constants_path, ceda_data_folder,
                      machine_data_path, exemplar_table_path,
                      fu_analysis_folder,
-                     reports_source_folders, reports_dest_folder) {
+                     reports_source_folders, reports_dest_folder,
+                     workflow_output_folder,
+                     workflow_releases_folder) {
 
   # Get around warnings of type "no visible binding for global variable".
   alloc_and_eff_couns <- NULL
@@ -167,7 +171,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # Use !!, for tidy evaluation, to put the arguments' values in the plan.
     # See https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function
-    # Need to enclose !!countries in c() (or an identity function), else it doesn't work when countries has length > 1.
+    # Need to enclose !!countries in c() (or an identity function),
+    # else it doesn't work when countries has length > 1.
     countries = c(!!countries),
     alloc_and_eff_couns = unique(c(countries, !!additional_exemplar_countries)),
     max_year = !!max_year,
@@ -180,6 +185,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     fu_analysis_folder = !!fu_analysis_folder,
     reports_source_folders = !!reports_source_folders,
     reports_dest_folder = !!reports_dest_folder,
+    workflow_output_folder = !!workflow_output_folder,
+    workflow_releases_folder = !!workflow_releases_folder,
 
     # Load country concordance table
     # CountryConcordanceTable = readxl::read_excel(country_concordance_path, sheet = "country_concordance_table"),
@@ -383,7 +390,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
 
 
-    # (N) Build reports
+    # (11) Build reports
 
     # Build Allocation Graphs
     AllocationGraphs = drake::target(alloc_plots_df(CompletedAllocationTables, countries = countries),
@@ -399,10 +406,12 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # Build Exergy-to-energy ratio graphs
     ExergyEnergyGraphs = drake::target(phi_u_plots_df(CompletedEfficiencyTables, countries = countries),
-                                       dynamic = map(countries))
+                                       dynamic = map(countries)),
 
 
+    # (12) Save results to Dropbox
 
+    # StoreCache = drake::target(store_cache(dir = ))
 
     # reports_source_paths = drake::target(drake::file_in(report_source_paths(report_source_folders = report_source_folders))),
     # reports_dest_path = drake::target(drake::file_out(report_dest_paths(report_source_paths))),
