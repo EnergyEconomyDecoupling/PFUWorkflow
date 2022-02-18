@@ -120,13 +120,19 @@
 #'          reports_dest_folder = "reports_dest_folder",
 #'          workflow_output_folder = "workflow_output_folder",
 #'          workflow_releases_folder = "workflow_releases_folder")
-get_plan <- function(countries, additional_exemplar_countries = NULL,
-                     max_year, how_far = "all_targets",
+get_plan <- function(countries,
+                     additional_exemplar_countries = NULL,
+                     max_year,
+                     how_far = "all_targets",
                      iea_data_path,
-                     country_concordance_path, phi_constants_path, ceda_data_folder,
-                     machine_data_path, exemplar_table_path,
+                     country_concordance_path,
+                     phi_constants_path,
+                     ceda_data_folder,
+                     machine_data_path,
+                     exemplar_table_path,
                      fu_analysis_folder,
-                     reports_source_folders, reports_dest_folder,
+                     reports_source_folders,
+                     reports_dest_folder,
                      workflow_output_folder,
                      workflow_releases_folder) {
 
@@ -364,32 +370,6 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                        dynamic = map(countries)),
 
 
-    # (-) Off to the races!  Do other calculations:
-
-    # Aggregate all matrices by products (energy carriers)
-    # AggregateProducts = drake::target(aggregate_products(.psut_df = PSUT,
-    #                                                      aggregation_map = SEAPSUTWorkflow::product_aggregation_map,
-    #                                                      countries = countries),
-    #                                   dynamic = map(countries)),
-
-
-    # (13a) Aggregate of primary energy/exergy by total (total energy supply (TES)), product, and flow
-
-    # AggregatePrimaryData = drake::target(calculate_primary_ex_data(.sutdata = PSUT,
-                                                                   # p_industry_prefixes = PrimaryIndustryPrefixes)),
-
-
-
-    # (13b) Aggregate final and useful energy/exergy by total (total final consumption (TFC)), product, and sector
-
-    # AggregateFinalUsefulData = drake::target(calculate_finaluseful_ex_data(.sutdata = PSUT,
-                                                                           # fd_sectors = FinalDemandSectors)),
-
-
-
-
-
-
     # (11) Build reports
 
     # Build Allocation Graphs
@@ -409,16 +389,17 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                        dynamic = map(countries)),
 
 
-    # (12) Save results to Dropbox
+    # (12) Save results
 
-    # StoreCache = drake::target(store_cache(dir = ))
+    # Zip the drake cache and store it in the workflow_output_folder
+    StoreCache = drake::target(stash_cache(workflow_output_folder = workflow_output_folder,
+                                           dependency = PSUT)),
 
-    # reports_source_paths = drake::target(drake::file_in(report_source_paths(report_source_folders = report_source_folders))),
-    # reports_dest_path = drake::target(drake::file_out(report_dest_paths(report_source_paths))),
-    # reports_complete = drake::target(generate_reports(report_source_files = report_source_paths,
-    #                                                   report_dest_folder = report_dest_folder))
-
+    # Store the PSUT target data frame in a pinboard inside the workflow_releases_folder.
+    StorePSUTResult = drake::target(stash_psut(workflow_releases_folder = workflow_releases_folder,
+                                               psut = PSUT))
   )
+
   if (how_far != "all_targets") {
     # Find the last row of the plan to keep.
     last_row_to_keep <- p %>%

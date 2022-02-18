@@ -1,3 +1,57 @@
-store_cache <- function(dir) {
+#' Save the drake cache to a zip file, then to `workflow_output_folder`
+#'
+#' @param workflow_output_folder The folder into which the drake cache will be saved.
+#' @param dependency The target you want to be sure is executed before
+#'                   calling this function.
+#'
+#' @return A logical saying whether the saving operation was successful.
+#'
+#' @export
+stash_cache <- function(workflow_output_folder, dependency) {
+  # Zip the drake cache
+  zipped_cache_filename <- paste0("pfu_workflow_cache_", parsedate::format_iso_8601(Sys.time()), ".zip") %>%
+    # Change file name format to be equivalent to the pins file format.
+    # Eliminate "-" characters
+    gsub(pattern = "-", replacement = "") %>%
+    # Eliminate ":" characters, because they cause problems on some OSes.
+    gsub(pattern = ":", replacement = "") %>%
+    # Change "+0000" to "Z", where "Z" means Zulu time (GMT offset of 00:00)
+    gsub(pattern = "\\+0000", replacement = "Z")
+  utils::zip(zipfile = zipped_cache_filename, files = ".drake")
+  # Calculate the folder structure for the output
+  year <- lubridate::year(Sys.Date())
+  month <- lubridate::month(Sys.Date())
+  output_year_dir <- file.path(workflow_output_folder, year)
+  dir.create(output_year_dir, showWarnings = FALSE)
+  output_month_dir <- file.path(output_year_dir, month)
+  dir.create(output_month_dir, showWarnings = FALSE)
+  # Copy the file to the workflow output folder
+  copy_successful <- file.copy(from = zipped_cache_filename,
+                               to = output_month_dir)
+  if (!copy_successful) {
+    stop(paste("copying of drake cache unsuccessful in stach_cache():",
+               zipped_cache_filename))
+  }
+  if (file.exists(zipped_cache_filename)) {
+    # To keep things clean
+    file.remove(zipped_cache_filename)
+  }
+  return(copy_successful)
+}
 
+
+
+#' Save the `PSUT` target in a pinboard.
+#'
+#' @param workflow_releases_folder The folder that contains the pinboard.
+#' @param psut The PSUT object, the final target for this workflow.
+#'
+#' @return The fully-qualified path name of the PSUT file in the pinboard.
+#'
+#' @export
+stash_psut <- function(workflow_releases_folder, psut) {
+  # Establish the pinboard
+  pins::board_folder(workflow_releases_folder) %>%
+    # Returns the fully-qualified name of the file written to the pinboard.
+    pins::pin_write(psut)
 }
