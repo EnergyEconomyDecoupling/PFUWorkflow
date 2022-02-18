@@ -17,7 +17,7 @@ stash_cache <- function(workflow_output_folder, dependency) {
     gsub(pattern = ":", replacement = "") %>%
     # Change "+0000" to "Z", where "Z" means Zulu time (GMT offset of 00:00)
     gsub(pattern = "\\+0000", replacement = "Z")
-  utils::zip(zipfile = zipped_cache_filename, files = ".drake")
+  invisible(utils::zip(zipfile = zipped_cache_filename, files = ".drake"))
   # Calculate the folder structure for the output
   year <- lubridate::year(Sys.Date())
   month <- lubridate::month(Sys.Date())
@@ -45,13 +45,23 @@ stash_cache <- function(workflow_output_folder, dependency) {
 #'
 #' @param workflow_releases_folder The folder that contains the pinboard.
 #' @param psut The PSUT object, the final target for this workflow.
+#' @param release A boolean telling whether to do a release.
+#'                Default is `FALSE`.
 #'
-#' @return The fully-qualified path name of the PSUT file in the pinboard.
+#' @return If `release` is `TRUE`,
+#'         the fully-qualified path name of the PSUT file in the pinboard.
+#'         If `release` is `FALSE`,
+#'         `NULL`.
 #'
 #' @export
-stash_psut <- function(workflow_releases_folder, psut) {
-  # Establish the pinboard
-  pins::board_folder(workflow_releases_folder) %>%
-    # Returns the fully-qualified name of the file written to the pinboard.
-    pins::pin_write(psut)
+release_psut <- function(workflow_releases_folder, psut, release = FALSE) {
+  if (release) {
+    # Establish the pinboard
+    out <- pins::board_folder(workflow_releases_folder) %>%
+      # Returns the fully-qualified name of the file written to the pinboard.
+      pins::pin_write(psut)
+  } else {
+    out <- NULL
+  }
+  return(out)
 }

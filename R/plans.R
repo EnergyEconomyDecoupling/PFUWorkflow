@@ -94,6 +94,11 @@
 #' @param reports_source_folders A string vector containing paths to folders of report sources, usually
 #'                               `.Rnw` or `.Rmd` files.
 #' @param reports_dest_folder The path to a folder into which reports are written.
+#' @param workflow_output_folder The path to a folder where .zip files of the drake workflow are stored.
+#' @param workflow_releases_folder The path to a folder where releases of the
+#'                                 `PSUT` target data frame are pinned.
+#' @param release A boolean that tells whether a new release of the `PSUT` target should be made.
+#'                Default is `FALSE`.
 #'
 #' @return A drake plan object.
 #'
@@ -134,7 +139,8 @@ get_plan <- function(countries,
                      reports_source_folders,
                      reports_dest_folder,
                      workflow_output_folder,
-                     workflow_releases_folder) {
+                     workflow_releases_folder,
+                     release = FALSE) {
 
   # Get around warnings of type "no visible binding for global variable".
   alloc_and_eff_couns <- NULL
@@ -193,6 +199,7 @@ get_plan <- function(countries,
     reports_dest_folder = !!reports_dest_folder,
     workflow_output_folder = !!workflow_output_folder,
     workflow_releases_folder = !!workflow_releases_folder,
+    release = !!release,
 
     # Load country concordance table
     # CountryConcordanceTable = readxl::read_excel(country_concordance_path, sheet = "country_concordance_table"),
@@ -396,8 +403,9 @@ get_plan <- function(countries,
                                            dependency = PSUT)),
 
     # Store the PSUT target data frame in a pinboard inside the workflow_releases_folder.
-    StorePSUTResult = drake::target(stash_psut(workflow_releases_folder = workflow_releases_folder,
-                                               psut = PSUT))
+    ReleasePSUT = drake::target(release_psut(workflow_releases_folder = workflow_releases_folder,
+                                             psut = PSUT,
+                                             release = release))
   )
 
   if (how_far != "all_targets") {
