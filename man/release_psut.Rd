@@ -21,5 +21,29 @@ If \code{release} is \code{FALSE},
 \code{NULL}.
 }
 \description{
-Save the \code{PSUT} target in a pinboard.
+Releases (\code{release = TRUE})
+or not (\code{relase = FALSE})
+a new version of the PSUT target
+using the \code{pins} package.
+}
+\details{
+Released versions of the \code{PSUT} target can be obtained
+as shown in examples.
+}
+\examples{
+\dontrun{
+# Establish the pinboard
+pinboard <- pins::board_folder("~/Dropbox/Fellowship 1960-2015 PFU database/PFUWorkflowReleases/")
+# Get information about the `PSUT` target in the pinboard
+pinboard \%>\%
+  pins::pin_meta(name = "psut")
+# Find versions of the `PSUT` target
+pinboard \%>\%
+  pins::pin_versions(name = "psut")
+# Get the latest copy of the `PSUT` target.
+my_psut <- pinboard \%>\%
+  pins::pin_read(name = "psut")
+# Retrieve a previous version of the `PSUT` target.
+my_old_psut <- pinboard \%>\%
+  pins::pin_read(name = "psut", version = "20220218T023112Z-1d9e1")}
 }

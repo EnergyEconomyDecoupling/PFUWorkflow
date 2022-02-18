@@ -43,6 +43,14 @@ stash_cache <- function(workflow_output_folder, dependency) {
 
 #' Save the `PSUT` target in a pinboard.
 #'
+#' Releases (`release = TRUE`)
+#' or not (`relase = FALSE`)
+#' a new version of the PSUT target
+#' using the `pins` package.
+#'
+#' Released versions of the `PSUT` target can be obtained
+#' as shown in examples.
+#'
 #' @param workflow_releases_folder The folder that contains the pinboard.
 #' @param psut The PSUT object, the final target for this workflow.
 #' @param release A boolean telling whether to do a release.
@@ -54,10 +62,27 @@ stash_cache <- function(workflow_output_folder, dependency) {
 #'         `NULL`.
 #'
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' # Establish the pinboard
+#' pinboard <- pins::board_folder("~/Dropbox/Fellowship 1960-2015 PFU database/PFUWorkflowReleases/")
+#' # Get information about the `PSUT` target in the pinboard
+#' pinboard %>%
+#'   pins::pin_meta(name = "psut")
+#' # Find versions of the `PSUT` target
+#' pinboard %>%
+#'   pins::pin_versions(name = "psut")
+#' # Get the latest copy of the `PSUT` target.
+#' my_psut <- pinboard %>%
+#'   pins::pin_read(name = "psut")
+#' # Retrieve a previous version of the `PSUT` target.
+#' my_old_psut <- pinboard %>%
+#'   pins::pin_read(name = "psut", version = "20220218T023112Z-1d9e1")}
 release_psut <- function(workflow_releases_folder, psut, release = FALSE) {
   if (release) {
     # Establish the pinboard
-    out <- pins::board_folder(workflow_releases_folder) %>%
+    out <- pins::board_folder(workflow_releases_folder, versioned = TRUE) %>%
       # Returns the fully-qualified name of the file written to the pinboard.
       pins::pin_write(psut)
   } else {
