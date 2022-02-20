@@ -13,13 +13,13 @@
 #'
 #' @export
 calc_C_mats <- function(completed_allocation_tables,
-                       countries,
-                       country = IEATools::iea_cols$country,
-                       year = IEATools::iea_cols$year,
-                       c_source = IEATools::template_cols$c_source,
-                       .values = IEATools::template_cols$.values,
-                       C_Y = IEATools::template_cols$C_Y,
-                       C_EIOU  = IEATools::template_cols$C_eiou) {
+                        countries,
+                        country = IEATools::iea_cols$country,
+                        year = IEATools::iea_cols$year,
+                        c_source = IEATools::template_cols$c_source,
+                        .values = IEATools::template_cols$.values,
+                        C_Y = IEATools::template_cols$C_Y,
+                        C_EIOU  = IEATools::template_cols$C_eiou) {
   tables <- completed_allocation_tables %>%
     dplyr::filter(.data[[country]] %in% countries) %>%
     dplyr::mutate(
