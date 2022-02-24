@@ -20,33 +20,33 @@ test_that("dir_create_pipe() works as expected", {
 
 
 test_that("readd_by_country() works as expected", {
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$IEAData)
+  testing_setup <- PFUWorkflow:::set_up_for_testing(how_far = PFUWorkflow::target_names$IEAData)
 
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
 
-    GHAdata <- readd_by_country(SEAPSUTWorkflow::target_names$IEAData,
+    GHAdata <- readd_by_country(PFUWorkflow::target_names$IEAData,
                                 country = "GHA",
                                 cache_path = testing_setup$cache_path)
     expect_equal(GHAdata %>%
                    magrittr::extract2(IEATools::iea_cols$country) %>%
                    unique(),
                  "GHA")
-    ZAFdata <- readd_by_country(SEAPSUTWorkflow::target_names$IEAData,
+    ZAFdata <- readd_by_country(PFUWorkflow::target_names$IEAData,
                                 country = "ZAF",
                                 cache_path = testing_setup$cache_path)
     expect_equal(ZAFdata %>%
                    magrittr::extract2(IEATools::iea_cols$country) %>%
                    unique(),
                  "ZAF")
-    GHAZAFdata <- readd_by_country(SEAPSUTWorkflow::target_names$IEAData,
+    GHAZAFdata <- readd_by_country(PFUWorkflow::target_names$IEAData,
                                    country = c("GHA", "ZAF"),
                                    cache_path = testing_setup$cache_path)
     expect_equal(GHAZAFdata %>%
                    magrittr::extract2(IEATools::iea_cols$country) %>%
                    unique(),
                  c("GHA", "ZAF"))
-    ZAFGHAdata <- readd_by_country(SEAPSUTWorkflow::target_names$IEAData,
+    ZAFGHAdata <- readd_by_country(PFUWorkflow::target_names$IEAData,
                                    country = c("ZAF", "GHA"),
                                    cache_path = testing_setup$cache_path)
     expect_equal(ZAFGHAdata %>%
@@ -55,32 +55,33 @@ test_that("readd_by_country() works as expected", {
                  c("GHA", "ZAF"))
   },
   finally = {
-    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+    PFUWorkflow:::clean_up_after_testing(testing_setup)
   })
 })
 
 
 test_that("clean_targets() works as expected", {
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$CEDAData)
+  testing_setup <- PFUWorkflow:::set_up_for_testing(how_far = PFUWorkflow::target_names$CEDAData)
 
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
     # Verify that all targets are OK. If so, no targets will be out of date.
     expect_equal(length(drake::outdated(testing_setup$plan, cache = testing_setup$temp_cache)), 0)
     # Now clean some targets, by default everything after IEAData.
-    # In this case, everything after IEAData is only CEDAData.
+    # In this case, everything after IEAData is only 3 targets.
     clean_targets(path = testing_setup$cache_path)
-    expect_equal(drake::outdated(testing_setup$plan, cache = testing_setup$temp_cache), "CEDAData")
+    expect_equal(drake::outdated(testing_setup$plan, cache = testing_setup$temp_cache),
+                 c("CEDAData", "FinalDemandSectors", "PrimaryIndustryPrefixes"))
   },
   finally = {
-    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+    PFUWorkflow:::clean_up_after_testing(testing_setup)
   })
 })
 
 
 test_that("setup_exemplars() works as expected", {
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(additional_exemplar_countries = c("WLD"),
-                                                        how_far = SEAPSUTWorkflow::target_names$CompletedAllocationTables,
+  testing_setup <- PFUWorkflow:::set_up_for_testing(additional_exemplar_countries = c("WLD"),
+                                                        how_far = PFUWorkflow::target_names$CompletedAllocationTables,
                                                         setup_exemplars = TRUE)
 
   tryCatch({
@@ -88,7 +89,7 @@ test_that("setup_exemplars() works as expected", {
 
     # Check that there is World IEA data
     iea_data <- IEATools::load_tidy_iea_df(testing_setup$plan %>%
-                                           dplyr::filter(.data[["target"]] == SEAPSUTWorkflow::target_names$iea_data_path) %>%
+                                           dplyr::filter(.data[["target"]] == PFUWorkflow::target_names$iea_data_path) %>%
                                            magrittr::extract2("command") %>%
                                            unlist())
     iea_data %>%
@@ -106,13 +107,13 @@ test_that("setup_exemplars() works as expected", {
 
     # Check that there is a World exemplar table
     testing_setup$plan %>%
-      dplyr::filter(target == SEAPSUTWorkflow::target_names$fu_analysis_folder) %>%
+      dplyr::filter(target == PFUWorkflow::target_names$fu_analysis_folder) %>%
       magrittr::extract2("command") %>%
       unlist() %>%
       dir.exists() %>%
       expect_true()
     # Make sure we have allocation tables.
-    alloc_tables <- drake::readd(SEAPSUTWorkflow::target_names$IncompleteAllocationTables,
+    alloc_tables <- drake::readd(PFUWorkflow::target_names$IncompleteAllocationTables,
                                  path = testing_setup$cache_path,
                                  character_only = TRUE)
     world_alloc_tables <- alloc_tables %>%
@@ -124,10 +125,10 @@ test_that("setup_exemplars() works as expected", {
                    dplyr::mutate("{IEATools::iea_cols$country}" := "ZAF"),
                  zaf_alloc_tables)
     # Extract the World FU allocation table. Make sure it matches the ZAF FU allocation table.
-    ZAF_fu_allocation_table <- readd_by_country(SEAPSUTWorkflow::target_names$IncompleteAllocationTables,
+    ZAF_fu_allocation_table <- readd_by_country(PFUWorkflow::target_names$IncompleteAllocationTables,
                                                 country = "ZAF",
                                                 cache_path = testing_setup$cache_path)
-    World_fu_allocation_table <- readd_by_country(SEAPSUTWorkflow::target_names$IncompleteAllocationTables,
+    World_fu_allocation_table <- readd_by_country(PFUWorkflow::target_names$IncompleteAllocationTables,
                                                   country = "WLD",
                                                   cache_path = testing_setup$cache_path)
     expect_equal(World_fu_allocation_table %>%
@@ -135,7 +136,7 @@ test_that("setup_exemplars() works as expected", {
                  ZAF_fu_allocation_table)
   },
   finally = {
-    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+    PFUWorkflow:::clean_up_after_testing(testing_setup)
   })
 
 })
@@ -144,20 +145,20 @@ test_that("setup_exemplars() works as expected", {
 test_that("set_up_for_testing() works when setting up exemplars with no exemplar countries ", {
   # When we set up exemplars and we don't give additional exemplar countries,
   # we should get "World" as an exemplar.
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$fu_analysis_folder,
+  testing_setup <- PFUWorkflow:::set_up_for_testing(how_far = PFUWorkflow::target_names$fu_analysis_folder,
                                                         setup_exemplars = TRUE)
 
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
 
     testing_setup$plan %>%
-      dplyr::filter(.data[["target"]] == SEAPSUTWorkflow::target_names$alloc_and_eff_couns) %>%
+      dplyr::filter(.data[["target"]] == PFUWorkflow::target_names$alloc_and_eff_couns) %>%
       magrittr::extract2("command") %>%
       grepl("WLD", .) %>%
       expect_true()
   },
   finally = {
-    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+    PFUWorkflow:::clean_up_after_testing(testing_setup)
   })
 
 })

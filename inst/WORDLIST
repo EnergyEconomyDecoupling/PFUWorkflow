@@ -2,6 +2,7 @@ Addins
 AllMachineData
 AllocationGraphs
 avh
+biofuels
 Cmats
 CEDA
 CEDAData
@@ -29,6 +30,7 @@ Hotfix
 https
 Hotfix
 IEA
+IEA's
 IEAData
 IEATools
 iea
@@ -41,17 +43,20 @@ MatthewHeun
 PFU
 PPPs
 prev
+pinboard
 PSUT
 psut
 PWT
 pwt
 readd
+renewables
 rgdpe
 rgdpna
 rgdpo
 rkna
 rnna
 SEAPSUT
+SEAPSUTWorkflow
 subfolder
 subfolders
 subtarget

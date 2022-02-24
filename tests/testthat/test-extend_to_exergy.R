@@ -131,18 +131,18 @@ test_that("sum_phi_vecs() works with different row types", {
 
 test_that("extending to exergy works as expected in the workflow", {
   # Set up for 1 past the exergy stuff.
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = SEAPSUTWorkflow::target_names$PSUT_useful_exergy)
+  testing_setup <- PFUWorkflow:::set_up_for_testing(how_far = PFUWorkflow::target_names$PSUT)
   tryCatch({
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
 
     # Check that the eta_fu and phi_u were added to the WithEtaPhi_target data frame target
-    PhiConstants <- drake::readd(SEAPSUTWorkflow::target_names$PhiConstants, character_only = TRUE, path = testing_setup$cache_path)
+    PhiConstants <- drake::readd(PFUWorkflow::target_names$PhiConstants, character_only = TRUE, path = testing_setup$cache_path)
     expect_true(all(names(PhiConstants) == c("Product", "phi", "is.useful")))
-    Phivecs <- drake::readd(SEAPSUTWorkflow::target_names$Phivecs, character_only = TRUE, path = testing_setup$cache_path)
+    Phivecs <- drake::readd(PFUWorkflow::target_names$Phivecs, character_only = TRUE, path = testing_setup$cache_path)
     expect_true(all(names(Phivecs) == c("Country", "Year", "phi")))
   },
   finally = {
-    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+    PFUWorkflow:::clean_up_after_testing(testing_setup)
   })
 
 })

@@ -3,7 +3,7 @@ context("Template Functions")
 ###########################################################
 
 test_that("generate_*_template works as expected", {
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "Specified")
+  testing_setup <- PFUWorkflow:::set_up_for_testing(how_far = "Specified")
   tryCatch({
     # Make the plan in the temp_cache
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
@@ -25,6 +25,6 @@ test_that("generate_*_template works as expected", {
     file.remove(eff_template)
 
   }, finally = {
-    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+    PFUWorkflow:::clean_up_after_testing(testing_setup)
   })
 })

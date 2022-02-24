@@ -185,7 +185,7 @@ sum_phi_vecs <- function(phi_pf_vecs,
         "{phi_colname}" := NULL
       )
 
-    err_msg <- paste("In SEAPSUTWorkflow::sum_phi_vecs(), the length of the sum of phi_pf and phi_u vectors",
+    err_msg <- paste("In PFUWorkflow::sum_phi_vecs(), the length of the sum of phi_pf and phi_u vectors",
                      "was not the same as the sum of vector lengths. The rows that failed the test are",
                      matsindf::df_to_msg(problem_rows))
     stop(err_msg)
@@ -202,7 +202,7 @@ sum_phi_vecs <- function(phi_pf_vecs,
         "{.phi_cols_OK}" := NULL,
         "{phi_colname}" := NULL
       )
-    err_msg <- paste("In SEAPSUTWorkflow::sum_phi_vecs(), the names of the phi.pf and phi.u columns should be the same.",
+    err_msg <- paste("In PFUWorkflow::sum_phi_vecs(), the names of the phi.pf and phi.u columns should be the same.",
                      "Rows that failed the test are",
                      matsindf::df_to_msg(problem_rows))
     stop(err_msg)
@@ -265,5 +265,10 @@ move_to_exergy <- function(psut_energy,
   df_with_phi <- dplyr::left_join(psut_energy, phi_vecs, by = meta_cols)
 
   # Calculate exergy versions of the ECC.
-  Recca::extend_to_exergy(df_with_phi)
+  # Need to specify the mat_piece here, because the default value ("all")
+  # is not appropriate.
+  # We will have cases where the matrix will have specified names like
+  # "MP [from Bulk carrier ships]".
+  # In this case, we need to match the noun, not the whole string.
+  Recca::extend_to_exergy(df_with_phi, mat_piece = "noun", phi_piece = "all")
 }

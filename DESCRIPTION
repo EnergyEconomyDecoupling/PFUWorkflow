@@ -1,15 +1,15 @@
-Package: SEAPSUTWorkflow
-Title: Functions and Workflows For Societal Exergy Analysis Within the PSUT Framework
-Version: 0.2.5
-Date: 2021-10-28
+Package: PFUWorkflow
+Title: Functions and Workflows for Primary-Final-Useful Societal Exergy Analysis Within the PSUT Framework
+Version: 0.2.6
+Date: 2022-02-24
 Authors@R: 
     c(person(given = "Matthew",
-           family = "Heun",
-           role = c("aut", "cre"),
-           email = "matthew.heun@me.com",
-           comment = c(ORCID = "0000-0002-7438-214X")),
+             family = "Heun",
+             role = c("aut", "cre"),
+             email = "matthew.heun@me.com",
+             comment = c(ORCID = "0000-0002-7438-214X")),
       person(given = "Zeke", family = "Marshall", role = "aut"))
-Description: SEAPSUTWorkflow provides functions and workflows for societal exergy analysis within the PSUT framework.
+Description: This package functions and workflows for primary-final-useful societal exergy analysis within the PSUT framework.
              The package is compatible with `drake`.
 License: MIT + file LICENSE
 Language: en-US
@@ -29,6 +29,8 @@ Imports:
     matsindf,
     MKHthemes,
     openxlsx,
+    parsedate,
+    pins,
     purrr,
     pwt10,
     readxl,

@@ -91,7 +91,7 @@
 <ol style="list-style-type: decimal">
 <li>Create a new <code>R</code> project in a new folder or repository.</li>
 <li>Make an <code>R</code> directory inside the new folder.</li>
-<li>Inside the <code>R</code> directory, make a file called <code>plan.R</code> that calls <code><a href="../reference/get_plan.html">SEAPSUTWorkflow::get_plan()</a></code> like this:</li>
+<li>Inside the <code>R</code> directory, make a file called <code>plan.R</code> that calls <code><a href="../reference/get_plan.html">PFUWorkflow::get_plan()</a></code> like this:</li>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="fu"><a href="../reference/get_plan.html">get_plan</a></span><span class="op">(</span>countries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"GHA"</span>, <span class="st">"ZAF"</span><span class="op">)</span>, 
@@ -158,13 +158,13 @@
 <div id="targets" class="section level2">
 <h2 class="hasAnchor">
 <a href="#targets" class="anchor"></a>Targets</h2>
-<p>A list of targets can be found with <code><a href="../reference/target_names.html">SEAPSUTWorkflow::target_names</a></code>. The meanings of the targets can be obtained with <code><a href="../reference/target_names.html">?SEAPSUTWorkflow::target_names</a></code>.</p>
+<p>A list of targets can be found with <code><a href="../reference/target_names.html">PFUWorkflow::target_names</a></code>. The meanings of the targets can be obtained with <code><a href="../reference/target_names.html">?PFUWorkflow::target_names</a></code>.</p>
 </div>
 <div id="results" class="section level2">
 <h2 class="hasAnchor">
 <a href="#results" class="anchor"></a>Results</h2>
 <p>To query the results of executing the plan, say <code>drake::readd(&lt;&lt;target&gt;&gt;)</code>, where <code>&lt;&lt;target&gt;&gt;</code> is unquoted. Alternatively, <code><a href="https://docs.ropensci.org/drake/reference/readd.html">drake::readd("&lt;&lt;target&gt;&gt;", character_only = TRUE)</a></code> for a string <code>&lt;&lt;target&gt;&gt;</code>.</p>
-<p>Targets are computed by country. Say <code><a href="../reference/readd_by_country.html">SEAPSUTWorkflow::readd_by_country("&lt;&lt;target&gt;&gt;", "&lt;&lt;country&gt;&gt;")</a></code> to obtain the value of a target for a country or vector of countries. Both <code>&lt;&lt;target&gt;&gt;</code> and <code>&lt;&lt;country&gt;&gt;</code> need to be strings (enclosed in <code>""</code>) for <code><a href="../reference/readd_by_country.html">SEAPSUTWorkflow::readd_by_country()</a></code>.</p>
+<p>Targets are computed by country. Say <code><a href="../reference/readd_by_country.html">PFUWorkflow::readd_by_country("&lt;&lt;target&gt;&gt;", "&lt;&lt;country&gt;&gt;")</a></code> to obtain the value of a target for a country or vector of countries. Both <code>&lt;&lt;target&gt;&gt;</code> and <code>&lt;&lt;country&gt;&gt;</code> need to be strings (enclosed in <code>""</code>) for <code><a href="../reference/readd_by_country.html">PFUWorkflow::readd_by_country()</a></code>.</p>
 </div>
   </div>
 

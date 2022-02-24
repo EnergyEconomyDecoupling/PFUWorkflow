@@ -6,7 +6,7 @@
 \usage{
 read_all_eta_files(
   eta_fin_paths,
-  efficiency_tab_name = SEAPSUTWorkflow::machine_constants$efficiency_tab_name,
+  efficiency_tab_name = PFUWorkflow::machine_constants$efficiency_tab_name,
   year = IEATools::iea_cols$year,
   .values = IEATools::template_cols$.values
 )
@@ -16,7 +16,7 @@ read_all_eta_files(
 FIN_ETA front sheets, and therefore usable data.
 Created by calling the \code{get_eta_filepaths()} function.}
 
-\item{efficiency_tab_name}{See \code{SEAPSUTWorkflow::machine_constants}.}
+\item{efficiency_tab_name}{See \code{PFUWorkflow::machine_constants}.}
 
 \item{year}{See \code{IEATools::iea_cols}.}
 

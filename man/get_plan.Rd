@@ -17,7 +17,10 @@ get_plan(
   exemplar_table_path,
   fu_analysis_folder,
   reports_source_folders,
-  reports_dest_folder
+  reports_dest_folder,
+  workflow_output_folder,
+  workflow_releases_folder,
+  release = FALSE
 )
 }
 \arguments{
@@ -57,6 +60,14 @@ Sub-folders named with 3-letter country abbreviations are assumed.}
 \code{.Rnw} or \code{.Rmd} files.}
 
 \item{reports_dest_folder}{The path to a folder into which reports are written.}
+
+\item{workflow_output_folder}{The path to a folder where .zip files of the drake workflow are stored.}
+
+\item{workflow_releases_folder}{The path to a folder where releases of the
+\code{PSUT} target data frame are pinned.}
+
+\item{release}{A boolean that tells whether a new release of the \code{PSUT} target should be made.
+Default is \code{FALSE}.}
 }
 \value{
 A drake plan object.
@@ -150,7 +161,9 @@ get_plan(countries = c("GHA", "ZAF"),
          exemplar_table_path = "exemplar_path",
          fu_analysis_folder = "fu_folder",
          reports_source_folders = "reports_source_folders",
-         reports_dest_folder = "reports_dest_folder")
+         reports_dest_folder = "reports_dest_folder",
+         workflow_output_folder = "workflow_output_folder",
+         workflow_releases_folder = "workflow_releases_folder")
 }
 \seealso{
 \itemize{

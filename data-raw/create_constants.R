@@ -46,6 +46,8 @@ target_names <- list(countries = "countries",
                      Phivecs = "Phivecs",
                      PSUT_useful = "PSUT_useful",
                      PSUT_useful_exergy = "PSUT_useful_exergy",
+                     PSUT = "PSUT",
+                     AggregateProducts = "AggregateProducts",
                      FinalDemandSectors = "FinalDemandSectors",
                      PrimaryIndustryPrefixes = "PrimaryIndustryPrefixes",
                      AggregatePrimaryData = "AggregatePrimaryData",
@@ -82,7 +84,7 @@ usethis::use_data(exemplar_names, overwrite = TRUE)
 
 
 #
-# Give the names of SEAPSUTWorkflow columns, this function compliments "IEATools::iea_cols".
+# Give the names of PFUWorkflow columns, this function compliments "IEATools::iea_cols".
 #
 
 sea_cols <- list(stage_colname = "Stage",
@@ -166,4 +168,219 @@ phi_sources <- list(eta_fu_tables = "eta_fu.tables",
                     temperature_data = "temperature.data",
                     phi_constants = "phi.constants")
 usethis::use_data(phi_sources, overwrite = TRUE)
+
+
+#
+# Aggregation information
+#
+
+product_aggregation_map <-
+  list(`Oil and oil products`        = IEATools::oil_and_oil_products %>% unlist() %>% unname(),
+       `Natural gas`                 = IEATools::primary_gas_products %>% unlist() %>% unname(),
+       Renewables                    = IEATools::renewable_products %>% unlist() %>% unname(),
+       `Biofuels and waste products` = IEATools::biofuels_and_waste_products %>% unlist() %>% unname())
+usethis::use_data(product_aggregation_map, overwrite = TRUE)
+
+#
+# All countries to run in the workflow
+#
+all_countries <- list(
+  ago = "AGO",
+  alb = "ALB",
+  are = "ARE",
+  arg = "ARG",
+  arm = "ARM",
+  aus = "AUS",
+  aut = "AUT",
+  aze = "AZE",
+  bel = "BEL",
+  ben = "BEN",
+  bfa = "BFA",
+  bgd = "BGD",
+  bgr = "BGR",
+  bhr = "BHR",
+  bih = "BIH",
+  blr = "BLR",
+  bol = "BOL",
+  bra = "BRA",
+  brn = "BRN",
+  bwa = "BWA",
+  can = "CAN",
+  che = "CHE",
+  chl = "CHL",
+  chn = "CHN",
+  cmr = "CMR",
+  cod = "COD",
+  cog = "COG",
+  col = "COL",
+  civ = "CIV",
+  cri = "CRI",
+  cub = "CUB",
+  cuw = "CUW",
+  cyp = "CYP",
+  cze = "CZE",
+  deu = "DEU",
+  dnk = "DNK",
+  dom = "DOM",
+  dza = "DZA",
+  ecu = "ECU",
+  egy = "EGY",
+  eri = "ERI",
+  esp = "ESP",
+  est = "EST",
+  eth = "ETH",
+  fin = "FIN",
+  fra = "FRA",
+  gab = "GAB",
+  gbr = "GBR",
+  geo = "GEO",
+  gha = "GHA",
+  gib = "GIB",
+  gnq = "GNQ",
+  grc = "GRC",
+  grl = "GRL",
+  gtm = "GTM",
+  guy = "GUY",
+  hkg = "HKG",
+  hnd = "HND",
+  hrv = "HRV",
+  hti = "HTI",
+  hun = "HUN",
+  idn = "IDN",
+  ind = "IND",
+  irl = "IRL",
+  irn = "IRN",
+  irq = "IRQ",
+  isl = "ISL",
+  isr = "ISR",
+  ita = "ITA",
+  jam = "JAM",
+  jor = "JOR",
+  jpn = "JPN",
+  kaz = "KAZ",
+  ken = "KEN",
+  kgz = "KGZ",
+  khm = "KHM",
+  kor = "KOR",
+  kwt = "KWT",
+  lao = "LAO",
+  lbn = "LBN",
+  lby = "LBY",
+  lka = "LKA",
+  ltu = "LTU",
+  lux = "LUX",
+  lva = "LVA",
+  mar = "MAR",
+  mda = "MDA",
+  mdg = "MDG",
+  mex = "MEX",
+  msu = "MSU",
+  mkd = "MKD",
+  mli = "MLI",
+  mlt = "MLT",
+  mmr = "MMR",
+  mne = "MNE",
+  mng = "MNG",
+  moz = "MOZ",
+  mrt = "MRT",
+  mus = "MUS",
+  myu = "MYU",
+  mys = "MYS",
+  nam = "NAM",
+  ner = "NER",
+  nga = "NGA",
+  nic = "NIC",
+  nld = "NLD",
+  nor = "NOR",
+  npl = "NPL",
+  nzl = "NZL",
+  oaf = "OAF",
+  oam = "OAM",
+  oas = "OAS",
+  omn = "OMN",
+  pak = "PAK",
+  pan = "PAN",
+  per = "PER",
+  phl = "PHL",
+  pol = "POL",
+  prk = "PRK",
+  prt = "PRT",
+  pry = "PRY",
+  pse = "PSE",
+  qat = "QAT",
+  rou = "ROU",
+  rus = "RUS",
+  rwa = "RWA",
+  sau = "SAU",
+  sdn = "SDN",
+  sen = "SEN",
+  sgp = "SGP",
+  slv = "SLV",
+  srb = "SRB",
+  ssd = "SSD",
+  sun = "SUN",
+  sur = "SUR",
+  svk = "SVK",
+  svn = "SVN",
+  swe = "SWE",
+  syr = "SYR",
+  tcd = "TCD",
+  tgo = "TGO",
+  tha = "THA",
+  tjk = "TJK",
+  tkm = "TKM",
+  tto = "TTO",
+  tun = "TUN",
+  tur = "TUR",
+  twn = "TWN",
+  tza = "TZA",
+  uga = "UGA",
+  ukr = "UKR",
+  ury = "URY",
+  usa = "USA",
+  uzb = "UZB",
+  ven = "VEN",
+  vnm = "VNM",
+  wab = "WAB",
+  wld = "WLD",
+  wmb = "WMB",
+  xkx = "XKX",
+  yem = "YEM",
+  yug = "YUG",
+  zaf = "ZAF",
+  zmb = "ZMB",
+  zwe = "ZWE"
+
+)
+
+usethis::use_data(all_countries, overwrite = TRUE)
+
+
+#
+# Countries whose data also exists in another 'country'; i.e. Memo: Uganda (UGA)
+# in Other Africa (OAF).
+#
+double_counted_countries <- list(
+  bfa = "BFA",
+  mdg = "MDG",
+  mli = "MLI",
+  mrt = "MRT",
+  msu = "MSU",
+  myu = "MYU",
+  rwa = "RWA",
+  tcd = "TCD",
+  uga = "UGA"
+)
+
+usethis::use_data(double_counted_countries, overwrite = TRUE)
+
+
+#
+# Countries to run in the workflow which should sum to World (WLD)
+#
+canonical_countries <- dplyr::setdiff(all_countries,
+                                      double_counted_countries)
+
+usethis::use_data(canonical_countries, overwrite = TRUE)
+
 

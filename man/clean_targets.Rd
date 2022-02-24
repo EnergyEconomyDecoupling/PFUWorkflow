@@ -5,16 +5,16 @@
 \title{Cleans drake targets}
 \usage{
 clean_targets(
-  to_clean = SEAPSUTWorkflow::target_names[seq(which(SEAPSUTWorkflow::target_names ==
-    first_target), which(SEAPSUTWorkflow::target_names == last_target))],
+  to_clean = PFUWorkflow::target_names[seq(which(PFUWorkflow::target_names ==
+    first_target), which(PFUWorkflow::target_names == last_target))],
   first_target = "CEDAData",
-  last_target = SEAPSUTWorkflow::target_names[[length(SEAPSUTWorkflow::target_names)]],
+  last_target = PFUWorkflow::target_names[[length(PFUWorkflow::target_names)]],
   path = NULL
 )
 }
 \arguments{
 \item{to_clean}{A vector of target name strings to be cleaned. Default is
-all target names from "CEDAData" to the end of \code{SEAPSUTWorkflow::target_names}.}
+all target names from "CEDAData" to the end of \code{PFUWorkflow::target_names}.}
 
 \item{first_target}{The string name of the first target to clean. Default is "CEDAData".}
 
@@ -29,5 +29,5 @@ Nothing. This function should be called for its side effect of precision cleanin
 It is often helpful to clean only a few targets.
 This function allows specified targets to be cleaned.
 By default, this function cleans all targets \emph{after} \code{IEAData},
-according to the list \code{SEAPSUTWorkflow::target_names}.
+according to the list \code{PFUWorkflow::target_names}.
 }

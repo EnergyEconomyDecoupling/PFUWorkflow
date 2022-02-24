@@ -7,8 +7,8 @@
 readd_by_country(
   target,
   country,
-  alloc_and_eff_couns_trgt = SEAPSUTWorkflow::target_names$alloc_and_eff_couns,
-  cache_path = SEAPSUTWorkflow::cache_info$cache_path
+  alloc_and_eff_couns_trgt = PFUWorkflow::target_names$alloc_and_eff_couns,
+  cache_path = PFUWorkflow::cache_info$cache_path
 )
 }
 \arguments{
@@ -18,9 +18,9 @@ readd_by_country(
 (or vector of 3-letter countries)
 for whom \code{target} is to be readd from the drake cache.}
 
-\item{alloc_and_eff_couns_trgt}{See \code{SEAPSUTWorkflow::target_names}.}
+\item{alloc_and_eff_couns_trgt}{See \code{PFUWorkflow::target_names}.}
 
-\item{cache_path}{See \code{SEAPSUTWorkflow::cache_info}.}
+\item{cache_path}{See \code{PFUWorkflow::cache_info}.}
 }
 \value{
 the country-specific version of \code{target}

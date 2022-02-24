@@ -12,19 +12,19 @@ calculate_fu_ex_product(
   energy_type_colname = IEATools::iea_cols$energy_type,
   last_stage_colname = IEATools::iea_cols$last_stage,
   year_colname = IEATools::iea_cols$year,
-  sector_colname = SEAPSUTWorkflow::sea_cols$sector_colname,
-  fd_sectors_colname = SEAPSUTWorkflow::sea_cols$fd_sectors_colname,
-  e_product_colname = SEAPSUTWorkflow::sea_cols$e_product_colname,
-  stage_colname = SEAPSUTWorkflow::sea_cols$stage_colname,
-  gross_net_colname = SEAPSUTWorkflow::sea_cols$gross_net_colname,
-  agg_by_colname = SEAPSUTWorkflow::sea_cols$agg_by_colname,
-  ex_colname = SEAPSUTWorkflow::sea_cols$ex_colname,
-  ex_net_colname = SEAPSUTWorkflow::sea_cols$ex_net_colname,
-  ex_gross_colname = SEAPSUTWorkflow::sea_cols$ex_gross_colname,
-  net_value = SEAPSUTWorkflow::gross_net_metadata$net_value,
-  gross_value = SEAPSUTWorkflow::gross_net_metadata$gross_value,
-  all_value = SEAPSUTWorkflow::agg_metadata$all_value,
-  product_value = SEAPSUTWorkflow::agg_metadata$product_value
+  sector_colname = PFUWorkflow::sea_cols$sector_colname,
+  fd_sectors_colname = PFUWorkflow::sea_cols$fd_sectors_colname,
+  e_product_colname = PFUWorkflow::sea_cols$e_product_colname,
+  stage_colname = PFUWorkflow::sea_cols$stage_colname,
+  gross_net_colname = PFUWorkflow::sea_cols$gross_net_colname,
+  agg_by_colname = PFUWorkflow::sea_cols$agg_by_colname,
+  ex_colname = PFUWorkflow::sea_cols$ex_colname,
+  ex_net_colname = PFUWorkflow::sea_cols$ex_net_colname,
+  ex_gross_colname = PFUWorkflow::sea_cols$ex_gross_colname,
+  net_value = PFUWorkflow::gross_net_metadata$net_value,
+  gross_value = PFUWorkflow::gross_net_metadata$gross_value,
+  all_value = PFUWorkflow::agg_metadata$all_value,
+  product_value = PFUWorkflow::agg_metadata$product_value
 )
 }
 \arguments{
@@ -35,11 +35,11 @@ matrices with associated final demand sector names}
 
 \item{country_colname, method_colname, energy_type_colname, last_stage_colname, year_colname}{See \code{IEATools::iea_cols}.}
 
-\item{sector_colname, fd_sectors_colname, e_product_colname, stage_colname, gross_net_colname, agg_by_colname, ex_colname, ex_net_colname, ex_gross_colname}{See \code{SEAPSUTWorkflow::sea_cols}.}
+\item{sector_colname, fd_sectors_colname, e_product_colname, stage_colname, gross_net_colname, agg_by_colname, ex_colname, ex_net_colname, ex_gross_colname}{See \code{PFUWorkflow::sea_cols}.}
 
-\item{net_value, gross_value}{See \code{SEAPSUTWorkflow::gross_net_metadata}.}
+\item{net_value, gross_value}{See \code{PFUWorkflow::gross_net_metadata}.}
 
-\item{all_value, product_value}{See \code{SEAPSUTWorkflow::agg_metadata}.}
+\item{all_value, product_value}{See \code{PFUWorkflow::agg_metadata}.}
 }
 \value{
 A data frame containing aggregate final and useful energy/exergy data by product
@@ -57,8 +57,7 @@ all of the sectors supplied in \code{fd_sectors} for each product.
 \examples{
 library(Recca)
 tfc_product <- Recca::UKEnergy2000mats \%>\%
-                 tidyr::pivot_wider(id_cols = Country:matrix.name,
-                                    names_from = matrix.name,
+                 tidyr::pivot_wider(names_from = matrix.name,
                                     values_from = matrix) \%>\%
                  dplyr::mutate(Method = "PCM") \%>\%
                  calculate_fu_ex_product(fd_sectors = c("Residential"))

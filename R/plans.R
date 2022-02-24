@@ -94,6 +94,11 @@
 #' @param reports_source_folders A string vector containing paths to folders of report sources, usually
 #'                               `.Rnw` or `.Rmd` files.
 #' @param reports_dest_folder The path to a folder into which reports are written.
+#' @param workflow_output_folder The path to a folder where .zip files of the drake workflow are stored.
+#' @param workflow_releases_folder The path to a folder where releases of the
+#'                                 `PSUT` target data frame are pinned.
+#' @param release A boolean that tells whether a new release of the `PSUT` target should be made.
+#'                Default is `FALSE`.
 #'
 #' @return A drake plan object.
 #'
@@ -117,14 +122,25 @@
 #'          exemplar_table_path = "exemplar_path",
 #'          fu_analysis_folder = "fu_folder",
 #'          reports_source_folders = "reports_source_folders",
-#'          reports_dest_folder = "reports_dest_folder")
-get_plan <- function(countries, additional_exemplar_countries = NULL,
-                     max_year, how_far = "all_targets",
+#'          reports_dest_folder = "reports_dest_folder",
+#'          workflow_output_folder = "workflow_output_folder",
+#'          workflow_releases_folder = "workflow_releases_folder")
+get_plan <- function(countries,
+                     additional_exemplar_countries = NULL,
+                     max_year,
+                     how_far = "all_targets",
                      iea_data_path,
-                     country_concordance_path, phi_constants_path, ceda_data_folder,
-                     machine_data_path, exemplar_table_path,
+                     country_concordance_path,
+                     phi_constants_path,
+                     ceda_data_folder,
+                     machine_data_path,
+                     exemplar_table_path,
                      fu_analysis_folder,
-                     reports_source_folders, reports_dest_folder) {
+                     reports_source_folders,
+                     reports_dest_folder,
+                     workflow_output_folder,
+                     workflow_releases_folder,
+                     release = FALSE) {
 
   # Get around warnings of type "no visible binding for global variable".
   alloc_and_eff_couns <- NULL
@@ -139,6 +155,7 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
   balanced_after <- NULL
   Specified <- NULL
   PSUT_final <- NULL
+  PSUT <- NULL
   IncompleteAllocationTables <- NULL
   TidyIncompleteAllocationTables <- NULL
   IncompleteEfficiencyTables <- NULL
@@ -166,7 +183,8 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
     # Use !!, for tidy evaluation, to put the arguments' values in the plan.
     # See https://stackoverflow.com/questions/62140991/how-to-create-a-plan-in-a-function
-    # Need to enclose !!countries in c() (or an identity function), else it doesn't work when countries has length > 1.
+    # Need to enclose !!countries in c() (or an identity function),
+    # else it doesn't work when countries has length > 1.
     countries = c(!!countries),
     alloc_and_eff_couns = unique(c(countries, !!additional_exemplar_countries)),
     max_year = !!max_year,
@@ -179,13 +197,28 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     fu_analysis_folder = !!fu_analysis_folder,
     reports_source_folders = !!reports_source_folders,
     reports_dest_folder = !!reports_dest_folder,
+    workflow_output_folder = !!workflow_output_folder,
+    workflow_releases_folder = !!workflow_releases_folder,
+    release = !!release,
 
     # Load country concordance table
-    CountryConcordanceTable = readxl::read_excel(country_concordance_path, sheet = "country_concordance_table"),
+    # CountryConcordanceTable = readxl::read_excel(country_concordance_path, sheet = "country_concordance_table"),
+    CountryConcordanceTable = load_country_concordance_table(country_concordance_path = country_concordance_path),
+
+    # Load the final demand sectors
+
+    FinalDemandSectors = drake::target(get_fd_sectors()),
+
+
+    # Load the primary industry prefixes
+
+    PrimaryIndustryPrefixes = drake::target(get_p_industry_prefixes()),
+
 
     # (1a) Grab all IEA data for ALL countries
 
     AllIEAData = iea_data_path %>% IEATools::load_tidy_iea_df(override_df = CountryConcordanceTable),
+
     IEAData = drake::target(AllIEAData %>%
                               extract_country_data(countries = alloc_and_eff_couns, max_year = max_year),
                             dynamic = map(alloc_and_eff_couns)),
@@ -201,6 +234,12 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
     MachineData = drake::target(AllMachineData %>%
                                   extract_country_data(countries = alloc_and_eff_couns, max_year = max_year),
                                 dynamic = map(alloc_and_eff_couns)),
+
+    # (1d) Grab Socioeconomic Data for selected countries
+
+    SocioEconData = drake::target(get_all_pwt_data(countries = countries) %>%
+                                    get_L_K_GDP_data()),
+
 
     # (2) Balance all final energy data.
 
@@ -330,50 +369,15 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
 
 
     # (-) Add exergy quantifications of energy
+    # Set PSUT as the last target. We'll use it for all further calculations.
 
-    PSUT_useful_exergy = drake::target(move_to_exergy(psut_energy = PSUT_useful,
+    PSUT = drake::target(move_to_exergy(psut_energy = PSUT_useful,
                                                       phi_vecs = Phivecs,
                                                       countries = countries),
                                        dynamic = map(countries)),
 
 
-    # (-) Off to the races!  Do other calculations:
-
-
-
-    # (11) Final demand sectors
-
-    FinalDemandSectors = drake::target(get_fd_sectors()),
-
-
-    # (12) Primary industry prefixes
-
-    PrimaryIndustryPrefixes = drake::target(get_p_industry_prefixes()),
-
-
-    # (13a) Aggregate of primary energy/exergy by total (total energy supply (TES)), product, and flow
-
-    AggregatePrimaryData = drake::target(calculate_primary_ex_data(.sutdata = PSUT_useful_exergy,
-                                                                   p_industry_prefixes = PrimaryIndustryPrefixes)),
-
-
-
-    # (13b) Aggregate final and useful energy/exergy by total (total final consumption (TFC)), product, and sector
-
-    AggregateFinalUsefulData = drake::target(calculate_finaluseful_ex_data(.sutdata = PSUT_useful_exergy,
-                                                                           fd_sectors = FinalDemandSectors)),
-
-
-
-    # (14) Socioeconomic Data for selected countries
-
-    SocioEconData = drake::target(get_all_pwt_data(countries = countries) %>%
-                                    get_L_K_GDP_data()),
-
-
-
-
-    # (N) Build reports
+    # (11) Build reports
 
     # Build Allocation Graphs
     AllocationGraphs = drake::target(alloc_plots_df(CompletedAllocationTables, countries = countries),
@@ -384,20 +388,26 @@ get_plan <- function(countries, additional_exemplar_countries = NULL,
                                      dynamic = map(countries)),
 
     # Build Efficiency Graphs
-    EfficiencyGraphs = drake::target(eta_fu_plots_df(CompletedEfficiencyTables, countries = countries)),
+    EfficiencyGraphs = drake::target(eta_fu_plots_df(CompletedEfficiencyTables, countries = countries),
+                                     dynamic = map(countries)),
 
     # Build Exergy-to-energy ratio graphs
-    # ExergyEnergyGraphs = drake::target(phi_u_plots_df(CompletedEfficiencyTables, countries = countries))
+    ExergyEnergyGraphs = drake::target(phi_u_plots_df(CompletedEfficiencyTables, countries = countries),
+                                       dynamic = map(countries)),
 
 
+    # (12) Save results
 
+    # Zip the drake cache and store it in the workflow_output_folder
+    StoreCache = drake::target(stash_cache(workflow_output_folder = workflow_output_folder,
+                                           dependency = PSUT)),
 
-    # reports_source_paths = drake::target(drake::file_in(report_source_paths(report_source_folders = report_source_folders))),
-    # reports_dest_path = drake::target(drake::file_out(report_dest_paths(report_source_paths))),
-    # reports_complete = drake::target(generate_reports(report_source_files = report_source_paths,
-    #                                                   report_dest_folder = report_dest_folder))
-
+    # Store the PSUT target data frame in a pinboard inside the workflow_releases_folder.
+    ReleasePSUT = drake::target(release_psut(workflow_releases_folder = workflow_releases_folder,
+                                             psut = PSUT,
+                                             release = release))
   )
+
   if (how_far != "all_targets") {
     # Find the last row of the plan to keep.
     last_row_to_keep <- p %>%

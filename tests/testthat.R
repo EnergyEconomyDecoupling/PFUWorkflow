@@ -1,4 +1,4 @@
 library(testthat)
-library(SEAPSUTWorkflow)
+library(PFUWorkflow)
 
-test_check("SEAPSUTWorkflow")
+test_check("PFUWorkflow")
