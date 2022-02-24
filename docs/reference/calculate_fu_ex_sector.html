@@ -24,7 +24,7 @@ in each of the sectors supplied in fd_sectors."><!-- mathjax --><script src="htt
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PFUWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.6</span>
       </span>
     </div>
 
@@ -72,19 +72,19 @@ in each of the sectors supplied in <code>fd_sectors</code>.</p>
   energy_type_colname <span class="op">=</span> <span class="fu">IEATools</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/IEATools/man/iea_cols.html" class="external-link">iea_cols</a></span><span class="op">$</span><span class="va">energy_type</span>,
   last_stage_colname <span class="op">=</span> <span class="fu">IEATools</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/IEATools/man/iea_cols.html" class="external-link">iea_cols</a></span><span class="op">$</span><span class="va">last_stage</span>,
   year_colname <span class="op">=</span> <span class="fu">IEATools</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/IEATools/man/iea_cols.html" class="external-link">iea_cols</a></span><span class="op">$</span><span class="va">year</span>,
-  sector_colname <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/sea_cols.html" class="external-link">sea_cols</a></span><span class="op">$</span><span class="va">sector_colname</span>,
-  fd_sectors_colname <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/sea_cols.html" class="external-link">sea_cols</a></span><span class="op">$</span><span class="va">fd_sectors_colname</span>,
-  e_product_colname <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/sea_cols.html" class="external-link">sea_cols</a></span><span class="op">$</span><span class="va">e_product_colname</span>,
-  stage_colname <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/sea_cols.html" class="external-link">sea_cols</a></span><span class="op">$</span><span class="va">stage_colname</span>,
-  gross_net_colname <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/sea_cols.html" class="external-link">sea_cols</a></span><span class="op">$</span><span class="va">gross_net_colname</span>,
-  agg_by_colname <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/sea_cols.html" class="external-link">sea_cols</a></span><span class="op">$</span><span class="va">agg_by_colname</span>,
-  ex_colname <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/sea_cols.html" class="external-link">sea_cols</a></span><span class="op">$</span><span class="va">ex_colname</span>,
-  ex_net_colname <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/sea_cols.html" class="external-link">sea_cols</a></span><span class="op">$</span><span class="va">ex_net_colname</span>,
-  ex_gross_colname <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/sea_cols.html" class="external-link">sea_cols</a></span><span class="op">$</span><span class="va">ex_gross_colname</span>,
-  net_value <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/gross_net_metadata.html" class="external-link">gross_net_metadata</a></span><span class="op">$</span><span class="va">net_value</span>,
-  gross_value <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/gross_net_metadata.html" class="external-link">gross_net_metadata</a></span><span class="op">$</span><span class="va">gross_value</span>,
-  all_value <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/agg_metadata.html" class="external-link">agg_metadata</a></span><span class="op">$</span><span class="va">all_value</span>,
-  sector_value <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/agg_metadata.html" class="external-link">agg_metadata</a></span><span class="op">$</span><span class="va">sector_value</span>
+  sector_colname <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="sea_cols.html">sea_cols</a></span><span class="op">$</span><span class="va">sector_colname</span>,
+  fd_sectors_colname <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="sea_cols.html">sea_cols</a></span><span class="op">$</span><span class="va">fd_sectors_colname</span>,
+  e_product_colname <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="sea_cols.html">sea_cols</a></span><span class="op">$</span><span class="va">e_product_colname</span>,
+  stage_colname <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="sea_cols.html">sea_cols</a></span><span class="op">$</span><span class="va">stage_colname</span>,
+  gross_net_colname <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="sea_cols.html">sea_cols</a></span><span class="op">$</span><span class="va">gross_net_colname</span>,
+  agg_by_colname <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="sea_cols.html">sea_cols</a></span><span class="op">$</span><span class="va">agg_by_colname</span>,
+  ex_colname <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="sea_cols.html">sea_cols</a></span><span class="op">$</span><span class="va">ex_colname</span>,
+  ex_net_colname <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="sea_cols.html">sea_cols</a></span><span class="op">$</span><span class="va">ex_net_colname</span>,
+  ex_gross_colname <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="sea_cols.html">sea_cols</a></span><span class="op">$</span><span class="va">ex_gross_colname</span>,
+  net_value <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="gross_net_metadata.html">gross_net_metadata</a></span><span class="op">$</span><span class="va">net_value</span>,
+  gross_value <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="gross_net_metadata.html">gross_net_metadata</a></span><span class="op">$</span><span class="va">gross_value</span>,
+  all_value <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="agg_metadata.html">agg_metadata</a></span><span class="op">$</span><span class="va">all_value</span>,
+  sector_value <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="agg_metadata.html">agg_metadata</a></span><span class="op">$</span><span class="va">sector_value</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -98,11 +98,11 @@ matrices with associated final demand sector names</p></dd>
 <dt>country_colname, method_colname, energy_type_colname, last_stage_colname, year_colname</dt>
 <dd><p>See <code><a href="https://rdrr.io/pkg/IEATools/man/iea_cols.html" class="external-link">IEATools::iea_cols</a></code>.</p></dd>
 <dt>sector_colname, fd_sectors_colname, e_product_colname, stage_colname, gross_net_colname, agg_by_colname, ex_colname, ex_net_colname, ex_gross_colname</dt>
-<dd><p>See <code><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/sea_cols.html" class="external-link">PFUWorkflow::sea_cols</a></code>.</p></dd>
+<dd><p>See <code><a href="sea_cols.html">PFUWorkflow::sea_cols</a></code>.</p></dd>
 <dt>net_value, gross_value</dt>
-<dd><p>See <code><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/gross_net_metadata.html" class="external-link">PFUWorkflow::gross_net_metadata</a></code>.</p></dd>
+<dd><p>See <code><a href="gross_net_metadata.html">PFUWorkflow::gross_net_metadata</a></code>.</p></dd>
 <dt>all_value, sector_value</dt>
-<dd><p>See <code><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/agg_metadata.html" class="external-link">PFUWorkflow::agg_metadata</a></code>.</p></dd>
+<dd><p>See <code><a href="agg_metadata.html">PFUWorkflow::agg_metadata</a></code>.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -113,13 +113,10 @@ matrices with associated final demand sector names</p></dd>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MatthewHeun/Recca" class="external-link">Recca</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="va">tfc_sector</span> <span class="op">&lt;-</span> <span class="fu">Recca</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Recca/man/UKEnergy2000mats.html" class="external-link">UKEnergy2000mats</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">               <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="va">Country</span><span class="op">:</span><span class="va">matrix.name</span>,</span>
-<span class="r-in">                                  names_from <span class="op">=</span> <span class="va">matrix.name</span>,</span>
+<span class="r-in">               <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">matrix.name</span>,</span>
 <span class="r-in">                                  values_from <span class="op">=</span> <span class="va">matrix</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
 <span class="r-in">               <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Method <span class="op">=</span> <span class="st">"PCM"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
 <span class="r-in">               <span class="fu">calculate_fu_ex_sector</span><span class="op">(</span>fd_sectors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Residential"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in stop_subscript(class = "vctrs_error_subscript_oob", i = i, subscript_type = subscript_type,     ...):</span> Can't subset columns that don't exist.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Column `matrix.name` doesn't exist.</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

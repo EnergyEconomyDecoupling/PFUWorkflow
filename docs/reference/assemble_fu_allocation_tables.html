@@ -18,7 +18,7 @@ given a set of incomplete allocation tables."><!-- mathjax --><script src="https
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PFUWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.6</span>
       </span>
     </div>
 
@@ -60,11 +60,11 @@ given a set of incomplete allocation tables.</p>
   max_year <span class="op">=</span> <span class="cn">NULL</span>,
   country <span class="op">=</span> <span class="fu">IEATools</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/IEATools/man/iea_cols.html" class="external-link">iea_cols</a></span><span class="op">$</span><span class="va">country</span>,
   year <span class="op">=</span> <span class="fu">IEATools</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/IEATools/man/iea_cols.html" class="external-link">iea_cols</a></span><span class="op">$</span><span class="va">year</span>,
-  exemplars <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/exemplar_names.html" class="external-link">exemplar_names</a></span><span class="op">$</span><span class="va">exemplars</span>,
-  exemplar_tables <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/exemplar_names.html" class="external-link">exemplar_names</a></span><span class="op">$</span><span class="va">exemplar_tables</span>,
-  iea_data <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/exemplar_names.html" class="external-link">exemplar_names</a></span><span class="op">$</span><span class="va">iea_data</span>,
-  incomplete_alloc_tables <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/exemplar_names.html" class="external-link">exemplar_names</a></span><span class="op">$</span><span class="va">incomplete_alloc_table</span>,
-  complete_alloc_tables <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/exemplar_names.html" class="external-link">exemplar_names</a></span><span class="op">$</span><span class="va">complete_alloc_table</span>
+  exemplars <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="exemplar_names.html">exemplar_names</a></span><span class="op">$</span><span class="va">exemplars</span>,
+  exemplar_tables <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="exemplar_names.html">exemplar_names</a></span><span class="op">$</span><span class="va">exemplar_tables</span>,
+  iea_data <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="exemplar_names.html">exemplar_names</a></span><span class="op">$</span><span class="va">iea_data</span>,
+  incomplete_alloc_tables <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="exemplar_names.html">exemplar_names</a></span><span class="op">$</span><span class="va">incomplete_alloc_table</span>,
+  complete_alloc_tables <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="exemplar_names.html">exemplar_names</a></span><span class="op">$</span><span class="va">complete_alloc_table</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -85,7 +85,7 @@ telling which countries should be considered exemplars for the country and year 
 <dt>country, year</dt>
 <dd><p>See <code><a href="https://rdrr.io/pkg/IEATools/man/iea_cols.html" class="external-link">IEATools::iea_cols</a></code>.</p></dd>
 <dt>exemplars, exemplar_tables, iea_data, incomplete_alloc_tables, complete_alloc_tables</dt>
-<dd><p>See <code>PFUWorkflow::exemplar_names</code>.</p></dd>
+<dd><p>See <code><a href="exemplar_names.html">PFUWorkflow::exemplar_names</a></code>.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>

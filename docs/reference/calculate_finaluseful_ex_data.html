@@ -21,7 +21,7 @@ and binding the outputs of these functions into a single data frame."><!-- mathj
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PFUWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.6</span>
       </span>
     </div>
 
@@ -84,13 +84,10 @@ sector and product.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     energy_types, finaldemand_aggregates, primary_aggregates, psut_cols</span>
 <span class="r-in"><span class="va">finaluseful_data</span> <span class="op">&lt;-</span> <span class="fu">Recca</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Recca/man/UKEnergy2000mats.html" class="external-link">UKEnergy2000mats</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">                      <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="va">Country</span><span class="op">:</span><span class="va">matrix.name</span>,</span>
-<span class="r-in">                                         names_from <span class="op">=</span> <span class="va">matrix.name</span>,</span>
+<span class="r-in">                      <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">matrix.name</span>,</span>
 <span class="r-in">                                         values_from <span class="op">=</span> <span class="va">matrix</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
 <span class="r-in">                      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Method <span class="op">=</span> <span class="st">"PCM"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
 <span class="r-in">                      <span class="fu">calculate_finaluseful_ex_data</span><span class="op">(</span>fd_sectors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Residential"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in stop_subscript(class = "vctrs_error_subscript_oob", i = i, subscript_type = subscript_type,     ...):</span> Can't subset columns that don't exist.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Column `matrix.name` doesn't exist.</span>
 </code></pre></div>
     </div>
   </div>

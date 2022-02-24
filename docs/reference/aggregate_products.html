@@ -19,7 +19,7 @@ Aggregated matrices replace original matrices on output."><!-- mathjax --><scrip
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PFUWorkflow</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.6</span>
       </span>
     </div>
 
@@ -57,7 +57,7 @@ Aggregated matrices replace original matrices on output.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">aggregate_products</span><span class="op">(</span>
   <span class="va">.psut_df</span>,
   matrices_to_aggregate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"R"</span>, <span class="st">"U"</span>, <span class="st">"V"</span>, <span class="st">"Y"</span><span class="op">)</span>,
-  aggregation_map <span class="op">=</span> <span class="fu">SEAPSUTWorkflow</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/product_aggregation_map.html" class="external-link">product_aggregation_map</a></span>,
+  aggregation_map <span class="op">=</span> <span class="fu">PFUWorkflow</span><span class="fu">::</span><span class="va"><a href="product_aggregation_map.html">product_aggregation_map</a></span>,
   <span class="va">countries</span>,
   country <span class="op">=</span> <span class="fu">IEATools</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/IEATools/man/iea_cols.html" class="external-link">iea_cols</a></span><span class="op">$</span><span class="va">country</span>
 <span class="op">)</span></code></pre></div>
@@ -73,7 +73,7 @@ Default is <code>c("R", "U", "V", "Y")</code>.</p></dd>
 <dt>aggregation_map</dt>
 <dd><p>A description of the aggregation to be performed.
 See <code><a href="https://rdrr.io/pkg/matsbyname/man/aggregate_byname.html" class="external-link">matsbyname::aggregate_byname()</a></code> for a description of its format.
-Default is <code><a href="https://rdrr.io/pkg/SEAPSUTWorkflow/man/product_aggregation_map.html" class="external-link">PFUWorkflow::product_aggregation_map</a></code>.</p></dd>
+Default is <code><a href="product_aggregation_map.html">PFUWorkflow::product_aggregation_map</a></code>.</p></dd>
 <dt>countries</dt>
 <dd><p>The countries to be analyzed.</p></dd>
 <dt>country</dt>
