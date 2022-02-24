@@ -4,7 +4,7 @@ output: html_document
 ---
 
 
-# PFUWorkflow 0.2.6 (2022-02-24)
+# PFUWorkflow 0.2.6 (2022-02-24) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6265380.svg)](https://doi.org/10.5281/zenodo.6265380)
 
 * Name change to `PFUWorkflow`, bringing consistency 
   with future packages that use results from the PFU workflow.
