@@ -3,6 +3,11 @@ title: "Release notes for `SEAPSUTWorkflow`"
 output: html_document
 ---
 
+
+* `get_plan()` has new argument for doing a release of 
+  the `PSUT` target.
+* `get_plan()` has new arguments for folders
+  where workflow outputs are stored.
 * Now detecting error conditions when loading
   the country concordance table:
   empty and repeated 3-letter country codes.

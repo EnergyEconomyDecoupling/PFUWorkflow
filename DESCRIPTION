@@ -29,6 +29,7 @@ Imports:
     matsindf,
     MKHthemes,
     openxlsx,
+    pins,
     purrr,
     pwt10,
     readxl,

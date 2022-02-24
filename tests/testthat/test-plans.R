@@ -3,7 +3,9 @@ context("Plan Functions")
 ###########################################################
 
 test_that("get_plan() works", {
-  my_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+  my_plan <- get_plan(countries = c("GHA", "ZAF"),
+                      max_year = 1999,
+                      country_concordance_path = "countryconcordancepath",
                       phi_constants_path = "phiconstantspath",
                       iea_data_path = "datapath",
                       ceda_data_folder = "cedapath",
@@ -12,8 +14,8 @@ test_that("get_plan() works", {
                       fu_analysis_folder = "FUpath",
                       reports_source_folders = "reports_source_folders",
                       reports_dest_folder = "reports_dest_folder",
-                      countries = c("GHA", "ZAF"),
-                      max_year = 1999)
+                      workflow_output_folder = "workflow_output_folder",
+                      workflow_releases_folder = "workflow_releases_folder")
 
   # Keep track of row numbers for indexing purposes
   rn <- 1
@@ -46,6 +48,12 @@ test_that("get_plan() works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "reports_dest_folder")
   expect_equal(my_plan[[rn, "command"]], list("reports_dest_folder"))
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "workflow_output_folder")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "workflow_releases_folder")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "release")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "CountryConcordanceTable")
 
@@ -101,22 +109,21 @@ test_that("get_plan() works", {
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "PSUT")
 
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregateProducts")
-
-
-
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregatePrimaryData")
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "AggregateFinalUsefulData")
 
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "AllocationGraphs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "NonStationaryAllocationGraphs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "EfficiencyGraphs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "ExergyEnergyGraphs")
+
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "StoreCache")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "ReleasePSUT")
 })
 
 
 test_that("keeping only some rows of a plan works", {
-  full_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+  full_plan <- get_plan(countries = c("GHA", "ZAF"),
+                        max_year = 1999,
+                        country_concordance_path = "countryconcordancepath",
                         phi_constants_path = "phiconstantspath",
                         iea_data_path = "datapath",
                         ceda_data_folder = "cedapath",
@@ -125,9 +132,12 @@ test_that("keeping only some rows of a plan works", {
                         fu_analysis_folder = "FUpath",
                         reports_source_folders = "reports_source_path",
                         reports_dest_folder = "reports_dest_folder",
-                        countries = c("GHA", "ZAF"),
-                        max_year = 1999)
-  short_plan <- get_plan(country_concordance_path = "countryconcordancepath",
+                        workflow_output_folder = "workflow_output_folder",
+                        workflow_releases_folder = "workflow_releases_folder"
+                        )
+  short_plan <- get_plan(countries = c("GHA", "ZAF"),
+                         max_year = 1999,
+                         country_concordance_path = "countryconcordancepath",
                          phi_constants_path = "phiconstantspath",
                          iea_data_path = "mypath",
                          ceda_data_folder = "cedapath",
@@ -136,9 +146,10 @@ test_that("keeping only some rows of a plan works", {
                          fu_analysis_folder = "FUpath",
                          reports_source_folders = "reports_source_path",
                          reports_dest_folder = "reports_dest_folder",
-                         countries = c("GHA", "ZAF"),
-                         max_year = 1999,
-                         how_far = "Specified")
+                         workflow_output_folder = "workflow_output_folder",
+                         workflow_releases_folder = "workflow_releases_folder",
+                         how_far = "Specified"
+                         )
 
   expect_lt(nrow(short_plan), nrow(full_plan))
 
@@ -152,7 +163,7 @@ test_that("keeping only some rows of a plan works", {
 
 test_that("make() works", {
 
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing()
+  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "ExergyEnergyGraphs")
 
   tryCatch({
 
@@ -245,8 +256,6 @@ test_that("make() works", {
     ZAF_completed_allocation_table <- readd_by_country(target = SEAPSUTWorkflow::target_names$IncompleteAllocationTables, country = "ZAF", cache_path = testing_setup$cache_path)
     expect_true(all(!is.na(ZAF_completed_allocation_table[[IEATools::iea_cols$method]])))
     expect_true(all(!is.na(ZAF_completed_allocation_table[[IEATools::iea_cols$energy_type]])))
-
-
   },
   finally = {
     SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
