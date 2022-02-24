@@ -26,8 +26,7 @@ and binding the outputs of these functions into a single data frame.
 \examples{
 library(Recca)
 finaluseful_data <- Recca::UKEnergy2000mats \%>\%
-                      tidyr::pivot_wider(id_cols = Country:matrix.name,
-                                         names_from = matrix.name,
+                      tidyr::pivot_wider(names_from = matrix.name,
                                          values_from = matrix) \%>\%
                       dplyr::mutate(Method = "PCM") \%>\%
                       calculate_finaluseful_ex_data(fd_sectors = c("Residential"))

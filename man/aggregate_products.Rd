@@ -7,7 +7,7 @@
 aggregate_products(
   .psut_df,
   matrices_to_aggregate = c("R", "U", "V", "Y"),
-  aggregation_map = SEAPSUTWorkflow::product_aggregation_map,
+  aggregation_map = PFUWorkflow::product_aggregation_map,
   countries,
   country = IEATools::iea_cols$country
 )
@@ -20,7 +20,7 @@ Default is \code{c("R", "U", "V", "Y")}.}
 
 \item{aggregation_map}{A description of the aggregation to be performed.
 See \code{matsbyname::aggregate_byname()} for a description of its format.
-Default is \code{SEAPSUTWorkflow::product_aggregation_map}.}
+Default is \code{PFUWorkflow::product_aggregation_map}.}
 
 \item{countries}{The countries to be analyzed.}
 

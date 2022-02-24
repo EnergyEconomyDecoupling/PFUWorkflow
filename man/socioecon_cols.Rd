@@ -19,8 +19,8 @@ A string list with 14 entries.
 \item{rkna_colname}{The name of the column containing data for Capital services at constant 2017 national prices (2017 = 1).}
 \item{K_colname}{A more representative name for \code{rnna_colname}.}
 \item{Kserv_colname}{A more representative name for \code{rkna_colname}.}
-\item{L_colname}{The name of the column containing data for the total number of hours worked in a given year. See \code{SEAPSUTWorkflow::get_L_K_GDP_data}.}
-\item{Ladj_colname}{The name of the column containing data for the total number of hours worked adjusted by the human capital index. See \code{SEAPSUTWorkflow::get_L_K_GDP_data}.}
+\item{L_colname}{The name of the column containing data for the total number of hours worked in a given year. See \code{PFUWorkflow::get_L_K_GDP_data}.}
+\item{Ladj_colname}{The name of the column containing data for the total number of hours worked adjusted by the human capital index. See \code{PFUWorkflow::get_L_K_GDP_data}.}
 }
 }
 \usage{

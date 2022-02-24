@@ -1,9 +1,11 @@
 ---
-title: "Release notes for `SEAPSUTWorkflow`"
+title: "Release notes for `PFUWorkflow`"
 output: html_document
 ---
 
 
+* Name change to `PFUWorkflow`, bringing consistency 
+  with future packages that use results from the PFU workflow.
 * `get_plan()` has new argument for doing a release of 
   the `PSUT` target.
 * `get_plan()` has new arguments for folders

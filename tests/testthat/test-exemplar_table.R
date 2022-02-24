@@ -47,7 +47,7 @@ test_that("exemplar_lists() works as expected", {
   # Verify the columns of the returned data frame
   expect_equal(colnames(el), c(IEATools::iea_cols$country,
                                IEATools::iea_cols$year,
-                               SEAPSUTWorkflow::exemplar_names$exemplars))
+                               PFUWorkflow::exemplar_names$exemplars))
 
   # Make sure the year column is numeric
   expect_true(is.numeric(el[[IEATools::iea_cols$year]]))

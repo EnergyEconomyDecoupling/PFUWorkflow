@@ -3,7 +3,7 @@
 \docType{data}
 \name{sea_cols}
 \alias{sea_cols}
-\title{SEAPSUTWorkflow data frame column names}
+\title{PFUWorkflow data frame column names}
 \format{
 A string list with 13 entries.
 \describe{
@@ -13,7 +13,7 @@ A string list with 13 entries.
 \item{sector_colname}{The name of a metadata column containing the names of final demand sectors.}
 \item{flow_colname}{The name of a metadata column containing the names of primary flows.}
 \item{agg_by_colname}{The name of a column containing the variable by which data was aggregated. Usually using \code{Recca::finaldemand_aggregates()} and \code{Recca::primary_aggregates()}, and usually one of "Flow", "Sector", "Product", or "Total".}
-\item{fd_sectors_colname}{The name of a column containing the list of final demand sectors desired for analysis. Usually created by \code{SEAPSUTWorkflow::get_fd_sectors()} and \code{SEAPSUTWorkflow::create_fd_sectors_list()}.}
+\item{fd_sectors_colname}{The name of a column containing the list of final demand sectors desired for analysis. Usually created by \code{PFUWorkflow::get_fd_sectors()} and \code{PFUWorkflow::create_fd_sectors_list()}.}
 \item{p_ind_comp_colname}{The name of a column containing lists of primary industries desired for analysis. Usually created by using \code{Recca::find_p_industry_names()}.}
 \item{p_ind_prefix_colname}{The name of a column containing the list of primary industry prefixes desired for analysis. Usually supplied to \code{Recca::find_p_industry_names()} to return \code{p_ind_comp}.}
 \item{ex_colname}{The name of a column containing energy or exergy data.}
@@ -26,7 +26,7 @@ A string list with 13 entries.
 sea_cols
 }
 \description{
-A string list containing named names of columns in SEAPSUTWorkflow data frames.
+A string list containing named names of columns in PFUWorkflow data frames.
 The data frames can be
 tidy (with one row for each data point) or
 wide (with years spread to the right).

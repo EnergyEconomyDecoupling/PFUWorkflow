@@ -84,7 +84,7 @@ usethis::use_data(exemplar_names, overwrite = TRUE)
 
 
 #
-# Give the names of SEAPSUTWorkflow columns, this function compliments "IEATools::iea_cols".
+# Give the names of PFUWorkflow columns, this function compliments "IEATools::iea_cols".
 #
 
 sea_cols <- list(stage_colname = "Stage",

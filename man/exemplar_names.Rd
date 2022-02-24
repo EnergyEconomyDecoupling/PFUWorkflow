@@ -30,7 +30,7 @@ exemplar_names
 \description{
 A string list containing named names of columns and tabs for exemplar tables.
 Items in the list provide default values for column name function arguments
-throughout the \code{SEAPSUTWorkflow} package.
+throughout the \code{PFUWorkflow} package.
 }
 \examples{
 exemplar_names

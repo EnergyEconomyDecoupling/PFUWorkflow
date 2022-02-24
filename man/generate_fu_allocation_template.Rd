@@ -6,9 +6,9 @@
 \usage{
 generate_fu_allocation_template(
   country,
-  cache_path = SEAPSUTWorkflow::cache_info$cache_path,
-  data_target = SEAPSUTWorkflow::target_names$Specified,
-  fu_analysis_path_target = SEAPSUTWorkflow::target_names$fu_analysis_folder,
+  cache_path = PFUWorkflow::cache_info$cache_path,
+  data_target = PFUWorkflow::target_names$Specified,
+  fu_analysis_path_target = PFUWorkflow::target_names$fu_analysis_folder,
   fu_allocation_template_file_name = paste0(country, " FU Allocations Template"),
   ext = ".xlsx",
   output_path = file.path(drake::readd(fu_analysis_path_target, character_only = TRUE,
@@ -21,9 +21,9 @@ generate_fu_allocation_template(
 \arguments{
 \item{country}{A string, the 3-letter ISO code of the country for which a template is desired.}
 
-\item{cache_path}{See \code{SEAPSUTWorkflow::cache_info}.}
+\item{cache_path}{See \code{PFUWorkflow::cache_info}.}
 
-\item{data_target, fu_analysis_path_target}{See \code{SEAPSUTWorkflow::target_names}.}
+\item{data_target, fu_analysis_path_target}{See \code{PFUWorkflow::target_names}.}
 
 \item{fu_allocation_template_file_name}{The file name for the template.
 Default is "\code{country} FU Allocations Template.\code{ext}".}

@@ -12,7 +12,7 @@
 #'                              Default is `c("R", "U", "V", "Y")`.
 #' @param aggregation_map A description of the aggregation to be performed.
 #'                        See `matsbyname::aggregate_byname()` for a description of its format.
-#'                        Default is `SEAPSUTWorkflow::product_aggregation_map`.
+#'                        Default is `PFUWorkflow::product_aggregation_map`.
 #' @param countries The countries to be analyzed.
 #' @param country The name of the country column in `.psut_df`.
 #'
@@ -21,7 +21,7 @@
 #' @export
 aggregate_products <- function(.psut_df,
                                matrices_to_aggregate = c("R", "U", "V", "Y"),
-                               aggregation_map = SEAPSUTWorkflow::product_aggregation_map,
+                               aggregation_map = PFUWorkflow::product_aggregation_map,
                                countries,
                                country = IEATools::iea_cols$country) {
 

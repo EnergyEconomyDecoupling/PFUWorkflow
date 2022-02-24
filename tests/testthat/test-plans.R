@@ -163,7 +163,7 @@ test_that("keeping only some rows of a plan works", {
 
 test_that("make() works", {
 
-  testing_setup <- SEAPSUTWorkflow:::set_up_for_testing(how_far = "ExergyEnergyGraphs")
+  testing_setup <- PFUWorkflow:::set_up_for_testing(how_far = "ExergyEnergyGraphs")
 
   tryCatch({
 
@@ -171,17 +171,17 @@ test_that("make() works", {
     drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
 
     # Now readd data from the cache and perform tests.
-    expect_equal(drake::readd(target = SEAPSUTWorkflow::target_names$countries, path = testing_setup$cache_path, character_only = TRUE),
+    expect_equal(drake::readd(target = PFUWorkflow::target_names$countries, path = testing_setup$cache_path, character_only = TRUE),
                  c("GHA", "ZAF"))
-    expect_equal(drake::readd(target = SEAPSUTWorkflow::target_names$max_year, path = testing_setup$cache_path, character_only = TRUE),
+    expect_equal(drake::readd(target = PFUWorkflow::target_names$max_year, path = testing_setup$cache_path, character_only = TRUE),
                  2000)
-    expect_equal(drake::readd(target = SEAPSUTWorkflow::target_names$exemplar_table_path, path = testing_setup$cache_path, character_only = TRUE),
+    expect_equal(drake::readd(target = PFUWorkflow::target_names$exemplar_table_path, path = testing_setup$cache_path, character_only = TRUE),
                  testing_setup$plan %>% dplyr::filter(target == "exemplar_table_path") %>% magrittr::extract2("command") %>% unlist())
-    expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE)))
-    # expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$reports_dest_folder, path = testing_setup$cache_path, character_only = TRUE)))
+    expect_true(!is.null(drake::readd(target = PFUWorkflow::target_names$fu_analysis_folder, path = testing_setup$cache_path, character_only = TRUE)))
+    # expect_true(!is.null(drake::readd(target = PFUWorkflow::target_names$reports_dest_folder, path = testing_setup$cache_path, character_only = TRUE)))
 
     # Be sure that IEAData is present
-    expect_true(!is.null(drake::readd(target = SEAPSUTWorkflow::target_names$IEAData, path = testing_setup$cache_path, character_only = TRUE)))
+    expect_true(!is.null(drake::readd(target = PFUWorkflow::target_names$IEAData, path = testing_setup$cache_path, character_only = TRUE)))
 
     # Be sure that readd_by_country also works
     expected_all_iea_data <- IEATools::sample_iea_data_path() %>%
@@ -236,7 +236,7 @@ test_that("make() works", {
       unique() %>% unlist() %>% unname() %>%
       expect_equal("ZAF")
     # Check that the ZAF table looks OK.
-    ZAF_allocation_table <- readd_by_country(target = SEAPSUTWorkflow::target_names$IncompleteAllocationTables, country = "ZAF", cache_path = testing_setup$cache_path)
+    ZAF_allocation_table <- readd_by_country(target = PFUWorkflow::target_names$IncompleteAllocationTables, country = "ZAF", cache_path = testing_setup$cache_path)
     expect_true(all(!is.na(ZAF_allocation_table[[IEATools::iea_cols$method]])))
     expect_true(all(!is.na(ZAF_allocation_table[[IEATools::iea_cols$energy_type]])))
 
@@ -253,12 +253,12 @@ test_that("make() works", {
       unique() %>% unlist() %>% unname() %>%
       expect_equal("ZAF")
     # Check that the ZAF table looks OK.
-    ZAF_completed_allocation_table <- readd_by_country(target = SEAPSUTWorkflow::target_names$IncompleteAllocationTables, country = "ZAF", cache_path = testing_setup$cache_path)
+    ZAF_completed_allocation_table <- readd_by_country(target = PFUWorkflow::target_names$IncompleteAllocationTables, country = "ZAF", cache_path = testing_setup$cache_path)
     expect_true(all(!is.na(ZAF_completed_allocation_table[[IEATools::iea_cols$method]])))
     expect_true(all(!is.na(ZAF_completed_allocation_table[[IEATools::iea_cols$energy_type]])))
   },
   finally = {
-    SEAPSUTWorkflow:::clean_up_after_testing(testing_setup)
+    PFUWorkflow:::clean_up_after_testing(testing_setup)
   })
 })
 

@@ -17,7 +17,7 @@ phi_u_plots_df(
 )
 }
 \arguments{
-\item{.df}{The completed final-to useful efficiency tables data frame. Which contains both eta.fu and phi.u values. Default is \code{drake::readd(SEAPSUTWorkflow::target_names$CompletedEfficiencyTables, path = cache_path, character_only = TRUE)}.}
+\item{.df}{The completed final-to useful efficiency tables data frame. Which contains both eta.fu and phi.u values. Default is \code{drake::readd(PFUWorkflow::target_names$CompletedEfficiencyTables, path = cache_path, character_only = TRUE)}.}
 
 \item{countries}{The countries for which exergy-to-energy ratio plots are to be created.}
 

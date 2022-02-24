@@ -12,16 +12,16 @@
 #' @param country The 3-letter ISO abbreviation (a string) of the country
 #'                (or vector of 3-letter countries)
 #'                for whom `target` is to be readd from the drake cache.
-#' @param alloc_and_eff_couns_trgt See `SEAPSUTWorkflow::target_names`.
-#' @param cache_path See `SEAPSUTWorkflow::cache_info`.
+#' @param alloc_and_eff_couns_trgt See `PFUWorkflow::target_names`.
+#' @param cache_path See `PFUWorkflow::cache_info`.
 #'
 #' @return the country-specific version of `target`
 #'
 #' @export
 readd_by_country <- function(target,
                              country,
-                             alloc_and_eff_couns_trgt = SEAPSUTWorkflow::target_names$alloc_and_eff_couns,
-                             cache_path = SEAPSUTWorkflow::cache_info$cache_path) {
+                             alloc_and_eff_couns_trgt = PFUWorkflow::target_names$alloc_and_eff_couns,
+                             cache_path = PFUWorkflow::cache_info$cache_path) {
   known_countries <- drake::readd(alloc_and_eff_couns_trgt, path = cache_path, character_only = TRUE)
   country_indices <- which(known_countries %in% country, arr.ind = TRUE)
   drake::readd(target, path = cache_path, character_only = TRUE, subtargets = country_indices)
@@ -67,13 +67,13 @@ dir_create_pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode =
 #' A typical way to use this function is
 #'
 #' ```
-#' testing_setup <- SEAPSUTWorkflow:::set_up_for_testing()
+#' testing_setup <- PFUWorkflow:::set_up_for_testing()
 #' tryCatch({
 #'   # Make the plan in the temp_cache
 #'   drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
 #'   # Do stuff here, including test expectations
 #' }, finally = {
-#'   SEAPSUTWorkflow:::clean_up_after_testing(temp_cache = testing_setup$temp_cache,
+#'   PFUWorkflow:::clean_up_after_testing(temp_cache = testing_setup$temp_cache,
 #'                                            cache_path = testing_setup$cache_path)
 #' })
 #' ```
@@ -104,13 +104,13 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                additional_exemplar_countries = NULL,
                                max_year = 2000,
                                how_far = "all_targets",
-                               country_concordance_path = system.file("extdata", "Concordance_Data", "Country_Concordance_Sample.xlsx", package = "SEAPSUTWorkflow"),
+                               country_concordance_path = system.file("extdata", "Concordance_Data", "Country_Concordance_Sample.xlsx", package = "PFUWorkflow"),
                                phi_constants_path = IEATools::sample_phi_constants_path(),
                                iea_data_path = IEATools::sample_iea_data_path(),
                                ceda_data_folder = CEDATools::sample_ceda_data_folder(),
-                               machine_data_path = system.file("extdata", "Machines - Data", package = "SEAPSUTWorkflow"),
+                               machine_data_path = system.file("extdata", "Machines - Data", package = "PFUWorkflow"),
                                fu_analysis_folder = tempdir(),
-                               reports_source_folders = system.file("reports", package = "SEAPSUTWorkflow"),
+                               reports_source_folders = system.file("reports", package = "PFUWorkflow"),
                                reports_output_folder = tempdir(),
                                workflow_output_folder = tempdir(),
                                workflow_releases_folder = tempdir(),
@@ -169,7 +169,7 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
 #'                        Default is `FALSE`.
 #' @param fin_eta The name of the tab in a MachineData Excel file that contains
 #'                efficiency information.
-#'                Default is `SEAPSUTWorkflow$machine_constants$efficiency_tab_name`.
+#'                Default is `PFUWorkflow$machine_constants$efficiency_tab_name`.
 #'
 #' @return `NULL`. This function should be called for its side effect of creating a temporary final-to-useful directory structure.
 #'
@@ -177,7 +177,7 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
 set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder, reports_output_folder,
                                  iea_data_path, machine_data_examples_path,
                                  setup_exemplars = FALSE,
-                                 fin_eta = SEAPSUTWorkflow::machine_constants$efficiency_tab_name) {
+                                 fin_eta = PFUWorkflow::machine_constants$efficiency_tab_name) {
   # Set up IEA data
   iea_df <- IEATools::iea_df(iea_data_path)
   if (setup_exemplars) {
@@ -194,7 +194,7 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
   dir.create(fu_folder, showWarnings = FALSE)
   utils::write.csv(iea_df, file.path(fu_folder, "IEAData.csv"), row.names = FALSE)
 
-  # Duplicate the Machines - Data directory from the SEAPSUTWorkflow example data
+  # Duplicate the Machines - Data directory from the PFUWorkflow example data
   # into the temporary directory.
   copied_correctly <- file.copy(from = machine_data_examples_path, to = fu_folder, recursive = TRUE)
   assertthat::assert_that(copied_correctly)
@@ -259,7 +259,7 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
   # # Establishes the path to the folder containing individual machine data files
   # # associated with the IEATools sample data for GHA and ZAF
   # eta_fin_sample_path <- system.file("extdata", "Machines - Data",
-  #                                    package = "SEAPSUTWorkflow")
+  #                                    package = "PFUWorkflow")
   # # Reads data from the machine files
   # etas <- read_all_eta_files(eta_fin_paths = eta_fin_sample_path)
   #
@@ -368,8 +368,8 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
     dplyr::filter(.data[["2000"]] %in% countries_to_keep)
   # Write out to disk in our sample directory structure.
   exemplar_wb <- openxlsx::createWorkbook()
-  openxlsx::addWorksheet(exemplar_wb, SEAPSUTWorkflow::exemplar_names$exemplar_tab_name)
-  openxlsx::writeData(exemplar_wb, SEAPSUTWorkflow::exemplar_names$exemplar_tab_name, small_exemplar_table)
+  openxlsx::addWorksheet(exemplar_wb, PFUWorkflow::exemplar_names$exemplar_tab_name)
+  openxlsx::writeData(exemplar_wb, PFUWorkflow::exemplar_names$exemplar_tab_name, small_exemplar_table)
   openxlsx::saveWorkbook(exemplar_wb, file = file.path(exemplar_folder, "Exemplar_Table.xlsx"), overwrite = TRUE)
 
   return(NULL)
@@ -384,13 +384,13 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
 #' A typical way to use this function is
 #'
 #' ```
-#' testing_setup <- SEAPSUTWorkflow:::set_up_for_testing()
+#' testing_setup <- PFUWorkflow:::set_up_for_testing()
 #' tryCatch({
 #'   # Make the plan in the temp_cache
 #'   drake::make(testing_setup$plan, cache = testing_setup$temp_cache, verbose = 0)
 #'   # Do stuff here, including test expectations
 #' }, finally = {
-#'   SEAPSUTWorkflow:::clean_up_after_testing(temp_cache = testing_setup$temp_cache,
+#'   PFUWorkflow:::clean_up_after_testing(temp_cache = testing_setup$temp_cache,
 #'                                            cache_path = testing_setup$cache_path)
 #' })
 #' ```
@@ -404,7 +404,7 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
 #' @noRd
 clean_up_after_testing <- function(testing_setup, cache_path = testing_setup$cache_path, temp_cache = testing_setup$temp_cache) {
   # Clean up the fu analysis folder
-  fu_analysis_folder <- drake::readd(SEAPSUTWorkflow::target_names$fu_analysis_folder, path = cache_path, character_only = TRUE)
+  fu_analysis_folder <- drake::readd(PFUWorkflow::target_names$fu_analysis_folder, path = cache_path, character_only = TRUE)
   if (file.exists(fu_analysis_folder)) {
     unlink(fu_analysis_folder, recursive = TRUE, force = TRUE)
   }
@@ -482,10 +482,10 @@ get_p_industry_prefixes <- function() {
 #' It is often helpful to clean only a few targets.
 #' This function allows specified targets to be cleaned.
 #' By default, this function cleans all targets _after_ `IEAData`,
-#' according to the list `SEAPSUTWorkflow::target_names`.
+#' according to the list `PFUWorkflow::target_names`.
 #'
 #' @param to_clean A vector of target name strings to be cleaned. Default is
-#'                 all target names from "CEDAData" to the end of `SEAPSUTWorkflow::target_names`.
+#'                 all target names from "CEDAData" to the end of `PFUWorkflow::target_names`.
 #' @param first_target The string name of the first target to clean. Default is "CEDAData".
 #' @param last_target The string name of the last target to clean. Default is the last target in the workflow.
 #' @param path The path to the drake cache. Default is `NULL`, meaning that drake should look in the ".drake" folder for cache information.
@@ -494,11 +494,11 @@ get_p_industry_prefixes <- function() {
 #'
 #' @export
 clean_targets <- function(
-  to_clean = SEAPSUTWorkflow::target_names[
-  seq(which(SEAPSUTWorkflow::target_names == first_target),
-      which(SEAPSUTWorkflow::target_names == last_target))],
+  to_clean = PFUWorkflow::target_names[
+  seq(which(PFUWorkflow::target_names == first_target),
+      which(PFUWorkflow::target_names == last_target))],
   first_target = "CEDAData",
-  last_target = SEAPSUTWorkflow::target_names[[length(SEAPSUTWorkflow::target_names)]],
+  last_target = PFUWorkflow::target_names[[length(PFUWorkflow::target_names)]],
   path = NULL) {
 
   drake::clean(list = to_clean, path = path)

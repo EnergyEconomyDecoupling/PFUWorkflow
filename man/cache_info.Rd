@@ -16,7 +16,7 @@ cache_info
 \description{
 A string list containing information about the drake cache.
 Items in the list provide default values for column name function arguments
-throughout the \code{SEAPSUTWorkflow} package.
+throughout the \code{PFUWorkflow} package.
 }
 \examples{
 cache_info

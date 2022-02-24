@@ -8,7 +8,7 @@
 #' sample_machine_workbook_path()
 sample_machine_workbook_path <- function() {
   file.path("extdata", "Machine Examples") %>%
-    system.file(package = "SEAPSUTWorkflow")
+    system.file(package = "PFUWorkflow")
 }
 
 
@@ -18,7 +18,7 @@ sample_machine_workbook_path <- function() {
 #' that stores all efficiencies..
 #'
 #' @param filepath A file path to the folder containing all machine folders.
-#' @param efficiency_tab_name See `SEAPSUTWorkflow::machine_constants`.
+#' @param efficiency_tab_name See `PFUWorkflow::machine_constants`.
 #'
 #' @return A list of the file paths to machine excel files containing
 #'         FIN_ETA front sheets, and therefore usable data.
@@ -27,7 +27,7 @@ sample_machine_workbook_path <- function() {
 #' @examples
 #' get_eta_filepaths(filepath = sample_machine_workbook_path())
 get_eta_filepaths <- function(filepath,
-                              efficiency_tab_name = SEAPSUTWorkflow::machine_constants$efficiency_tab_name) {
+                              efficiency_tab_name = PFUWorkflow::machine_constants$efficiency_tab_name) {
 
   if (!file.exists(filepath)) {
     return(list())
@@ -73,7 +73,7 @@ get_eta_filepaths <- function(filepath,
 #' @param eta_fin_paths A list of the file paths to machine excel files containing
 #'                      FIN_ETA front sheets, and therefore usable data.
 #'                      Created by calling the `get_eta_filepaths()` function.
-#' @param efficiency_tab_name See `SEAPSUTWorkflow::machine_constants`.
+#' @param efficiency_tab_name See `PFUWorkflow::machine_constants`.
 #' @param year See `IEATools::iea_cols`.
 #' @param .values See `IEATools::template_cols`.
 #'
@@ -87,7 +87,7 @@ get_eta_filepaths <- function(filepath,
 #' @examples
 #' read_all_eta_files(eta_fin_paths = sample_machine_workbook_path())
 read_all_eta_files <- function(eta_fin_paths,
-                               efficiency_tab_name = SEAPSUTWorkflow::machine_constants$efficiency_tab_name,
+                               efficiency_tab_name = PFUWorkflow::machine_constants$efficiency_tab_name,
                                year = IEATools::iea_cols$year,
                                .values = IEATools::template_cols$.values) {
 

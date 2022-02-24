@@ -1,7 +1,7 @@
 pandoc: 2.14.0.3
-pkgdown: 1.6.1
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
-  SEAPSUTWorkflow: SEAPSUTWorkflow.html
-last_built: 2021-10-28T18:03Z
+  PFUWorkflow: PFUWorkflow.html
+last_built: 2022-02-24T18:29Z
 

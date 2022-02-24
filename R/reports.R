@@ -8,18 +8,18 @@
 #' #' Users can override the default value of `report_source_folders` to supply their own
 #' #' report directory (directories) of reports.
 #' #' If users want to also include the default reports,
-#' #' be sure to include `system.file(file.path("reports"), package = "SEAPSUTWorkflow")`
+#' #' be sure to include `system.file(file.path("reports"), package = "PFUWorkflow")`
 #' #' in the vector of paths supplied to `report_source_folders`.
 #' #'
 #' #' @param report_source_folders A string that identifies a directory of reports to be generated.
-#' #'                              Default is `system.file(file.path("reports"), package = "SEAPSUTWorkflow")`,
+#' #'                              Default is `system.file(file.path("reports"), package = "PFUWorkflow")`,
 #' #'                              which provides some default reports.
 #' #' @param report_suffixes A vector of strings of report suffixes. Default is `c(".Rmd", ".Rnw")`.
 #' #'
 #' #' @return A vector of absolute paths to reports to be generated.
 #' #'
 #' #' @export
-#' report_source_paths <- function(report_source_folders = system.file(file.path("reports"), package = "SEAPSUTWorkflow"),
+#' report_source_paths <- function(report_source_folders = system.file(file.path("reports"), package = "PFUWorkflow"),
 #'                           report_suffixes = c(".Rmd", ".Rnw")) {
 #'
 #'   # Make a list in which we'll collect paths to all reports that need to be run.

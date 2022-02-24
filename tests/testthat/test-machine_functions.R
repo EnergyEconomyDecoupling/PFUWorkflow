@@ -64,7 +64,7 @@ test_that("read_all_eta_files() works with sample machine efficiency data", {
   # Establishes the path to the folder containing individual machine data files
   # associated with the IEATools sample data for GHA and ZAF
   eta_fin_sample_path <- system.file("extdata", "Machines - Data",
-                                     package = "SEAPSUTWorkflow")
+                                     package = "PFUWorkflow")
 
   expect_true(file.exists(eta_fin_sample_path))
 

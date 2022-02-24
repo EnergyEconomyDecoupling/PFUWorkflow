@@ -166,7 +166,7 @@ load_eta_fu_tables <- function(fu_analysis_folder,
 #' @param max_year The latest year for which analysis is desired. Default is `NULL`, meaning analyze all years.
 #' @param country,year See `IEATools::iea_cols`.
 #' @param exemplars,exemplar_tables,iea_data,incomplete_alloc_tables,complete_alloc_tables
-#'                    See `SEAPSUTWorkflows::exemplar_names`.
+#'                    See `PFUWorkflow::exemplar_names`.
 #'
 #' @return A tidy data frame containing completed final-to-useful allocation tables.
 #'
@@ -213,11 +213,11 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
                                           max_year = NULL,
                                           country = IEATools::iea_cols$country,
                                           year = IEATools::iea_cols$year,
-                                          exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
-                                          exemplar_tables = SEAPSUTWorkflow::exemplar_names$exemplar_tables,
-                                          iea_data = SEAPSUTWorkflow::exemplar_names$iea_data,
-                                          incomplete_alloc_tables = SEAPSUTWorkflow::exemplar_names$incomplete_alloc_table,
-                                          complete_alloc_tables = SEAPSUTWorkflow::exemplar_names$complete_alloc_table) {
+                                          exemplars = PFUWorkflow::exemplar_names$exemplars,
+                                          exemplar_tables = PFUWorkflow::exemplar_names$exemplar_tables,
+                                          iea_data = PFUWorkflow::exemplar_names$iea_data,
+                                          incomplete_alloc_tables = PFUWorkflow::exemplar_names$incomplete_alloc_table,
+                                          complete_alloc_tables = PFUWorkflow::exemplar_names$complete_alloc_table) {
 
   # The incomplete tables are easier to deal with when they are tidy.
   tidy_incomplete_allocation_tables <- IEATools::tidy_fu_allocation_table(incomplete_allocation_tables)
@@ -314,7 +314,7 @@ assemble_fu_allocation_tables <- function(incomplete_allocation_tables,
 #'                       Must be one or both of the default values.
 #' @param country,method,energy_type,last_stage,year,unit,e_dot See `IEATools::iea_cols`.
 #' @param machine,eu_product,eta_fu,phi_u,c_source,eta_fu_source,e_dot_machine,e_dot_machine_perc,quantity,maximum_values,e_dot_perc,.values See `IEATools::template_cols`.
-#' @param exemplars,exemplar_tables,alloc_data,incomplete_eta_tables,complete_eta_tables See `SEAPSUTWorkflows::exemplar_names`.
+#' @param exemplars,exemplar_tables,alloc_data,incomplete_eta_tables,complete_eta_tables See `PFUWorkflow::exemplar_names`.
 #'
 #' @return A tidy data frame containing completed final-to-useful efficiency tables.
 #'
@@ -370,11 +370,11 @@ assemble_eta_fu_tables <- function(incomplete_eta_fu_tables,
                                    maximum_values = IEATools::template_cols$maximum_values,
                                    e_dot_perc = IEATools::template_cols$e_dot_perc,
 
-                                   exemplars = SEAPSUTWorkflow::exemplar_names$exemplars,
-                                   exemplar_tables = SEAPSUTWorkflow::exemplar_names$exemplar_tables,
-                                   alloc_data = SEAPSUTWorkflow::exemplar_names$alloc_data,
-                                   incomplete_eta_tables = SEAPSUTWorkflow::exemplar_names$incomplete_eta_table,
-                                   complete_eta_tables = SEAPSUTWorkflow::exemplar_names$complete_eta_table,
+                                   exemplars = PFUWorkflow::exemplar_names$exemplars,
+                                   exemplar_tables = PFUWorkflow::exemplar_names$exemplar_tables,
+                                   alloc_data = PFUWorkflow::exemplar_names$alloc_data,
+                                   incomplete_eta_tables = PFUWorkflow::exemplar_names$incomplete_eta_table,
+                                   complete_eta_tables = PFUWorkflow::exemplar_names$complete_eta_table,
 
                                    .values = IEATools::template_cols$.values) {
 
@@ -518,7 +518,7 @@ get_one_df_by_coun_and_yr <- function(.df, coun, yr, country_colname, year_colna
 #' @param country,year,product See `IEATools::iea_cols`.
 #' @param machine,quantity,phi_u,.values,eu_product,eta_fu_source See `IEATools::template_cols`.
 #' @param phi_colname,phi_source_colname,is_useful See `IEATools::phi_constants_names`.
-#' @param eta_fu_tables,phi_constants See `SEAPSUTWorkflow::phi_sources`.
+#' @param eta_fu_tables,phi_constants See `PFUWorkflow::phi_sources`.
 #'
 #' @return A data frame of phi values for every combination of country, year, machine, destination, etc.
 #'
@@ -575,8 +575,8 @@ assemble_phi_u_tables <- function(incomplete_phi_u_table,
                                   phi_colname = IEATools::phi_constants_names$phi_colname,
                                   phi_source_colname = IEATools::phi_constants_names$phi_source_colname,
                                   is_useful = IEATools::phi_constants_names$is_useful_colname,
-                                  eta_fu_tables = SEAPSUTWorkflow::phi_sources$eta_fu_tables,
-                                  phi_constants = SEAPSUTWorkflow::phi_sources$phi_constants) {
+                                  eta_fu_tables = PFUWorkflow::phi_sources$eta_fu_tables,
+                                  phi_constants = PFUWorkflow::phi_sources$phi_constants) {
 
   if (!is.null(max_year)) {
     incomplete_phi_u_table <- incomplete_phi_u_table %>%

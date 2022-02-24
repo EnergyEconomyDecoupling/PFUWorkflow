@@ -61,7 +61,7 @@ target_names
 \description{
 A string list containing names of drake targets.
 Items in the list provide default values for function arguments
-throughout the \code{SEAPSUTWorkflow} package.
+throughout the \code{PFUWorkflow} package.
 }
 \examples{
 target_names

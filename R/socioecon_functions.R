@@ -6,7 +6,7 @@
 #' Note that some data is not available for some countries (mostly non-OECD).
 #'
 #' @param countries A string of iso 3-letter country codes
-#' @param isocode_colname See `SEAPSUTWorkflow::socioecon_cols`.
+#' @param isocode_colname See `PFUWorkflow::socioecon_cols`.
 #'
 #' @return A data frame containing socioeconomic data from pwt10 for a set of countries.
 #' @export
@@ -16,7 +16,7 @@
 #' all_pwt_data <- get_all_pwt_data(countries = countries)
 #'
 get_all_pwt_data <- function(countries,
-                             isocode_colname = SEAPSUTWorkflow::socioecon_cols$isocode_colname) {
+                             isocode_colname = PFUWorkflow::socioecon_cols$isocode_colname) {
 
   # Get all pwt10 data and filter for countries in the string countries
   pwt10_data <- pwt10::pwt10.0 %>%
@@ -55,7 +55,7 @@ get_all_pwt_data <- function(countries,
 #'
 #' @param pwt10_data A data frame containing all pwt10 data for at least one country,
 #'                  usually supplied through calling the `get_all_pwt_data` function.
-#' @param isocode_colname,year_colname,rgdpe_colname,rgdpo_colname,rgdpna_colname,emp_colname,avh_colname,hc_colname,rnna_colname,rkna_colname,K_colname,Kserv_colname,L_colname,Ladj_colname See `SEAPSUTWorkflow::socioecon_cols`.
+#' @param isocode_colname,year_colname,rgdpe_colname,rgdpo_colname,rgdpna_colname,emp_colname,avh_colname,hc_colname,rnna_colname,rkna_colname,K_colname,Kserv_colname,L_colname,Ladj_colname See `PFUWorkflow::socioecon_cols`.
 #' @param country_colname,Year_colname See `IEATools::iea_cols`.
 #'
 #' @return A data frame containing three GDP metrics, Labor, Adjusted Labor,
@@ -70,20 +70,20 @@ get_all_pwt_data <- function(countries,
 get_L_K_GDP_data <- function(pwt10_data,
                              country_colname = IEATools::iea_cols$country,
                              Year_colname= IEATools::iea_cols$year,
-                             year_colname= SEAPSUTWorkflow::socioecon_cols$year_colname,
-                             isocode_colname = SEAPSUTWorkflow::socioecon_cols$isocode_colname,
-                             rgdpe_colname = SEAPSUTWorkflow::socioecon_cols$rgdpe_colname,
-                             rgdpo_colname = SEAPSUTWorkflow::socioecon_cols$rgdpo_colname,
-                             rgdpna_colname = SEAPSUTWorkflow::socioecon_cols$rgdpna_colname,
-                             emp_colname = SEAPSUTWorkflow::socioecon_cols$emp_colname,
-                             avh_colname = SEAPSUTWorkflow::socioecon_cols$avh_colname,
-                             hc_colname = SEAPSUTWorkflow::socioecon_cols$hc_colname,
-                             rnna_colname = SEAPSUTWorkflow::socioecon_cols$rnna_colname,
-                             rkna_colname = SEAPSUTWorkflow::socioecon_cols$rkna_colname,
-                             K_colname = SEAPSUTWorkflow::socioecon_cols$K_colname,
-                             Kserv_colname = SEAPSUTWorkflow::socioecon_cols$Kserv_colname,
-                             L_colname = SEAPSUTWorkflow::socioecon_cols$L_colname,
-                             Ladj_colname = SEAPSUTWorkflow::socioecon_cols$Ladj_colname
+                             year_colname= PFUWorkflow::socioecon_cols$year_colname,
+                             isocode_colname = PFUWorkflow::socioecon_cols$isocode_colname,
+                             rgdpe_colname = PFUWorkflow::socioecon_cols$rgdpe_colname,
+                             rgdpo_colname = PFUWorkflow::socioecon_cols$rgdpo_colname,
+                             rgdpna_colname = PFUWorkflow::socioecon_cols$rgdpna_colname,
+                             emp_colname = PFUWorkflow::socioecon_cols$emp_colname,
+                             avh_colname = PFUWorkflow::socioecon_cols$avh_colname,
+                             hc_colname = PFUWorkflow::socioecon_cols$hc_colname,
+                             rnna_colname = PFUWorkflow::socioecon_cols$rnna_colname,
+                             rkna_colname = PFUWorkflow::socioecon_cols$rkna_colname,
+                             K_colname = PFUWorkflow::socioecon_cols$K_colname,
+                             Kserv_colname = PFUWorkflow::socioecon_cols$Kserv_colname,
+                             L_colname = PFUWorkflow::socioecon_cols$L_colname,
+                             Ladj_colname = PFUWorkflow::socioecon_cols$Ladj_colname
                              ) {
 
   # Selects columns

@@ -8,8 +8,8 @@
 #' path information stored in the drake cache.
 #'
 #' @param country A string, the 3-letter ISO code of the country for which a template is desired.
-#' @param cache_path See `SEAPSUTWorkflow::cache_info`.
-#' @param data_target,fu_analysis_path_target See `SEAPSUTWorkflow::target_names`.
+#' @param cache_path See `PFUWorkflow::cache_info`.
+#' @param data_target,fu_analysis_path_target See `PFUWorkflow::target_names`.
 #' @param fu_allocation_template_file_name The file name for the template.
 #'                                         Default is "`country` FU Allocations Template.`ext`".
 #' @param ext The output file name extension.
@@ -27,9 +27,9 @@
 #'
 #' @export
 generate_fu_allocation_template <- function(country,
-                                            cache_path = SEAPSUTWorkflow::cache_info$cache_path,
-                                            data_target = SEAPSUTWorkflow::target_names$Specified,
-                                            fu_analysis_path_target = SEAPSUTWorkflow::target_names$fu_analysis_folder,
+                                            cache_path = PFUWorkflow::cache_info$cache_path,
+                                            data_target = PFUWorkflow::target_names$Specified,
+                                            fu_analysis_path_target = PFUWorkflow::target_names$fu_analysis_folder,
                                             fu_allocation_template_file_name = paste0(country, " FU Allocations Template"),
                                             ext = ".xlsx",
                                             output_path = file.path(drake::readd(fu_analysis_path_target,
@@ -60,8 +60,8 @@ generate_fu_allocation_template <- function(country,
 #' @param country A string of the 3-letter ISO country code
 #' @param country_col A string containing the name of the country column in the final-to-useful allocation table.
 #'                    Default is `IEATools::iea_cols$country`.
-#' @param cache_path See `SEAPSUTWorkflow::cache_info`.
-#' @param fu_analysis_path_target See `SEAPSUTWorkflow::target_names`.
+#' @param cache_path See `PFUWorkflow::cache_info`.
+#' @param fu_analysis_path_target See `PFUWorkflow::target_names`.
 #' @param fu_allocation_table_file_name The name of the file containing the final-to-useful allocations for `country`.
 #'                                      Default is "`country` FU Analysis.`ext`".
 #' @param ext The file name extension for both the allocation table and the efficiency template.
@@ -81,8 +81,8 @@ generate_fu_allocation_template <- function(country,
 #' @export
 generate_eta_fu_template <- function(country,
                                      country_col = IEATools::iea_cols$country,
-                                     cache_path = SEAPSUTWorkflow::cache_info$cache_path,
-                                     fu_analysis_path_target = SEAPSUTWorkflow::target_names$fu_analysis_folder,
+                                     cache_path = PFUWorkflow::cache_info$cache_path,
+                                     fu_analysis_path_target = PFUWorkflow::target_names$fu_analysis_folder,
                                      fu_allocation_table_file_name = paste0(country, IEATools::fu_analysis_file_info$fu_analysis_file_suffix),
                                      ext = ".xlsx",
                                      fu_allocation_table_path = file.path(drake::readd(fu_analysis_path_target,
