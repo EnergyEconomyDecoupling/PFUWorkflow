@@ -1,15 +1,15 @@
-citHeader("To cite package ‘SEAPSUTWorkflow’ in publications use:")
+citHeader("To cite package ‘PSUTWorkflow’ in publications use:")
 
 citEntry(entry = "Manual",
-  title        = "SEAPSUTWorkflow: Tools for creating a drake workflow for Societal Exergy Analysis in the Physical Supply-Use Table framework",
+  title        = "PFUWorkflow: Tools for creating a drake workflow for primary-final-useful Societal Exergy Analysis in the Physical Supply-Use Table framework",
   author       = personList(as.person("Matthew Kuperus Heun"), as.person("Zeke Marshall")),
-  year         = "2021",
-  note         = "R package version 0.2.5",
+  year         = "2022",
+  note         = "R package version 0.2.6",
   url          = "https://github.com/MatthewHeun/SEAPSUTWorkflow",
 
   textVersion  =
   paste("Matthew Kuperus Heun (2021).",
-        "SEAPSUTWorkflow: Tools for creating a drake workflow for Societal Exergy Analysis in the Physical Supply-Use Table framework.",
-        "R package version 0.2.5.",
+        "PFUWorkflow: Tools for creating a drake workflow for primary-final-useful Societal Exergy Analysis in the Physical Supply-Use Table framework.",
+        "R package version 0.2.6.",
         "https://github.com/MatthewHeun/SEAPSUTWorkflow")
 )

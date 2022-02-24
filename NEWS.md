@@ -4,6 +4,8 @@ output: html_document
 ---
 
 
+# PFUWorkflow 0.2.6 (2022-02-24)
+
 * Name change to `PFUWorkflow`, bringing consistency 
   with future packages that use results from the PFU workflow.
 * `get_plan()` has new argument for doing a release of 
