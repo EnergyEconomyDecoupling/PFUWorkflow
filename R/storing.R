@@ -21,6 +21,7 @@ stash_cache <- function(workflow_output_folder, dependency) {
   # Calculate the folder structure for the output
   year <- lubridate::year(Sys.Date())
   month <- lubridate::month(Sys.Date())
+  month <- sprintf("%02d", month)
   output_year_dir <- file.path(workflow_output_folder, year)
   dir.create(output_year_dir, showWarnings = FALSE)
   output_month_dir <- file.path(output_year_dir, month)
@@ -84,9 +85,9 @@ release_psut <- function(workflow_releases_folder, psut, release = FALSE) {
     # Establish the pinboard
     out <- pins::board_folder(workflow_releases_folder, versioned = TRUE) %>%
       # Returns the fully-qualified name of the file written to the pinboard.
-      pins::pin_write(psut)
+      pins::pin_write(psut, name = "psut", type = "rds")
   } else {
-    out <- NULL
+    out <- "No release requested."
   }
   return(out)
 }
