@@ -630,7 +630,7 @@ calculate_primary_ex_data <- function(.sutdata, p_industry_prefixes) {
 }
 
 
-#' Create a data frame containing primary aggregate energy/exergy data
+#' Create a data frame containing final and useful aggregate energy/exergy data
 #'
 #' This functions creates a single data frame containing final and useful
 #' energy/exergy by country, year, method, energy quantification,
