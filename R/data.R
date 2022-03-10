@@ -1,4 +1,3 @@
-
 #' Drake cache target names
 #'
 #' A string list containing names of drake targets.
@@ -118,6 +117,7 @@
 #' @examples
 #' sea_cols
 "sea_cols"
+
 
 #' Aggregation groups metadata information
 #'
