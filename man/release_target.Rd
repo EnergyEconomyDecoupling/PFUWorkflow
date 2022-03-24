@@ -19,7 +19,7 @@ release_target(
 
 \item{targ_name}{The name of the target object. \code{targ_name} is the key to retrieving \code{targ}.}
 
-\item{type}{The type of the target. Default is "rds".}
+\item{type}{The type of the target, routed to \code{pins::pin_write()}. Default is "rds".}
 
 \item{release}{A boolean telling whether to do a release.
 Default is \code{FALSE}.}

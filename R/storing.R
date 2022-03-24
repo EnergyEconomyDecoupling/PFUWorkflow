@@ -64,7 +64,7 @@ stash_cache <- function(pipeline_caches_folder, cache_folder, file_prefix, depen
 #' @param pipeline_releases_folder The folder that contains the pinboard for releases from the pipeline.
 #' @param targ The target R object to be saved to the pinboard.
 #' @param targ_name The name of the target object. `targ_name` is the key to retrieving `targ`.
-#' @param type The type of the target. Default is "rds".
+#' @param type The type of the target, routed to `pins::pin_write()`. Default is "rds".
 #' @param release A boolean telling whether to do a release.
 #'                Default is `FALSE`.
 #'
