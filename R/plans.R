@@ -94,9 +94,9 @@
 #' @param reports_source_folders A string vector containing paths to folders of report sources, usually
 #'                               `.Rnw` or `.Rmd` files.
 #' @param reports_dest_folder The path to a folder into which reports are written.
-#' @param workflow_output_folder The path to a folder where .zip files of the drake workflow are stored.
-#' @param workflow_releases_folder The path to a folder where releases of the
-#'                                 `PSUT` target data frame are pinned.
+#' @param pipeline_caches_folder The path to a folder where .zip files of the pipeline cache folders are stored.
+#' @param pipeline_releases_folder The path to a folder where releases of important targets are stored
+#'                                 for later retrieval as pinned items on a pinboard..
 #' @param release A boolean that tells whether a new release of the `PSUT` target should be made.
 #'                Default is `FALSE`.
 #'
@@ -123,8 +123,8 @@
 #'          fu_analysis_folder = "fu_folder",
 #'          reports_source_folders = "reports_source_folders",
 #'          reports_dest_folder = "reports_dest_folder",
-#'          workflow_output_folder = "workflow_output_folder",
-#'          workflow_releases_folder = "workflow_releases_folder")
+#'          pipeline_caches_folder = "pipeline_caches_folder",
+#'          pipeline_releases_folder = "pipeline_releases_folder")
 get_plan <- function(countries,
                      additional_exemplar_countries = NULL,
                      max_year,
@@ -138,8 +138,8 @@ get_plan <- function(countries,
                      fu_analysis_folder,
                      reports_source_folders,
                      reports_dest_folder,
-                     workflow_output_folder,
-                     workflow_releases_folder,
+                     pipeline_caches_folder,
+                     pipeline_releases_folder,
                      release = FALSE) {
 
   # Get around warnings of type "no visible binding for global variable".
@@ -197,8 +197,8 @@ get_plan <- function(countries,
     fu_analysis_folder = !!fu_analysis_folder,
     reports_source_folders = !!reports_source_folders,
     reports_dest_folder = !!reports_dest_folder,
-    workflow_output_folder = !!workflow_output_folder,
-    workflow_releases_folder = !!workflow_releases_folder,
+    pipeline_caches_folder = !!pipeline_caches_folder,
+    pipeline_releases_folder = !!pipeline_releases_folder,
     release = !!release,
 
     # Load country concordance table
@@ -398,14 +398,17 @@ get_plan <- function(countries,
 
     # (12) Save results
 
-    # Zip the drake cache and store it in the workflow_output_folder
-    StoreCache = drake::target(stash_cache(workflow_output_folder = workflow_output_folder,
-                                           dependency = PSUT)),
+    # Store the PSUT target data frame in a pinboard inside the pipeline_releases_folder.
+    ReleasePSUT = drake::target(release_target(pipeline_releases_folder = pipeline_releases_folder,
+                                               targ = PSUT,
+                                               targ_name = "psut",
+                                               release = release)),
 
-    # Store the PSUT target data frame in a pinboard inside the workflow_releases_folder.
-    ReleasePSUT = drake::target(release_psut(workflow_releases_folder = workflow_releases_folder,
-                                             psut = PSUT,
-                                             release = release))
+    # Zip the drake cache and store it in the pipeline_caches_folder
+    StoreCache = drake::target(stash_cache(pipeline_caches_folder = pipeline_caches_folder,
+                                           cache_folder = ".drake",
+                                           file_prefix = "pfu_workflow_cache_",
+                                           dependency = PSUT))
   )
 
   if (how_far != "all_targets") {

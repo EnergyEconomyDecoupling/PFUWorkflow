@@ -70,8 +70,8 @@ which the maximum year to be analyzed.</p>
   <span class="va">fu_analysis_folder</span>,
   <span class="va">reports_source_folders</span>,
   <span class="va">reports_dest_folder</span>,
-  <span class="va">workflow_output_folder</span>,
-  <span class="va">workflow_releases_folder</span>,
+  <span class="va">pipeline_caches_folder</span>,
+  <span class="va">pipeline_releases_folder</span>,
   release <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -115,11 +115,11 @@ Sub-folders named with 3-letter country abbreviations are assumed.</p></dd>
 <code>.Rnw</code> or <code>.Rmd</code> files.</p></dd>
 <dt>reports_dest_folder</dt>
 <dd><p>The path to a folder into which reports are written.</p></dd>
-<dt>workflow_output_folder</dt>
-<dd><p>The path to a folder where .zip files of the drake workflow are stored.</p></dd>
-<dt>workflow_releases_folder</dt>
-<dd><p>The path to a folder where releases of the
-<code>PSUT</code> target data frame are pinned.</p></dd>
+<dt>pipeline_caches_folder</dt>
+<dd><p>The path to a folder where .zip files of the pipeline cache folders are stored.</p></dd>
+<dt>pipeline_releases_folder</dt>
+<dd><p>The path to a folder where releases of important targets are stored
+for later retrieval as pinned items on a pinboard..</p></dd>
 <dt>release</dt>
 <dd><p>A boolean that tells whether a new release of the <code>PSUT</code> target should be made.
 Default is <code>FALSE</code>.</p></dd>
@@ -215,8 +215,8 @@ Results can be recovered with
 <span class="r-in">         fu_analysis_folder <span class="op">=</span> <span class="st">"fu_folder"</span>,</span>
 <span class="r-in">         reports_source_folders <span class="op">=</span> <span class="st">"reports_source_folders"</span>,</span>
 <span class="r-in">         reports_dest_folder <span class="op">=</span> <span class="st">"reports_dest_folder"</span>,</span>
-<span class="r-in">         workflow_output_folder <span class="op">=</span> <span class="st">"workflow_output_folder"</span>,</span>
-<span class="r-in">         workflow_releases_folder <span class="op">=</span> <span class="st">"workflow_releases_folder"</span><span class="op">)</span></span>
+<span class="r-in">         pipeline_caches_folder <span class="op">=</span> <span class="st">"pipeline_caches_folder"</span>,</span>
+<span class="r-in">         pipeline_releases_folder <span class="op">=</span> <span class="st">"pipeline_releases_folder"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 51 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    target                   command                    dynamic   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;expr_lst&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;expr_lst&gt;</span></span>

@@ -56,15 +56,25 @@ using the <code>pins</code> package.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">release_psut</span><span class="op">(</span><span class="va">workflow_releases_folder</span>, <span class="va">psut</span>, release <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">release_psut</span><span class="op">(</span>
+  <span class="va">pipeline_releases_folder</span>,
+  <span class="va">targ</span>,
+  <span class="va">targ_name</span>,
+  type <span class="op">=</span> <span class="st">"rds"</span>,
+  release <span class="op">=</span> <span class="cn">FALSE</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>workflow_releases_folder</dt>
-<dd><p>The folder that contains the pinboard.</p></dd>
-<dt>psut</dt>
-<dd><p>The PSUT object, the final target for this workflow.</p></dd>
+    <dl><dt>pipeline_releases_folder</dt>
+<dd><p>The folder that contains the pinboard for releases from the pipeline.</p></dd>
+<dt>targ</dt>
+<dd><p>The target object to be saved to the pinboard.</p></dd>
+<dt>targ_name</dt>
+<dd><p>The name of the target object.</p></dd>
+<dt>type</dt>
+<dd><p>The type of the target. Default is "rds".</p></dd>
 <dt>release</dt>
 <dd><p>A boolean telling whether to do a release.
 Default is <code>FALSE</code>.</p></dd>
@@ -72,7 +82,7 @@ Default is <code>FALSE</code>.</p></dd>
     <div id="value">
     <h2>Value</h2>
     <p>If <code>release</code> is <code>TRUE</code>,
-the fully-qualified path name of the PSUT file in the pinboard.
+the fully-qualified path name of the <code>targ</code> file in the pinboard.
 If <code>release</code> is <code>FALSE</code>,
 <code>NULL</code>.</p>
     </div>
@@ -86,7 +96,7 @@ as shown in examples.</p>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="co"># Establish the pinboard</span></span>
-<span class="r-in"><span class="va">pinboard</span> <span class="op">&lt;-</span> <span class="fu">pins</span><span class="fu">::</span><span class="fu"><a href="https://pins.rstudio.com/reference/board_folder.html" class="external-link">board_folder</a></span><span class="op">(</span><span class="st">"~/Dropbox/Fellowship 1960-2015 PFU database/PFUWorkflowReleases/"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">pinboard</span> <span class="op">&lt;-</span> <span class="fu">pins</span><span class="fu">::</span><span class="fu"><a href="https://pins.rstudio.com/reference/board_folder.html" class="external-link">board_folder</a></span><span class="op">(</span><span class="st">"~/Dropbox/Fellowship 1960-2015 PFU database/PipelineReleases/"</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># Get information about the `PSUT` target in the pinboard</span></span>
 <span class="r-in"><span class="va">pinboard</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu">pins</span><span class="fu">::</span><span class="fu"><a href="https://pins.rstudio.com/reference/pin_meta.html" class="external-link">pin_meta</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"psut"</span><span class="op">)</span></span>

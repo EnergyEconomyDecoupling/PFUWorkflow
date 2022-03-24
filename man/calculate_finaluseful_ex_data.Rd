@@ -2,7 +2,7 @@
 % Please edit documentation in R/tes_tfc_functions.R
 \name{calculate_finaluseful_ex_data}
 \alias{calculate_finaluseful_ex_data}
-\title{Create a data frame containing primary aggregate energy/exergy data}
+\title{Create a data frame containing final and useful aggregate energy/exergy data}
 \usage{
 calculate_finaluseful_ex_data(.sutdata, fd_sectors)
 }

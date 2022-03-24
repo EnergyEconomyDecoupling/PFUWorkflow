@@ -49,8 +49,8 @@ plan <- PFUWorkflow::get_plan(countries = c("GHA", "ZAF"),
                               fu_analysis_folder = "<<FU analysis folder>>", 
                               reports_source_folders = "<<Reports source folders>>",
                               reports_dest_folder = "<<Reports output folder>>",
-                              workflow_output_folder = "<<Workflow output folder>>",
-                              workflow_releases_folder = "<<Workflow releases folder>>",
+                              pipeline_caches_folder = "<<Pipeline caches folder>>",
+                              pipeline_releases_folder = "<<Pipeline releases folder>>",
                               release = FALSE)
 ```
 
@@ -65,8 +65,10 @@ where
 * `<<Machine data path>>` is the path to the Machine data excel files containing Eta.fu, Phi.u, and other data.
 * `<<exemplar table path>>` is the path to an exemplar table (see below),
 * `<<FU analysis folder>>` is the path to a folder containing final-to-useful analyses, 
-* `<<Reports source folders>>` is a vector of paths to folders containing report sources (usually `.Rmd` and `.Rnw` files), and
-* `<<Reports output folder>>` is the path to a folder for completed reports.
+* `<<Reports source folders>>` is a vector of paths to folders containing report sources (usually `.Rmd` and `.Rnw` files), 
+* `<<Reports output folder>>` is the path to a folder for completed reports, 
+* `<<Pipeline caches folder>>` is the path to a folder in which the pipeline cache is stored as a .zip file, and 
+* `<<Pipeline releases folder>>` is the path to a folder in which releases of pipeline objects are stored.
 
 The `plan` object is a data frame that provides a list of "targets" 
 and code that will generate the target,
