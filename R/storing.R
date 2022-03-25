@@ -95,7 +95,7 @@ release_target <- function(pipeline_releases_folder, targ, targ_name, type = "rd
     # Establish the pinboard
     out <- pins::board_folder(pipeline_releases_folder, versioned = TRUE) %>%
       # Returns the fully-qualified name of the file written to the pinboard.
-      pins::pin_write(targ, name = targ_name, type = type)
+      pins::pin_write(targ, name = targ_name, type = type, versioned = TRUE)
   } else {
     out <- "Release not requested."
   }
