@@ -115,8 +115,8 @@ test_that("get_plan() works", {
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "EfficiencyGraphs")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "ExergyEnergyGraphs")
 
-  expect_equal(my_plan[[rn <- rn + 1, "target"]], "StoreCache")
   expect_equal(my_plan[[rn <- rn + 1, "target"]], "ReleasePSUT")
+  expect_equal(my_plan[[rn <- rn + 1, "target"]], "StoreCache")
 })
 
 

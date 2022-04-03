@@ -273,7 +273,7 @@
 #' Canonical countries
 #'
 #' Countries and country groups which, if aggregated, cover the entire world
-#' (WLD) without double counting.
+#' (WRLD) without double counting.
 #'
 #' @format A string list with `r length(canonical_countries)` entries.
 #'

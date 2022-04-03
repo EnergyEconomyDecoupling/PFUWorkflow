@@ -318,7 +318,7 @@ test_that("simple example for assemble_fu_allocation_tables() works", {
 
 test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as expected.", {
   # Create a directory structure in a tempdir for the allocation tables
-  testing_setup <- PFUWorkflow:::set_up_for_testing(additional_exemplar_countries = "WLD",
+  testing_setup <- PFUWorkflow:::set_up_for_testing(additional_exemplar_countries = "WRLD",
                                                         how_far = PFUWorkflow::target_names$CompletedPhiuTables,
                                                         setup_exemplars = TRUE)
 
@@ -355,7 +355,7 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
     # Check that World DOES have the allocation and efficiencies for Wood cookstoves.
     # Allocations:
     readd_by_country(PFUWorkflow::target_names$IncompleteAllocationTables,
-                     country = "WLD",
+                     country = "WRLD",
                      cache_path = testing_setup$cache_path) %>%
       dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves",
                     .data[[IEATools::template_cols$destination]] == "Residential") %>%
@@ -363,7 +363,7 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
       expect_equal(1)
     # Efficiencies:
     readd_by_country(PFUWorkflow::target_names$MachineData,
-                     country = "WLD",
+                     country = "WRLD",
                      cache_path = testing_setup$cache_path) %>%
       dplyr::filter(.data[[IEATools::template_cols$machine]] == "Wood cookstoves",
                     .data[[IEATools::template_cols$eu_product]] == "MTH.100.C",
@@ -382,7 +382,7 @@ test_that("assemble_fu_allocation_tables() and assemble_eta_fu_tables() work as 
     expect_equal(nrow(residential_psb), 4)
     expect_equal(residential_psb %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 1971) %>% nrow(), 2)
     expect_equal(residential_psb %>% dplyr::filter(.data[[IEATools::iea_cols$year]] == 2000) %>% nrow(), 2)
-    expect_equal(residential_psb %>% magrittr::extract2(IEATools::template_cols$c_source) %>% unique(), "WLD")
+    expect_equal(residential_psb %>% magrittr::extract2(IEATools::template_cols$c_source) %>% unique(), "WRLD")
 
     # Check the completed FU Efficiency tables.
     GHA_efficiencies_completed <- readd_by_country(PFUWorkflow::target_names$CompletedEfficiencyTables,
