@@ -4,6 +4,15 @@ output: html_document
 ---
 
 
+* Better documentation for the `get_plan()` function.
+* Suppress verbose output from the zipping process.
+* Improved documentation throughout the package.
+* New format for documentation with bootstrap.
+* Name changes:
+    "workflow_output_folder" --> "pipeline_caches_folder"  
+    "Workflow_releases_folder" --> "pipeline_releases_folder"
+
+
 # PFUWorkflow 0.2.6 (2022-02-24) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6265380.svg)](https://doi.org/10.5281/zenodo.6265380)
 
 * Name change to `PFUWorkflow`, bringing consistency 
