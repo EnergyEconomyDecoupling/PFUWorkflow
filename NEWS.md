@@ -4,6 +4,7 @@ output: html_document
 ---
 
 
+* Change "WLD" --> "WRLD" to conform to new abbreviation for world.
 * Better documentation for the `get_plan()` function.
 * Suppress verbose output from the zipping process.
 * Improved documentation throughout the package.
