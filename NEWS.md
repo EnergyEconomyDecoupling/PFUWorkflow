@@ -4,7 +4,7 @@ output: html_document
 ---
 
 
-# PFUWorkflow 0.2.7 (2022-04-03)
+# PFUWorkflow 0.2.7 (2022-04-03) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6409545.svg)](https://doi.org/10.5281/zenodo.6409545)
 
 * Change "WLD" --> "WRLD" to conform to new abbreviation for world.
 * Better documentation for the `get_plan()` function.
