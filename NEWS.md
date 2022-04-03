@@ -17,7 +17,7 @@ output: html_document
 * New tests for some new code.
   * Now up to 311 tests, all passing.
   * Test coverage at 97.19 %,
-    with some new code untested due to logistical difficulty.
+    with some new code untested due to logistical difficulties.
 
 
 # PFUWorkflow 0.2.6 (2022-02-24) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6265380.svg)](https://doi.org/10.5281/zenodo.6265380)
