@@ -80,7 +80,7 @@ test_that("clean_targets() works as expected", {
 
 
 test_that("setup_exemplars() works as expected", {
-  testing_setup <- PFUWorkflow:::set_up_for_testing(additional_exemplar_countries = c("WLD"),
+  testing_setup <- PFUWorkflow:::set_up_for_testing(additional_exemplar_countries = c("WRLD"),
                                                         how_far = PFUWorkflow::target_names$CompletedAllocationTables,
                                                         setup_exemplars = TRUE)
 
@@ -95,12 +95,12 @@ test_that("setup_exemplars() works as expected", {
     iea_data %>%
       magrittr::extract2(IEATools::iea_cols$country) %>%
       unique() %>%
-      expect_equal(c("GHA", "WLD", "ZAF"))
+      expect_equal(c("GHA", "WRLD", "ZAF"))
     # World and ZAF should be the same.
     expect_equal(iea_data %>%
                    dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF"),
                  iea_data %>%
-                   dplyr::filter(.data[[IEATools::iea_cols$country]] == "WLD") %>%
+                   dplyr::filter(.data[[IEATools::iea_cols$country]] == "WRLD") %>%
                    dplyr::mutate(
                      "{IEATools::iea_cols$country}" := "ZAF"
                    ))
@@ -117,7 +117,7 @@ test_that("setup_exemplars() works as expected", {
                                  path = testing_setup$cache_path,
                                  character_only = TRUE)
     world_alloc_tables <- alloc_tables %>%
-      dplyr::filter(.data[[IEATools::iea_cols$country]] == "WLD")
+      dplyr::filter(.data[[IEATools::iea_cols$country]] == "WRLD")
     zaf_alloc_tables <- alloc_tables %>%
       dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF")
     # World and ZAF should be the same, because World is just rebranded ZAF.
@@ -129,7 +129,7 @@ test_that("setup_exemplars() works as expected", {
                                                 country = "ZAF",
                                                 cache_path = testing_setup$cache_path)
     World_fu_allocation_table <- readd_by_country(PFUWorkflow::target_names$IncompleteAllocationTables,
-                                                  country = "WLD",
+                                                  country = "WRLD",
                                                   cache_path = testing_setup$cache_path)
     expect_equal(World_fu_allocation_table %>%
                    dplyr::mutate("{IEATools::iea_cols$country}" := "ZAF"),
@@ -154,7 +154,7 @@ test_that("set_up_for_testing() works when setting up exemplars with no exemplar
     testing_setup$plan %>%
       dplyr::filter(.data[["target"]] == PFUWorkflow::target_names$alloc_and_eff_couns) %>%
       magrittr::extract2("command") %>%
-      grepl("WLD", .) %>%
+      grepl("WRLD", .) %>%
       expect_true()
   },
   finally = {
@@ -175,7 +175,7 @@ test_that("get_fd_sectors() works as expected", {
   testthat::expect_type(fd_sectors, "list")
 
   # Check that the length of fd_sectors_list is equal to 51
-  testthat::expect_equal(length(fd_sectors), 51)
+  testthat::expect_equal(length(fd_sectors), 54)
 
   # Check that each entry in fd_sectors is correct
   testthat::expect_equal(unlist(unname(fd_sectors)),
@@ -204,7 +204,8 @@ test_that("get_fd_sectors() works as expected", {
                            "Transport not elsewhere specified",           "Residential",
                            "Commercial and public services",              "Agriculture/forestry",
                            "Fishing",                                     "Non-specified (other)",
-                           "Final consumption not elsewhere specified"))
+                           "Final consumption not elsewhere specified",   "Non-energy use industry/transformation/energy",
+                           "Non-energy use in transport",                 "Non-energy use in other"))
 
 })
 

@@ -33,3 +33,4 @@ vignettes/*.pdf
 inst/doc
 # Temporary Excel files.
 ~$*.xlsx
+docs

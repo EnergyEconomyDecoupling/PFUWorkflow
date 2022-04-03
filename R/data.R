@@ -1,4 +1,3 @@
-
 #' Drake cache target names
 #'
 #' A string list containing names of drake targets.
@@ -118,6 +117,7 @@
 #' @examples
 #' sea_cols
 "sea_cols"
+
 
 #' Aggregation groups metadata information
 #'
@@ -273,7 +273,7 @@
 #' Canonical countries
 #'
 #' Countries and country groups which, if aggregated, cover the entire world
-#' (WLD) without double counting.
+#' (WRLD) without double counting.
 #'
 #' @format A string list with `r length(canonical_countries)` entries.
 #'

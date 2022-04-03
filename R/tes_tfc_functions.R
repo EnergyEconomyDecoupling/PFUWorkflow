@@ -186,6 +186,7 @@ calculate_p_ex_product <- function(.sutdata, p_industry_prefixes,
 
 }
 
+
 #' Calculate total primary energy by flow
 #'
 #' Calculate the total energy supply (TES) in primary energy terms by flow. This metric
@@ -280,6 +281,7 @@ calculate_p_ex_flow <- function(.sutdata, p_industry_prefixes,
   return(p_flow_expanded)
 
 }
+
 
 #' Calculate total final consumption of final and useful energy
 #'
@@ -630,7 +632,7 @@ calculate_primary_ex_data <- function(.sutdata, p_industry_prefixes) {
 }
 
 
-#' Create a data frame containing primary aggregate energy/exergy data
+#' Create a data frame containing final and useful aggregate energy/exergy data
 #'
 #' This functions creates a single data frame containing final and useful
 #' energy/exergy by country, year, method, energy quantification,

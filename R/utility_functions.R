@@ -92,7 +92,7 @@ dir_create_pipe <- function(path, showWarnings = TRUE, recursive = FALSE, mode =
 #' @param machine_data_folder The path to a temporary folder to contain machine-specific data. Default is `tempdir()`.
 #' @param cache_path The path to the temporary drake cache used for testing. Default is `tempfile("drake_cache_for_testing")`.
 #' @param setup_exemplars Tells whether GHA allocation data should be adjusted to allow exemplars and
-#'                        if ZAF allocations will be duplicated and called "WLD".
+#'                        if ZAF allocations will be duplicated and called "WRLD".
 #'                        Default is `FALSE`.
 #'
 #' @return A list containing a drake plan (`$plan`),
@@ -112,16 +112,16 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                                fu_analysis_folder = tempdir(),
                                reports_source_folders = system.file("reports", package = "PFUWorkflow"),
                                reports_output_folder = tempdir(),
-                               workflow_output_folder = tempdir(),
-                               workflow_releases_folder = tempdir(),
+                               pipeline_caches_folder = tempdir(),
+                               pipeline_releases_folder = tempdir(),
                                exemplar_folder = tempdir(),
                                machine_data_folder = file.path(tempdir(), "Machines - Data"),
                                cache_path = tempfile("drake_cache_for_testing"),
                                setup_exemplars = FALSE) {
-  # We sometimes forget to include "WLD" when using exemplars.
+  # We sometimes forget to include "WRLD" when using exemplars.
   # This if statement avoids that problem.
   if (setup_exemplars & is.null(additional_exemplar_countries)) {
-    additional_exemplar_countries = "WLD"
+    additional_exemplar_countries = "WRLD"
   }
   set_up_temp_analysis(fu_analysis_folder, exemplar_folder, machine_data_folder, reports_output_folder,
                        iea_data_path, machine_data_examples_path = machine_data_path,
@@ -139,8 +139,8 @@ set_up_for_testing <- function(countries = c("GHA", "ZAF"),
                    fu_analysis_folder = fu_analysis_folder,
                    reports_source_folders = reports_source_folders,
                    reports_dest_folder = reports_output_folder,
-                   workflow_output_folder = workflow_output_folder,
-                   workflow_releases_folder = workflow_releases_folder)
+                   pipeline_caches_folder = pipeline_caches_folder,
+                   pipeline_releases_folder = pipeline_releases_folder)
   temp_cache <- drake::new_cache(path = cache_path)
   list(plan = plan, cache_path = cache_path, temp_cache = temp_cache)
 }
@@ -208,11 +208,11 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
     all_sheets <- readxl::excel_sheets(path)
     if (fin_eta %in% all_sheets) {
       this_data <- openxlsx::read.xlsx(xlsxFile = path, sheet = fin_eta, startRow = 2)
-      # Find the ZAF data, duplicate it, and set the country to WLD
+      # Find the ZAF data, duplicate it, and set the country to WRLD
       world_rows <- this_data %>%
         dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF") %>%
         dplyr::mutate(
-          "{IEATools::iea_cols$country}" := "WLD"
+          "{IEATools::iea_cols$country}" := "WRLD"
         )
       # Do some math to find the bottom of the table.
       # First row is the date.
@@ -295,14 +295,14 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
     dplyr::filter(.data[[IEATools::iea_cols$country]] == "ZAF")
 
   if (setup_exemplars) {
-    # Set up for using WLD as an exemplar for GHA.
+    # Set up for using WRLD as an exemplar for GHA.
     World_FU_allocation_table <- ZAF_FU_allocation_table %>%
       dplyr::mutate(
-        "{IEATools::iea_cols$country}" := "WLD"
+        "{IEATools::iea_cols$country}" := "WRLD"
       )
     World_FU_etas_table <- ZAF_FU_etas_table %>%
       dplyr::mutate(
-        "{IEATools::iea_cols$country}" := "WLD"
+        "{IEATools::iea_cols$country}" := "WRLD"
       )
     # Trim the GHA allocation table to make a missing row that will be filled by an exemplar.
     # Get rid of Residential Primary Solid biofuels consumption
@@ -345,8 +345,8 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
   openxlsx::saveWorkbook(GHA_fu_wb, file = file.path(fu_folder, "GHA", "GHA FU Analysis.xlsx"), overwrite = TRUE)
   openxlsx::saveWorkbook(ZAF_fu_wb, file = file.path(fu_folder, "ZAF", "ZAF FU Analysis.xlsx"), overwrite = TRUE)
   if (setup_exemplars) {
-    dir.create(file.path(fu_folder, "WLD"), showWarnings = FALSE)
-    openxlsx::saveWorkbook(World_fu_wb, file = file.path(fu_folder, "WLD", "WLD FU Analysis.xlsx"), overwrite = TRUE)
+    dir.create(file.path(fu_folder, "WRLD"), showWarnings = FALSE)
+    openxlsx::saveWorkbook(World_fu_wb, file = file.path(fu_folder, "WRLD", "WRLD FU Analysis.xlsx"), overwrite = TRUE)
   }
 
   # Create an exemplar table
@@ -357,7 +357,7 @@ set_up_temp_analysis <- function(fu_folder, exemplar_folder, machine_data_folder
     IEATools::year_cols(return_names = TRUE)
   years_to_remove <- setdiff(year_colnames, c("1971", "2000"))
   if (setup_exemplars) {
-    countries_to_keep <- c("GHA", "ZAF", "WLD")
+    countries_to_keep <- c("GHA", "ZAF", "WRLD")
   } else {
     countries_to_keep <- c("GHA", "ZAF")
   }

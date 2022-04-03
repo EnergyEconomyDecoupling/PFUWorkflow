@@ -79,7 +79,7 @@ exemplar_names <- list(exemplar_tab_name = "exemplar_table",
                        complete_eta_table = "Complete.eta.table",
                        region_code = "Region.code",
                        country_name = "Country.name",
-                       world = "WLD")
+                       world = "WRLD")
 usethis::use_data(exemplar_names, overwrite = TRUE)
 
 
@@ -98,8 +98,8 @@ sea_cols <- list(stage_colname = "Stage",
                  p_ind_prefix_colname = "p_industry_prefixes",
                  ex_colname = "EX",
                  ex_p_colname = "EX.p",
-                 ex_net_colname = "EX.d_net",
-                 ex_gross_colname = "EX.d_gross")
+                 ex_net_colname = "EX.fd_net",
+                 ex_gross_colname = "EX.fd_gross")
 usethis::use_data(sea_cols, overwrite = TRUE)
 
 
@@ -342,7 +342,7 @@ all_countries <- list(
   ven = "VEN",
   vnm = "VNM",
   wab = "WAB",
-  wld = "WLD",
+  wrld = "WRLD",
   wmb = "WMB",
   xkx = "XKX",
   yem = "YEM",
@@ -376,7 +376,7 @@ usethis::use_data(double_counted_countries, overwrite = TRUE)
 
 
 #
-# Countries to run in the workflow which should sum to World (WLD)
+# Countries to run in the workflow which should sum to World (WRLD)
 #
 canonical_countries <- dplyr::setdiff(all_countries,
                                       double_counted_countries)

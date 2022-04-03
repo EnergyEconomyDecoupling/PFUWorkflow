@@ -14,7 +14,7 @@ test_that("load_exemplar_table() works correctly", {
   # Check that certain features are present
   # The exemplar country for everybody is South Africa,
   # matching the data bundled with the IEATools package.
-  expect_equal(et$Exemplar.country %>% unique(), c("ESP", "WLD"))
+  expect_equal(et$Exemplar.country %>% unique(), c("ESP", "WRLD"))
   # Make sure we have all the column names that we expect
   cn <- et %>%
     colnames()
@@ -58,14 +58,14 @@ test_that("exemplar_lists() works as expected", {
                   .data[[IEATools::iea_cols$year]] == 2005) %>%
     magrittr::extract2("Exemplars") %>%
     unlist(use.names = FALSE) %>%
-    expect_equivalent(c("SRB", "YGS", "ESP", "EUR", "WLD"))
+    expect_equivalent(c("SRB", "YGS", "ESP", "EUR", "WRLD"))
   # Check in 2004, should still have 5 exemplars
   el %>%
     dplyr::filter(.data[[IEATools::iea_cols$country]] == "MNE",
                   .data[[IEATools::iea_cols$year]] == 2004) %>%
     magrittr::extract2("Exemplars") %>%
     unlist(use.names = FALSE) %>%
-    expect_equivalent(c("SRB", "YGS", "ESP", "EUR", "WLD"))
+    expect_equivalent(c("SRB", "YGS", "ESP", "EUR", "WRLD"))
 
   # Also check Kosovo, another country with two changes through time.
   el %>%
@@ -73,14 +73,14 @@ test_that("exemplar_lists() works as expected", {
                   .data[[IEATools::iea_cols$year]] == 2000) %>%
     magrittr::extract2("Exemplars") %>%
     unlist(use.names = FALSE) %>%
-    expect_equivalent(c("SRB", "YGS", "ESP", "EUR", "WLD"))
+    expect_equivalent(c("SRB", "YGS", "ESP", "EUR", "WRLD"))
   # Check in 1999, which should still have 5 exemplars
   el %>%
     dplyr::filter(.data[[IEATools::iea_cols$country]] == "XKX",
                   .data[[IEATools::iea_cols$year]] == 1999) %>%
     magrittr::extract2("Exemplars") %>%
     unlist(use.names = FALSE) %>%
-    expect_equivalent(c("SRB", "YGS", "ESP", "EUR", "WLD"))
+    expect_equivalent(c("SRB", "YGS", "ESP", "EUR", "WRLD"))
 
 
   # Check Ghana. It should have the same list for every year
@@ -90,69 +90,69 @@ test_that("exemplar_lists() works as expected", {
     unique() %>%
     magrittr::extract2("Exemplars") %>%
     unlist(use.names = FALSE) %>%
-    expect_equal(c("ESP", "AFR", "WLD"))
+    expect_equal(c("ESP", "AFR", "WRLD"))
 
 
   # Check Republic of North Macedonia, because it has changed over time.
-  test_single_exemplar(el, "MKD", c("YGS", "ESP", "EUR", "WLD"))
+  test_single_exemplar(el, "MKD", c("YGS", "ESP", "EUR", "WRLD"))
   # Check Serbia, because it has changed over time.
-  test_single_exemplar(el, "SRB", c("YGS", "ESP", "EUR", "WLD"))
+  test_single_exemplar(el, "SRB", c("YGS", "ESP", "EUR", "WRLD"))
   # Check Croatia, because it has changed over time.
-  test_single_exemplar(el, "HRV", c("YGS", "ESP", "EUR", "WLD"))
+  test_single_exemplar(el, "HRV", c("YGS", "ESP", "EUR", "WRLD"))
   # Check Bosnia and Herzegovina, because it has changed over time.
-  test_single_exemplar(el, "BIH", c("YGS", "ESP", "EUR", "WLD"))
+  test_single_exemplar(el, "BIH", c("YGS", "ESP", "EUR", "WRLD"))
 
 
   # Check Mongolia, because it has changed over time.
-  test_single_exemplar(el, "MNG", c("OAS", "ESP", "ASA", "WLD"))
+  test_single_exemplar(el, "MNG", c("OAS", "ESP", "ASA", "WRLD"))
 
 
   # Check Botswana, because it has changed over time.
-  test_single_exemplar(el, "BWA", c("OAF", "ESP", "AFR", "WLD"))
+  test_single_exemplar(el, "BWA", c("OAF", "ESP", "AFR", "WRLD"))
   # Check Namibia, because it has changed over time.
-  test_single_exemplar(el, "NAM", c("OAF", "ESP", "AFR", "WLD"))
+  test_single_exemplar(el, "NAM", c("OAF", "ESP", "AFR", "WRLD"))
   # Check Eritrea, because it has changed over time.
-  test_single_exemplar(el, "ERI", c("ETH", "ESP", "AFR", "WLD"))
+  test_single_exemplar(el, "ERI", c("ETH", "ESP", "AFR", "WRLD"))
   # Check South Sudan, because it has changed over time.
-  test_single_exemplar(el, "SSD", c("SDN", "ESP", "AFR", "WLD"))
+  test_single_exemplar(el, "SSD", c("SDN", "ESP", "AFR", "WRLD"))
 
 
   # Check Suriname, because it has changed over time.
-  test_single_exemplar(el, "SUR", c("OAM", "ESP", "AMR", "WLD"))
+  test_single_exemplar(el, "SUR", c("OAM", "ESP", "AMR", "WRLD"))
 
 
   # Check Russia, because it has changed over time.
-  test_single_exemplar(el, "RUS", c("FSU", "ESP", "EUR", "WLD"))
+  test_single_exemplar(el, "RUS", c("FSU", "ESP", "EUR", "WRLD"))
   # Check Ukraine, because it has changed over time.
-  test_single_exemplar(el, "UKR", c("FSU", "ESP", "EUR", "WLD"))
+  test_single_exemplar(el, "UKR", c("FSU", "ESP", "EUR", "WRLD"))
   # Check Kazakhstan, because it has changed over time.
-  test_single_exemplar(el, "KAZ", c("FSU", "ESP", "ASA", "WLD"))
+  test_single_exemplar(el, "KAZ", c("FSU", "ESP", "ASA", "WRLD"))
   # Check Uzbekistan, because it has changed over time.
-  test_single_exemplar(el, "UZB", c("FSU", "ESP", "ASA", "WLD"))
+  test_single_exemplar(el, "UZB", c("FSU", "ESP", "ASA", "WRLD"))
   # Check Belarus, because it has changed over time.
-  test_single_exemplar(el, "BLR", c("FSU", "ESP", "EUR", "WLD"))
+  test_single_exemplar(el, "BLR", c("FSU", "ESP", "EUR", "WRLD"))
   # Check Turkmenistan, because it has changed over time.
-  test_single_exemplar(el, "TKM", c("FSU", "ESP", "ASA", "WLD"))
+  test_single_exemplar(el, "TKM", c("FSU", "ESP", "ASA", "WRLD"))
   # Check Azerbaijan, because it has changed over time.
-  test_single_exemplar(el, "AZE", c("FSU", "ESP", "ASA", "WLD"))
+  test_single_exemplar(el, "AZE", c("FSU", "ESP", "ASA", "WRLD"))
   # Check Lithuania, because it has changed over time.
-  test_single_exemplar(el, "LTU", c("FSU", "ESP", "EUR", "WLD"))
+  test_single_exemplar(el, "LTU", c("FSU", "ESP", "EUR", "WRLD"))
   # Check Slovenia, because it has changed over time.
-  test_single_exemplar(el, "SVN", c("YGS", "ESP", "EUR", "WLD"))
+  test_single_exemplar(el, "SVN", c("YGS", "ESP", "EUR", "WRLD"))
   # Check Georgia, because it has changed over time.
-  test_single_exemplar(el, "GEO", c("FSU", "ESP", "ASA", "WLD"))
+  test_single_exemplar(el, "GEO", c("FSU", "ESP", "ASA", "WRLD"))
   # Check Latvia, because it has changed over time.
-  test_single_exemplar(el, "LVA", c("FSU", "ESP", "EUR", "WLD"))
+  test_single_exemplar(el, "LVA", c("FSU", "ESP", "EUR", "WRLD"))
   # Check Kyrgyzstan, because it has changed over time.
-  test_single_exemplar(el, "KGZ", c("FSU", "ESP", "ASA", "WLD"))
+  test_single_exemplar(el, "KGZ", c("FSU", "ESP", "ASA", "WRLD"))
   # Check Republic of Moldova, because it has changed over time.
-  test_single_exemplar(el, "MDA", c("FSU", "ESP", "EUR", "WLD"))
+  test_single_exemplar(el, "MDA", c("FSU", "ESP", "EUR", "WRLD"))
   # Check Estonia, because it has changed over time.
-  test_single_exemplar(el, "EST", c("FSU", "ESP", "EUR", "WLD"))
+  test_single_exemplar(el, "EST", c("FSU", "ESP", "EUR", "WRLD"))
   # Check Tajikistan, because it has changed over time.
-  test_single_exemplar(el, "TJK", c("FSU", "ESP", "ASA", "WLD"))
+  test_single_exemplar(el, "TJK", c("FSU", "ESP", "ASA", "WRLD"))
   # Check Armenia, because it has changed over time.
-  test_single_exemplar(el, "ARM", c("FSU", "ESP", "ASA", "WLD"))
+  test_single_exemplar(el, "ARM", c("FSU", "ESP", "ASA", "WRLD"))
 
 })
 

@@ -12,7 +12,7 @@ canonical_countries
 }
 \description{
 Countries and country groups which, if aggregated, cover the entire world
-(WLD) without double counting.
+(WRLD) without double counting.
 }
 \examples{
 canonical_countries
