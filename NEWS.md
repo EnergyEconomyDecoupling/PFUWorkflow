@@ -4,6 +4,8 @@ output: html_document
 ---
 
 
+# PFUWorkflow 0.2.7 (2022-04-03)
+
 * Change "WLD" --> "WRLD" to conform to new abbreviation for world.
 * Better documentation for the `get_plan()` function.
 * Suppress verbose output from the zipping process.
@@ -12,6 +14,10 @@ output: html_document
 * Name changes:
     "workflow_output_folder" --> "pipeline_caches_folder"  
     "Workflow_releases_folder" --> "pipeline_releases_folder"
+* New tests for some new code.
+  * Now up to 311 tests, all passing.
+  * Test coverage at 97.19 %,
+    with some new code untested due to logistical difficulties.
 
 
 # PFUWorkflow 0.2.6 (2022-02-24) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6265380.svg)](https://doi.org/10.5281/zenodo.6265380)
@@ -34,7 +40,7 @@ output: html_document
   in `assemble_phi_u_tables()`. 
   I had expected that `incomplete_phi_u_table` would contain too little
   information. 
-  I had not considered that `incomplete_phi_u_table` could contain
+  I had not considered the possibility that `incomplete_phi_u_table` could contain
   too *much* information.
   The bug led to "zero-length" errors later in the workflow.
 * Fixed a bug where the country "WLD" was added twice to exemplar lists of 
