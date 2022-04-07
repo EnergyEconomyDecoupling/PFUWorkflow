@@ -1,6 +1,7 @@
 Addins
 AllMachineData
 AllocationGraphs
+ASA
 avh
 biofuels
 Cmats
@@ -8,6 +9,8 @@ CEDA
 CEDAData
 Codecov
 CountryConcordanceTable
+CHN
+CHNM
 cru
 cy
 csv
@@ -19,10 +22,13 @@ ef
 EIOU
 emp
 eu
+EURP
 exergy
 Exergy
 fu
 FU
+FSOV
+FYUG
 GHA
 github
 hc
@@ -40,6 +46,12 @@ isocode
 Ladj
 lifecycle
 MatthewHeun
+MIDE
+MIE
+OAFR
+OASI
+OMDE
+OME
 PFU
 PPPs
 prev
@@ -56,6 +68,7 @@ rgdpna
 rgdpo
 rkna
 rnna
+SAMR
 SEAPSUT
 SEAPSUTWorkflow
 subfolder
@@ -67,8 +80,12 @@ TFC
 tibble
 TPES
 vecs
+WAB
+WABK
 WIP
 WLD
+WMB
+WMBK
 WRLD
 xlsx
 ZAF

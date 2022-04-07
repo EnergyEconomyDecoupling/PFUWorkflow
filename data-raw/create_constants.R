@@ -181,15 +181,19 @@ product_aggregation_map <-
        `Biofuels and waste products` = IEATools::biofuels_and_waste_products %>% unlist() %>% unname())
 usethis::use_data(product_aggregation_map, overwrite = TRUE)
 
+
 #
 # All countries to run in the workflow
 #
+
 all_countries <- list(
+  afri = "AFRI",
   ago = "AGO",
   alb = "ALB",
   are = "ARE",
   arg = "ARG",
   arm = "ARM",
+  asia = "ASIA",
   aus = "AUS",
   aut = "AUT",
   aze = "AZE",
@@ -205,10 +209,11 @@ all_countries <- list(
   bra = "BRA",
   brn = "BRN",
   bwa = "BWA",
+  bunk = "BUNK",
   can = "CAN",
   che = "CHE",
   chl = "CHL",
-  chn = "CHN",
+  chnm = "CHNM",
   cmr = "CMR",
   cod = "COD",
   cog = "COG",
@@ -229,8 +234,11 @@ all_countries <- list(
   esp = "ESP",
   est = "EST",
   eth = "ETH",
+  eurp = "EURP",
   fin = "FIN",
   fra = "FRA",
+  fsov = "FSOV",
+  fyug = "FYUG",
   gab = "GAB",
   gbr = "GBR",
   geo = "GEO",
@@ -274,6 +282,7 @@ all_countries <- list(
   mda = "MDA",
   mdg = "MDG",
   mex = "MEX",
+  mide = "MIDE",
   msu = "MSU",
   mkd = "MKD",
   mli = "MLI",
@@ -287,6 +296,7 @@ all_countries <- list(
   myu = "MYU",
   mys = "MYS",
   nam = "NAM",
+  namr = "NAMR",
   ner = "NER",
   nga = "NGA",
   nic = "NIC",
@@ -294,9 +304,10 @@ all_countries <- list(
   nor = "NOR",
   npl = "NPL",
   nzl = "NZL",
-  oaf = "OAF",
-  oam = "OAM",
-  oas = "OAS",
+  oafr = "OAFR",
+  oasi = "OASI",
+  omde = "OMDE",
+  ocen = "OCEN",
   omn = "OMN",
   pak = "PAK",
   pan = "PAN",
@@ -311,6 +322,7 @@ all_countries <- list(
   rou = "ROU",
   rus = "RUS",
   rwa = "RWA",
+  samr = "SAMR",
   sau = "SAU",
   sdn = "SDN",
   sen = "SEN",
@@ -341,35 +353,47 @@ all_countries <- list(
   uzb = "UZB",
   ven = "VEN",
   vnm = "VNM",
-  wab = "WAB",
+  wabk = "WABK",
   wrld = "WRLD",
-  wmb = "WMB",
+  wmbk = "WMBK",
   xkx = "XKX",
   yem = "YEM",
   yug = "YUG",
   zaf = "ZAF",
   zmb = "ZMB",
   zwe = "ZWE"
-
 )
 
 usethis::use_data(all_countries, overwrite = TRUE)
 
 
 #
-# Countries whose data also exists in another 'country'; i.e. Memo: Uganda (UGA)
+# Countries whose data also exists in another 'country';
+# e.g., Memo: Uganda (UGA)
 # in Other Africa (OAF).
 #
+
 double_counted_countries <- list(
+  afri = "AFRI",
+  asia = "ASIA",
   bfa = "BFA",
+  bunk = "BUNK",
+  eurp = "EURP",
+  fsov = "FSOV",
+  fyug = "FYUG",
   mdg = "MDG",
+  mide = "MIDE",
   mli = "MLI",
   mrt = "MRT",
   msu = "MSU",
   myu = "MYU",
+  namr = "NAMR",
   rwa = "RWA",
+  ocen = "OCEN",
+  samr = "SAMR",
   tcd = "TCD",
-  uga = "UGA"
+  uga = "UGA",
+  wrld = "WRLD"
 )
 
 usethis::use_data(double_counted_countries, overwrite = TRUE)
@@ -378,6 +402,7 @@ usethis::use_data(double_counted_countries, overwrite = TRUE)
 #
 # Countries to run in the workflow which should sum to World (WRLD)
 #
+
 canonical_countries <- dplyr::setdiff(all_countries,
                                       double_counted_countries)
 
