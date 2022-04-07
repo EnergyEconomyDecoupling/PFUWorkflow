@@ -365,9 +365,10 @@ usethis::use_data(all_countries, overwrite = TRUE)
 
 
 #
-# Countries whose data also exists in another 'country'; i.e. Memo: Uganda (UGA)
+# Countries whose data also exists in another 'country';
+# e.g., Memo: Uganda (UGA)
 # in Other Africa (OAF).
-#
+
 double_counted_countries <- list(
   afri = "AFRI",
   asia = "ASIA",
