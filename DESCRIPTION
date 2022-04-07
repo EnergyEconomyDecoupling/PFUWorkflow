@@ -41,6 +41,7 @@ Imports:
     tidyr,
     tidyselect
 Suggests: 
+    igraph, 
     knitr,
     lubridate,
     rmarkdown,
