@@ -4,6 +4,13 @@ output: html_document
 ---
 
 
+* Add FSOV and FYUG to all_countries list and to `double_counted_countries` list.
+* Country name changes to conform to our new convention for 3- and 4-letter abbreviations:
+    - WLD --> WRLD
+    - WMB --> WMBK
+    - WAB --> WABK
+
+
 # PFUWorkflow 0.2.7 (2022-04-03) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6409545.svg)](https://doi.org/10.5281/zenodo.6409545)
 
 * Change "WLD" --> "WRLD" to conform to new abbreviation for world.
