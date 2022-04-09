@@ -306,7 +306,7 @@ all_countries <- list(
   nzl = "NZL",
   oafr = "OAFR",
   oasi = "OASI",
-  omde = "OMDE",
+  oamr = "OAMR",
   ocen = "OCEN",
   omn = "OMN",
   pak = "PAK",
