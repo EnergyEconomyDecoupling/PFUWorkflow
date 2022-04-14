@@ -12,7 +12,7 @@ energy balances 2021."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
     
     <a class="navbar-brand me-2" href="../index.html">PFUWorkflow</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,12 +56,15 @@ energy balances 2021.</p>
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p>A string list with 165 entries.</p>
+    <p>A string list with 175 entries.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">all_countries</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $afri</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "AFRI"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ago</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "AGO"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -76,6 +79,9 @@ energy balances 2021.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $arm</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ARM"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $asia</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ASIA"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $aus</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "AUS"</span>
@@ -122,6 +128,9 @@ energy balances 2021.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bwa</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "BWA"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $bunk</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "BUNK"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $can</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CAN"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -131,8 +140,8 @@ energy balances 2021.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $chl</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CHL"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $chn</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CHN"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $chnm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CHNM"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cmr</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CMR"</span>
@@ -194,11 +203,20 @@ energy balances 2021.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $eth</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ETH"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $eurp</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "EURP"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fin</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "FIN"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fra</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "FRA"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $fsov</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "FSOV"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $fyug</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "FYUG"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $gab</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "GAB"</span>
@@ -329,6 +347,9 @@ energy balances 2021.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mex</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "MEX"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $mide</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "MIDE"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $msu</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "MSU"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -368,6 +389,9 @@ energy balances 2021.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $nam</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "NAM"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $namr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "NAMR"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ner</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "NER"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -389,14 +413,17 @@ energy balances 2021.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $nzl</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "NZL"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $oaf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "OAF"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $oafr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "OAFR"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $oam</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "OAM"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $oasi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "OASI"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $oas</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "OAS"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $oamr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "OAMR"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ocen</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "OCEN"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $omn</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "OMN"</span>
@@ -439,6 +466,9 @@ energy balances 2021.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $rwa</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "RWA"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $samr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "SAMR"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sau</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "SAU"</span>
@@ -530,14 +560,14 @@ energy balances 2021.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $vnm</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "VNM"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $wab</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "WAB"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $wabk</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "WABK"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $wrld</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "WRLD"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $wmb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "WMB"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $wmbk</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "WMBK"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $xkx</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "XKX"</span>
