@@ -4,12 +4,12 @@ citEntry(entry = "Manual",
   title        = "PFUWorkflow: Tools for creating a drake workflow for primary-final-useful Societal Exergy Analysis in the Physical Supply-Use Table framework",
   author       = personList(as.person("Matthew Kuperus Heun"), as.person("Zeke Marshall")),
   year         = "2022",
-  note         = "R package version 0.2.7",
-  url          = "https://github.com/MatthewHeun/SEAPSUTWorkflow",
+  note         = "R package version 0.2.8",
+  url          = "https://github.com/EnergyEconomyDecoupling/PFUWorkflow",
 
   textVersion  =
   paste("Matthew Kuperus Heun (2022).",
         "PFUWorkflow: Tools for creating a drake workflow for primary-final-useful Societal Exergy Analysis in the Physical Supply-Use Table framework.",
-        "R package version 0.2.7.",
-        "https://github.com/MatthewHeun/SEAPSUTWorkflow")
+        "R package version 0.2.8.",
+        "https://github.com/EnergyEconomyDecoupling/PFUWorkflow")
 )

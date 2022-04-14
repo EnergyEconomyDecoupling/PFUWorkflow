@@ -4,7 +4,27 @@ output: html_document
 ---
 
 
-# PFUWorkflow 0.2.7 (2022-04-03)
+# PFUWorkflow 0.2.8 (2022-04-14)
+
+* Add continents to the `all_countries` list, 
+  thereby making them available for allocations and efficiencies.
+* Add FSOV and FYUG to all_countries list and to `double_counted_countries` list.
+* Country name changes to conform to our new convention for 3- and 4-letter abbreviations:
+    - ASA --> ASIA
+    - CHN --> CHNM
+    - EUR --> EURP
+    - MIE --> MIDE
+    - NAMR (added)
+    - OAF --> OAFR
+    - OAS --> OASI
+    - OME --> OMDE
+    - SAM --> SAMR
+    - WLD --> WRLD
+    - WAB --> WABK
+    - WMB --> WMBK
+
+
+# PFUWorkflow 0.2.7 (2022-04-03) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6409545.svg)](https://doi.org/10.5281/zenodo.6409545)
 
 * Change "WLD" --> "WRLD" to conform to new abbreviation for world.
 * Better documentation for the `get_plan()` function.

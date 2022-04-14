@@ -130,6 +130,11 @@ exemplar_lists <- function(exemplar_table,
                            year_temp = ".year_temp",
                            prev_names_list = ".prev_names_list") {
 
+  # Take care of the degenerate case.
+  if (nrow(exemplar_table) == 0) {
+    return(NULL)
+  }
+
   # A data frame that consists of all year and country combinations in exemplar_table
   year_country <- exemplar_table %>%
     dplyr::select(year, country)
