@@ -4,6 +4,8 @@ output: html_document
 ---
 
 
+# PFUWorkflow 0.2.8 (2022-04-14)
+
 * Add continents to the `all_countries` list, 
   thereby making them available for allocations and efficiencies.
 * Add FSOV and FYUG to all_countries list and to `double_counted_countries` list.
