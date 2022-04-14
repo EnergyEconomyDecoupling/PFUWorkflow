@@ -12,7 +12,7 @@ output: html_document
     - CHN --> CHNM
     - EUR --> EURP
     - MIE --> MIDE
-    -         NAMR (added)
+    - NAMR (added)
     - OAF --> OAFR
     - OAS --> OASI
     - OME --> OMDE
