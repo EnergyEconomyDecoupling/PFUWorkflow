@@ -4,7 +4,7 @@ output: html_document
 ---
 
 
-# PFUWorkflow 0.2.8 (2022-04-14)
+# PFUWorkflow 0.2.8 (2022-04-14) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6462089.svg)](https://doi.org/10.5281/zenodo.6462089)
 
 * Add continents to the `all_countries` list, 
   thereby making them available for allocations and efficiencies.
