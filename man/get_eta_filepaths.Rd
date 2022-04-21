@@ -6,13 +6,19 @@
 \usage{
 get_eta_filepaths(
   filepath,
-  efficiency_tab_name = PFUWorkflow::machine_constants$efficiency_tab_name
+  efficiency_tab_name = PFUWorkflow::machine_constants$efficiency_tab_name,
+  hidden_excel_file_prefix = "~$"
 )
 }
 \arguments{
 \item{filepath}{A file path to the folder containing all machine folders.}
 
 \item{efficiency_tab_name}{See \code{PFUWorkflow::machine_constants}.}
+
+\item{hidden_excel_file_prefix}{The prefix for hidden Excel files.
+These files appear when an Excel file is open
+and should be ignored.
+Default is "~$".}
 }
 \value{
 A list of the file paths to machine excel files containing
@@ -20,7 +26,7 @@ FIN_ETA front sheets, and therefore usable data.
 }
 \description{
 The machine efficiency files contain a FIN_ETA sheet
-that stores all efficiencies..
+that stores all efficiencies.
 }
 \examples{
 get_eta_filepaths(filepath = sample_machine_workbook_path())

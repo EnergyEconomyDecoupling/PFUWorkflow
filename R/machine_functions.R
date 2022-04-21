@@ -15,10 +15,14 @@ sample_machine_workbook_path <- function() {
 #' Get all file paths to machine efficiency files
 #'
 #' The machine efficiency files contain a FIN_ETA sheet
-#' that stores all efficiencies..
+#' that stores all efficiencies.
 #'
 #' @param filepath A file path to the folder containing all machine folders.
 #' @param efficiency_tab_name See `PFUWorkflow::machine_constants`.
+#' @param hidden_excel_file_prefix The prefix for hidden Excel files.
+#'                                 These files appear when an Excel file is open
+#'                                 and should be ignored.
+#'                                 Default is "~$".
 #'
 #' @return A list of the file paths to machine excel files containing
 #'         FIN_ETA front sheets, and therefore usable data.
@@ -27,7 +31,8 @@ sample_machine_workbook_path <- function() {
 #' @examples
 #' get_eta_filepaths(filepath = sample_machine_workbook_path())
 get_eta_filepaths <- function(filepath,
-                              efficiency_tab_name = PFUWorkflow::machine_constants$efficiency_tab_name) {
+                              efficiency_tab_name = PFUWorkflow::machine_constants$efficiency_tab_name,
+                              hidden_excel_file_prefix = "~$") {
 
   if (!file.exists(filepath)) {
     return(list())
@@ -43,6 +48,10 @@ get_eta_filepaths <- function(filepath,
   # Keep only those machine_filepaths that point to a file
   # that contains a FIN_ETA tab.
   lapply(machine_filepaths, FUN = function(fp) {
+    if (basename(fp) %>% startsWith(hidden_excel_file_prefix)) {
+      return(NULL)
+    }
+
     if(efficiency_tab_name %in% readxl::excel_sheets(fp)) {
       return(fp)
     } else {
@@ -93,7 +102,8 @@ get_eta_filepaths <- function(filepath,
 read_all_eta_files <- function(eta_fin_paths,
                                efficiency_tab_name = PFUWorkflow::machine_constants$efficiency_tab_name,
                                year = IEATools::iea_cols$year,
-                               .values = IEATools::template_cols$.values) {
+                               .values = IEATools::template_cols$.values,
+                               hidden_excel_file_prefix = "~$") {
 
   # Check if eta_fin_paths is a directory. If so, call get_eta_filepaths() before loading the files.
   if (!is.list(eta_fin_paths)) {
