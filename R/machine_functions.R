@@ -76,6 +76,10 @@ get_eta_filepaths <- function(filepath,
 #' @param efficiency_tab_name See `PFUWorkflow::machine_constants`.
 #' @param year See `IEATools::iea_cols`.
 #' @param .values See `IEATools::template_cols`.
+#' @param hidden_excel_file_prefix The prefix for hidden Excel files.
+#'                                 These files appear when an Excel file is open
+#'                                 and should be ignored.
+#'                                 Default is "~$".
 #'
 #' @return A data frame containing all Eta.fu and Phi.u values present
 #'         in all Machine excel files, with the following column names:
@@ -105,7 +109,13 @@ read_all_eta_files <- function(eta_fin_paths,
   # to etas tibble
   for(path in eta_fin_paths) {
 
-    # Reads raw data
+    # Reads raw data, but not if the file starts with hidden_file_prefix
+    if (basename(path) %>% startsWith(hidden_excel_file_prefix)) {
+      # Break out of this iteration of the for loop.
+      # Effectively, "next" means that we skip this "path" and
+      # go to the next one.
+      next
+    }
     raw_etas <- readxl::read_excel(path = path, sheet = efficiency_tab_name, skip = 1)
 
     # Figure out year columns.

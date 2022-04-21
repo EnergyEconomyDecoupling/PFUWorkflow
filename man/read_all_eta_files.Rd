@@ -21,6 +21,11 @@ Created by calling the \code{get_eta_filepaths()} function.}
 \item{year}{See \code{IEATools::iea_cols}.}
 
 \item{.values}{See \code{IEATools::template_cols}.}
+
+\item{hidden_excel_file_prefix}{The prefix for hidden Excel files.
+These files appear when an Excel file is open
+and should be ignored.
+Default is "~$".}
 }
 \value{
 A data frame containing all Eta.fu and Phi.u values present
